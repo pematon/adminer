@@ -120,8 +120,14 @@ if (isset($_GET["clickhouse"])) {
 		 * @param array[] $meta
 		 */
 		function __construct($rows, array $data, array $meta) {
+			$this->_rows = [];
+			foreach ($data as $item) {
+				$this->_rows[] = array_map(function ($val) {
+					return is_scalar($val) ? $val : json_encode($val, JSON_UNESCAPED_UNICODE);
+				}, $item);
+			}
+
 			$this->num_rows = $rows;
-			$this->_rows = $data;
 			$this->meta = $meta;
 			$this->columns = array_column($meta, 'name');
 
