@@ -55,11 +55,11 @@ php bin/compile.php editor [drivers] [languages] [themes] [config-file.json]
 ```
 
 Where:
-- `drivers` is a comma-separated list of [database drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers).
+- `drivers` is a comma-separated list of [database drivers](adminer/drivers).
   The default set is: mysql, pgsql, mssql, sqlite.
-- `languages` is a comma-separated list of [languages](https://github.com/adminerneo/adminerneo/tree/main/adminer/lang).
+- `languages` is a comma-separated list of [languages](adminer/lang).
   If not specified, all languages will be included.
-- `themes` is a comma-separated list of [themes](https://github.com/adminerneo/adminerneo/tree/adminer/themes).
+- `themes` is a comma-separated list of [themes](adminer/themes).
   If not specified, only the default theme without color variants will be included. The `+` character can be used as 
   a wildcard in the theme name.
 - `config-file.json` is a path to the custom JSON configuration file. It contains a class with [the same parameters](#configuration) 
@@ -214,7 +214,7 @@ function create_adminer(): Pluginer
 include "adminer.php";
 ```
 
-[Available plugins](https://github.com/adminerneo/adminerneo/tree/main/plugins).
+[Available plugins](plugins).
 
 Main project files
 ------------------
