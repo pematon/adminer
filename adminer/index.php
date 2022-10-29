@@ -65,6 +65,8 @@ if (isset($_GET["download"])) {
 	include "./sequence.inc.php";
 } elseif (isset($_GET["type"])) {
 	include "./type.inc.php";
+} elseif (isset($_GET["check"])) {
+	include "./check.inc.php";
 } elseif (isset($_GET["trigger"])) {
 	include "./trigger.inc.php";
 } elseif (isset($_GET["user"])) {

@@ -352,6 +352,14 @@ $translations = array(
 	'Type has been created.' => 'Typ byl vytvořen.',
 	'Alter type' => 'Pozměnit typ',
 
+	// MySQL check constraints
+	'Checks' => 'Kontroly',
+	'Create check' => 'Vytvořit kontrolu',
+	'Alter check' => 'Změnit kontrolu',
+	'Check has been created.' => 'Kontrola byla vytvořena.',
+	'Check has been altered.' => 'Kontrola byla změněna.',
+	'Check has been dropped.' => 'Kontrola byla odstraněna.',
+
 	// Plugins
 	'Columns' => 'Sloupce',
 	'Nullable' => 'Povoleno null',
