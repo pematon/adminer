@@ -1,4 +1,5 @@
 Adminer 5.0-dev:
+– Default design facelift.
 - Remove all alternative designs.
 
 Adminer 4.9.4 (released 2024-10-09):

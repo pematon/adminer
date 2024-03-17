@@ -69,9 +69,11 @@ if ($adminer->homepage()) {
 					search_tables();
 				}
 			}
+
 			echo "<div class='scrollable'>\n";
-			echo "<table cellspacing='0' class='nowrap checkable'>\n";
+			echo "<table class='nowrap checkable'>\n";
 			echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
+
 			echo '<thead><tr class="wrap">';
 			echo '<td><input id="check-all" type="checkbox" class="jsonly">' . script("qs('#check-all').onclick = partial(formCheck, /^(tables|views)\[/);", "");
 			echo '<th>' . lang('Table');
@@ -124,6 +126,7 @@ if ($adminer->homepage()) {
 
 			echo "</table>\n";
 			echo "</div>\n";
+
 			if (!information_schema(DB)) {
 				echo "<div class='footer'><div>\n";
 				$vacuum = "<input type='submit' value='" . lang('Vacuum') . "'> " . on_help("'VACUUM'");

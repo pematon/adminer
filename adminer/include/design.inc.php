@@ -27,9 +27,10 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 <!DOCTYPE html>
 <html lang="<?php echo $LANG; ?>" dir="<?php echo lang('ltr'); ?>">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="robots" content="noindex">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="initial-scale=1"/>
 <title><?php echo $title_page; ?></title>
-<link rel="stylesheet" type="text/css" href="../adminer/static/default.css">
+<link rel="stylesheet" type="text/css" href="../adminer/static/default.css?v=2">
 <?php echo script_src("../adminer/static/functions.js"); ?>
 <?php echo script_src("static/editing.js"); ?>
 <?php if ($adminer->head()) { ?>

@@ -126,7 +126,7 @@ class Adminer {
 	*/
 	function loginForm() {
 		global $drivers;
-		echo "<table cellspacing='0' class='layout'>\n";
+		echo "<table class='layout'>\n";
 		echo $this->loginFormField('driver', '<tr><th>' . lang('System') . '<td>', html_select("auth[driver]", $drivers, DRIVER, "loginDriver(this);") . "\n");
 		echo $this->loginFormField('server', '<tr><th>' . lang('Server') . '<td>', '<input name="auth[server]" value="' . h(SERVER) . '" title="hostname[:port]" placeholder="localhost" autocapitalize="off">' . "\n");
 		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">' . script("focus(qs('#username')); qs('#username').form['auth[driver]'].onchange();"));
@@ -183,7 +183,7 @@ class Adminer {
 	*/
 	function selectLinks($tableStatus, $set = "") {
 		global $jush, $driver;
-		echo '<p class="links">';
+		echo '<p id="top-links" class="links">';
 		$links = array("select" => lang('Select data'));
 		if (support("table") || support("indexes")) {
 			$links["table"] = lang('Show structure');
@@ -231,33 +231,37 @@ class Adminer {
 	function backwardKeysPrint($backwardKeys, $row) {
 	}
 
-	/** Query printed in select before execution
-	* @param string query to be executed
-	* @param float start time of the query
-	* @param bool
-	* @return string
-	*/
+	/**
+     * Query printed in select before execution.
+     *
+	 * @param $query string query to be executed
+	 * @param $start float start time of the query
+	 * @param $failed bool
+	 * @return string
+	 */
 	function selectQuery($query, $start, $failed = false) {
 		global $jush, $driver;
 
-        $supportSql = support("sql");
+		$supportSql = support("sql");
+		$warnings = !$failed ? $driver->warnings() : null;
 
-		$result = "<p>"
-            . "<code class='jush-$jush'>" . h(str_replace("\n", " ", $query)) . "</code> "
-            . "<span class='time'>(" . format_time($start) . ")</span>"
-			. ($supportSql ? " <a href='" . h(ME) . "sql=" . urlencode($query) . "'>" . lang('Edit') . "</a>" : "");
+		$return = "<pre><code class='jush-$jush'>" . h(str_replace("\n", " ", $query)) . "</code></pre>\n";
 
-		if (!$failed && ($warnings = $driver->warnings())) {
-			$id = "warnings";
-			$result = ($supportSql ? "," : "")
-                . " <a href='#$id'>" . lang('Warnings') . "</a>" . script("qsl('a').onclick = partial(toggle, '$id');", "")
-                . "</p>\n"
-                . "<div id='$id' class='hidden'>\n$warnings</div>\n";
-		} else {
-			$result .= "</p>\n";
+        $return .= "<p class='links'>";
+        if ($supportSql) {
+			$return .= "<a href='" . h(ME) . "sql=" . urlencode($query) . "'>" . lang('Edit') . "</a>";
+		}
+        if ($warnings) {
+			$return .= "<a href='#warnings'>" . lang('Warnings') . "</a>" . script("qsl('a').onclick = partial(toggle, 'warnings');", "");
+        }
+        $return .= " <span class='time'>(" . format_time($start) . ")</span>";
+		$return .= "</p>\n";
+
+		if ($warnings) {
+			$return .= "<div id='warnings' class='warnings hidden'>\n$warnings\n</div>\n";
 		}
 
-        return $result;
+		return $return;
 	}
 
 	/** Query printed in SQL command before execution
@@ -332,7 +336,7 @@ class Adminer {
 	*/
 	function tableStructurePrint($fields) {
 		echo "<div class='scrollable'>\n";
-		echo "<table cellspacing='0' class='nowrap'>\n";
+		echo "<table class='nowrap'>\n";
 		echo "<thead><tr><th>" . lang('Column') . "<td>" . lang('Type') . (support("comment") ? "<td>" . lang('Comment') : "") . "</thead>\n";
 		foreach ($fields as $field) {
 			echo "<tr" . odd() . "><th>" . h($field["field"]);
@@ -435,7 +439,7 @@ class Adminer {
 		foreach ($indexes as $i => $index) {
 			if ($index["type"] == "FULLTEXT") {
 				echo "<div>(<i>" . implode("</i>, <i>", array_map('h', $index["columns"])) . "</i>) AGAINST";
-				echo " <input type='search' name='fulltext[$i]' value='" . h($_GET["fulltext"][$i]) . "'>";
+				echo "<input type='search' name='fulltext[$i]' value='" . h($_GET["fulltext"][$i]) . "'>";
 				echo script("qsl('input').oninput = selectFieldChange;", "");
 				echo checkbox("boolean[$i]", 1, isset($_GET["boolean"][$i]), "BOOL");
 				echo "</div>\n";
@@ -474,7 +478,7 @@ class Adminer {
 		foreach ((array) $_GET["order"] as $key => $val) {
 			if ($val != "") {
 				echo "<div>" . select_input(" name='order[$i]'", $columns, $val, "selectFieldChange");
-				echo checkbox("desc[$i]", 1, isset($_GET["desc"][$key]), lang('descending'));
+				echo " " . checkbox("desc[$i]", 1, isset($_GET["desc"][$key]), lang('descending'));
 				echo " <input type='image' src='../adminer/static/cross.gif' class='jsonly icon' title='" . h(lang('Remove')) . "' alt='x'>";
 				echo script('qsl(".icon").onclick = selectRemoveRow;', "");
 				echo "</div>\n";
@@ -482,7 +486,7 @@ class Adminer {
 			}
 		}
 		echo "<div>" . select_input(" name='order[$i]'", $columns, "", "selectAddRow");
-		echo checkbox("desc[$i]", 1, false, lang('descending'));
+		echo " " . checkbox("desc[$i]", 1, false, lang('descending'));
 		echo " <input type='image' src='../adminer/static/cross.gif' class='jsonly icon' title='" . h(lang('Remove')) . "' alt='x'>";
 		echo script('qsl(".icon").onclick = selectRemoveRow;', "");
 		echo "</div>\n";
@@ -707,27 +711,51 @@ class Adminer {
 	*/
 	function messageQuery($query, $time, $failed = false) {
 		global $jush, $driver;
+
 		restart_session();
+
 		$history = &get_session("queries");
-		if (!$history[$_GET["db"]]) {
-			$history[$_GET["db"]] = array();
+		if (!isset($history[$_GET["db"]])) {
+			$history[$_GET["db"]] = [];
 		}
+
 		if (strlen($query) > 1e6) {
 			$query = preg_replace('~[\x80-\xFF]+$~', '', substr($query, 0, 1e6)) . "\n…"; // [\x80-\xFF] - valid UTF-8, \n - can end by one-line comment
 		}
-		$history[$_GET["db"]][] = array($query, time(), $time); // not DB - $_GET["db"] is changed in database.inc.php //! respect $_GET["ns"]
-		$sql_id = "sql-" . count($history[$_GET["db"]]);
-		$return = "<a href='#$sql_id' class='toggle'>" . lang('SQL command') . "</a>\n";
-		if (!$failed && ($warnings = $driver->warnings())) {
-			$id = "warnings-" . count($history[$_GET["db"]]);
-			$return = "<a href='#$id' class='toggle'>" . lang('Warnings') . "</a>, $return<div id='$id' class='hidden'>\n$warnings</div>\n";
+
+		$history[$_GET["db"]][] = [$query, time(), $time]; // not DB - $_GET["db"] is changed in database.inc.php //! respect $_GET["ns"]
+
+		$supportSql = support("sql");
+		$warnings = !$failed ? $driver->warnings() : null;
+
+        $sqlId = "sql-" . count($history[$_GET["db"]]);
+		$warningsId = "warnings-" . count($history[$_GET["db"]]);
+
+		$return = " ";
+		if ($warnings) {
+			$return .= "<a href='#$warningsId' class='toggle'>" . lang('Warnings') . "</a>, ";
 		}
-		return " <span class='time'>" . @date("H:i:s") . "</span>" // @ - time zone may be not set
-			. " $return<div id='$sql_id' class='hidden'><pre><code class='jush-$jush'>" . shorten_utf8($query, 1000) . "</code></pre>"
-			. ($time ? " <span class='time'>($time)</span>" : '')
-			. (support("sql") ? '<p><a href="' . h(str_replace("db=" . urlencode(DB), "db=" . urlencode($_GET["db"]), ME) . 'sql=&history=' . (count($history[$_GET["db"]]) - 1)) . '">' . lang('Edit') . '</a>' : '')
-			. '</div>'
-		;
+		$return .= "<a href='#$sqlId' class='toggle'>" . lang('SQL command') . "</a>";
+		$return .= " <span class='time'>" . @date("H:i:s") . "</span>\n"; // @ - time zone may be not set
+
+		if ($warnings) {
+			$return .= "<div id='$warningsId' class='warnings hidden'>\n$warnings</div>\n";
+		}
+
+		$return .= "<div id='$sqlId' class='hidden'>\n";
+        $return .= "<pre><code class='jush-$jush'>" . shorten_utf8($query, 1000) . "</code></pre>\n";
+
+        $return .= "<p class='links'>";
+		if ($supportSql) {
+			$return .= "<a href='" . h(str_replace("db=" . urlencode(DB), "db=" . urlencode($_GET["db"]), ME) . 'sql=&history=' . (count($history[$_GET["db"]]) - 1)) . "'>" . lang('Edit') . "</a>";
+		}
+		if ($time) {
+			$return .= " <span class='time'>($time)</span>";
+		}
+        $return .= "</p>\n";
+		$return .= "</div>\n";
+
+        return $return;
 	}
 
 	/** Print before edit form
@@ -1002,7 +1030,7 @@ class Adminer {
 	* @return bool whether to print default homepage
 	*/
 	function homepage() {
-		echo '<p class="links">' . ($_GET["ns"] == "" && support("database") ? '<a href="' . h(ME) . 'database=">' . lang('Alter database') . "</a>\n" : "");
+		echo '<p id="top-links" class="links">' . ($_GET["ns"] == "" && support("database") ? '<a href="' . h(ME) . 'database=">' . lang('Alter database') . "</a>\n" : "");
 		echo (support("scheme") ? "<a href='" . h(ME) . "scheme='>" . ($_GET["ns"] != "" ? lang('Alter schema') : lang('Create schema')) . "</a>\n" : "");
 		echo ($_GET["ns"] !== "" ? '<a href="' . h(ME) . 'schema=">' . lang('Database schema') . "</a>\n" : "");
 		echo (support("privileges") ? "<a href='" . h(ME) . "privileges='>" . lang('Privileges') . "</a>\n" : "");
