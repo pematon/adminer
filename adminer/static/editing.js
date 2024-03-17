@@ -256,9 +256,13 @@ function editFields() {
 */
 function editingClick(event) {
 	var el = event.target;
-	if (!isTag(el, 'input')) {
-		el = parentTag(el, 'label');
-		el = el && qs('input', el);
+	if (!isTag(el, 'input|button')) {
+		const parent = parentTag(el, 'label');
+		if (parent) {
+			el = qs('input', parent);
+		} else {
+			el = parentTag(el, 'button');
+		}
 	}
 	if (el) {
 		var name = el.name;
