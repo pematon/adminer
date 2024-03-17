@@ -95,12 +95,14 @@ if (!$row) {
 
 <form action="" method="post">
 <div class="scrollable">
-<table cellspacing="0" class="nowrap">
+<table class="nowrap">
 <thead><tr>
 <th id="label-type"><?php echo lang('Index Type'); ?>
-<th><input type="submit" class="wayoff"><?php echo lang('Column (length)'); ?>
+<th><input type="submit" class="button invisible"><?php echo lang('Column (length)'); ?>
 <th id="label-name"><?php echo lang('Name'); ?>
-<th><noscript><?php echo "<input type='image' class='icon' name='add[0]' src='../adminer/static/plus.gif' alt='+' title='" . lang('Add next') . "'>"; ?></noscript>
+<th><?php
+	echo "<button name='add[0]' value='1' title='" . h(lang('Add next')) . "' class='noscript light'><svg class='icon'><use href='static/icons.svg#add'/></svg></button>";
+?></th>
 </thead>
 <?php
 if ($primary) {
@@ -114,7 +116,9 @@ if ($primary) {
 $j = 1;
 foreach ($row["indexes"] as $index) {
 	if (!$_POST["drop_col"] || $j != key($_POST["drop_col"])) {
-		echo "<tr><td>" . html_select("indexes[$j][type]", array(-1 => "") + $index_types, $index["type"], ($j == count($row["indexes"]) ? "indexesAddRow.call(this);" : 1), "label-type");
+		echo "<tr><td>",
+			html_select("indexes[$j][type]", array(-1 => "") + $index_types, $index["type"], ($j == count($row["indexes"]) ? "indexesAddRow.call(this);" : 1), "label-type"),
+			"</td>";
 
 		echo "<td>";
 		ksort($index["columns"]);
@@ -131,9 +135,13 @@ foreach ($row["indexes"] as $index) {
 			echo " </span>";
 			$i++;
 		}
+		echo "</td>";
 
-		echo "<td><input name='indexes[$j][name]' value='" . h($index["name"]) . "' autocapitalize='off' aria-labelledby='label-name'>\n";
-		echo "<td><input type='image' class='icon' name='drop_col[$j]' src='../adminer/static/cross.gif' alt='x' title='" . lang('Remove') . "'>" . script("qsl('input').onclick = partial(editingRemoveRow, 'indexes\$1[type]');");
+		echo "<td><input name='indexes[$j][name]' value='" . h($index["name"]) . "' autocapitalize='off' aria-labelledby='label-name'></td>\n",
+			"<td>",
+			"<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='light'><svg class='icon'><use href='static/icons.svg#remove'/></svg></button>",
+			script("qsl('button').onclick = partial(editingRemoveRow, 'indexes\$1[type]');"),
+			"</td>\n";
 	}
 	$j++;
 }

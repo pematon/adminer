@@ -32,7 +32,7 @@
         "php": "5.6 - 8.4",
         "ext-pdo": "*",
         "ext-json": "*",
-        "vrana/jush": "2.0.*",
+        "vrana/jush": "2.1.*",
         "vrana/jsshrink": "@dev"
     },
     "suggest": {

@@ -64,7 +64,7 @@ if (!$error && $_POST) {
 echo "<form action='' method='post'>\n";
 
 if ($in) {
-	echo "<table cellspacing='0' class='layout'>\n";
+	echo "<table class='layout'>\n";
 	foreach ($in as $key) {
 		$field = $routine["fields"][$key];
 		$name = $field["field"];

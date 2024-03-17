@@ -18,7 +18,7 @@ function select($result, $connection2 = null, $orgtables = array(), $limit = 0) 
 	for ($i=0; (!$limit || $i < $limit) && ($row = $result->fetch_row()); $i++) {
 		if (!$i) {
 			echo "<div class='scrollable'>\n";
-			echo "<table cellspacing='0' class='nowrap'>\n";
+			echo "<table class='nowrap'>\n";
 			echo "<thead><tr>";
 			for ($j=0; $j < count($row); $j++) {
 				$field = (array)$result->fetch_field();
@@ -313,7 +313,10 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		<td id="label-default"><?php echo lang('Default value'); ?></td>
 		<?php echo (support("comment") ? "<td id='label-comment' $comment_class>" . lang('Comment') . "</td>" : ""); ?>
 	<?php } ?>
-	<td><?php echo "<input type='image' class='icon' name='add[" . (support("move_col") ? 0 : count($fields)) . "]' src='../adminer/static/plus.gif' alt='+' title='" . lang('Add next') . "'>" . script("row_count = " . count($fields) . ";"); ?></td>
+	<td><?php
+		echo "<button name='add[" . (support("move_col") ? 0 : count($fields)) . "]' value='1' title='" . h(lang('Add next')) . "' class='light'><svg class='icon'><use href='static/icons.svg#add'/></svg></button>",
+			script("row_count = " . count($fields) . ";");
+	?></td>
 </tr></thead>
 <?php
 	echo "<tbody>\n";
@@ -327,7 +330,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		echo "<tr $style>\n";
 
 		if (support("move_col")) {
-			echo "<th class='handle jsonly'></th>";
+			echo "<th class='handle jsonly'><svg class='jsonly icon'><use href='static/icons.svg#handle'/></svg></th>";
 		}
 		if ($type == "PROCEDURE") {
 			echo "<td>", html_select("fields[$i][inout]", explode("|", $inout), $field["inout"]), "</td>\n";
@@ -362,12 +365,12 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 
 		echo "<td>";
 		if (support("move_col")) {
-			echo "<input type='image' class='icon' name='add[$i]' src='../adminer/static/plus.gif' alt='+' title='" . lang('Add next') . "'> ",
-				"<input type='image' class='icon hidden' name='up[$i]' src='../adminer/static/up.gif' alt='↑' title='" . lang('Move up') . "'> ",
-				"<input type='image' class='icon hidden' name='down[$i]' src='../adminer/static/down.gif' alt='↓' title='" . lang('Move down') . "'> ";
+			echo "<button name='add[$i]' value='1' title='" . h(lang('Add next')) . "' class='light'><svg class='icon'><use href='static/icons.svg#add'/></svg></button>",
+				"<button name='up[$i]' value='1' title='" . h(lang('Move up')) . "' class='hidden light'><svg class='icon'><use href='static/icons.svg#arrow-up'/></svg></button>",
+				"<button name='down[$i]' value='1' title='" . h(lang('Move down')) . "' class='hidden light'><svg class='icon'><use href='static/icons.svg#arrow-down'/></svg></button>";
 		}
 		if ($orig == "" || support("drop_col")) {
-			echo "<input type='image' class='icon' name='drop_col[$i]' src='../adminer/static/cross.gif' alt='x' title='" . lang('Remove') . "'>";
+			echo "<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='light'><svg class='icon'><use href='static/icons.svg#remove'/></svg></button>";
 		}
 		echo "</td>\n</tr>\n";
 	}
