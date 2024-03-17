@@ -8,9 +8,9 @@ function connect_error() {
 		if ($_POST["db"] && !$error) {
 			queries_redirect(substr(ME, 0, -1), lang('Databases have been dropped.'), drop_databases($_POST["db"]));
 		}
-		
+
 		page_header(lang('Select database'), $error, false);
-		echo "<p class='links'>\n";
+		echo "<p id='top-links' class='links'>\n";
 		foreach (array(
 			'database' => lang('Create database'),
 			'privileges' => lang('Privileges'),
@@ -29,8 +29,10 @@ function connect_error() {
 			$scheme = support("scheme");
 			$collations = collations();
 			echo "<form action='' method='post'>\n";
-			echo "<table cellspacing='0' class='checkable'>\n";
+			echo "<div class='scrollable'>\n";
+			echo "<table class='checkable'>\n";
 			echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
+
 			echo "<thead><tr>"
 				. (support("database") ? "<td>" : "")
 				. "<th>" . lang('Database') . " - <a href='" . h(ME) . "refresh=1'>" . lang('Refresh') . "</a>"
@@ -39,9 +41,9 @@ function connect_error() {
 				. "<td>" . lang('Size') . " - <a href='" . h(ME) . "dbsize=1'>" . lang('Compute') . "</a>" . script("qsl('a').onclick = partial(ajaxSetHtml, '" . js_escape(ME) . "script=connect');", "")
 				. "</thead>\n"
 			;
-			
+
 			$databases = ($_GET["dbsize"] ? count_tables($databases) : array_flip($databases));
-			
+
 			foreach ($databases as $db => $tables) {
 				$root = h(ME) . "db=" . urlencode($db);
 				$id = h("Db-" . $db);
@@ -53,10 +55,12 @@ function connect_error() {
 				echo "<td align='right' id='size-" . h($db) . "'>" . ($_GET["dbsize"] ? db_size($db) : "?");
 				echo "\n";
 			}
-			
+
 			echo "</table>\n";
+			echo "</div>\n";
+
 			echo (support("database")
-				? "<div class='footer'><div>\n"
+				? "<div class='footer'><div class='field-sets'>\n"
 					. "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div>\n"
 					. "<input type='hidden' name='all' value=''>" . script("qsl('input').onclick = function () { selectCount('selected', formChecked(this, /^db/)); };") // used by trCheck()
 					. "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm() . "\n"
@@ -69,7 +73,7 @@ function connect_error() {
 			echo script("tableCheck();");
 		}
 	}
-	
+
 	page_footer("db");
 }
 

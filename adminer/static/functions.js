@@ -466,13 +466,7 @@ function selectAddRow(event) {
 
 	const inputs = qsa('input', row);
 	for (const input of inputs) {
-		// Skip buttons.
-		if (input.type === 'image') {
-			continue;
-		}
-
 		input.name = input.name.replace(/[a-z]\[\d+/, '$&1');
-		input.className = '';
 		if (input.type === 'checkbox') {
 			input.checked = false;
 		} else {
@@ -1181,7 +1175,7 @@ function findDefaultSubmit(el) {
 
 	const inputs = qsa('input', el.form);
 	for (const input of inputs) {
-		if (input.type === 'submit' && !input.classList.contains("wayoff") && !input.style.zIndex) {
+		if (input.type === 'submit' && !input.classList.contains("invisible") && !input.style.zIndex) {
 			return input;
 		}
 	}
