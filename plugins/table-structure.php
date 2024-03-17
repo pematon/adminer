@@ -14,7 +14,7 @@ class AdminerTableStructure {
 	*/
 	function tableStructurePrint($fields) {
 		echo "<div class='scrollable'>\n";
-		echo "<table cellspacing='0' class='nowrap'>\n";
+		echo "<table class='nowrap'>\n";
 		echo "<thead><tr><th>" . lang('Column') . "<th>" . lang('Type') . "<th>" . lang('Nullable') . "<th>" . lang('Default') . (support("comment") ? "<th>" . lang('Comment') : "") . "</thead>\n";
 		foreach ($fields as $field) {
 			echo "<tr" . odd() . "><th>" . h($field["field"]) . ($field["primary"] ? " (PRIMARY)" : "");

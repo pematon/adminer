@@ -320,8 +320,9 @@ if (!$columns && support("table")) {
 		} else {
 			$backward_keys = $adminer->backwardKeys($TABLE, $table_name);
 
-			echo "<div class='scrollable'>";
-			echo "<table id='table' cellspacing='0' class='nowrap checkable'>";
+			echo "<div class='scrollable'>\n";
+			echo "<table id='table' class='nowrap checkable'>\n";
+
 			echo script("mixin(qs('#table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true), onkeydown: editingKeydown});");
 			echo "<thead><tr>" . (!$group && $select
 				? ""
@@ -479,6 +480,7 @@ if (!$columns && support("table")) {
 			if (is_ajax()) {
 				exit;
 			}
+
 			echo "</table>\n";
 			echo "</div>\n";
 		}
@@ -503,7 +505,7 @@ if (!$columns && support("table")) {
 				$pagination = ($limit != "" && ($found_rows === false || $found_rows > $limit || $page));
 				if ($pagination) {
 					echo (($found_rows === false ? count($rows) + 1 : $found_rows - $page * $limit) > $limit
-						? '<p><a href="' . h(remove_from_uri("page") . "&page=" . ($page + 1)) . '" class="loadmore">' . lang('Load more data') . '</a>'
+						? '<p class="links"><a href="' . h(remove_from_uri("page") . "&page=" . ($page + 1)) . '" class="loadmore">' . lang('Load more data') . '</a>'
 							. script("qsl('a').onclick = partial(selectLoadMore, " . (+$limit) . ", '" . lang('Loading') . "…');", "")
 						: ''
 					);
@@ -511,8 +513,9 @@ if (!$columns && support("table")) {
 				}
 			}
 
-			echo "<div class='footer'><div>\n";
 			if ($rows || $page) {
+			    echo "<div class='footer'><div>\n";
+
 				if ($pagination) {
 					// display first, previous 4, next 4 and last page
 					$max_page = ($found_rows === false
@@ -579,12 +582,12 @@ if (!$columns && support("table")) {
 				}
 
 				$adminer->selectEmailPrint(array_filter($email_fields, 'strlen'), $columns);
+
+			    echo "</div></div>\n";
 			}
 
-			echo "</div></div>\n";
-
 			if ($adminer->selectImportPrint()) {
-				echo "<div>";
+				echo "<p>";
 				echo "<a href='#import'>" . lang('Import') . "</a>";
 				echo script("qsl('a').onclick = partial(toggle, 'import');", "");
 				echo "<span id='import' class='hidden'>: ";
@@ -592,7 +595,7 @@ if (!$columns && support("table")) {
 				echo html_select("separator", array("csv" => "CSV,", "csv;" => "CSV;", "tsv" => "TSV"), $adminer_import["format"]);
 				echo " <input type='submit' name='import' value='" . lang('Import') . "'>";
 				echo "</span>";
-				echo "</div>";
+				echo "</p>";
 			}
 
 			echo "<input type='hidden' name='token' value='$token'>\n";

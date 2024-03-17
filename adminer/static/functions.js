@@ -79,7 +79,7 @@ function alterClass(el, className, enable) {
 */
 function toggle(id) {
 	var el = qs('#' + id);
-	el.className = (el.className === 'hidden' ? '' : 'hidden');
+	el.classList.toggle('hidden');
 	return false;
 }
 

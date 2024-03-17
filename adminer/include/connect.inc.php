@@ -10,7 +10,7 @@ function connect_error() {
 		}
 		
 		page_header(lang('Select database'), $error, false);
-		echo "<p class='links'>\n";
+		echo "<p id='top-links' class='links'>\n";
 		foreach (array(
 			'database' => lang('Create database'),
 			'privileges' => lang('Privileges'),
@@ -29,8 +29,10 @@ function connect_error() {
 			$scheme = support("scheme");
 			$collations = collations();
 			echo "<form action='' method='post'>\n";
-			echo "<table cellspacing='0' class='checkable'>\n";
+			echo "<div class='scrollable'>\n";
+			echo "<table class='checkable'>\n";
 			echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
+
 			echo "<thead><tr>"
 				. (support("database") ? "<td>" : "")
 				. "<th>" . lang('Database') . " - <a href='" . h(ME) . "refresh=1'>" . lang('Refresh') . "</a>"
@@ -55,6 +57,8 @@ function connect_error() {
 			}
 			
 			echo "</table>\n";
+			echo "</div>\n";
+
 			echo (support("database")
 				? "<div class='footer'><div>\n"
 					. "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div>\n"
