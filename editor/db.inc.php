@@ -7,9 +7,11 @@ if ($adminer->homepage()) {
 	if ($_POST["query"] != "") {
 		search_tables();
 	}
+
 	echo "<div class='scrollable'>\n";
-	echo "<table cellspacing='0' class='nowrap checkable'>\n";
+	echo "<table class='nowrap checkable'>\n";
 	echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
+
 	echo '<thead><tr class="wrap">';
 	echo '<td><input id="check-all" type="checkbox" class="jsonly">' . script("gid('check-all').onclick = partial(formCheck, /^tables\[/);", "");
 	echo '<th>' . lang('Table');
@@ -29,5 +31,6 @@ if ($adminer->homepage()) {
 	echo "</table>\n";
 	echo "</div>\n";
 	echo "</form>\n";
+
 	echo script("tableCheck();");
 }
