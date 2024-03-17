@@ -55,6 +55,7 @@ if ($adminer->homepage()) {
 		} else {
 			echo "<form action='' method='post'>\n";
 			if (support("table")) {
+				echo "<div class='field-sets'>\n";
 				echo "<fieldset><legend>" . lang('Search data in tables') . " <span id='selected2'></span></legend><div>";
 				echo "<input type='search' name='query' value='" . h($_POST["query"]) . "'>";
 				echo script("qsl('input').onkeydown = partialArg(bodyKeydown, 'search');", "");
@@ -68,10 +69,13 @@ if ($adminer->homepage()) {
 					$_GET["where"][0]["op"] = $adminer->operator_regexp !== null && !empty($_POST['regexp']) ? $adminer->operator_regexp : $adminer->operator_like;
 					search_tables();
 				}
+				echo "</div>\n";
 			}
+
 			echo "<div class='scrollable'>\n";
-			echo "<table cellspacing='0' class='nowrap checkable'>\n";
+			echo "<table class='nowrap checkable'>\n";
 			echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
+
 			echo '<thead><tr class="wrap">';
 			echo '<td><input id="check-all" type="checkbox" class="jsonly">' . script("qs('#check-all').onclick = partial(formCheck, /^(tables|views)\[/);", "");
 			echo '<th>' . lang('Table');
@@ -124,8 +128,9 @@ if ($adminer->homepage()) {
 
 			echo "</table>\n";
 			echo "</div>\n";
+
 			if (!information_schema(DB)) {
-				echo "<div class='footer'><div>\n";
+				echo "<div class='footer'><div class='field-sets'>\n";
 				$vacuum = "<input type='submit' value='" . lang('Vacuum') . "'> " . on_help("'VACUUM'");
 				$optimize = "<input type='submit' name='optimize' value='" . lang('Optimize') . "'> " . on_help($jush == "sql" ? "'OPTIMIZE TABLE'" : "'VACUUM OPTIMIZE'");
 				echo "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div>"
