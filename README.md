@@ -15,7 +15,7 @@ AdminerNeo is based on the [Adminer](https://www.adminer.org/) project by Jakub 
 Requirements
 ------------
 
-- PHP 5.6+ with enabled sessions.
+- PHP 7.1+ with enabled sessions.
 
 Migration from Adminer
 ----------------------
