@@ -412,12 +412,12 @@ class Adminer {
 		$i = 0;
 
 		foreach ($_GET["columns"] as $key => $val) {
-			if ($key != "" && $val["col"] == "") continue;
+			if ($key != "" && ($val["col"] ?? null) == "") continue;
 
 			$column = select_input(
 				"name='columns[$i][col]'",
 				$columns,
-				$val["col"],
+				$val["col"] ?? null,
 				$key !== "" ? "selectFieldChange" : "selectAddRow"
 			);
 
@@ -639,14 +639,14 @@ class Adminer {
 				} elseif ($op == "SQL") {
 					$cond = " $val"; // SQL injection
 				} elseif ($op == "LIKE %%") {
-					$cond = " LIKE " . $this->processInput($fields[$col], "%$val%");
+					$cond = " LIKE " . $this->processInput($fields[$col] ?? null, "%$val%");
 				} elseif ($op == "ILIKE %%") {
-					$cond = " ILIKE " . $this->processInput($fields[$col], "%$val%");
+					$cond = " ILIKE " . $this->processInput($fields[$col] ?? null, "%$val%");
 				} elseif ($op == "FIND_IN_SET") {
 					$prefix = "$op(" . q($val) . ", ";
 					$cond = ")";
 				} elseif (!preg_match('~NULL$~', $op)) {
-					$cond .= " " . $this->processInput($fields[$col], $val);
+					$cond .= " " . $this->processInput($fields[$col] ?? null, $val);
 				}
 
 				if ($col != "") {
@@ -845,15 +845,19 @@ class Adminer {
 	}
 
 	/** Process sent input
-	* @param array single field from fields()
+	* @param ?array single field from fields()
 	* @param string
 	* @param string
 	* @return string expression to use in a query
 	*/
-	function processInput($field, $value, $function = "") {
+	function processInput(?array $field, $value, $function = "") {
 		if ($function == "SQL") {
-			return $value; // SQL injection
+			return $value; //! SQL injection
 		}
+		if (!$field) {
+			return q($value);
+		}
+
 		$name = $field["field"];
 		$return = q($value);
 		if (preg_match('~^(now|getdate|uuid)$~', $function)) {

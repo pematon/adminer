@@ -28,13 +28,13 @@ HTML;
 		return '';
 	}
 
-	function processInput($field, $value, $function = '') {
+	function processInput(?array $field, $value, $function = '') {
 		if ($function === '') {
 			$json = $this->_testJson($value);
 			if ($json !== $value) {
 				$value = json_encode($json);
 			}
 		}
-		return $this->adminer->_callParent('processInput', array($field, $value, $function));
+		return $this->adminer->_callParent('processInput', [$field, $value, $function]);
 	}
 }
