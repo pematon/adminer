@@ -1119,7 +1119,7 @@ if (!defined("DRIVER")) {
 	* @param string
 	* @return string
 	*/
-	function unconvert_field($field, $return) {
+	function unconvert_field(array $field, $return) {
 		if (preg_match("~binary~", $field["type"])) {
 			$return = "UNHEX($return)";
 		}
@@ -1130,6 +1130,7 @@ if (!defined("DRIVER")) {
 			$prefix = (min_version(8) ? "ST_" : "");
 			$return = $prefix . "GeomFromText($return, $prefix" . "SRID($field[field]))";
 		}
+
 		return $return;
 	}
 

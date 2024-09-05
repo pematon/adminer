@@ -26,12 +26,12 @@ foreach (table_status('', true) as $table => $table_status) {
 		$field["pos"] = $pos;
 		$schema[$table]["fields"][$name] = $field;
 	}
-	$schema[$table]["pos"] = ($table_pos[$table] ? $table_pos[$table] : array($top, 0));
+	$schema[$table]["pos"] = ($table_pos[$table] ?? array($top, 0));
 	foreach ($adminer->foreignKeys($table) as $val) {
 		if (!$val["db"]) {
 			$left = $base_left;
-			if ($table_pos[$table][1] || $table_pos[$val["table"]][1]) {
-				$left = min(floatval($table_pos[$table][1]), floatval($table_pos[$val["table"]][1])) - 1;
+			if (($table_pos[$table][1] ?? 0) || ($table_pos[$val["table"]][1] ?? 0)) {
+				$left = min(floatval($table_pos[$table][1] ?? 0), floatval($table_pos[$val["table"]][1] ?? 0)) - 1;
 			} else {
 				$base_left -= .1;
 			}
@@ -61,32 +61,32 @@ foreach ($schema as $name => $table) {
 	echo "<div class='table' style='top: " . $table["pos"][0] . "em; left: " . $table["pos"][1] . "em;'>";
 	echo '<a href="' . h(ME) . 'table=' . urlencode($name) . '"><b>' . h($name) . "</b></a>";
 	echo script("qsl('div').onmousedown = schemaMousedown;");
-	
+
 	foreach ($table["fields"] as $field) {
 		$val = '<span' . type_class($field["type"]) . ' title="' . h($field["full_type"] . ($field["null"] ? " NULL" : '')) . '">' . h($field["field"]) . '</span>';
 		echo "<br>" . ($field["primary"] ? "<i>$val</i>" : $val);
 	}
-	
+
 	foreach ((array) $table["references"] as $target_name => $refs) {
 		foreach ($refs as $left => $ref) {
-			$left1 = $left - $table_pos[$name][1];
+			$left1 = $left - ($table_pos[$name][1] ?? 0);
 			$i = 0;
 			foreach ($ref[0] as $source) {
 				echo "\n<div class='references' title='" . h($target_name) . "' id='refs$left-" . ($i++) . "' style='left: $left1" . "em; top: " . $table["fields"][$source]["pos"] . "em; padding-top: .5em;'><div style='border-top: 1px solid Gray; width: " . (-$left1) . "em;'></div></div>";
 			}
 		}
 	}
-	
+
 	foreach ((array) $referenced[$name] as $target_name => $refs) {
 		foreach ($refs as $left => $columns) {
-			$left1 = $left - $table_pos[$name][1];
+			$left1 = $left - ($table_pos[$name][1] ?? 0);
 			$i = 0;
 			foreach ($columns as $target) {
 				echo "\n<div class='references' title='" . h($target_name) . "' id='refd$left-" . ($i++) . "' style='left: $left1" . "em; top: " . $table["fields"][$target]["pos"] . "em; height: 1.25em; background: url(../adminer/static/arrow.gif) no-repeat right center;'><div style='height: .5em; border-bottom: 1px solid Gray; width: " . (-$left1) . "em;'></div></div>";
 			}
 		}
 	}
-	
+
 	echo "\n</div>\n";
 }
 

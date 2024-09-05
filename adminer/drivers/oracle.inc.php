@@ -514,7 +514,7 @@ ORDER BY PROCESS
 	function convert_field($field) {
 	}
 
-	function unconvert_field($field, $return) {
+	function unconvert_field(array $field, $return) {
 		return $return;
 	}
 

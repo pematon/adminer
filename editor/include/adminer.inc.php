@@ -242,8 +242,8 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				$i--;
 				echo "<div>" . h($desc) . "<input type='hidden' name='where[$i][col]' value='" . h($name) . "'>:";
 				echo (like_bool($field)
-					? " <select name='where[$i][val]'>" . optionlist(array("" => "", lang('no'), lang('yes')), $where[$key]["val"], true) . "</select>"
-					: enum_input("checkbox", " name='where[$i][val][]'", $field, (array) $where[$key]["val"], ($field["null"] ? 0 : null))
+					? " <select name='where[$i][val]'>" . optionlist(array("" => "", lang('no'), lang('yes')), $where[$key]["val"] ?? null, true) . "</select>"
+					: enum_input("checkbox", " name='where[$i][val][]'", $field, (array) ($where[$key]["val"] ?? []), ($field["null"] ? 0 : null))
 				);
 				echo "</div>\n";
 				unset($columns[$name]);
@@ -253,7 +253,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				}
 				$key = $keys[$name];
 				$i--;
-				echo "<div>" . h($desc) . "<input type='hidden' name='where[$i][col]' value='" . h($name) . "'><input type='hidden' name='where[$i][op]' value='='>: <select name='where[$i][val]'>" . optionlist($options, $where[$key]["val"], true) . "</select></div>\n";
+				echo "<div>" . h($desc) . "<input type='hidden' name='where[$i][col]' value='" . h($name) . "'><input type='hidden' name='where[$i][op]' value='='>: <select name='where[$i][val]'>" . optionlist($options, $where[$key]["val"] ?? null, true) . "</select></div>\n";
 				unset($columns[$name]);
 			}
 		}
@@ -293,7 +293,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		}
 		if ($orders) {
 			echo '<fieldset><legend>' . lang('Sort') . "</legend><div>";
-			echo "<select name='index_order'>" . optionlist(array("" => "") + $orders, ($_GET["order"][0] != "" ? "" : $_GET["index_order"]), true) . "</select>";
+			echo "<select name='index_order'>" . optionlist(array("" => "") + $orders, (($_GET["order"][0] ?? null) != "" ? "" : $_GET["index_order"]), true) . "</select>";
 			echo "</div></fieldset>\n";
 		}
 		if ($_GET["order"]) {
@@ -530,7 +530,7 @@ qsl('div').onclick = whisperClick;", "")
 		return (preg_match('~\s+(\[.*\])$~', ($field["comment"] != "" ? $field["comment"] : $field["field"]), $match) ? h(" $match[1]") : '');
 	}
 
-	function processInput($field, $value, $function = "") {
+	function processInput(array $field, $value, $function = "") {
 		if ($function == "now") {
 			return "$function()";
 		}
