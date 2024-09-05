@@ -172,7 +172,7 @@ function textarea($name, $value, $rows = 10, $cols = 80) {
 */
 function edit_type($key, $field, $collations, $foreign_keys = array(), $extra_types = array()) {
 	global $structured_types, $types, $unsigned, $on_actions;
-	$type = $field["type"];
+	$type = $field["type"] ?? null;
 	?>
 <td><select name="<?php echo h($key); ?>[type]" class="type" aria-labelledby="label-type"><?php
 if ($type && !isset($types[$type]) && !isset($foreign_keys[$type]) && !in_array($type, $extra_types)) {
@@ -182,11 +182,11 @@ if ($foreign_keys) {
 	$structured_types[lang('Foreign keys')] = $foreign_keys;
 }
 echo optionlist(array_merge($extra_types, $structured_types), $type);
-?></select><td><input name="<?php echo h($key); ?>[length]" value="<?php echo h($field["length"]); ?>" size="3"<?php echo (!$field["length"] && preg_match('~var(char|binary)$~', $type) ? " class='required'" : ""); //! type="number" with enabled JavaScript ?> aria-labelledby="label-length"><td class="options"><?php
-	echo "<select name='" . h($key) . "[collation]'" . (preg_match('~(char|text|enum|set)$~', $type) ? "" : " class='hidden'") . '><option value="">(' . lang('collation') . ')' . optionlist($collations, $field["collation"]) . '</select>';
-	echo ($unsigned ? "<select name='" . h($key) . "[unsigned]'" . (!$type || preg_match(number_type(), $type) ? "" : " class='hidden'") . '><option>' . optionlist($unsigned, $field["unsigned"]) . '</select>' : '');
+?></select><td><input name="<?php echo h($key); ?>[length]" value="<?php echo h($field["length"] ?? null); ?>" size="3"<?php echo (!($field["length"] ?? null) && preg_match('~var(char|binary)$~', $type) ? " class='required'" : ""); //! type="number" with enabled JavaScript ?> aria-labelledby="label-length"><td class="options"><?php
+	echo "<select name='" . h($key) . "[collation]'" . (preg_match('~(char|text|enum|set)$~', $type) ? "" : " class='hidden'") . '><option value="">(' . lang('collation') . ')' . optionlist($collations, $field["collation"] ?? null) . '</select>';
+	echo ($unsigned ? "<select name='" . h($key) . "[unsigned]'" . (!$type || preg_match(number_type(), $type) ? "" : " class='hidden'") . '><option>' . optionlist($unsigned, $field["unsigned"] ?? null) . '</select>' : '');
 	echo (isset($field['on_update']) ? "<select name='" . h($key) . "[on_update]'" . (preg_match('~timestamp|datetime~', $type) ? "" : " class='hidden'") . '>' . optionlist(array("" => "(" . lang('ON UPDATE') . ")", "CURRENT_TIMESTAMP"), (preg_match('~^CURRENT_TIMESTAMP~i', $field["on_update"]) ? "CURRENT_TIMESTAMP" : $field["on_update"])) . '</select>' : '');
-	echo ($foreign_keys ? "<select name='" . h($key) . "[on_delete]'" . (preg_match("~`~", $type) ? "" : " class='hidden'") . "><option value=''>(" . lang('ON DELETE') . ")" . optionlist(explode("|", $on_actions), $field["on_delete"]) . "</select> " : " "); // space for IE
+	echo ($foreign_keys ? "<select name='" . h($key) . "[on_delete]'" . (preg_match("~`~", $type) ? "" : " class='hidden'") . "><option value=''>(" . lang('ON DELETE') . ")" . optionlist(explode("|", $on_actions), $field["on_delete"] ?? null) . "</select> " : " "); // space for IE
 }
 
 /** Filter length value including enums
@@ -324,7 +324,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 	foreach ($fields as $i => $field) {
 		$i++;
 		$orig = $field[($_POST ? "orig" : "field")];
-		$display = (isset($_POST["add"][$i-1]) || (isset($field["field"]) && !$_POST["drop_col"][$i])) && (support("drop_col") || $orig == "");
+		$display = (isset($_POST["add"][$i-1]) || (isset($field["field"]) && !($_POST["drop_col"][$i] ?? null))) && (support("drop_col") || $orig == "");
 
 		$style = $display ? "" : "style='display: none;'";
 		echo "<tr $style>\n";
@@ -628,7 +628,7 @@ function doc_link(array $paths, $text = "<sup>?</sup>") {
 		$paths['sql'] = (isset($paths['mariadb']) ? $paths['mariadb'] : str_replace(".html", "/", $paths['sql']));
 	}
 
-	if (!isset($paths[$jush]) || !$paths[$jush] ) {
+	if (!($paths[$jush] ?? null)) {
 		return "";
 	}
 

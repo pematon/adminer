@@ -254,7 +254,7 @@ if (isset($_GET["elastic5"])) {
 		function delete($type, $queryWhere, $limit = 0) {
 			//! use $limit
 			$ids = array();
-			if (isset($_GET["where"]["_id"]) && $_GET["where"]["_id"]) {
+			if ($_GET["where"]["_id"] ?? null) {
 				$ids[] = $_GET["where"]["_id"];
 			}
 			if (isset($_POST['check'])) {
@@ -483,7 +483,7 @@ if (isset($_GET["elastic5"])) {
 		//
 	}
 
-	function unconvert_field($field, $return) {
+	function unconvert_field(array $field, $return) {
 		return $return;
 	}
 
