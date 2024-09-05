@@ -27,8 +27,8 @@ class AdminerFileUpload {
 		}
 	}
 
-	function processInput($field, $value, $function = "") {
-		if (preg_match('~(.*)_path$~', $field["field"], $regs)) {
+	function processInput(?array $field, $value, $function = "") {
+		if ($field && preg_match('~(.*)_path$~', $field["field"], $regs)) {
 			$tableName = ($_GET["edit"] != "" ? $_GET["edit"] : $_GET["select"]);
 			$fieldName = $field["field"];
 			$files = $_FILES["fields"];

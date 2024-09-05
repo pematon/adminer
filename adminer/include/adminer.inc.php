@@ -408,15 +408,15 @@ class Adminer {
 		$i = 0;
 		$select[""] = array();
 		foreach ($select as $key => $val) {
-			$val = $_GET["columns"][$key];
+			$val = $_GET["columns"][$key] ?? null;
 			$column = select_input(
 				" name='columns[$i][col]'",
 				$columns,
-				$val["col"],
+				$val["col"] ?? null,
 				($key !== "" ? "selectFieldChange" : "selectAddRow")
 			);
 			echo "<div>" . ($functions || $grouping ? "<select name='columns[$i][fun]'>"
-				. optionlist(array(-1 => "") + array_filter(array(lang('Functions') => $functions, lang('Aggregation') => $grouping)), $val["fun"]) . "</select>"
+				. optionlist(array(-1 => "") + array_filter(array(lang('Functions') => $functions, lang('Aggregation') => $grouping)), $val["fun"] ?? null) . "</select>"
 				. on_help("getTarget(event).value && getTarget(event).value.replace(/ |\$/, '(') + ')'", 1)
 				. script("qsl('select').onchange = function () { helpClose();" . ($key !== "" ? "" : " qsl('select, input', this.parentNode).onchange();") . " };", "")
 				. "($column)" : $column)
@@ -616,14 +616,14 @@ class Adminer {
 				} elseif ($op == "SQL") {
 					$cond = " $val"; // SQL injection
 				} elseif ($op == "LIKE %%") {
-					$cond = " LIKE " . $this->processInput($fields[$col], "%$val%");
+					$cond = " LIKE " . $this->processInput($fields[$col] ?? null, "%$val%");
 				} elseif ($op == "ILIKE %%") {
-					$cond = " ILIKE " . $this->processInput($fields[$col], "%$val%");
+					$cond = " ILIKE " . $this->processInput($fields[$col] ?? null, "%$val%");
 				} elseif ($op == "FIND_IN_SET") {
 					$prefix = "$op(" . q($val) . ", ";
 					$cond = ")";
 				} elseif (!preg_match('~NULL$~', $op)) {
-					$cond .= " " . $this->processInput($fields[$col], $val);
+					$cond .= " " . $this->processInput($fields[$col] ?? null, $val);
 				}
 
 				if ($col != "") {
@@ -822,15 +822,19 @@ class Adminer {
 	}
 
 	/** Process sent input
-	* @param array single field from fields()
+	* @param ?array single field from fields()
 	* @param string
 	* @param string
 	* @return string expression to use in a query
 	*/
-	function processInput($field, $value, $function = "") {
+	function processInput(?array $field, $value, $function = "") {
 		if ($function == "SQL") {
-			return $value; // SQL injection
+			return $value; //! SQL injection
 		}
+		if (!$field) {
+			return q($value);
+		}
+
 		$name = $field["field"];
 		$return = q($value);
 		if (preg_match('~^(now|getdate|uuid)$~', $function)) {

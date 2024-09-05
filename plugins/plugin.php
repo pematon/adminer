@@ -345,7 +345,7 @@ class AdminerPlugin extends Adminer {
 		return $this->_applyPlugin(__FUNCTION__, $args);
 	}
 
-	function processInput($field, $value, $function = "") {
+	function processInput(?array $field, $value, $function = "") {
 		$args = func_get_args();
 		return $this->_applyPlugin(__FUNCTION__, $args);
 	}
