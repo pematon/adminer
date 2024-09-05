@@ -26,12 +26,12 @@ foreach (table_status('', true) as $table => $table_status) {
 		$field["pos"] = $pos;
 		$schema[$table]["fields"][$name] = $field;
 	}
-	$schema[$table]["pos"] = ($table_pos[$table] ? $table_pos[$table] : array($top, 0));
+	$schema[$table]["pos"] = ($table_pos[$table] ?? array($top, 0));
 	foreach ($adminer->foreignKeys($table) as $val) {
 		if (!$val["db"]) {
 			$left = $base_left;
-			if ($table_pos[$table][1] || $table_pos[$val["table"]][1]) {
-				$left = min(floatval($table_pos[$table][1]), floatval($table_pos[$val["table"]][1])) - 1;
+			if (($table_pos[$table][1] ?? 0) || ($table_pos[$val["table"]][1] ?? 0)) {
+				$left = min(floatval($table_pos[$table][1] ?? 0), floatval($table_pos[$val["table"]][1] ?? 0)) - 1;
 			} else {
 				$base_left -= .1;
 			}
@@ -69,7 +69,7 @@ foreach ($schema as $name => $table) {
 
 	foreach ((array) $table["references"] as $target_name => $refs) {
 		foreach ($refs as $left => $ref) {
-			$left1 = $left - $table_pos[$name][1];
+			$left1 = $left - ($table_pos[$name][1] ?? 0);
 			$i = 0;
 			foreach ($ref[0] as $source) {
 				echo "\n<div class='references' title='" . h($target_name) . "' id='refs$left-" . ($i++) . "' style='left: $left1" . "em; top: " . $table["fields"][$source]["pos"] . "em; padding-top: .5em;'><div style='border-top: 1px solid Gray; width: " . (-$left1) . "em;'></div></div>";
@@ -79,7 +79,7 @@ foreach ($schema as $name => $table) {
 
 	foreach ((array) $referenced[$name] as $target_name => $refs) {
 		foreach ($refs as $left => $columns) {
-			$left1 = $left - $table_pos[$name][1];
+			$left1 = $left - ($table_pos[$name][1] ?? 0);
 			$i = 0;
 			foreach ($columns as $target) {
 				echo "\n<div class='references' title='" . h($target_name) . "' id='refd$left-" . ($i++) . "' style='left: $left1" . "em; top: " . $table["fields"][$target]["pos"] . "em; height: 1.25em;'><svg style='width: 1em; height: 1em; float: right;'><use href='static/icons.svg#reference-right'/></svg><div style='height: .5em; border-bottom: 1px solid Gray; width: " . (-$left1) . "em;'></div></div>";

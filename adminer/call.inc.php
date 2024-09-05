@@ -1,6 +1,5 @@
 <?php
-
-$PROCEDURE = ($_GET["name"] ?: $_GET["call"]);
+$PROCEDURE = $_GET["name"] ?: $_GET["call"];
 page_header(lang('Call') . ": " . h($PROCEDURE), $error);
 
 $routine = routine($_GET["call"], (isset($_GET["callf"]) ? "FUNCTION" : "PROCEDURE"));
@@ -69,7 +68,7 @@ if ($in) {
 		$field = $routine["fields"][$key];
 		$name = $field["field"];
 		echo "<tr><th>" . $adminer->fieldName($field);
-		$value = $_POST["fields"][$name];
+		$value = $_POST["fields"][$name] ?? "";
 		if ($value != "") {
 			if ($field["type"] == "enum") {
 				$value = +$value;
@@ -78,7 +77,7 @@ if ($in) {
 				$value = array_sum($value);
 			}
 		}
-		input($field, $value, (string) $_POST["function"][$name]); // param name can be empty
+		input($field, $value, (string) ($_POST["function"][$name] ?? "")); // param name can be empty
 		echo "\n";
 	}
 	echo "</table>\n";
