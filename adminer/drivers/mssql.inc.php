@@ -671,7 +671,7 @@ WHERE sys1.xtype = 'TR' AND sys2.name = " . q($table)
 	function convert_field($field) {
 	}
 
-	function unconvert_field($field, $return) {
+	function unconvert_field(array $field, $return) {
 		return $return;
 	}
 
