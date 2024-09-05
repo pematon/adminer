@@ -307,10 +307,10 @@ class Adminer {
 	*/
 	function selectVal($val, $link, $field, $original) {
 		$return = ($val === null ? "<i>NULL</i>" : (preg_match("~char|binary|boolean~", $field["type"]) && !preg_match("~var~", $field["type"]) ? "<code>$val</code>" : $val));
-		if (preg_match('~blob|bytea|raw|file~', $field["type"]) && !is_utf8($val)) {
+		if ($field && preg_match('~blob|bytea|raw|file~', $field["type"]) && !is_utf8($val)) {
 			$return = "<i>" . lang('%d byte(s)', strlen($original)) . "</i>";
 		}
-		if (preg_match('~json~', $field["type"])) {
+		if ($field && preg_match('~json~', $field["type"])) {
 			$return = "<code class='jush-js'>$return</code>";
 		}
 		return ($link ? "<a href='" . h($link) . "'" . (is_web_url($link) ? target_blank() : "") . ">$return</a>" : $return);
@@ -323,7 +323,7 @@ class Adminer {
 	*/
 	function editVal($val, $field) {
 		// Format Elasticsearch boolean value, but do not touch PostgreSQL boolean that use string value 't' or 'f'.
-		if ($field["type"] == "boolean" && is_bool($val)) {
+		if ($field && $field["type"] == "boolean" && is_bool($val)) {
 			return $val ? "true" : "false";
 		}
 
@@ -412,12 +412,12 @@ class Adminer {
 		$i = 0;
 
 		foreach ($_GET["columns"] as $key => $val) {
-			if ($key != "" && $val["col"] == "") continue;
+			if ($key != "" && ($val["col"] ?? null) == "") continue;
 
 			$column = select_input(
 				"name='columns[$i][col]'",
 				$columns,
-				$val["col"],
+				$val["col"] ?? null,
 				$key !== "" ? "selectFieldChange" : "selectAddRow"
 			);
 
@@ -639,14 +639,14 @@ class Adminer {
 				} elseif ($op == "SQL") {
 					$cond = " $val"; // SQL injection
 				} elseif ($op == "LIKE %%") {
-					$cond = " LIKE " . $this->processInput($fields[$col], "%$val%");
+					$cond = " LIKE " . $this->processInput($fields[$col] ?? null, "%$val%");
 				} elseif ($op == "ILIKE %%") {
-					$cond = " ILIKE " . $this->processInput($fields[$col], "%$val%");
+					$cond = " ILIKE " . $this->processInput($fields[$col] ?? null, "%$val%");
 				} elseif ($op == "FIND_IN_SET") {
 					$prefix = "$op(" . q($val) . ", ";
 					$cond = ")";
 				} elseif (!preg_match('~NULL$~', $op)) {
-					$cond .= " " . $this->processInput($fields[$col], $val);
+					$cond .= " " . $this->processInput($fields[$col] ?? null, $val);
 				}
 
 				if ($col != "") {
@@ -845,15 +845,19 @@ class Adminer {
 	}
 
 	/** Process sent input
-	* @param array single field from fields()
+	* @param ?array single field from fields()
 	* @param string
 	* @param string
 	* @return string expression to use in a query
 	*/
-	function processInput($field, $value, $function = "") {
+	function processInput(?array $field, $value, $function = "") {
 		if ($function == "SQL") {
-			return $value; // SQL injection
+			return $value; //! SQL injection
 		}
+		if (!$field) {
+			return q($value);
+		}
+
 		$name = $field["field"];
 		$return = q($value);
 		if (preg_match('~^(now|getdate|uuid)$~', $function)) {

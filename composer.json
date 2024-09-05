@@ -29,7 +29,7 @@
         "GPL-2.0-only"
     ],
     "require": {
-        "php": "5.6 - 8.4",
+        "php": "7.1 - 8.4",
         "ext-pdo": "*",
         "ext-json": "*",
         "vrana/jush": "2.1.*",
