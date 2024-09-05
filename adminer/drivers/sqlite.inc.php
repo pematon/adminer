@@ -787,7 +787,7 @@ if (isset($_GET["sqlite"]) || isset($_GET["sqlite2"])) {
 	function convert_field($field) {
 	}
 
-	function unconvert_field($field, $return) {
+	function unconvert_field(array $field, $return) {
 		return $return;
 	}
 
