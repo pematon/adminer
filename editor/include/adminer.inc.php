@@ -224,7 +224,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		return $val;
 	}
 
-	function selectColumnsPrint($select, $columns) {
+	function selectColumnsPrint(array $select, array $columns) {
 		// can allow grouping functions by indexes
 	}
 

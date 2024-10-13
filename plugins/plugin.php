@@ -250,7 +250,7 @@ class AdminerPlugin extends Adminer {
 		return $this->_applyPlugin(__FUNCTION__, $args);
 	}
 
-	function selectColumnsPrint($select, $columns) {
+	function selectColumnsPrint(array $select, array $columns) {
 		$args = func_get_args();
 		return $this->_applyPlugin(__FUNCTION__, $args);
 	}

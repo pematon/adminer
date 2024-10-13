@@ -393,16 +393,19 @@ class Adminer {
 		echo "</table>\n";
 	}
 
-	/** Print columns box in select
-	* @param array result of selectColumnsProcess()[0]
-	* @param array selectable columns
-	* @return null
-	*/
-	function selectColumnsPrint($select, $columns) {
+	/**
+	 * Prints columns box in select filter.
+	 *
+	 * @param array $select result of selectColumnsProcess()[0]
+	 * @param array $columns selectable columns
+	 */
+	function selectColumnsPrint(array $select, array $columns) {
 		global $functions, $grouping;
-		print_fieldset("select", lang('Select'), $select);
+
+		print_fieldset("select", lang('Select'), $select, true);
 		$i = 0;
 		$select[""] = array();
+
 		foreach ($select as $key => $val) {
 			$val = $_GET["columns"][$key];
 			$column = select_input(
@@ -411,17 +414,29 @@ class Adminer {
 				$val["col"],
 				($key !== "" ? "selectFieldChange" : "selectAddRow")
 			);
-			echo "<div>" . ($functions || $grouping ? "<select name='columns[$i][fun]'>"
-				. optionlist(array(-1 => "") + array_filter(array(lang('Functions') => $functions, lang('Aggregation') => $grouping)), $val["fun"]) . "</select>"
-				. on_help("getTarget(event).value && getTarget(event).value.replace(/ |\$/, '(') + ')'", 1)
-				. script("qsl('select').onchange = function () { helpClose();" . ($key !== "" ? "" : " qsl('select, input', this.parentNode).onchange();") . " };", "")
-				. "($column)" : $column)
-				. " <input type='image' src='../adminer/static/cross.gif' class='jsonly icon' title='" . h(lang('Remove')) . "' alt='x'>"
-				. script('qsl(".icon").onclick = selectRemoveRow;', "")
-				. "</div>\n";
+
+			echo "<div ", ($key != "" ? "draggable='true'" : ""), ">",
+				"<span class='jsonly handle'>=</span> ";
+
+			if ($functions || $grouping) {
+				echo "<select name='columns[$i][fun]'>",
+					optionlist(array(-1 => "") + array_filter(array(lang('Functions') => $functions, lang('Aggregation') => $grouping)), $val["fun"]),
+					"</select>",
+					on_help("getTarget(event).value && getTarget(event).value.replace(/ |\$/, '(') + ')'", 1),
+					script("qsl('select').onchange = (event) => { helpClose();" . ($key !== "" ? "" : " qsl('select, input:not(.remove)', event.target.parentNode).onchange();") . " };", ""),
+					"($column)";
+			} else {
+				echo $column;
+			}
+
+			echo " <input type='image' src='../adminer/static/cross.gif' class='jsonly icon remove' title='" . h(lang('Remove')) . "' alt='x'>",
+				script("qsl('#fieldset-select .remove').onclick = selectRemoveRow;", ""),
+				"</div>\n";
+
 			$i++;
 		}
-		echo "</div></fieldset>\n";
+
+		echo "</div>", script("initSortable('fieldset-select')"), "</fieldset>\n";
 	}
 
 	/** Print search box in select

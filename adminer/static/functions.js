@@ -1,4 +1,15 @@
 
+/**
+ * Returns the element found by given identifier.
+ *
+ * @param {string} id
+ * @param {?HTMLElement} context Defaults to document.
+ * @return {?HTMLElement}
+ */
+function gid(id, context = null) {
+	return (context || document).getElementById(id);
+}
+
 /** Get first element by selector
 * @param string
 * @param [HTMLElement] defaults to document
@@ -73,13 +84,15 @@ function alterClass(el, className, enable) {
 	}
 }
 
-/** Toggle visibility
-* @param string
-* @return boolean false
-*/
+/**
+ * Toggles visibility of element with ID.
+ *
+ * @param {string} id
+ * @return {boolean} Always false.
+ */
 function toggle(id) {
-	var el = qs('#' + id);
-	el.className = (el.className === 'hidden' ? '' : 'hidden');
+	gid(id).classList.toggle("hidden");
+
 	return false;
 }
 
@@ -450,14 +463,15 @@ function menuOut() {
 /**
  * Adds row in select fieldset.
  *
+ * @param {Event} event
  * @this HTMLSelectElement
  */
-function selectAddRow() {
+function selectAddRow(event) {
 	const field = this;
 	const row = cloneNode(field.parentNode);
 
 	field.onchange = selectFieldChange;
-	field.onchange();
+	field.onchange(event);
 
 	const selects = qsa('select', row);
 	for (const select of selects) {
@@ -486,13 +500,19 @@ function selectAddRow() {
 		button.onclick = selectRemoveRow;
 	}
 
-	field.parentNode.parentNode.appendChild(row);
+	const parent = field.parentNode.parentNode;
+	if (parent.classList.contains("sortable")) {
+		initSortableRow(field.parentNode);
+	}
+
+	parent.appendChild(row);
 }
 
 /**
  * Removes a row in select fieldset.
  *
  * @this HTMLInputElement
+ * @return {boolean} Always false.
  */
 function selectRemoveRow() {
 	const row = this.parentNode;
@@ -521,6 +541,88 @@ function selectSearchSearch() {
 		this.parentNode.firstChild.selectedIndex = 0;
 	}
 }
+
+// Sorting.
+(function() {
+	let parent;
+	let handleRow, draggingRow, nextRow;
+	let startY, maxY;
+
+	/**
+	 * Initializes sortable list of DIV elements.
+	 *
+	 * @param {string} parentId
+	 */
+	window.initSortable = function(parentId) {
+		parent = gid(parentId);
+		if (!parent) return;
+
+		for (const row of parent.children) {
+			if (row.draggable) {
+				initSortableRow(row);
+			}
+		}
+	}
+
+	/**
+	 * Initializes one row of sortable parent.
+	 *
+	 * @param {HTMLElement} row
+	 */
+	window.initSortableRow = function(row) {
+		row.draggable = true;
+
+		row.addEventListener("dragstart", (event) => {
+			startY = event.clientY - row.offsetTop;
+			maxY = parent.offsetHeight - row.offsetHeight;
+
+			handleRow = cloneNodeWithValues(row);
+			handleRow.classList.add("drag-helper");
+			handleRow.style.top = (event.clientY - startY) + "px";
+			parent.insertBefore(handleRow, parent.firstChild);
+
+			draggingRow = row;
+			draggingRow.classList.add("dragging");
+
+			nextRow = row.nextElementSibling;
+
+			parent.addEventListener("dragover", updateSortableDragging);
+		});
+
+		row.addEventListener("dragend", () => {
+			draggingRow.classList.remove("dragging");
+			handleRow.remove();
+
+			parent.removeEventListener("dragover", updateSortableDragging);
+		});
+	}
+
+	function updateSortableDragging(event) {
+		event.preventDefault();
+
+		let top = Math.min(Math.max(event.clientY - startY, 0), maxY);
+		handleRow.style.top = top + "px";
+
+		let sibling;
+		if (top > draggingRow.offsetTop + draggingRow.offsetHeight / 2) {
+			sibling = nextRow.draggable ? nextRow.nextElementSibling : nextRow;
+		} else if (top + draggingRow.offsetHeight < draggingRow.offsetTop + draggingRow.offsetHeight / 2) {
+			sibling = draggingRow.previousElementSibling;
+		} else {
+			sibling = nextRow;
+		}
+
+		if (sibling !== nextRow) {
+			nextRow = sibling;
+			if (sibling) {
+				parent.insertBefore(draggingRow, nextRow);
+			} else {
+				parent.appendChild(draggingRow);
+			}
+		}
+	}
+})();
+
 
 
 
@@ -1017,6 +1119,22 @@ function focus(el) {
 	setTimeout(function () { // this has to be an anonymous function because Firefox passes some arguments to setTimeout callback
 		el.focus();
 	}, 0);
+}
+
+/**
+ * Clones given DOM node together with values of input fields and selects.
+ */
+function cloneNodeWithValues(node) {
+	const clone = node.cloneNode(true);
+
+	const originalInputs = qsa("input, select", node);
+	const clonedInputs = qsa("input, select", clone);
+
+	for (let i = 0; i < originalInputs.length; i++) {
+		clonedInputs[i].value = originalInputs[i].value;
+	}
+
+	return clone;
 }
 
 /** Clone node and setup submit highlighting
