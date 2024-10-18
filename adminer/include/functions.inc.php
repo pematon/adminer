@@ -255,12 +255,12 @@ function confirm($message = "", $selector = "qsl('input')") {
 * @param string
 * @param bool
 */
-function print_fieldset($id, $legend, $visible = false, $sortable = false) {
+function print_fieldset($id, $legend, $visible = false) {
 	echo "<fieldset><legend>";
 	echo "<a href='#fieldset-$id'>$legend</a>";
 	echo script("qsl('a').onclick = partial(toggle, 'fieldset-$id');", "");
 	echo "</legend>";
-	echo "<div id='fieldset-$id' class='" . ($visible ? "" : "hidden") . ($sortable ? " sortable" : "") . "'>\n";
+	echo "<div id='fieldset-$id' class='" . ($visible ? "" : "hidden") . "'>\n";
 }
 
 /** Return class='active' if $bold is true
