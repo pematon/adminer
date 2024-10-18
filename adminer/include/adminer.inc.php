@@ -402,7 +402,7 @@ class Adminer {
 	function selectColumnsPrint(array $select, array $columns) {
 		global $functions, $grouping;
 
-		print_fieldset("select", lang('Select'), $select, true);
+		print_fieldset("select", lang('Select'), $select);
 
 		$_GET["columns"][""] = [];
 		$i = 0;
@@ -418,7 +418,7 @@ class Adminer {
 			);
 
 			echo "<div ", ($key != "" ? "" : "class='no-sort'"), ">",
-				"<span class='jsonly handle'>=</span>";
+				"<span class='jsonly handle'></span>";
 
 			if ($functions || $grouping) {
 				echo "<select name='columns[$i][fun]'>",
@@ -490,7 +490,7 @@ class Adminer {
 	 * @param array $columns selectable columns
 	 */
 	function selectOrderPrint(array $order, array $columns, array $indexes) {
-		print_fieldset("sort", lang('Sort'), $order, true);
+		print_fieldset("sort", lang('Sort'), $order);
 
 		$_GET["order"][""] = "";
 		$i = 0;
@@ -499,7 +499,7 @@ class Adminer {
 			if ($key != "" && $val == "") continue;
 
 			echo "<div ", ($key != "" ? "" : "class='no-sort'"), ">",
-				"<span class='jsonly handle'>=</span>",
+				"<span class='jsonly handle'></span>",
 				select_input("name='order[$i]'", $columns, $val, $key !== "" ? "selectFieldChange" : "selectAddRow"),
 				checkbox("desc[$i]", 1, isset($_GET["desc"][$key]), lang('descending')),
 				" <input type='image' src='../adminer/static/cross.gif' class='jsonly icon remove' title='" . h(lang('Remove')) . "' alt='x'>",
