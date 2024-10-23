@@ -224,11 +224,11 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		return $val;
 	}
 
-	function selectColumnsPrint($select, $columns) {
+	function selectColumnsPrint(array $select, array $columns) {
 		// can allow grouping functions by indexes
 	}
 
-	function selectSearchPrint($where, $columns, $indexes) {
+	function selectSearchPrint(array $where, array $columns, array $indexes) {
 		$where = (array) $_GET["where"];
 		echo '<fieldset id="fieldset-search"><legend>' . lang('Search') . "</legend><div>\n";
 		$keys = array();
@@ -282,7 +282,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		echo "</div></fieldset>\n";
 	}
 
-	function selectOrderPrint($order, $columns, $indexes) {
+	function selectOrderPrint(array $order, array $columns, array $indexes) {
 		//! desc
 		$orders = array();
 		foreach ($indexes as $key => $index) {
@@ -666,7 +666,7 @@ qsl('div').onclick = whisperClick;", "")
 			. "</div>\n";
 	}
 
-	function tablesPrint($tables) {
+	function tablesPrint(array $tables) {
 		echo "<ul id='tables'>" . script("mixin(gid('tables'), {onmouseover: menuOver, onmouseout: menuOut});");
 
 		foreach ($tables as $row) {
