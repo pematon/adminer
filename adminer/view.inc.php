@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $TABLE = $_GET["view"];
 $row = $_POST;
 $orig_type = "VIEW";

@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Show comments of sql structure in more places (mainly where you edit things)
  * @link https://www.adminer.org/plugins/#use
  * @author Adam Kuśmierz, http://kusmierz.be/

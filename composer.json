@@ -37,6 +37,7 @@
     },
     "suggest": {
         "ext-zlib": "*",
+        "ext-bz2": "*",
         "ext-suhosin": "*",
         "ext-mysqli": "*",
         "ext-mysql": "*",
@@ -44,7 +45,8 @@
         "ext-mongo": "*",
         "ext-mongodb": "*",
         "ext-sqlsrv": "*",
-        "ext-mssql": "*",
+        "ext-sqlite": "*",
+        "ext-sqlite3": "*",
         "ext-oci8": "*",
         "ext-interbase": "*",
         "ext-pdo_pgsql": "*",

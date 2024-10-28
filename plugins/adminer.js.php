@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /**
  * Enables auto-detection and inclusion of adminer.js, like adminer.css
  *

@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 /** Encode e-mail header in UTF-8
 * @param string
 * @return string

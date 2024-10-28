@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Adminer customization allowing usage of plugins
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $translations = array(
 	'Home' => 'Startseite',
 	'Login' => 'Login',

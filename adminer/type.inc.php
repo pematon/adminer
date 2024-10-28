@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $TYPE = $_GET["type"];
 $row = $_POST;
 

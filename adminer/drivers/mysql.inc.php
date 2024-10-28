@@ -1,4 +1,10 @@
 <?php
+
+namespace Adminer;
+
+use mysqli;
+use PDO;
+
 $drivers["mysql"] = "MySQL";
 
 if (isset($_GET["mysql"])) {
@@ -447,8 +453,8 @@ if (isset($_GET["mysql"])) {
 				$return[idf_unescape($match[1])] = array(
 					"db" => idf_unescape($match[4] != "" ? $match[3] : $match[4]),
 					"table" => idf_unescape($match[4] != "" ? $match[4] : $match[3]),
-					"source" => array_map('idf_unescape', $source[0]),
-					"target" => array_map('idf_unescape', $target[0]),
+					"source" => array_map('Adminer\idf_unescape', $source[0]),
+					"target" => array_map('Adminer\idf_unescape', $target[0]),
 					"on_delete" => ($match[6] ? $match[6] : "RESTRICT"),
 					"on_update" => ($match[7] ? $match[7] : "RESTRICT"),
 				);
@@ -516,7 +522,7 @@ if (isset($_GET["mysql"])) {
 	* @return bool
 	*/
 	function drop_databases($databases) {
-		$return = apply_queries("DROP DATABASE", $databases, 'idf_escape');
+		$return = apply_queries("DROP DATABASE", $databases, 'Adminer\idf_escape');
 		restart_session();
 		set_session("dbs", null);
 		return $return;
@@ -631,7 +637,7 @@ if (isset($_GET["mysql"])) {
 	* @return bool
 	*/
 	function drop_views($views) {
-		return queries("DROP VIEW " . implode(", ", array_map('table', $views)));
+		return queries("DROP VIEW " . implode(", ", array_map('Adminer\table', $views)));
 	}
 
 	/** Drop tables
@@ -639,7 +645,7 @@ if (isset($_GET["mysql"])) {
 	* @return bool
 	*/
 	function drop_tables($tables) {
-		return queries("DROP TABLE " . implode(", ", array_map('table', $tables)));
+		return queries("DROP TABLE " . implode(", ", array_map('Adminer\table', $tables)));
 	}
 
 	/** Move tables to other schema
@@ -767,7 +773,7 @@ if (isset($_GET["mysql"])) {
 			$fields[] = [
 				"field" => str_replace("``", "`", $param[2]) . $param[3],
 				"type" => strtolower($param[5]),
-				"length" => preg_replace_callback("~$enum_length~s", 'normalize_enum', $param[6]),
+				"length" => preg_replace_callback("~$enum_length~s", 'Adminer\normalize_enum', $param[6]),
 				"unsigned" => strtolower(preg_replace('~\s+~', ' ', trim("$param[8] $param[7]"))),
 				"null" => 1,
 				"full_type" => $param[4],

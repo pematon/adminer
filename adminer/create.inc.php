@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $TABLE = $_GET["create"];
 $partition_by = array();
 foreach (array('HASH', 'LINEAR HASH', 'KEY', 'LINEAR KEY', 'RANGE', 'LIST') as $key) {

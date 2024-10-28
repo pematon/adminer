@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $translations = array(
 	'Home' => null,
 	'$1-$3-$5' => '$1-$3-$5',

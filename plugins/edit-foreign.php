@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Select foreign key in edit form
  * @link https://www.adminer.org/plugins/#use
  * @author Jakub Vrana, https://www.vrana.cz/

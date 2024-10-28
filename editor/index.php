@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Adminer Editor - Compact database editor for end-users
  *
@@ -9,6 +10,8 @@
  * @license Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
  * @license GNU General Public License, version 2 (https://www.gnu.org/licenses/gpl-2.0.html)
  */
+
+namespace Adminer;
 
 include "../adminer/include/bootstrap.inc.php";
 $drivers[DRIVER] = lang('Login');

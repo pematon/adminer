@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 header("Content-Type: text/javascript; charset=utf-8");
 
 if ($_GET["script"] == "db") {

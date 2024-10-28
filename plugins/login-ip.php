@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Check IP address and allow empty password
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
@@ -11,7 +13,7 @@ class AdminerLoginIp {
 	var $ips;
 	/** @access protected */
 	var $forwarded_for;
-	
+
 	/** Set allowed IP addresses
 	* @param array IP address prefixes
 	* @param array X-Forwarded-For prefixes if IP address matches, empty array means anything

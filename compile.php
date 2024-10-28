@@ -1,11 +1,14 @@
 #!/usr/bin/env php
 <?php
+
+namespace Adminer;
+
 function adminer_errors($errno, $errstr) {
 	return !!preg_match('~^(Trying to access array offset on value of type null|Undefined array key)~', $errstr);
 }
 
 error_reporting(6135); // errors and warnings
-set_error_handler('adminer_errors', E_WARNING);
+set_error_handler('Adminer\adminer_errors', E_WARNING);
 
 include dirname(__FILE__) . "/adminer/include/debug.inc.php";
 include dirname(__FILE__) . "/adminer/include/version.inc.php";
@@ -464,7 +467,7 @@ if ($single_driver) {
 }
 
 // Compile files included into the index.php.
-$file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'put_file', $file);
+$file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'Adminer\put_file', $file);
 
 // Remove including debug files.
 $file = str_replace('include "../adminer/include/debug.inc.php";', '', $file);
@@ -478,7 +481,7 @@ if ($selected_drivers) {
 }
 
 // Compile files included into the bootstrap.inc.php.
-$file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'put_file', $file);
+$file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'Adminer\put_file', $file);
 
 if ($single_driver) {
 	// Remove source code for unsupported features.
@@ -503,14 +506,23 @@ if ($project == "editor") {
 	$file = preg_replace('~compile_file\(\'\.\./(vendor/vrana/jush/modules/jush\.js|adminer/static/[^.]+\.gif)[^)]+\)~', "''", $file);
 }
 
-$file = preg_replace_callback("~lang\\('((?:[^\\\\']+|\\\\.)*)'([,)])~s", 'replace_lang', $file);
-$file = preg_replace_callback('~\b(include|require) "([^"]*\$LANG.inc.php)";~', 'put_file_lang', $file);
+$file = preg_replace_callback("~lang\\('((?:[^\\\\']+|\\\\.)*)'([,)])~s", 'Adminer\replace_lang', $file);
+$file = preg_replace_callback('~\b(include|require) "([^"]*\$LANG.inc.php)";~', 'Adminer\put_file_lang', $file);
 
 $file = str_replace("\r", "", $file);
+
+// Clean up namespaces.
+preg_match_all('~^use ([^; ]+);~m', $file, $matches);
+$file = preg_replace('~^use ([^; ]+);~m', "", $file);
+$usages = implode("\n", array_combine($matches[1], $matches[0]));
+
+$pos = strpos($file, "namespace Adminer;\n") + strlen("namespace Adminer;\n");
+$file = substr($file, 0, $pos) . $usages . str_replace("namespace Adminer;\n", "", substr($file, $pos));
+
 $file = str_replace('<?php echo script_src("static/editing.js?" . filemtime("../adminer/static/editing.js")); ?>' . "\n", "", $file);
 $file = preg_replace('~\s+echo script_src\("\.\./vendor/vrana/jush/modules/jush-(textarea|txt|js|\$jush)\.js"\);~', '', $file);
 $file = str_replace('<link rel="stylesheet" type="text/css" href="../vendor/vrana/jush/jush.css">' . "\n", "", $file);
-$file = preg_replace_callback("~compile_file\\('([^']+)'(?:, '([^']*)')?\\)~", 'compile_file', $file); // integrate static files
+$file = preg_replace_callback("~compile_file\\('([^']+)'(?:, '([^']*)')?\\)~", 'Adminer\compile_file', $file); // integrate static files
 $replace = 'preg_replace("~\\\\\\\\?.*~", "", ME) . "?file=\1&version=' . substr(md5(microtime()), 0, 8) . '"';
 $file = preg_replace('~\.\./adminer/static/(favicon\.ico)~', '<?php echo h(' . $replace . '); ?>', $file);
 $file = preg_replace('~\.\./adminer/static/(default\.css)\?.*default.css"\);\s+\?>~', '<?php echo h(' . $replace . '); ?>', $file);

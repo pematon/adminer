@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Hide some databases from the interface - just to improve design, not a security plugin
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
@@ -8,14 +10,14 @@
 */
 class AdminerDatabaseHide {
 	protected $disabled;
-	
+
 	/**
 	* @param array case insensitive database names in values
 	*/
 	function __construct($disabled) {
 		$this->disabled = array_map('strtolower', $disabled);
 	}
-	
+
 	function databases($flush = true) {
 		$return = array();
 		foreach (get_databases($flush) as $db) {
@@ -25,5 +27,5 @@ class AdminerDatabaseHide {
 		}
 		return $return;
 	}
-	
+
 }

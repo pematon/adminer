@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Display JSON values as table in edit
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

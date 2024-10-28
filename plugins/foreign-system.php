@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Link system tables (in mysql and information_schema databases) by foreign keys
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Get e-mail subject and message from database (Adminer Editor)
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
@@ -9,7 +11,7 @@
 class AdminerEmailTable {
 	/** @access protected */
 	var $table, $id, $title, $subject, $message;
-	
+
 	/**
 	* @param string quoted table name
 	* @param string quoted column name
@@ -24,7 +26,7 @@ class AdminerEmailTable {
 		$this->subject = $subject;
 		$this->message = $message;
 	}
-	
+
 	function selectEmailPrint($emailFields, $columns) {
 		if ($emailFields) {
 			print_fieldset("email", ('E-mail'));
@@ -46,7 +48,7 @@ class AdminerEmailTable {
 			return true;
 		}
 	}
-	
+
 	function selectEmailProcess($where, $foreignKeys) {
 		$connection = connection();
 		if ($_POST["email_id"]) {
@@ -56,5 +58,5 @@ class AdminerEmailTable {
 			$_POST["email_message"] = $row[1];
 		}
 	}
-	
+
 }

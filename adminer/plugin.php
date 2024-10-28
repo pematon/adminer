@@ -1,4 +1,21 @@
 <?php
+
+use Adminer\AdminerDatabaseHide;
+use Adminer\AdminerDumpAlter;
+use Adminer\AdminerDumpBz2;
+use Adminer\AdminerDumpJson;
+use Adminer\AdminerDumpXml;
+use Adminer\AdminerDumpZip;
+use Adminer\AdminerEditForeign;
+use Adminer\AdminerEnumOption;
+use Adminer\AdminerFileUpload;
+use Adminer\AdminerForeignSystem;
+use Adminer\AdminerJsonColumn;
+use Adminer\AdminerLoginSsl;
+use Adminer\AdminerPlugin;
+use Adminer\AdminerSlugify;
+use Adminer\AdminerTranslation;
+
 function adminer_object() {
 	// required to run any plugin
 	include_once "../plugins/plugin.php";

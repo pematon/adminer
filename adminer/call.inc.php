@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $PROCEDURE = $_GET["name"] ?: $_GET["call"];
 page_header(lang('Call') . ": " . h($PROCEDURE), $error);
 

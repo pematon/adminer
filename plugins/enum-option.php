@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Use <select><option> for enum edit instead of <input type="radio">
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

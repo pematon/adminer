@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 $languages = [
 	'en' => 'English', // Jakub Vrána - https://www.vrana.cz
 	'ar' => 'العربية', // Y.M Amine - Algeria - nbr7@live.fr

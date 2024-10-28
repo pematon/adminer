@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Edit all fields containing "_html" by HTML editor WYMeditor and display the HTML in select
 * @link https://www.adminer.org/plugins/#use
 * @uses WYMeditor, http://www.wymeditor.org/

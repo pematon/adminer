@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /**
  * Connect to MySQL using SSL
  *

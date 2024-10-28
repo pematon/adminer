@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Display jQuery UI Timepicker for each date and datetime field
 * @link https://www.adminer.org/plugins/#use
 * @uses jQuery-Timepicker, http://trentrichardson.com/examples/timepicker/

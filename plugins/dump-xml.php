@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Dump to XML format in structure <database name=""><table name=""><column name="">value
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
@@ -9,7 +11,7 @@
 class AdminerDumpXml {
 	/** @access protected */
 	var $database = false;
-	
+
 	function dumpFormat() {
 		return array('xml' => 'XML');
 	}
@@ -19,11 +21,11 @@ class AdminerDumpXml {
 			return true;
 		}
 	}
-	
+
 	function _database() {
 		echo "</database>\n";
 	}
-	
+
 	function dumpData($table, $style, $query) {
 		if ($_POST["format"] == "xml") {
 			if (!$this->database) {

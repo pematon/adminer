@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Pretty print JSON values in edit
 */
 class AdminerPrettyJsonColumn {

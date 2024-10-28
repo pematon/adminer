@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Use <select><option> for enum edit instead of regular input text on enum type in PostgreSQL
  * @link https://www.adminer.org/plugins/#use
  * @author Adam Kuśmierz, http://kusmierz.be/

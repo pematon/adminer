@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Disable version checker
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
