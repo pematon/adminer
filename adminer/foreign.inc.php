@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $TABLE = $_GET["foreign"];
 $name = $_GET["name"];
 $row = $_POST;
@@ -6,7 +9,7 @@ $row = $_POST;
 if ($_POST && !$error && !$_POST["add"] && !$_POST["change"] && !$_POST["change-js"]) {
 	$message = ($_POST["drop"] ? lang('Foreign key has been dropped.') : ($name != "" ? lang('Foreign key has been altered.') : lang('Foreign key has been created.')));
 	$location = ME . "table=" . urlencode($TABLE);
-	
+
 	if (!$_POST["drop"]) {
 		$row["source"] = array_filter($row["source"], 'strlen');
 		ksort($row["source"]); // enforce input order
@@ -16,7 +19,7 @@ if ($_POST && !$error && !$_POST["add"] && !$_POST["change"] && !$_POST["change-
 		}
 		$row["target"] = $target;
 	}
-	
+
 	if ($jush == "sqlite") {
 		queries_redirect($location, $message, recreate_table($TABLE, $TABLE, array(), array(), array(" $name" => ($_POST["drop"] ? "" : " " . format_foreign_key($row)))));
 	} else {
@@ -59,7 +62,7 @@ if ($row["db"] != "") {
 if ($row["ns"] != "") {
 	set_schema($row["ns"]);
 }
-$referencable = array_keys(array_filter(table_status('', true), 'fk_support'));
+$referencable = array_keys(array_filter(table_status('', true), 'Adminer\fk_support'));
 $target = array_keys(fields(in_array($row["table"], $referencable) ? $row["table"] : reset($referencable)));
 $onchange = "this.form['change-js'].value = '1'; this.form.submit();";
 echo "<p>" . lang('Target table') . ": " . html_select("table", $referencable, $row["table"], $onchange) . "\n";

@@ -1,5 +1,9 @@
 <?php
 
+namespace Adminer;
+
+use ZipArchive;
+
 /** Dump to ZIP format
 * @link https://www.adminer.org/plugins/#use
 * @uses ZipArchive, tempnam("")

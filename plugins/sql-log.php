@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Log all queries to SQL file (manual queries through SQL command are not logged)
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
@@ -9,14 +11,14 @@
 class AdminerSqlLog {
 	/** @access protected */
 	var $filename;
-	
+
 	/**
 	* @param string defaults to "$database.sql"
 	*/
 	function __construct($filename = "") {
 		$this->filename = $filename;
 	}
-	
+
 	function messageQuery($query, $time, $failed = false) {
 		$this->_log($query);
 	}
@@ -37,5 +39,5 @@ class AdminerSqlLog {
 		flock($fp, LOCK_UN);
 		fclose($fp);
 	}
-	
+
 }

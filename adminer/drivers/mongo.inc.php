@@ -1,4 +1,10 @@
 <?php
+
+namespace Adminer;
+
+use Exception;
+use MongoClient;
+
 $drivers["mongo"] = "MongoDB (alpha)";
 
 if (isset($_GET["mongo"])) {
@@ -208,19 +214,19 @@ if (isset($_GET["mongo"])) {
 	} elseif (class_exists('MongoDB\Driver\Manager')) {
 		class Min_DB {
 			var $extension = "MongoDB", $server_info = MONGODB_VERSION, $affected_rows, $error, $last_id;
-			/** @var MongoDB\Driver\Manager */
+			/** @var \MongoDB\Driver\Manager */
 			var $_link;
 			var $_db, $_db_name;
 
 			function connect($uri, $options) {
 
-				$this->_link = new MongoDB\Driver\Manager($uri, $options);
+				$this->_link = new \MongoDB\Driver\Manager($uri, $options);
 				$this->executeCommand('admin', array('ping' => 1));
 			}
 
 			function executeCommand($db, $command) {
 				try {
-					return $this->_link->executeCommand($db, new MongoDB\Driver\Command($command));
+					return $this->_link->executeCommand($db, new \MongoDB\Driver\Command($command));
 				} catch (Exception $e) {
 					$this->error = $e->getMessage();
 					return array();
@@ -338,7 +344,7 @@ if (isset($_GET["mongo"])) {
 				$limit = min(200, max(1, (int) $limit));
 				$skip = $page * $limit;
 				try {
-					return new Min_Result($connection->_link->executeQuery("$connection->_db_name.$table", new MongoDB\Driver\Query($where, array('projection' => $select, 'limit' => $limit, 'skip' => $skip, 'sort' => $sort))));
+					return new Min_Result($connection->_link->executeQuery("$connection->_db_name.$table", new \MongoDB\Driver\Query($where, array('projection' => $select, 'limit' => $limit, 'skip' => $skip, 'sort' => $sort))));
 				} catch (Exception $e) {
 					$connection->error = $e->getMessage();
 					return false;
@@ -349,7 +355,7 @@ if (isset($_GET["mongo"])) {
 				global $connection;
 				$db = $connection->_db_name;
 				$where = sql_query_where_parser($queryWhere);
-				$bulk = new MongoDB\Driver\BulkWrite(array());
+				$bulk = new \MongoDB\Driver\BulkWrite(array());
 				if (isset($set['_id'])) {
 					unset($set['_id']);
 				}
@@ -372,7 +378,7 @@ if (isset($_GET["mongo"])) {
 				global $connection;
 				$db = $connection->_db_name;
 				$where = sql_query_where_parser($queryWhere);
-				$bulk = new MongoDB\Driver\BulkWrite(array());
+				$bulk = new \MongoDB\Driver\BulkWrite(array());
 				$bulk->delete($where, array('limit' => $limit));
 				return $connection->executeBulkWrite("$db.$table", $bulk, 'getDeletedCount');
 			}
@@ -380,7 +386,7 @@ if (isset($_GET["mongo"])) {
 			function insert($table, $set) {
 				global $connection;
 				$db = $connection->_db_name;
-				$bulk = new MongoDB\Driver\BulkWrite(array());
+				$bulk = new \MongoDB\Driver\BulkWrite(array());
 				if ($set['_id'] == '') {
 					unset($set['_id']);
 				}
@@ -512,8 +518,8 @@ if (isset($_GET["mongo"])) {
 							$val = (float) $val;
 							$op = $match[1];
 						} elseif (preg_match('~^\(date\)(.+)~', $op, $match)) {
-							$dateTime = new DateTime($val);
-							$val = new MongoDB\BSON\UTCDatetime($dateTime->getTimestamp() * 1000);
+							$dateTime = new \DateTime($val);
+							$val = new \MongoDB\BSON\UTCDatetime($dateTime->getTimestamp() * 1000);
 							$op = $match[1];
 						}
 						switch ($op) {
