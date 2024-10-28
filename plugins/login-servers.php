@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Display constant list of servers in login form
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

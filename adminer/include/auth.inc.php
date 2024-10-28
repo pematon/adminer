@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 $connection = '';
 
 $has_token = $_SESSION["token"];
@@ -50,7 +52,7 @@ function validate_server_input() {
 	}
 }
 
-if (!function_exists('is_server_host_valid')) {
+if (!function_exists('Adminer\is_server_host_valid')) {
 	/**
 	 * @param string $hostPath
 	 * @return bool
@@ -220,7 +222,7 @@ if (isset($_GET["username"]) && !DRIVER) {
 	exit;
 }
 
-if (isset($_GET["username"]) && !class_exists("Min_DB")) {
+if (isset($_GET["username"]) && !class_exists("Adminer\\Min_DB")) {
 	unset($_SESSION["pwds"][DRIVER]);
 	unset_permanent();
 	page_header(lang('No extension'), lang('None of the supported PHP extensions (%s) are available.', implode(", ", $possible_drivers)), false);
