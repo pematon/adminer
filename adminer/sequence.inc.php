@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $SEQUENCE = $_GET["sequence"];
 $row = $_POST;
 

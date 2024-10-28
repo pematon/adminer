@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $drivers = array();
 
 /** Add a driver
