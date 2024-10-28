@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Require One-Time Password at login
  * @link https://www.adminer.org/plugins/otp/
  * @author Jakub Vrana, https://www.vrana.cz/

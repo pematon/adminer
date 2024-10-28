@@ -1,4 +1,7 @@
 <?php
+namespace Adminer;
+
+
 if (!$error && $_POST["export"]) {
 	dump_headers("sql");
 	$adminer->dumpTable("", "");

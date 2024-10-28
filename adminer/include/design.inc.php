@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 /** Print HTML header
 * @param string used in title, breadcrumb and heading, should be HTML escaped
 * @param string

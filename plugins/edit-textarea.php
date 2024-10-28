@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Use <textarea> for char and varchar
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

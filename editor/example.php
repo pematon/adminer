@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 function adminer_object() {
 
 	class AdminerCds extends Adminer {

@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 /**
 * @author Steve Krämer
 */
