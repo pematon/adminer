@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /** Prefill field containing "_slug" with slugified value of a previous field (JavaScript)
 * @link https://www.adminer.org/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/

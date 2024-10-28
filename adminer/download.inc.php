@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 $TABLE = $_GET["download"];
 $fields = fields($TABLE);
 header("Content-Type: application/octet-stream");

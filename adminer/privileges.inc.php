@@ -1,4 +1,7 @@
 <?php
+
+namespace Adminer;
+
 page_header(lang('Privileges'));
 
 echo '<p id="top-links" class="links"><a href="' . h(ME) . 'user=">' . lang('Create user') . "</a>";

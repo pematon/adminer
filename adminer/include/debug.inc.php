@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 function dump($value)
 {
 	$cli = PHP_SAPI == 'cli';

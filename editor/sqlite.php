@@ -1,4 +1,8 @@
 <?php
+
+use Adminer\AdminerLoginPasswordLess;
+use Adminer\AdminerPlugin;
+
 function adminer_object() {
 	include_once "../plugins/plugin.php";
 	include_once "../plugins/login-password-less.php";

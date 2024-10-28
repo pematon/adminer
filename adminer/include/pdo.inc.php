@@ -1,5 +1,12 @@
 <?php
+
+namespace Adminer;
+
 // PDO can be used in several database drivers
+use Exception;
+use PDO;
+use PDOStatement;
+
 if (extension_loaded('pdo')) {
 	/*abstract*/ class Min_PDO {
 		var $_result, $server_info, $affected_rows, $errno, $error, $pdo;
