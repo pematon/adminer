@@ -1,4 +1,11 @@
 <?php
+
+namespace Adminer;
+
+use Exception;
+use SQLite3;
+use SQLiteDatabase;
+
 $drivers["sqlite"] = "SQLite 3";
 $drivers["sqlite2"] = "SQLite 2";
 
@@ -178,7 +185,7 @@ if (isset($_GET["sqlite"]) || isset($_GET["sqlite2"])) {
 
 	}
 
-	if (class_exists("Min_SQLite")) {
+	if (class_exists("Adminer\\Min_SQLite")) {
 		class Min_DB extends Min_SQLite {
 
 			function __construct() {
@@ -618,7 +625,7 @@ if (isset($_GET["sqlite"]) || isset($_GET["sqlite2"])) {
 		}
 
 		if ($table != "") {
-			if ($originals && !queries("INSERT INTO " . table($temp_name) . " (" . implode(", ", $originals) . ") SELECT " . implode(", ", array_map('idf_escape', array_keys($originals))) . " FROM " . table($table))) {
+			if ($originals && !queries("INSERT INTO " . table($temp_name) . " (" . implode(", ", $originals) . ") SELECT " . implode(", ", array_map('Adminer\idf_escape', array_keys($originals))) . " FROM " . table($table))) {
 				return false;
 			}
 
@@ -777,7 +784,7 @@ if (isset($_GET["sqlite"]) || isset($_GET["sqlite2"])) {
 				continue;
 			}
 
-			$return .= ";\n\n" . index_sql($table, $index['type'], $name, "(" . implode(", ", array_map('idf_escape', $index['columns'])) . ")");
+			$return .= ";\n\n" . index_sql($table, $index['type'], $name, "(" . implode(", ", array_map('Adminer\idf_escape', $index['columns'])) . ")");
 		}
 
 		return $return;

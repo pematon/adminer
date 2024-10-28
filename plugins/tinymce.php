@@ -1,5 +1,9 @@
 <?php
 
+namespace Adminer;
+
+use DOMDocument;
+
 /** Edit all fields containing "_html" by HTML editor TinyMCE and display the HTML in select
 * @link https://www.adminer.org/plugins/#use
 * @uses TinyMCE, http://tinymce.moxiecode.com/

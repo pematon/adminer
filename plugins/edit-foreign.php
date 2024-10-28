@@ -1,5 +1,7 @@
 <?php
 
+namespace Adminer;
+
 /**
  * Select foreign key in edit form.
  *
