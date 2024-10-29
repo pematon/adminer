@@ -120,18 +120,19 @@ td pre { margin: 0; }
 #fieldset-history > code + .time { margin-top: -2px; }
 #fieldset-history > code + br { display: none; }
 input, textarea, select { box-sizing: border-box; }
-button, input:not([type]), input[type="text"], input[type="search"], input[type="password"], input[type="number"], input[type="submit"], select { padding: 2px 4px; border: 1px solid var(--input-border); border-radius: 2px; background: var(--input-bg); color: var(--input-text); font-size: 100%; }
-button, input[type="checkbox"], input[type="radio"], input[type="file"], input[type="submit"], select, label { cursor: pointer; }
-button, input[type="submit"] { background: var(--button-bg); border-color: var(--button-borer); }
-button:hover, input[type="submit"]:hover { background: var(--button-bg-hover); }
-button .icon { margin-inline-end: 0; }
-button .icon:first-child { margin-left: -2px; }
+.button, button, input:not([type]), input[type="text"], input[type="search"], input[type="password"], input[type="number"], input[type="submit"], select { padding: 2px 4px; border: 1px solid var(--input-border); border-radius: 2px; background: var(--input-bg); color: var(--input-text); font-size: 100%; }
+.button, button, input[type="checkbox"], input[type="radio"], input[type="file"], input[type="submit"], select, label { cursor: pointer; }
+.button, button, input[type="submit"] { background: var(--button-bg); border-color: var(--button-borer); }
+.button:hover, button:hover, input[type="submit"]:hover { background: var(--button-bg-hover); }
+.button .icon, button .icon { margin-inline-end: 0; }
+.button, button .icon:first-child { margin-left: -2px; }
+a.button { display: inline-block; }
 button .icon:last-child { margin-right: -2px; }
-button.light { border: none; padding: 3px 5px; background: transparent; color: var(--link-text); }
-button.light:hover { color: var(--link-text-hover); }
+table a .icon:last-child { margin-inline-end: 0; }
+.button.light, button.light { border: none; padding: 3px 5px; background: transparent; color: var(--link-text); }
+.button.light:hover, button.light:hover { color: var(--link-text-hover); }
 input[type="checkbox"], input[type="radio"] { margin: 3px 5px 3px 3px; vertical-align: top; position: relative; top: 2px; }
-input[type="image"] { vertical-align: middle; margin-top: -3px; }
-td input[type="image"] { margin-top: 1px; }
+table input[type="checkbox"], table input[type="radio"] { margin-top: 0; }
 input[type="number"] { -moz-appearance: textfield; }
 input::-webkit-inner-spin-button { -webkit-appearance: none; }
 input.default, button.default { color: var(--link-text); }
@@ -144,7 +145,6 @@ select { -webkit-appearance: none; appearance: none; padding-inline-end: 18px; b
 .block { display: block; }
 .version { color: var(--logo-text); font-size: 62%; vertical-align: top; }
 .js .hidden, .nojs .jsonly { display: none; }
-.js .column { position: absolute; background: var(--header-bg); padding: .27em 1ex .3em 0; margin-top: -.27em; }
 .nowrap { white-space: nowrap; }
 p.nowrap { white-space: pre; }
 .wrap td { white-space: normal; }
@@ -171,6 +171,7 @@ p.nowrap { white-space: pre; }
 .active { font-weight: bold; }
 .sqlarea { box-sizing: border-box; width: 100%; padding: 3px !important; border: 1px solid var(--input-border) !important; border-radius: 2px; }
 .icon { width: 1.25em; height: 1.25em; vertical-align: middle; margin-top: -3px; margin-inline-end: 0.5em; }
+.icon.solo { margin-inline-end: 0; }
 .size { width: 7ex; }
 .help { cursor: help; }
 .footer { position: sticky; bottom: 0; margin-top: -20px; border-top: 20px solid rgba(255, 255, 255, .7); border-image: linear-gradient(transparent, var(--body-bg)) 100% 0; }
@@ -202,6 +203,7 @@ table.dragging { background: var(--panel-bg); }
 #lang { position: absolute; top: 0; left: 0; height: 2rem; line-height: 1.9rem; margin: 0; padding: 0 15px; }
 #breadcrumb { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: var(--panel-bg); height: 2rem; line-height: 1.9rem; margin: 0; padding: 0 20px; }
 #breadcrumb + h2 { margin-top: 0; }
+#breadcrumb .icon { margin-top: -2px; }
 #h1 { color: var(--logo-text); text-decoration: none; font-style: italic; }
 #version { color: var(--version-text); }
 #schema { margin-left: 100px; position: relative; -moz-user-select: none; -webkit-user-select: none; }

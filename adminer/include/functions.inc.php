@@ -163,6 +163,18 @@ function h($string) {
 	return str_replace("\0", "&#0;", htmlspecialchars($string, ENT_QUOTES, 'utf-8'));
 }
 
+function icon(string $id, ?string $class = null): string
+{
+	static $timestamp = null;
+	if (!$timestamp) {
+		$timestamp = filemtime("../adminer/static/icons.svg");
+	}
+
+	$id = h($id);
+
+	return "<svg class='icon ic-$id $class'><use href='static/icons.svg?$timestamp#$id'/></svg>";
+}
+
 /** Generate HTML checkbox
 * @param string
 * @param string
