@@ -185,8 +185,10 @@ if ($adminer->homepage()) {
 			echo script("tableCheck();");
 		}
 
-		echo '<p class="links"><a href="' . h(ME) . 'create=">' . lang('Create table') . "</a>\n";
-		echo (support("view") ? '<a href="' . h(ME) . 'view=">' . lang('Create view') . "</a>\n" : "");
+		echo '<p class="links"><a href="', h(ME), 'create=">', icon("table-add"), lang('Create table'), "</a>\n";
+		if (support("view")) {
+			echo '<a href="', h(ME), 'view=">', icon("view-add"), lang('Create view'), "</a>\n";
+		}
 
 		if (support("routine")) {
 			echo "<h3 id='routines'>" . lang('Routines') . "</h3>\n";
@@ -224,9 +226,12 @@ if ($adminer->homepage()) {
 				echo "</table>\n";
 			}
 
-			echo '<p class="links">',
-				(support("procedure") ? '<a href="' . h(ME) . 'procedure=">' . lang('Create procedure') . '</a>' : ''),
-				'<a href="' . h(ME) . 'function=">' . lang('Create function') . "</a>\n";
+			echo '<p class="links">';
+			if (support("procedure")) {
+				echo '<a href="', h(ME), 'procedure=">', icon("function-add"), lang('Create procedure'), "</a>";
+			}
+			echo '<a href="', h(ME), 'function=">', icon("function-add"), lang('Create function'), "</a>\n",
+				"</p>\n";
 		}
 
 		if (support("sequence")) {
@@ -245,7 +250,7 @@ if ($adminer->homepage()) {
 
 				echo "</table>\n";
 			}
-			echo "<p class='links'><a href='" . h(ME) . "sequence='>" . lang('Create sequence') . "</a>\n";
+			echo "<p class='links'><a href='", h(ME), "sequence='>", icon("add"), lang('Create sequence'), "</a></p>\n";
 		}
 
 		if (support("type")) {
@@ -264,7 +269,7 @@ if ($adminer->homepage()) {
 
 				echo "</table>\n";
 			}
-			echo "<p class='links'><a href='" . h(ME) . "type='>" . lang('Create type') . "</a>\n";
+			echo "<p class='links'><a href='", h(ME), "type='>", icon("add"), lang('Create type'), "</a></p>\n";
 		}
 
 		if (support("event")) {
@@ -286,7 +291,7 @@ if ($adminer->homepage()) {
 					echo "<p class='error'><code class='jush-sqlset'>event_scheduler</code>: " . h($event_scheduler) . "\n";
 				}
 			}
-			echo '<p class="links"><a href="' . h(ME) . 'event=">' . lang('Create event') . "</a>\n";
+			echo '<p class="links"><a href="', h(ME), 'event=">', icon("event-add"), lang('Create event'), "</a></p>\n";
 		}
 
 		if ($tables_list) {
