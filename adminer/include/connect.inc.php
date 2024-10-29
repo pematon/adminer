@@ -14,15 +14,17 @@ function connect_error() {
 
 		page_header(lang('Select database'), $error, false);
 		echo "<p id='top-links' class='links'>\n";
-		foreach (array(
-			'database' => lang('Create database'),
-			'privileges' => lang('Privileges'),
-			'processlist' => lang('Process list'),
-			'variables' => lang('Variables'),
-			'status' => lang('Status'),
-		) as $key => $val) {
+
+		$links = [
+			'database' => [lang('Create database'), "database-add"],
+			'privileges' => [lang('Privileges'), "users"],
+			'processlist' => [lang('Process list'), "list"],
+			'variables' => [lang('Variables'), "variable"],
+			'status' => [lang('Status'), "status"],
+		];
+		foreach ($links as $key => $val) {
 			if (support($key)) {
-				echo "<a href='" . h(ME) . "$key='>$val</a>\n";
+				echo "<a href='" . h(ME) . "$key='>", icon($val[1]), "$val[0]</a>\n";
 			}
 		}
 		echo "<p>" . lang('%s version: %s through PHP extension %s', $drivers[DRIVER], "<b>" . h($connection->server_info) . "</b>", "<b>$connection->extension</b>") . "\n";
