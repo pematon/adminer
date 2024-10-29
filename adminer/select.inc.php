@@ -328,10 +328,13 @@ if (!$columns && support("table")) {
 			echo "<table id='table' class='nowrap checkable'>\n";
 
 			echo script("mixin(gid('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true), onkeydown: editingKeydown});");
-			echo "<thead><tr>" . (!$group && $select
-				? ""
-				: "<td><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", "")
-					. " <a href='" . h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "'>" . lang('Modify') . "</a>");
+			echo "<thead><tr>";
+
+			if ($group || !$select) {
+				echo "<td><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
+					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon('edit-all'), "</a>";
+			}
+
 			$names = array();
 			$functions = array();
 			reset($select);
@@ -358,10 +361,10 @@ if (!$columns && support("table")) {
 						}
 						echo "<span class='column hidden'>";
 						if ($sortable) {
-							echo "<a href='" . h($href . $desc) . "' title='" . lang('descending') . "' class='text'> ↓</a>";
+							echo "<a href='" . h($href . $desc) . "' title='" . lang('descending') . "' class='button light'>", icon("arrow-down"), "</a>";
 						}
 						if (!isset($val["fun"]) && isset($field["privileges"]["where"])) {
-							echo '<a href="#fieldset-search" title="' . lang('Search') . '" class="text jsonly"> =</a>';
+							echo '<a href="#fieldset-search" title="' . lang('Search') . '" class="button light jsonly">', icon("search"), '</a>';
 							echo script("qsl('a').onclick = partial(selectSearch, '" . js_escape($key) . "');");
 						}
 						echo "</span>";
@@ -408,10 +411,15 @@ if (!$columns && support("table")) {
 					}
 					$unique_idf .= "&" . ($val !== null ? urlencode("where[" . bracket_escape($key) . "]") . "=" . urlencode($val === false ? "f" : $val) : "null%5B%5D=" . urlencode($key));
 				}
-				echo "<tr" . odd() . ">" . (!$group && $select ? "" : "<td>"
-					. checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array) $_POST["check"]))
-					. ($is_group || information_schema(DB) ? "" : " <a href='" . h(ME . "edit=" . urlencode($TABLE) . $unique_idf) . "' class='edit'>" . lang('edit') . "</a>")
-				);
+				echo "<tr", odd(), ">";
+				if ($group || !$select) {
+					echo "<td>",
+						checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array)$_POST["check"]));
+
+					if (!$is_group && !information_schema(DB)) {
+						echo " <a href='", h(ME . "edit=" . urlencode($TABLE) . $unique_idf), "' class='edit' title='", lang('Edit'), "'>", icon("edit"), "</a>";
+					}
+				}
 
 				foreach ($row as $key => $val) {
 					if (isset($names[$key])) {
@@ -508,11 +516,11 @@ if (!$columns && support("table")) {
 
 				$pagination = ($limit != "" && ($found_rows === false || $found_rows > $limit || $page));
 				if ($pagination) {
-					echo (($found_rows === false ? count($rows) + 1 : $found_rows - $page * $limit) > $limit
-						? '<p class="links"><a href="' . h(remove_from_uri("page") . "&page=" . ($page + 1)) . '" class="loadmore">' . lang('Load more data') . '</a>'
-							. script("qsl('a').onclick = partial(selectLoadMore, " . (+$limit) . ", '" . lang('Loading') . "…');", "")
-						: ''
-					);
+					if (($found_rows === false ? count($rows) + 1 : $found_rows - $page * $limit) > $limit) {
+						echo '<p class="links">',
+							'<a href="', h(remove_from_uri("page") . "&page=" . ($page + 1)), '" class="loadmore">', icon("expand"), lang('Load more data'), '</a>',
+							script("qsl('a').onclick = partial(selectLoadMore, " . (+$limit) . ", '" . lang('Loading') . "…');", "");
+					}
 					echo "\n";
 				}
 			}
@@ -592,7 +600,7 @@ if (!$columns && support("table")) {
 
 			if ($adminer->selectImportPrint()) {
 				echo "<p>";
-				echo "<a href='#import'>" . lang('Import') . "</a>";
+				echo "<a href='#import'>", icon("import"), lang('Import') . "</a>";
 				echo script("qsl('a').onclick = partial(toggle, 'import');", "");
 				echo "</p>";
 				echo "<p id='import' class='hidden'>";

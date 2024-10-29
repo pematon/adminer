@@ -75,7 +75,10 @@ foreach ($schema as $name => $table) {
 			$left1 = $left - ($table_pos[$name][1] ?? 0);
 			$i = 0;
 			foreach ($ref[0] as $source) {
-				echo "\n<div class='references' title='" . h($target_name) . "' id='refs$left-" . ($i++) . "' style='left: $left1" . "em; top: " . $table["fields"][$source]["pos"] . "em; padding-top: .5em;'><div style='border-top: 1px solid Gray; width: " . (-$left1) . "em;'></div></div>";
+				echo "\n<div class='references' title='", h($target_name), "' id='refs$left-$i' style='left: {$left1}em; top: ", $table["fields"][$source]["pos"], "em; padding-top: .5em;'>",
+					"<div style='border-top: 1px solid Gray; width: " . (-$left1) . "em;'></div>",
+					"</div>";
+				$i++;
 			}
 		}
 	}
@@ -85,7 +88,11 @@ foreach ($schema as $name => $table) {
 			$left1 = $left - ($table_pos[$name][1] ?? 0);
 			$i = 0;
 			foreach ($columns as $target) {
-				echo "\n<div class='references' title='" . h($target_name) . "' id='refd$left-" . ($i++) . "' style='left: $left1" . "em; top: " . $table["fields"][$target]["pos"] . "em; height: 1.25em;'><svg style='width: 1em; height: 1em; float: right;'><use href='static/icons.svg#reference-right'/></svg><div style='height: .5em; border-bottom: 1px solid Gray; width: " . (-$left1) . "em;'></div></div>";
+				echo "\n<div class='references' title='", h($target_name), "' id='refd$left-$i' style='left: {$left1}em; top: " . $table["fields"][$target]["pos"] . "em; height: 1.25em;'>",
+					"<svg style='width: 1em; height: 1em; float: right;' viewBox='0 0 22 22' fill='currentColor'><path d='M11,19l10,-8l-10,-8l0,16Z'/></svg>",
+					"<div style='height: .5em; border-bottom: 1px solid Gray; width: " . (-$left1) . "em;'></div>",
+					"</div>";
+				$i++;
 			}
 		}
 	}

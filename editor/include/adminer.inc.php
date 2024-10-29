@@ -106,7 +106,7 @@ class Adminer {
 	function selectLinks($tableStatus, $set = "") {
 		$TABLE = $tableStatus["Name"];
 		if ($set !== null) {
-			echo '<p class="tabs"><a href="' . h(ME . 'edit=' . urlencode($TABLE) . $set) . '">' . lang('New item') . "</a>\n";
+			echo '<p class="tabs"><a href="', h(ME . 'edit=' . urlencode($TABLE) . $set), '">', icon("item-add"), lang('New item'), "</a>\n";
 		}
 	}
 
@@ -150,7 +150,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				foreach ($cols as $column => $val) {
 					$link .= "&set" . urlencode("[" . bracket_escape($column) . "]") . "=" . urlencode($row[$val]);
 				}
-				echo "<a href='" . h($link) . "' title='" . lang('New item') . "'>+</a> ";
+				echo "<a href='" . h($link) . "' title='" . lang('New item') . "'>", icon("add"), "</a> ";
 			}
 		}
 	}
@@ -268,7 +268,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, $val["col"], true) . "</select>";
 				echo html_select("where[$i][op]", array(-1 => "") + $this->operators, $val["op"]);
 				echo "<input type='search' name='where[$i][val]' value='" . h($val["val"]) . "'>" . script("mixin(qsl('input'), {onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", "");
-				echo " <a class='jsonly remove' href='#' title='" . h(lang('Remove')) . "'><svg class='icon'><use href='../adminer/static/icons.svg#remove'/></svg></a>";
+				echo " <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>";
 				echo script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', "");
 				echo "</div>\n";
 				$i++;
@@ -279,7 +279,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		echo html_select("where[$i][op]", array(-1 => "") + $this->operators);
 		echo "<input type='search' name='where[$i][val]'>";
 		echo script("mixin(qsl('input'), {onchange: function () { this.parentNode.firstChild.onchange(); }, onsearch: selectSearchSearch});");
-		echo " <a class='jsonly remove' href='#' title='" . h(lang('Remove')) . "'><svg class='icon'><use href='../adminer/static/icons.svg#remove'/></svg></a>";
+		echo " <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>";
 		echo script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', "");
 		echo "</div>";
 		echo "</div></fieldset>\n";

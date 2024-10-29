@@ -32,9 +32,9 @@ if ($fields) {
 	$adminer->tableStructurePrint($fields);
 
 	if (is_view($table_status)) {
-		$editLink = '<p class="links"><a href="' . h(ME) . 'view=' . urlencode($TABLE) . '">' . lang('Alter view') . "</a>\n";
+		$editLink = '<p class="links"><a href="' . h(ME) . 'view=' . urlencode($TABLE) . '">' . icon("edit") . lang('Alter view') . "</a>\n";
 	} else {
-		$editLink = '<p class="links"><a href="' . h(ME) . 'create=' . urlencode($TABLE) . '">' . lang('Alter table') . "</a>\n";
+		$editLink = '<p class="links"><a href="' . h(ME) . 'create=' . urlencode($TABLE) . '">' . icon("edit") . lang('Alter table') . "</a>\n";
 	}
 	echo $editLink;
 
@@ -55,7 +55,7 @@ if (!is_view($table_status)) {
 		if ($indexes) {
 			$adminer->tableIndexesPrint($indexes);
 		}
-		echo '<p class="links"><a href="' . h(ME) . 'indexes=' . urlencode($TABLE) . '">' . lang('Alter indexes') . "</a>\n";
+		echo '<p class="links"><a href="' . h(ME) . 'indexes=' . urlencode($TABLE) . '">' . icon("edit") . lang('Alter indexes') . "</a>\n";
 	}
 
 	if (fk_support($table_status)) {
@@ -78,7 +78,7 @@ if (!is_view($table_status)) {
 			}
 			echo "</table>\n";
 		}
-		echo '<p class="links"><a href="' . h(ME) . 'foreign=' . urlencode($TABLE) . '">' . lang('Add foreign key') . "</a>\n";
+		echo '<p class="links"><a href="' . h(ME) . 'foreign=' . urlencode($TABLE) . '">' . icon("add") . lang('Add foreign key') . "</a>\n";
 	}
 }
 
@@ -92,5 +92,5 @@ if (support(is_view($table_status) ? "view_trigger" : "trigger")) {
 		}
 		echo "</table>\n";
 	}
-	echo '<p class="links"><a href="' . h(ME) . 'trigger=' . urlencode($TABLE) . '">' . lang('Add trigger') . "</a>\n";
+	echo '<p class="links"><a href="' . h(ME) . 'trigger=' . urlencode($TABLE) . '">' . icon("add") . lang('Add trigger') . "</a>\n";
 }

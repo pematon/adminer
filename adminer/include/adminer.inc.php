@@ -182,29 +182,33 @@ class Adminer {
 	/** Print links after select heading
 	* @param array result of SHOW TABLE STATUS
 	* @param string new item options, NULL for no new item
-	* @return null
 	*/
 	function selectLinks($tableStatus, $set = "") {
 		global $jush, $driver;
+
 		echo '<p id="top-links" class="links">';
-		$links = array("select" => lang('Select data'));
+
+		$links = [
+			"select" => [lang('Select data'), "data"],
+		];
 		if (support("table") || support("indexes")) {
-			$links["table"] = lang('Show structure');
+			$links["table"] = [lang('Show structure'), "structure"];
 		}
 		if (support("table")) {
 			if (is_view($tableStatus)) {
-				$links["view"] = lang('Alter view');
+				$links["view"] = [lang('Alter view'), "edit"];
 			} else {
-				$links["create"] = lang('Alter table');
+				$links["create"] = [lang('Alter table'), "edit"];
 			}
 		}
 		if ($set !== null) {
-			$links["edit"] = lang('New item');
+			$links["edit"] = [lang('New item'), "item-add"];
 		}
 		$name = $tableStatus["Name"];
 		foreach ($links as $key => $val) {
-			echo " <a href='" . h(ME) . "$key=" . urlencode($name) . ($key == "edit" ? $set : "") . "'" . bold(isset($_GET[$key])) . ">$val</a>";
+			echo " <a href='", h(ME), "$key=", urlencode($name), ($key == "edit" ? $set : ""), "'", bold(isset($_GET[$key])), ">", icon($val[1]), "$val[0]</a>";
 		}
+
 		echo doc_link(array($jush => $driver->tableHelp($name)), "?");
 		echo "\n";
 	}
@@ -252,7 +256,7 @@ class Adminer {
 
         $return .= "<p class='links'>";
         if ($supportSql) {
-			$return .= "<a href='" . h(ME) . "sql=" . urlencode($query) . "'>" . lang('Edit') . "</a>";
+			$return .= "<a href='" . h(ME) . "sql=" . urlencode($query) . "'>" . icon("edit") . lang('Edit') . "</a>";
 		}
         if ($warnings) {
 			$return .= "<a href='#warnings'>" . lang('Warnings') . "</a>" . script("qsl('a').onclick = partial(toggle, 'warnings');", "");
@@ -425,7 +429,7 @@ class Adminer {
 			);
 
 			echo "<div ", ($key != "" ? "" : "class='no-sort'"), ">",
-				"<svg class='jsonly icon handle'><use href='static/icons.svg#handle'/></svg> ";
+				icon("handle", "handle jsonly");
 
 			if ($functions || $grouping) {
 				echo "<select name='columns[$i][fun]'>",
@@ -438,7 +442,7 @@ class Adminer {
 				echo $column;
 			}
 
-			echo " <a class='jsonly remove' href='#' title='" . h(lang('Remove')) . "'><svg class='icon'><use href='static/icons.svg#remove'/></svg></a>",
+			echo " <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
 				script("qsl('#fieldset-select .remove').onclick = selectRemoveRow;", ""),
 				"</div>\n";
 
@@ -481,7 +485,7 @@ class Adminer {
 					html_select("where[$i][op]", $this->operators, $val["op"], $change_next),
 					"<input type='search' name='where[$i][val]' value='" . h($val["val"]) . "'>",
 					script("mixin(qsl('input'), {oninput: function () { $change_next }, onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", ""),
-					" <a class='jsonly remove' href='#' title='" . h(lang('Remove')) . "'><svg class='icon'><use href='static/icons.svg#remove'/></svg></a>",
+					" <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
 					script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', ""),
 					"</div>\n";
 			}
@@ -506,10 +510,10 @@ class Adminer {
 			if ($key != "" && $val == "") continue;
 
 			echo "<div ", ($key != "" ? "" : "class='no-sort'"), ">",
-				"<svg class='jsonly icon handle'><use href='static/icons.svg#handle'/></svg> ",
+				icon("handle", "handle jsonly"),
 				select_input("name='order[$i]'", $columns, $val, $key !== "" ? "selectFieldChange" : "selectAddRow"),
 				" ", checkbox("desc[$i]", 1, isset($_GET["desc"][$key]), lang('descending')),
-				" <a class='jsonly remove' href='#' title='" . h(lang('Remove')) . "'><svg class='icon'><use href='static/icons.svg#remove'/></svg></a>",
+				" <button class='jsonly light remove' title='" . h(lang('Remove')), "'>", icon("remove"), "</button>",
 				script('qsl("#fieldset-sort .remove").onclick = selectRemoveRow;', ""),
 				"</div>\n";
 
@@ -1056,14 +1060,35 @@ class Adminer {
 		return "adminer.sql";
 	}
 
-	/** Print homepage
-	* @return bool whether to print default homepage
-	*/
+	/**
+	 * Prints homepage.
+	 *
+	 * @return bool Whether to print default homepage.
+	 */
 	function homepage() {
-		echo '<p id="top-links" class="links">' . ($_GET["ns"] == "" && support("database") ? '<a href="' . h(ME) . 'database=">' . lang('Alter database') . "</a>\n" : "");
-		echo (support("scheme") ? "<a href='" . h(ME) . "scheme='>" . ($_GET["ns"] != "" ? lang('Alter schema') : lang('Create schema')) . "</a>\n" : "");
-		echo ($_GET["ns"] !== "" ? '<a href="' . h(ME) . 'schema=">' . lang('Database schema') . "</a>\n" : "");
-		echo (support("privileges") ? "<a href='" . h(ME) . "privileges='>" . lang('Privileges') . "</a>\n" : "");
+		echo "<p id='top-links' class='links'>\n";
+
+		if ($_GET["ns"] == "" && support("database")) {
+			echo '<a href="', h(ME), 'database=">', icon("edit"), lang('Alter database'), "</a>\n";
+		}
+		if (support("scheme")) {
+			echo "<a href='", h(ME), "scheme='>";
+			if ($_GET["ns"] != "") {
+				echo icon("edit"), lang('Alter schema');
+			} else {
+				echo icon("database-add"), lang('Create schema');
+			}
+			echo "</a>\n";
+		}
+		if ($_GET["ns"] !== "") {
+			echo '<a href="', h(ME), 'schema=">', icon("schema"), lang('Database schema'), "</a>\n";
+		}
+		if (support("privileges")) {
+			echo "<a href='", h(ME), "privileges='>", icon("users"), lang('Privileges'), "</a>\n";
+		}
+
+		echo "</p>\n";
+
 		return true;
 	}
 
@@ -1155,15 +1180,15 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 			$actions = [];
 			if (DB == "" || !$missing) {
 				if (support("sql")) {
-					$actions[] = "<a href='" . h(ME) . "sql='" . bold(isset($_GET["sql"]) && !isset($_GET["import"])) . ">" . lang('SQL command') . "</a>";
-					$actions[] = "<a href='" . h(ME) . "import='" . bold(isset($_GET["import"])) . ">" . lang('Import') . "</a>";
+					$actions[] = "<a href='" . h(ME) . "sql='" . bold(isset($_GET["sql"]) && !isset($_GET["import"])) . ">" . icon("command") . lang('SQL command') . "</a>";
+					$actions[] = "<a href='" . h(ME) . "import='" . bold(isset($_GET["import"])) . ">" . icon("import") . lang('Import') . "</a>";
 				}
 				if (support("dump")) {
-					$actions[] = "<a href='" . h(ME) . "dump=" . urlencode(isset($_GET["table"]) ? $_GET["table"] : $_GET["select"]) . "' id='dump'" . bold(isset($_GET["dump"])) . ">" . lang('Export') . "</a>";
+					$actions[] = "<a href='" . h(ME) . "dump=" . urlencode($_GET["table"] ?? $_GET["select"]) . "' id='dump'" . bold(isset($_GET["dump"])) . ">" . icon("export") . lang('Export') . "</a>";
 				}
 			}
 			if ($_GET["ns"] !== "" && !$missing && DB != "") {
-				$actions[] = '<a href="' . h(ME) . 'create="' . bold($_GET["create"] === "") . ">" . lang('Create table') . "</a>\n";
+				$actions[] = '<a href="' . h(ME) . 'create="' . bold($_GET["create"] === "") . ">" . icon("table-add") . lang('Create table') . "</a>\n";
 			}
 			if ($actions) {
 				echo "<p class='links'>" . implode("\n", $actions) . "</p>";
@@ -1248,20 +1273,17 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 		foreach ($tables as $table => $status) {
 			$name = $this->tableName($status);
 			if ($name != "") {
-				$active = $table == $_GET["select"] || $table == $_GET["edit"];
+				echo '<li>',
+					"<a href='", h(ME), "select=", urlencode($table), "' title='", lang('Select data'), "'>", icon("data"), "</a>";
 
-				echo '<li><a href="' . h(ME) . 'select=' . urlencode($table) . '"'
-					. bold($active, "select")
-					. " title='" . lang('Select data') . "'>" . lang('select') . "</a> ";
+				$active = in_array($table, [$_GET["table"], $_GET["select"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"]]);
+				$class = is_view($status) ? "view" : "structure";
 
 				if (support("table") || support("indexes")) {
-					$active = in_array($table, [$_GET["table"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"]]);
-					$class = is_view($status) ? "view" : "structure";
-
-					echo '<a href="' . h(ME) . 'table=' . urlencode($table) . '"' . bold($active, $class)
-						. " title='" . lang('Show structure') . "' data-main='true'>$name</a>";
+					echo "<a href='", h(ME), 'table=', urlencode($table), "'", bold($active, $class),
+						" title='", lang('Show structure'), "' data-main='true'>$name</a>";
 				} else {
-					echo "<span data-main='true'>$name</span>";
+					echo "<span data-main='true'", bold($active, $class), ">$name</span>";
 				}
 
 				echo "</li>\n";
