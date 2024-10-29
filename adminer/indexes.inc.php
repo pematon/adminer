@@ -104,7 +104,7 @@ if (!$row) {
 <th><input type="submit" class="button invisible"><?php echo lang('Column (length)'); ?>
 <th id="label-name"><?php echo lang('Name'); ?>
 <th><?php
-	echo "<button name='add[0]' value='1' title='" . h(lang('Add next')) . "' class='noscript light'><svg class='icon'><use href='static/icons.svg#add'/></svg></button>";
+	echo "<button name='add[0]' value='1' title='", h(lang('Add next')), "' class='noscript light'>", icon("add"), "</button>";
 ?></th>
 </thead>
 <?php
@@ -140,9 +140,9 @@ foreach ($row["indexes"] as $index) {
 		}
 		echo "</td>";
 
-		echo "<td><input name='indexes[$j][name]' value='" . h($index["name"]) . "' autocapitalize='off' aria-labelledby='label-name'></td>\n",
+		echo "<td><input name='indexes[$j][name]' value='", h($index["name"]), "' autocapitalize='off' aria-labelledby='label-name'></td>\n",
 			"<td>",
-			"<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='light'><svg class='icon'><use href='static/icons.svg#remove'/></svg></button>",
+			"<button name='drop_col[$i]' value='1' title='", h(lang('Remove')), "' class='light'>", icon("remove"), "</button>",
 			script("qsl('button').onclick = partial(editingRemoveRow, 'indexes\$1[type]');"),
 			"</td>\n";
 	}
