@@ -75,7 +75,7 @@ echo ($_POST["add_x"] || strpos($name, "\n")
 if (DB != "") {
 	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', DB)) . "\n";
 } elseif (!$_POST["add_x"] && $_GET["db"] == "") {
-	echo "<button name='add_x' value='1' title='" . h(lang('Add next')) . "' class='light'><svg class='icon'><use href='static/icons.svg#add'/></svg></button>\n";
+	echo "<button name='add_x' value='1' title='", h(lang('Add next')), "' class='light'>", icon("add"), "</button>\n";
 }
 ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
