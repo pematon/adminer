@@ -1024,7 +1024,7 @@ function input($field, $value, $function) {
 				$maxlength += 7; // microtime
 			}
 			// type='date' and type='time' display localized value which may be confusing, type='datetime' uses 'T' as date and time separator
-			echo "<input"
+			echo "<input class='input'"
 				. ((!$has_function || $function === "") && preg_match('~(?<!o)int(?!er)~', $field["type"]) && !preg_match('~\[\]~', $field["full_type"]) ? " type='number'" : "")
 				. ($function != "now" ? " value='" . h($value) . "'" : " data-last-value='" . h($value) . "'")
 				. ($maxlength ? " data-maxlength='$maxlength'" : "")
@@ -1603,10 +1603,10 @@ function edit_form($table, $fields, $row, $update) {
 		}
 		if (!support("table")) {
 			echo "<tr>"
-				. "<th><input name='field_keys[]'>"
+				. "<th><input class='input' name='field_keys[]'>"
 				. script("qsl('input').oninput = fieldChange;")
 				. "<td class='function'>" . html_select("field_funs[]", $adminer->editFunctions(array("null" => isset($_GET["select"]))))
-				. "<td><input name='field_vals[]'>"
+				. "<td><input class='input' name='field_vals[]'>"
 				. "\n"
 			;
 		}
@@ -1614,16 +1614,16 @@ function edit_form($table, $fields, $row, $update) {
 	}
 	echo "<p>\n";
 	if ($fields) {
-		echo "<input type='submit' value='" . lang('Save') . "'>\n";
+		echo "<input type='submit' class='button' value='" . lang('Save') . "'>\n";
 		if (!isset($_GET["select"])) {
-			echo "<input type='submit' name='insert' value='" . ($update
+			echo "<input type='submit' class='button' name='insert' value='" . ($update
 				? lang('Save and continue edit')
 				: lang('Save and insert next')
 			) . "' title='Ctrl+Shift+Enter'>\n";
 			echo ($update ? script("qsl('input').onclick = function () { return !ajaxForm(this.form, '" . lang('Saving') . "…', this); };") : "");
 		}
 	}
-	echo ($update ? "<input type='submit' name='delete' value='" . lang('Delete') . "'>" . confirm() . "\n"
+	echo ($update ? "<input type='submit' class='button' name='delete' value='" . lang('Delete') . "'>" . confirm() . "\n"
 		: ($_POST || !$fields ? "" : script("focus(qsa('td', gid('form'))[1].firstChild);"))
 	);
 	if (isset($_GET["select"])) {

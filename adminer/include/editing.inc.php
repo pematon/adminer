@@ -185,7 +185,7 @@ if ($foreign_keys) {
 	$structured_types[lang('Foreign keys')] = $foreign_keys;
 }
 echo optionlist(array_merge($extra_types, $structured_types), $type);
-?></select><td><input name="<?php echo h($key); ?>[length]" value="<?php echo h($field["length"] ?? null); ?>" size="3"<?php echo (!($field["length"] ?? null) && preg_match('~var(char|binary)$~', $type) ? " class='required'" : ""); //! type="number" with enabled JavaScript ?> aria-labelledby="label-length"><td class="options"><?php
+?></select><td><input name="<?php echo h($key); ?>[length]" value="<?php echo h($field["length"] ?? null); ?>" size="3"<?php echo (!($field["length"] ?? null) && preg_match('~var(char|binary)$~', $type) ? " class='input required'" : " class='input'"); //! type="number" with enabled JavaScript ?> aria-labelledby="label-length"><td class="options"><?php
 	echo "<select name='" . h($key) . "[collation]'" . (preg_match('~(char|text|enum|set)$~', $type) ? "" : " class='hidden'") . '><option value="">(' . lang('collation') . ')' . optionlist($collations, $field["collation"] ?? null) . '</select>';
 	echo ($unsigned ? "<select name='" . h($key) . "[unsigned]'" . (!$type || preg_match(number_type(), $type) ? "" : " class='hidden'") . '><option>' . optionlist($unsigned, $field["unsigned"] ?? null) . '</select>' : '');
 	echo (isset($field['on_update']) ? "<select name='" . h($key) . "[on_update]'" . (preg_match('~timestamp|datetime~', $type) ? "" : " class='hidden'") . '>' . optionlist(array("" => "(" . lang('ON UPDATE') . ")", "CURRENT_TIMESTAMP"), (preg_match('~^CURRENT_TIMESTAMP~i', $field["on_update"]) ? "CURRENT_TIMESTAMP" : $field["on_update"])) . '</select>' : '');
@@ -317,7 +317,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		<?php echo (support("comment") ? "<td id='label-comment' $comment_class>" . lang('Comment') . "</td>" : ""); ?>
 	<?php } ?>
 	<td><?php
-		echo "<button name='add[" . (support("move_col") ? 0 : count($fields)) . "]' value='1' title='" . h(lang('Add next')) . "' class='light'>", icon("add"), "</button>",
+		echo "<button name='add[" . (support("move_col") ? 0 : count($fields)) . "]' value='1' title='" . h(lang('Add next')) . "' class='button light'>", icon("add", "solo"), "</button>",
 			script("row_count = " . count($fields) . ";");
 	?></td>
 </tr></thead>
@@ -333,7 +333,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		echo "<tr $style>\n";
 
 		if (support("move_col")) {
-			echo "<th class='handle jsonly'>", icon("handle"), "</th>";
+			echo "<th class='handle jsonly'>", icon("handle", "solo"), "</th>";
 		}
 		if ($type == "PROCEDURE") {
 			echo "<td>", html_select("fields[$i][inout]", explode("|", $inout), $field["inout"]), "</td>\n";
@@ -341,7 +341,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 
 		echo "<th>";
 		if ($display) {
-			echo "<input name='fields[$i][field]' value='", h($field["field"]), "' data-maxlength='64' autocapitalize='off' aria-labelledby='label-name'>";
+			echo "<input class='input' name='fields[$i][field]' value='", h($field["field"]), "' data-maxlength='64' autocapitalize='off' aria-labelledby='label-name'>";
 		}
 		echo "<input type='hidden' name='fields[$i][orig]' value='",  h($orig), "'>";
 		edit_type("fields[$i]", $field, $collations, $foreign_keys);
@@ -355,25 +355,25 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 
 			echo "<td>",
 				checkbox("fields[$i][has_default]", 1, $field["has_default"], "", "", "", "label-default"),
-				"<input name='fields[$i][default]' value='", h($field["default"]), "' aria-labelledby='label-default'>",
+				"<input class='input' name='fields[$i][default]' value='", h($field["default"]), "' aria-labelledby='label-default'>",
 				"</td>\n";
 
 			if (support("comment")) {
 				$max_length = min_version(5.5) ? 1024 : 255;
 				echo "<td $comment_class>",
-					"<input name='fields[$i][comment]' value='", h($field["comment"]), "' data-maxlength='$max_length' aria-labelledby='label-comment'>",
+					"<input class='input' name='fields[$i][comment]' value='", h($field["comment"]), "' data-maxlength='$max_length' aria-labelledby='label-comment'>",
 					"</td>\n";
 			}
 		}
 
 		echo "<td>";
 		if (support("move_col")) {
-			echo "<button name='add[$i]' value='1' title='" . h(lang('Add next')) . "' class='light'>", icon("add"), "</button>",
-				"<button name='up[$i]' value='1' title='" . h(lang('Move up')) . "' class='hidden light'>", icon("arrow-up"), "</button>",
-				"<button name='down[$i]' value='1' title='" . h(lang('Move down')) . "' class='hidden light'>", icon("arrow-down"), "</button>";
+			echo "<button name='add[$i]' value='1' title='" . h(lang('Add next')) . "' class='button light'>", icon("add", "solo"), "</button>",
+				"<button name='up[$i]' value='1' title='" . h(lang('Move up')) . "' class='button light hidden'>", icon("arrow-up", "solo"), "</button>",
+				"<button name='down[$i]' value='1' title='" . h(lang('Move down')) . "' class='button light hidden'>", icon("arrow-down", "solo"), "</button>";
 		}
 		if ($orig == "" || support("drop_col")) {
-			echo "<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='light'>", icon("remove"), "</button>";
+			echo "<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='button light'>", icon("remove", "solo"), "</button>";
 		}
 		echo "</td>\n</tr>\n";
 	}

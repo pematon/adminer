@@ -24,7 +24,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 if (!$grant || DB != "") {
-	echo "<tr" . odd() . "><td><input name='user' autocapitalize='off'><td><input name='host' value='localhost' autocapitalize='off'><td><input type='submit' value='" . lang('Edit') . "'>\n";
+	echo "<tr" . odd() . "><td><input class='input' name='user' autocapitalize='off'><td><input class='input' name='host' value='localhost' autocapitalize='off'><td><input type='submit' class='button' value='" . lang('Edit') . "'>\n";
 }
 
 echo "</table>\n";

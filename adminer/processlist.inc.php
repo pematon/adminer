@@ -56,7 +56,7 @@ foreach (process_list() as $i => $row) {
 <?php
 if (support("kill")) {
 	echo ($i + 1) . "/" . lang('%d in total', max_connections());
-	echo "<p><input type='submit' value='" . lang('Kill') . "'>\n";
+	echo "<p><input type='submit' class='button' value='" . lang('Kill') . "'>\n";
 }
 ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">

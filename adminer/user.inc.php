@@ -142,9 +142,9 @@ if ($_POST) {
 ?>
 <form action="" method="post">
 <table class="layout">
-<tr><th><?php echo lang('Server'); ?><td><input name="host" data-maxlength="60" value="<?php echo h($row["host"]); ?>" autocapitalize="off">
-<tr><th><?php echo lang('Username'); ?><td><input name="user" data-maxlength="80" value="<?php echo h($row["user"]); ?>" autocapitalize="off">
-<tr><th><?php echo lang('Password'); ?><td><input name="pass" id="pass" value="<?php echo h($row["pass"]); ?>" autocomplete="new-password">
+<tr><th><?php echo lang('Server'); ?><td><input class="input" name="host" data-maxlength="60" value="<?php echo h($row["host"]); ?>" autocapitalize="off">
+<tr><th><?php echo lang('Username'); ?><td><input class="input" name="user" data-maxlength="80" value="<?php echo h($row["user"]); ?>" autocapitalize="off">
+<tr><th><?php echo lang('Password'); ?><td><input class="input" name="pass" id="pass" value="<?php echo h($row["pass"]); ?>" autocomplete="new-password">
 <?php if (!$row["hashed"]) { echo script("typePassword(gid('pass'));"); } ?>
 <?php echo (min_version(8) ? "" : checkbox("hashed", 1, $row["hashed"], lang('Hashed'), "typePassword(this.form['pass'], this.checked);")); ?>
 </table>
@@ -161,7 +161,7 @@ foreach ($grants as $object => $grant) {
 	if ($object == "*.*") {
 		echo "<input type='hidden' name='objects[$i]' value='*.*' size='10'>*.*";
 	} else {
-		echo "<input name='objects[$i]' value='" . h(trim($object)) . "' size='10' autocapitalize='off'>";
+		echo "<input class='input' name='objects[$i]' value='" . h(trim($object)) . "' size='10' autocapitalize='off'>";
 	}
 	echo "</th>";
 	$i++;
@@ -231,7 +231,7 @@ foreach ([
 echo "</table>\n";
 ?>
 <p>
-<input type="submit" value="<?php echo lang('Save'); ?>">
-<?php if (isset($_GET["host"])) { ?><input type="submit" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', "$USER@$_GET[host]")); ?><?php } ?>
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
+<?php if (isset($_GET["host"])) { ?><input type="submit" class="button" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', "$USER@$_GET[host]")); ?><?php } ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>
