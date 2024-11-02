@@ -79,7 +79,7 @@ if ($jush == "pgsql") {
 }
 ?>
 <input type="hidden" name="change-js" value="">
-<noscript><p><input type="submit" name="change" value="<?php echo lang('Change'); ?>"></noscript>
+<noscript><p><input type="submit" class="button" name="change" value="<?php echo lang('Change'); ?>"></noscript>
 <table cellspacing="0">
 <thead><tr><th id="label-source"><?php echo lang('Source'); ?><th id="label-target"><?php echo lang('Target'); ?></thead>
 <?php
@@ -103,8 +103,8 @@ foreach ($row["source"] as $key => $val) {
 	'oracle' => "https://docs.oracle.com/cd/B19306_01/server.102/b14200/clauses002.htm#sthref2903",
 )); ?>
 <p>
-<input type="submit" value="<?php echo lang('Save'); ?>">
-<noscript><p><input type="submit" name="add" value="<?php echo lang('Add column'); ?>"></noscript>
-<?php if ($name != "") { ?><input type="submit" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $name)); ?><?php } ?>
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
+<noscript><p><input type="submit" class="button" name="add" value="<?php echo lang('Add column'); ?>"></noscript>
+<?php if ($name != "") { ?><input type="submit" class="button" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $name)); ?><?php } ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>

@@ -36,7 +36,7 @@ class AdminerLoginOtp
 
 		return $heading . $value .
 			"<tr><th><abbr title='" . lang('One Time Password') . "' lang='en'>OTP</abbr></th>" .
-			"<td><input type='text' name='auth[otp]' value='" . h($_SESSION["otp"]) . "' " .
+			"<td><input class='input' name='auth[otp]' value='" . h($_SESSION["otp"]) . "' " .
 			"size='6' autocomplete='one-time-code' inputmode='numeric' maxlength='6' pattern='\d{6}'/></td>" .
 			"</tr>\n";
 	}
