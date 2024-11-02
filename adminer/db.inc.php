@@ -81,9 +81,9 @@ if ($adminer->homepage()) {
 			if (support("table")) {
 				echo "<div class='field-sets'>\n";
 				echo "<fieldset><legend>" . lang('Search data in tables') . " <span id='selected2'></span></legend><div>";
-				echo "<input type='search' name='query' value='" . h($_POST["query"]) . "'>";
+				echo "<input type='search' class='input' name='query' value='" . h($_POST["query"]) . "'>";
 				echo script("qsl('input').onkeydown = partialArg(bodyKeydown, 'search');", "");
-				echo " <input type='submit' name='search' value='" . lang('Search') . "'>\n";
+				echo " <input type='submit' class='button' name='search' value='" . lang('Search') . "'>\n";
 				if ($adminer->operator_regexp !== null) {
 					echo "<p><label><input type='checkbox' name='regexp' value='1'" . (empty($_POST['regexp']) ? '' : ' checked') . '>' . lang('as a regular expression') . '</label>';
 					echo doc_link(['sql' => 'regexp.html', 'pgsql' => 'functions-matching.html#FUNCTIONS-POSIX-REGEXP', 'elastic' => "regexp-syntax.html"]) . "</p>\n";
@@ -101,7 +101,7 @@ if ($adminer->homepage()) {
 			echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
 
 			echo '<thead><tr class="wrap">';
-			echo '<td><input id="check-all" type="checkbox" class="jsonly">' . script("gid('check-all').onclick = partial(formCheck, /^(tables|views)\[/);", "");
+			echo '<td><input id="check-all" type="checkbox" class="input jsonly">' . script("gid('check-all').onclick = partial(formCheck, /^(tables|views)\[/);", "");
 			echo '<th>' . lang('Table');
 			echo '<td>' . lang('Engine') . doc_link(array('sql' => 'storage-engines.html'));
 			echo '<td>' . lang('Collation') . doc_link(array('sql' => 'charset-charsets.html', 'mariadb' => 'supported-character-sets-and-collations/'));
@@ -155,24 +155,24 @@ if ($adminer->homepage()) {
 
 			if (!information_schema(DB)) {
 				echo "<div class='footer'><div class='field-sets'>\n";
-				$vacuum = "<input type='submit' value='" . lang('Vacuum') . "'> " . help_script("VACUUM");
-				$optimize = "<input type='submit' name='optimize' value='" . lang('Optimize') . "'> " . help_script($jush == "sql" ? "OPTIMIZE TABLE" : "VACUUM OPTIMIZE");
+				$vacuum = "<input type='submit' class='button' value='" . lang('Vacuum') . "'> " . help_script("VACUUM");
+				$optimize = "<input type='submit' class='button' name='optimize' value='" . lang('Optimize') . "'> " . help_script($jush == "sql" ? "OPTIMIZE TABLE" : "VACUUM OPTIMIZE");
 				echo "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div>"
 				. ($jush == "sqlite" ? $vacuum
 				: ($jush == "pgsql" ? $vacuum . $optimize
-				: ($jush == "sql" ? "<input type='submit' value='" . lang('Analyze') . "'> " . help_script("ANALYZE TABLE") . $optimize
-					. "<input type='submit' name='check' value='" . lang('Check') . "'> " . help_script("CHECK TABLE")
-					. "<input type='submit' name='repair' value='" . lang('Repair') . "'> " . help_script("REPAIR TABLE")
+				: ($jush == "sql" ? "<input type='submit' class='button' value='" . lang('Analyze') . "'> " . help_script("ANALYZE TABLE") . $optimize
+					. "<input type='submit' class='button' class='button' name='check' value='" . lang('Check') . "'> " . help_script("CHECK TABLE")
+					. "<input type='submit' class='button' class='button' name='repair' value='" . lang('Repair') . "'> " . help_script("REPAIR TABLE")
 				: "")))
-				. "<input type='submit' name='truncate' value='" . lang('Truncate') . "'> " . help_script($jush == "sqlite" ? "DELETE" : ("TRUNCATE" . ($jush == "pgsql" ? "" : " TABLE"))) . confirm()
-				. "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . help_script("DROP TABLE") . confirm() . "\n";
+				. "<input type='submit' class='button' name='truncate' value='" . lang('Truncate') . "'> " . help_script($jush == "sqlite" ? "DELETE" : ("TRUNCATE" . ($jush == "pgsql" ? "" : " TABLE"))) . confirm()
+				. "<input type='submit' class='button' name='drop' value='" . lang('Drop') . "'>" . help_script("DROP TABLE") . confirm() . "\n";
 				$databases = (support("scheme") ? $adminer->schemas() : $adminer->databases());
 				if (count($databases) != 1 && $jush != "sqlite") {
 					$db = (isset($_POST["target"]) ? $_POST["target"] : (support("scheme") ? $_GET["ns"] : DB));
 					echo "<p>" . lang('Move to other database') . ": ";
-					echo ($databases ? html_select("target", $databases, $db) : '<input name="target" value="' . h($db) . '" autocapitalize="off">');
-					echo " <input type='submit' name='move' value='" . lang('Move') . "'>";
-					echo (support("copy") ? " <input type='submit' name='copy' value='" . lang('Copy') . "'> " . checkbox("overwrite", 1, $_POST["overwrite"], lang('overwrite')) : "");
+					echo ($databases ? html_select("target", $databases, $db) : '<input class="input" name="target" value="' . h($db) . '" autocapitalize="off">');
+					echo " <input type='submit' class='button' name='move' value='" . lang('Move') . "'>";
+					echo (support("copy") ? " <input type='submit' class='button' name='copy' value='" . lang('Copy') . "'> " . checkbox("overwrite", 1, $_POST["overwrite"], lang('overwrite')) : "");
 					echo "\n";
 				}
 				echo "<input type='hidden' name='all' value=''>"; // used by trCheck()
