@@ -80,10 +80,10 @@ class Adminer {
 
 	function loginForm() {
 		echo "<table class='layout'>\n";
-		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input type="hidden" name="auth[driver]" value="mysql"><input name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">' . script("focus(gid('username'));"));
-		echo $this->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input type="password" name="auth[password]" autocomplete="current-password">' . "\n");
+		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input type="hidden" name="auth[driver]" value="mysql"><input class="input" name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">' . script("focus(gid('username'));"));
+		echo $this->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input type="password" class="input" name="auth[password]" autocomplete="current-password">' . "\n");
 		echo "</table>\n";
-		echo "<p><input type='submit' value='" . lang('Login') . "'>\n";
+		echo "<p><input type='submit' class='button' value='" . lang('Login') . "'>\n";
 		echo checkbox("auth[permanent]", 1, $_COOKIE["adminer_permanent"], lang('Permanent login')) . "\n";
 	}
 
@@ -150,7 +150,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				foreach ($cols as $column => $val) {
 					$link .= "&set" . urlencode("[" . bracket_escape($column) . "]") . "=" . urlencode($row[$val]);
 				}
-				echo "<a href='" . h($link) . "' title='" . lang('New item') . "'>", icon("add"), "</a> ";
+				echo "<a href='" . h($link) . "' title='" . lang('New item') . "'>", icon("add", "solo"), "</a> ";
 			}
 		}
 	}
@@ -267,8 +267,8 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 			if (($val["col"] == "" || $columns[$val["col"]]) && "$val[col]$val[val]" != "") {
 				echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, $val["col"], true) . "</select>";
 				echo html_select("where[$i][op]", array(-1 => "") + $this->operators, $val["op"]);
-				echo "<input type='search' name='where[$i][val]' value='" . h($val["val"]) . "'>" . script("mixin(qsl('input'), {onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", "");
-				echo " <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>";
+				echo "<input type='search' class='input' name='where[$i][val]' value='" . h($val["val"]) . "'>" . script("mixin(qsl('input'), {onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", "");
+				echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>";
 				echo script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', "");
 				echo "</div>\n";
 				$i++;
@@ -277,9 +277,9 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, null, true) . "</select>";
 		echo script("qsl('select').onchange = selectAddRow;", "");
 		echo html_select("where[$i][op]", array(-1 => "") + $this->operators);
-		echo "<input type='search' name='where[$i][val]'>";
+		echo "<input type='search' class='input' name='where[$i][val]'>";
 		echo script("mixin(qsl('input'), {onchange: function () { this.parentNode.firstChild.onchange(); }, onsearch: selectSearchSearch});");
-		echo " <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>";
+		echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>";
 		echo script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', "");
 		echo "</div>";
 		echo "</div></fieldset>\n";
@@ -321,7 +321,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 
 	function selectActionPrint($indexes) {
 		echo "<fieldset><legend>" . lang('Action') . "</legend><div>";
-		echo "<input type='submit' value='" . lang('Select') . "'>";
+		echo "<input type='submit' class='button' value='" . lang('Select') . "'>";
 		echo "</div></fieldset>\n";
 	}
 
@@ -338,13 +338,13 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 			print_fieldset("email", lang('E-mail'), $_POST["email_append"]);
 			echo "<div>";
 			echo script("qsl('div').onkeydown = partialArg(bodyKeydown, 'email');");
-			echo "<p>" . lang('From') . ": <input name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
-			echo lang('Subject') . ": <input name='email_subject' value='" . h($_POST["email_subject"]) . "'>\n";
+			echo "<p>" . lang('From') . ": <input class='input' name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
+			echo lang('Subject') . ": <input class='input' name='email_subject' value='" . h($_POST["email_subject"]) . "'>\n";
 			echo "<p><textarea name='email_message' rows='15' cols='75'>" . h($_POST["email_message"] . ($_POST["email_append"] ? '{$' . "$_POST[email_addition]}" : "")) . "</textarea>\n";
-			echo "<p>" . script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');", "") . html_select("email_addition", $columns, $_POST["email_addition"]) . "<input type='submit' name='email_append' value='" . lang('Insert') . "'>\n"; //! JavaScript
+			echo "<p>" . script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');", "") . html_select("email_addition", $columns, $_POST["email_addition"]) . "<input type='submit' class='button' name='email_append' value='" . lang('Insert') . "'>\n"; //! JavaScript
 			echo "<p>" . lang('Attachments') . ": <input type='file' name='email_files[]'>" . script("qsl('input').onchange = emailFileChange;");
 			echo "<p>" . (count($emailFields) == 1 ? '<input type="hidden" name="email_field" value="' . h(key($emailFields)) . '">' : html_select("email_field", $emailFields));
-			echo "<input type='submit' name='email' value='" . lang('Send') . "'>" . confirm();
+			echo "<input type='submit' class='button' name='email' value='" . lang('Send') . "'>" . confirm();
 			echo "</div>\n";
 			echo "</div></fieldset>\n";
 		}
@@ -504,8 +504,8 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		if ($options !== null) {
 			return (is_array($options)
 				? "<select$attrs>" . optionlist($options, $value, true) . "</select>"
-				: "<input value='" . h($value) . "'$attrs class='hidden'>"
-					. "<input value='" . h($options) . "' class='jsonly'>"
+				: "<input value='" . h($value) . "'$attrs class='input hidden'>"
+					. "<input value='" . h($options) . "' class='input jsonly'>"
 					. "<div></div>"
 					. script("qsl('input').oninput = partial(whisper, '" . ME . "script=complete&source=" . urlencode($table) . "&field=" . urlencode($field["field"]) . "&value=');
 qsl('div').onclick = whisperClick;", "")
@@ -527,7 +527,7 @@ qsl('div').onclick = whisperClick;", "")
 				. "$attrs> ($hint)"; //! maxlength
 		}
 		if (preg_match('~_(md5|sha1)$~i', $field["field"])) {
-			return "<input type='password' value='" . h($value) . "'$attrs>";
+			return "<input type='password' class='input' value='" . h($value) . "'$attrs>";
 		}
 		return '';
 	}
@@ -664,7 +664,7 @@ qsl('div').onclick = whisperClick;", "")
 		global $adminer;
 
 		echo "<div class='tables-filter jsonly'>"
-			. "<input id='tables-filter' autocomplete='off' placeholder='" . lang('Table') . "'>"
+			. "<input id='tables-filter' autocomplete='off' placeholder='" . lang('Table') . "' class='input'>"
 			. script("initTablesFilter(" . json_encode($adminer->database()) . ");")
 			. "</div>\n";
 	}

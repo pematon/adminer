@@ -32,7 +32,7 @@ class AdminerEmailTable {
 			print_fieldset("email", ('E-mail'));
 			echo "<div>\n";
 			echo script("qsl('div').onkeydown = partial(bodyKeydown, 'email');");
-			echo "<p>" . ('From') . ": <input name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
+			echo "<p>" . ('From') . ": <input class='input' name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
 			echo ('Subject') . ": <select name='email_id'><option>" . optionlist(get_key_vals("SELECT $this->id, $this->title FROM $this->table ORDER BY $this->title"), $_POST["email_id"], true) . "</select>\n";
 			echo "<p>" . ('Attachments') . ": <input type='file' name='email_files[]'>";
 			echo script("qsl('input').onchange = function () {
@@ -42,7 +42,7 @@ class AdminerEmailTable {
 	this.parentNode.appendChild(el);
 };");
 			echo "<p>" . (count($emailFields) == 1 ? '<input type="hidden" name="email_field" value="' . h(key($emailFields)) . '">' : html_select("email_field", $emailFields));
-			echo "<input type='submit' name='email' value='" . ('Send') . "'>" . confirm();
+			echo "<input type='submit' class='button' name='email' value='" . ('Send') . "'>" . confirm();
 			echo "</div>\n";
 			echo "</div></fieldset>\n";
 			return true;

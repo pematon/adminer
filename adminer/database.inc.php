@@ -63,7 +63,7 @@ if ($_POST) {
 <?php
 echo ($_POST["add_x"] || strpos($name, "\n")
 	? '<textarea id="name" name="name" rows="10" cols="40">' . h($name) . '</textarea><br>'
-	: '<input name="name" id="name" value="' . h($name) . '" data-maxlength="64" autocapitalize="off">'
+	: '<input class="input" name="name" id="name" value="' . h($name) . '" data-maxlength="64" autocapitalize="off">'
 ) . "\n" . ($collations ? html_select("collation", array("" => "(" . lang('collation') . ")") + $collations, $row["collation"]) . doc_link(array(
 	'sql' => "charset-charsets.html",
 	'mariadb' => "supported-character-sets-and-collations/",
@@ -71,12 +71,12 @@ echo ($_POST["add_x"] || strpos($name, "\n")
 )) : "");
 echo script("focus(gid('name'));");
 ?>
-<input type="submit" value="<?php echo lang('Save'); ?>">
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
 <?php
 if (DB != "") {
-	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', DB)) . "\n";
+	echo "<input type='submit' class='button' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', DB)) . "\n";
 } elseif (!$_POST["add_x"] && $_GET["db"] == "") {
-	echo "<button name='add_x' value='1' title='", h(lang('Add next')), "' class='light'>", icon("add"), "</button>\n";
+	echo "<button name='add_x' value='1' title='", h(lang('Add next')), "' class='button light'>", icon("add solo"), "</button>\n";
 }
 ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
