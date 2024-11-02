@@ -175,7 +175,7 @@ echo "<tr><th>" . lang('Output') . "<td>" . html_select("output", $adminer->dump
 
 ?>
 </table>
-<p><input type="submit" value="<?php echo lang('Export'); ?>">
+<p><input type="submit" class="button" value="<?php echo lang('Export'); ?>">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 
 <table cellspacing="0">

@@ -87,7 +87,7 @@ if ($in) {
 }
 
 echo "<p>",
-	"<input type='submit' value='", lang('Call'), "'>",
+	"<input type='submit' class='button' value='", lang('Call'), "'>",
 	"<input type='hidden' name='token' value='$token'>",
 	"</p>\n",
 	"</form>\n";
