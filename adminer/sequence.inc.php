@@ -27,11 +27,11 @@ if (!$row) {
 ?>
 
 <form action="" method="post">
-<p><input name="name" value="<?php echo h($row["name"]); ?>" autocapitalize="off">
-<input type="submit" value="<?php echo lang('Save'); ?>">
+<p><input class="input" name="name" value="<?php echo h($row["name"]); ?>" autocapitalize="off">
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
 <?php
 if ($SEQUENCE != "") {
-	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', $SEQUENCE)) . "\n";
+	echo "<input type='submit' class='button' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', $SEQUENCE)) . "\n";
 }
 ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">

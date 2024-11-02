@@ -68,7 +68,7 @@ function connect_error() {
 				? "<div class='footer'><div class='field-sets'>\n"
 					. "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div>\n"
 					. "<input type='hidden' name='all' value=''>" . script("qsl('input').onclick = function () { selectCount('selected', formChecked(this, /^db/)); };") // used by trCheck()
-					. "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm() . "\n"
+					. "<input type='submit' class='button' name='drop' value='" . lang('Drop') . "'>" . confirm() . "\n"
 					. "</div></fieldset>\n"
 					. "</div></div>\n"
 				: ""

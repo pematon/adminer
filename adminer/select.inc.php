@@ -256,7 +256,7 @@ if (!$columns && support("table")) {
 	hidden_fields_get();
 	echo (DB != "" ? '<input type="hidden" name="db" value="' . h(DB) . '">' . (isset($_GET["ns"]) ? '<input type="hidden" name="ns" value="' . h($_GET["ns"]) . '">' : "") : ""); // not used in Editor
 	echo '<input type="hidden" name="select" value="' . h($TABLE) . '">';
-	echo '<input type="submit" value="' . h(lang('Select')) . '">'; # hidden default submit so filter remove buttons aren't "clicked" on submission from enter key
+	echo '<input type="submit" class="button" value="' . h(lang('Select')) . '">'; # hidden default submit so filter remove buttons aren't "clicked" on submission from enter key
 	echo "</div>\n";
 	echo "<div class='field-sets'>\n";
 	$adminer->selectColumnsPrint($select, $columns);
@@ -332,7 +332,7 @@ if (!$columns && support("table")) {
 
 			if ($group || !$select) {
 				echo "<td><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
-					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon('edit-all'), "</a>";
+					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon("edit-all", "solo"), "</a>";
 			}
 
 			$names = array();
@@ -417,7 +417,7 @@ if (!$columns && support("table")) {
 						checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array)$_POST["check"]));
 
 					if (!$is_group && !information_schema(DB)) {
-						echo " <a href='", h(ME . "edit=" . urlencode($TABLE) . $unique_idf), "' class='edit' title='", lang('Edit'), "'>", icon("edit"), "</a>";
+						echo " <a href='", h(ME . "edit=" . urlencode($TABLE) . $unique_idf), "' class='edit' title='", lang('Edit'), "'>", icon("edit", "solo"), "</a>";
 					}
 				}
 
@@ -471,7 +471,7 @@ if (!$columns && support("table")) {
 						echo "<td id='$id'";
 						if (($_GET["modify"] && $editable) || $value !== null) {
 							$h_value = h($value !== null ? $value : $row[$key]);
-							echo ">" . ($text ? "<textarea name='$id' cols='30' rows='" . (substr_count($row[$key], "\n") + 1) . "'>$h_value</textarea>" : "<input name='$id' value='$h_value' size='$lengths[$key]'>");
+							echo ">" . ($text ? "<textarea name='$id' cols='30' rows='" . (substr_count($row[$key], "\n") + 1) . "'>$h_value</textarea>" : "<input class='input' name='$id' value='$h_value' size='$lengths[$key]'>");
 						} else {
 							$long = strpos($val, "<i>…</i>");
 							echo " data-text='" . ($long ? 2 : ($text ? 1 : 0)) . "'"
@@ -567,12 +567,12 @@ if (!$columns && support("table")) {
 				if ($adminer->selectCommandPrint()) {
 					?>
 <fieldset<?php echo ($_GET["modify"] ? '' : ' class="jsonly"'); ?>><legend><?php echo lang('Modify'); ?></legend><div>
-<input type="submit" value="<?php echo lang('Save'); ?>"<?php echo ($_GET["modify"] ? '' : ' title="' . lang('Ctrl+click on a value to modify it.') . '"'); ?>>
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>"<?php echo ($_GET["modify"] ? '' : ' title="' . lang('Ctrl+click on a value to modify it.') . '"'); ?>>
 </div></fieldset>
 <fieldset><legend><?php echo lang('Selected'); ?> <span id="selected"></span></legend><div>
-<input type="submit" name="edit" value="<?php echo lang('Edit'); ?>">
-<input type="submit" name="clone" value="<?php echo lang('Clone'); ?>">
-<input type="submit" name="delete" value="<?php echo lang('Delete'); ?>"><?php echo confirm(); ?>
+<input type="submit" class="button" name="edit" value="<?php echo lang('Edit'); ?>">
+<input type="submit" class="button" name="clone" value="<?php echo lang('Clone'); ?>">
+<input type="submit" class="button" name="delete" value="<?php echo lang('Delete'); ?>"><?php echo confirm(); ?>
 </div></fieldset>
 <?php
 				}
@@ -589,7 +589,7 @@ if (!$columns && support("table")) {
 					echo html_select("format", $format, $adminer_import["format"]);
 					$output = $adminer->dumpOutput();
 					echo ($output ? " " . html_select("output", $output, $adminer_import["output"]) : "");
-					echo " <input type='submit' name='export' value='" . lang('Export') . "'>\n";
+					echo " <input type='submit' class='button' name='export' value='" . lang('Export') . "'>\n";
 					echo "</div></fieldset>\n";
 				}
 
@@ -606,7 +606,7 @@ if (!$columns && support("table")) {
 				echo "<p id='import' class='hidden'>";
 				echo "<input type='file' name='csv_file'> ";
 				echo html_select("separator", array("csv" => "CSV,", "csv;" => "CSV;", "tsv" => "TSV"), $adminer_import["format"]);
-				echo " <input type='submit' name='import' value='" . lang('Import') . "'>";
+				echo " <input type='submit' class='button' name='import' value='" . lang('Import') . "'>";
 				echo "</p>";
 			}
 

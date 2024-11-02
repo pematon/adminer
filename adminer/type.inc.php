@@ -25,11 +25,11 @@ if (!$row) {
 <p>
 <?php
 if ($TYPE != "") {
-	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', $TYPE)) . "\n";
+	echo "<input type='submit' class='button' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', $TYPE)) . "\n";
 } else {
-	echo "<input name='name' value='" . h($row['name']) . "' autocapitalize='off'>\n";
+	echo "<input class='input' name='name' value='" . h($row['name']) . "' autocapitalize='off'>\n";
 	textarea("as", $row["as"]);
-	echo "<p><input type='submit' value='" . lang('Save') . "'>\n";
+	echo "<p><input type='submit' class='button' value='" . lang('Save') . "'>\n";
 }
 ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">

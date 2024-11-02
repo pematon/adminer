@@ -131,12 +131,12 @@ class Adminer {
 		global $drivers;
 		echo "<table class='layout'>\n";
 		echo $this->loginFormField('driver', '<tr><th>' . lang('System') . '<td>', html_select("auth[driver]", $drivers, DRIVER, "loginDriver(this);") . "\n");
-		echo $this->loginFormField('server', '<tr><th>' . lang('Server') . '<td>', '<input name="auth[server]" value="' . h(SERVER) . '" title="hostname[:port]" placeholder="localhost" autocapitalize="off">' . "\n");
-		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">' . script("focus(gid('username')); gid('username').form['auth[driver]'].onchange();"));
-		echo $this->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input type="password" name="auth[password]" autocomplete="current-password">' . "\n");
-		echo $this->loginFormField('db', '<tr><th>' . lang('Database') . '<td>', '<input name="auth[db]" value="' . h($_GET["db"]) . '" autocapitalize="off">' . "\n");
+		echo $this->loginFormField('server', '<tr><th>' . lang('Server') . '<td>', '<input class="input" name="auth[server]" value="' . h(SERVER) . '" title="hostname[:port]" placeholder="localhost" autocapitalize="off">' . "\n");
+		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input class="input" name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">' . script("focus(gid('username')); gid('username').form['auth[driver]'].onchange();"));
+		echo $this->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input type="password" class="input" name="auth[password]" autocomplete="current-password">' . "\n");
+		echo $this->loginFormField('db', '<tr><th>' . lang('Database') . '<td>', '<input class="input" name="auth[db]" value="' . h($_GET["db"]) . '" autocapitalize="off">' . "\n");
 		echo "</table>\n";
-		echo "<p><input type='submit' value='" . lang('Login') . "'>\n";
+		echo "<p><input type='submit' class='button' value='" . lang('Login') . "'>\n";
 		echo checkbox("auth[permanent]", 1, $_COOKIE["adminer_permanent"], lang('Permanent login')) . "\n";
 	}
 
@@ -442,7 +442,7 @@ class Adminer {
 				echo $column;
 			}
 
-			echo " <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
+			echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
 				script("qsl('#fieldset-select .remove').onclick = selectRemoveRow;", ""),
 				"</div>\n";
 
@@ -464,7 +464,7 @@ class Adminer {
 		foreach ($indexes as $i => $index) {
 			if ($index["type"] == "FULLTEXT") {
 				echo "<div>(<i>" . implode("</i>, <i>", array_map('Adminer\h', $index["columns"])) . "</i>) AGAINST";
-				echo "<input type='search' name='fulltext[$i]' value='" . h($_GET["fulltext"][$i]) . "'>";
+				echo "<input type='search' class='input' name='fulltext[$i]' value='" . h($_GET["fulltext"][$i]) . "'>";
 				echo script("qsl('input').oninput = selectFieldChange;", "");
 				echo checkbox("boolean[$i]", 1, isset($_GET["boolean"][$i]), "BOOL");
 				echo "</div>\n";
@@ -483,9 +483,9 @@ class Adminer {
 						"(" . lang('anywhere') . ")"
 					),
 					html_select("where[$i][op]", $this->operators, $val["op"], $change_next),
-					"<input type='search' name='where[$i][val]' value='" . h($val["val"]) . "'>",
+					"<input type='search' class='input' name='where[$i][val]' value='" . h($val["val"]) . "'>",
 					script("mixin(qsl('input'), {oninput: function () { $change_next }, onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", ""),
-					" <button class='jsonly light remove' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
+					" <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
 					script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', ""),
 					"</div>\n";
 			}
@@ -513,7 +513,7 @@ class Adminer {
 				icon("handle", "handle jsonly"),
 				select_input("name='order[$i]'", $columns, $val, $key !== "" ? "selectFieldChange" : "selectAddRow"),
 				" ", checkbox("desc[$i]", 1, isset($_GET["desc"][$key]), lang('descending')),
-				" <button class='jsonly light remove' title='" . h(lang('Remove')), "'>", icon("remove"), "</button>",
+				" <button class='button light remove jsonly' title='" . h(lang('Remove')), "'>", icon("remove"), "</button>",
 				script('qsl("#fieldset-sort .remove").onclick = selectRemoveRow;', ""),
 				"</div>\n";
 
@@ -529,7 +529,7 @@ class Adminer {
 	*/
 	function selectLimitPrint($limit) {
 		echo "<fieldset><legend>" . lang('Limit') . "</legend><div>"; // <div> for easy styling
-		echo "<input type='number' name='limit' class='size' value='" . h($limit) . "'>";
+		echo "<input type='number' name='limit' class='input size' value='" . h($limit) . "'>";
 		echo script("qsl('input').oninput = selectFieldChange;", "");
 		echo "</div></fieldset>\n";
 	}
@@ -541,7 +541,7 @@ class Adminer {
 	function selectLengthPrint($text_length) {
 		if ($text_length !== null) {
 			echo "<fieldset><legend>" . lang('Text length') . "</legend><div>";
-			echo "<input type='number' name='text_length' class='size' value='" . h($text_length) . "'>";
+			echo "<input type='number' name='text_length' class='input size' value='" . h($text_length) . "'>";
 			echo "</div></fieldset>\n";
 		}
 	}
@@ -552,7 +552,7 @@ class Adminer {
 	*/
 	function selectActionPrint($indexes) {
 		echo "<fieldset><legend>" . lang('Action') . "</legend><div>";
-		echo "<input type='submit' value='" . lang('Select') . "'>";
+		echo "<input type='submit' class='button' value='" . lang('Select') . "'>";
 		echo " <span id='noindex' title='" . lang('Full table scan') . "'></span>";
 		echo "<script" . nonce() . ">\n";
 		echo "var indexColumns = ";
@@ -1226,9 +1226,9 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 			echo "<select id='database-select' name='db'>" . optionlist(["" => lang('Database')] + $databases, DB) . "</select>"
 				. script("mixin(gid('database-select'), {onmousedown: dbMouseDown, onchange: dbChange});");
 		} else {
-			echo "<input id='database-select' name='db' value='" . h(DB) . "' autocapitalize='off'>\n";
+			echo "<input id='database-select' class='input' name='db' value='" . h(DB) . "' autocapitalize='off'>\n";
 		}
-		echo "<input type='submit' value='" . lang('Use') . "'" . ($databases ? " class='hidden'" : "") . ">\n";
+		echo "<input type='submit' value='" . lang('Use') . "'" . ($databases ? " class='button hidden'" : "") . ">\n";
 
 		if (support("scheme") && $missing != "db" && DB != "" && $connection->select_db(DB)) {
 			echo "<br><select id='scheme-select' name='ns'>" . optionlist(["" => lang('Schema')] + $adminer->schemas(), $_GET["ns"]) . "</select>"
@@ -1256,7 +1256,7 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 		global $adminer;
 
 		echo "<div class='tables-filter jsonly'>"
-			. "<input id='tables-filter' autocomplete='off' placeholder='" . lang('Table') . "'>"
+			. "<input id='tables-filter' class='input' autocomplete='off' placeholder='" . lang('Table') . "'>"
 			. script("initTablesFilter(" . json_encode($adminer->database()) . ");")
 			. "</div>\n";
 	}

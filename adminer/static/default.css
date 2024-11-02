@@ -71,8 +71,8 @@
 
 :focus-visible { outline: 2px solid var(--link-text); }
 a:focus-visible, input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outline-offset: 1px; border-radius: 0.5px; }
-button:focus-visible, input:not([type]):focus-visible, input[type="text"]:focus-visible, input[type="search"]:focus-visible,
-input[type="password"]:focus-visible, input[type="number"]:focus-visible, input[type="submit"]:focus-visible, select:focus-visible { outline-width: 1px; border-color: var(--link-text); }
+.button:focus-visible, .input:focus-visible, select:focus-visible, .sqlarea:focus-visible { outline-width: 1px; border-color: var(--link-text) !important; }
+.button.light:focus-visible { outline-width: 2px; }
 input[type="file"]:focus-visible { border-radius: 1px; }
 
 html { font-size: 125%; -webkit-text-size-adjust: none; -moz-text-size-adjust: none; text-size-adjust: none; }
@@ -114,28 +114,29 @@ pre + .links { margin-top: -15px; margin-bottom: 20px; }
 pre.sqlarea { margin: 0; }
 pre.jush { background: var(--input-bg); }
 pre.comment { white-space: pre-wrap; }
+.icon { width: 1.25em; height: 1.25em; vertical-align: middle; margin-top: -3px; margin-inline-end: 0.5em; }
+.icon.solo { margin-inline-end: 0; }
 form + pre.comment { margin-top: 30px; }
 td pre { margin: 0; }
 #fieldset-history > code { display: block; margin: 5px 0 10px; padding: 10px 15px; }
 #fieldset-history > code + .time { margin-top: -2px; }
 #fieldset-history > code + br { display: none; }
 input, textarea, select { box-sizing: border-box; }
-.button, button, input:not([type]), input[type="text"], input[type="search"], input[type="password"], input[type="number"], input[type="submit"], select { padding: 2px 4px; border: 1px solid var(--input-border); border-radius: 2px; background: var(--input-bg); color: var(--input-text); font-size: 100%; }
-.button, button, input[type="checkbox"], input[type="radio"], input[type="file"], input[type="submit"], select, label { cursor: pointer; }
-.button, button, input[type="submit"] { background: var(--button-bg); border-color: var(--button-borer); }
-.button:hover, button:hover, input[type="submit"]:hover { background: var(--button-bg-hover); }
-.button .icon, button .icon { margin-inline-end: 0; }
-.button, button .icon:first-child { margin-left: -2px; }
+.button, .input, select { padding: 2px 4px; border: 1px solid var(--input-border); border-radius: 2px; background: var(--input-bg); color: var(--input-text); font-size: 100%; }
+.button, input[type="checkbox"], input[type="radio"], input[type="file"], select, label { cursor: pointer; }
+.button { background: var(--button-bg); border-color: var(--button-borer); }
+.button:hover, button:hover { background: var(--button-bg-hover); }
+.button .icon { vertical-align: top; margin-top: 0; margin-inline-end: 0.25em; opacity: 0.7; }
+.button .icon:first-child { margin-left: -2px; }
+.button .icon.solo { margin-right: -2px; }
 a.button { display: inline-block; }
-button .icon:last-child { margin-right: -2px; }
-table a .icon:last-child { margin-inline-end: 0; }
-.button.light, button.light { border: none; padding: 3px 5px; background: transparent; color: var(--link-text); }
-.button.light:hover, button.light:hover { color: var(--link-text-hover); }
+.button.light { border: none; padding: 3px 5px; background: transparent; color: var(--link-text); }
+.button.light:hover { color: var(--link-text-hover); }
+.button.default { color: var(--link-text); }
 input[type="checkbox"], input[type="radio"] { margin: 3px 5px 3px 3px; vertical-align: top; position: relative; top: 2px; }
 table input[type="checkbox"], table input[type="radio"] { margin-top: 0; }
 input[type="number"] { -moz-appearance: textfield; }
 input::-webkit-inner-spin-button { -webkit-appearance: none; }
-input.default, button.default { color: var(--link-text); }
 input.required { border-color: var(--required-border); }
 input.maxlength { border-color: var(--required-border); }
 .invisible { width: 1px; height: 1px; margin: -1px; overflow: hidden; position: absolute; padding: 0; border: none; clip: rect(0, 0, 0, 0); }
@@ -170,8 +171,6 @@ p.nowrap { white-space: pre; }
 .view { font-style: italic; }
 .active { font-weight: bold; }
 .sqlarea { box-sizing: border-box; width: 100%; padding: 3px !important; border: 1px solid var(--input-border) !important; border-radius: 2px; }
-.icon { width: 1.25em; height: 1.25em; vertical-align: middle; margin-top: -3px; margin-inline-end: 0.5em; }
-.icon.solo { margin-inline-end: 0; }
 .size { width: 7ex; }
 .help { cursor: help; }
 .footer { position: sticky; bottom: 0; margin-top: -20px; border-top: 20px solid rgba(255, 255, 255, .7); border-image: linear-gradient(transparent, var(--body-bg)) 100% 0; }
@@ -185,7 +184,6 @@ p.nowrap { white-space: pre; }
 .field-sets { margin: 0 20px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 5px; }
 .column { position: absolute; background: var(--header-bg); margin: -3px 5px 0; }
 .handle { cursor: grab; vertical-align: middle; width: 18px; height: 18px; opacity: 0.2; }
-.handle .icon { margin: 0; }
 .no-sort .handle { cursor: default; opacity: 0; }
 .placeholder { opacity: 0; }
 .dragging { position: absolute; margin: 0; background: var(--body-bg); }

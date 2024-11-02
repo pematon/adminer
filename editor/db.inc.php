@@ -6,7 +6,7 @@ page_header(lang('Server'), "", false);
 
 if ($adminer->homepage()) {
 	echo "<form action='' method='post'>\n";
-	echo "<p>" . lang('Search data in tables') . ": <input type='search' name='query' value='" . h($_POST["query"]) . "'> <input type='submit' value='" . lang('Search') . "'>\n";
+	echo "<p>" . lang('Search data in tables') . ": <input type='search' class='input' name='query' value='" . h($_POST["query"]) . "'> <input type='submit' class='button' value='" . lang('Search') . "'>\n";
 	if ($_POST["query"] != "") {
 		search_tables();
 	}
@@ -16,7 +16,7 @@ if ($adminer->homepage()) {
 	echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
 
 	echo '<thead><tr class="wrap">';
-	echo '<td><input id="check-all" type="checkbox" class="jsonly">' . script("gid('check-all').onclick = partial(formCheck, /^tables\[/);", "");
+	echo '<td><input id="check-all" type="checkbox" class="input jsonly">' . script("gid('check-all').onclick = partial(formCheck, /^tables\[/);", "");
 	echo '<th>' . lang('Table');
 	echo '<td>' . lang('Rows');
 	echo "</thead>\n";

@@ -180,7 +180,7 @@ if (!$error && $_POST) {
 												. html_select("output", $adminer->dumpOutput(), $adminer_export["output"]) . " "
 												. html_select("format", $dump_format, $adminer_export["format"])
 												. "<input type='hidden' name='query' value='" . h($q) . "'>"
-												. " <input type='submit' name='export' value='" . lang('Export') . "'><input type='hidden' name='token' value='$token'></span>\n"
+												. " <input type='submit' class='button' name='export' value='" . lang('Export') . "'><input type='hidden' name='token' value='$token'></span>\n"
 												. "</form>\n"
 											;
 										}
@@ -234,7 +234,7 @@ if (!$error && $_POST) {
 
 <form action="" method="post" enctype="multipart/form-data" id="form">
 <?php
-$execute = "<input type='submit' value='" . lang('Execute') . "' title='Ctrl+Enter'>";
+$execute = "<input type='submit' class='button' value='" . lang('Execute') . "' title='Ctrl+Enter'>";
 if (!isset($_GET["import"])) {
 	$q = $_GET["sql"]; // overwrite $q from if ($_POST) to save memory
 	if ($_POST) {
@@ -248,7 +248,7 @@ if (!isset($_GET["import"])) {
 	textarea("query", $q, 20);
 	echo script(($_POST ? "" : "qs('textarea').focus();\n") . "gid('form').onsubmit = partial(sqlSubmit, gid('form'), '" . js_escape(remove_from_uri("sql|limit|error_stops|only_errors|history")) . "');");
 	echo "<p>$execute\n";
-	echo lang('Limit rows') . ": <input type='number' name='limit' class='size' value='" . h($_POST ? $_POST["limit"] : $_GET["limit"]) . "'>\n";
+	echo lang('Limit rows') . ": <input type='number' name='limit' class='input size' value='" . h($_POST ? $_POST["limit"] : $_GET["limit"]) . "'>\n";
 
 } else {
 	echo "<div class='field-sets'>\n";
@@ -263,7 +263,7 @@ if (!isset($_GET["import"])) {
 	if ($import_file_path) {
 		echo "<fieldset><legend>" . lang('From server') . "</legend><div>";
 		echo lang('Webserver file %s', "<code>" . h($import_file_path) . "$gz</code>");
-		echo ' <input type="submit" name="webfile" value="' . lang('Run file') . '">';
+		echo ' <input type="submit" class="button" name="webfile" value="' . lang('Run file') . '">';
 		echo "</div></fieldset>\n";
 	}
 	echo "</div>\n";
@@ -287,7 +287,7 @@ if (!isset($_GET["import"]) && $history) {
 			. "<br>\n"
 		;
 	}
-	echo "<input type='submit' name='clear' value='" . lang('Clear') . "'>\n";
+	echo "<input type='submit' class='button' name='clear' value='" . lang('Clear') . "'>\n";
 	echo "<a href='" . h(ME . "sql=&history=all") . "'>" . lang('Edit all') . "</a>\n";
 	echo "</div></fieldset>\n";
 	echo "</div>\n";

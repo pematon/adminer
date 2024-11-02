@@ -104,7 +104,7 @@ if (!$row) {
 <th><input type="submit" class="button invisible"><?php echo lang('Column (length)'); ?>
 <th id="label-name"><?php echo lang('Name'); ?>
 <th><?php
-	echo "<button name='add[0]' value='1' title='", h(lang('Add next')), "' class='noscript light'>", icon("add"), "</button>";
+	echo "<button name='add[0]' value='1' title='", h(lang('Add next')), "' class='button light noscript'>", icon("add", "solo"), "</button>";
 ?></th>
 </thead>
 <?php
@@ -112,7 +112,7 @@ if ($primary) {
 	echo "<tr><td>PRIMARY<td>";
 	foreach ($primary["columns"] as $key => $column) {
 		echo select_input(" disabled", $fields, $column);
-		echo "<label><input disabled type='checkbox'>" . lang('descending') . "</label> ";
+		echo "<label><input type='checkbox' disabled>" . lang('descending') . "</label> ";
 	}
 	echo "<td><td>\n";
 }
@@ -133,7 +133,7 @@ foreach ($row["indexes"] as $index) {
 				$column,
 				"partial(" . ($i == count($index["columns"]) ? "indexesAddColumn" : "indexesChangeColumn") . ", '" . js_escape($jush == "sql" ? "" : $_GET["indexes"] . "_") . "')"
 			);
-			echo ($jush == "sql" || $jush == "mssql" ? "<input type='number' name='indexes[$j][lengths][$i]' class='size' value='" . (h($index["lengths"][$key] ?? "")) . "' title='" . lang('Length') . "'>" : "");
+			echo ($jush == "sql" || $jush == "mssql" ? "<input type='number' name='indexes[$j][lengths][$i]' class='input size' value='" . (h($index["lengths"][$key] ?? "")) . "' title='" . lang('Length') . "'>" : "");
 			echo (support("descidx") ? checkbox("indexes[$j][descs][$i]", 1, $index["descs"][$key] ?? false, lang('descending')) : "");
 			echo " </span>";
 			$i++;
@@ -142,7 +142,7 @@ foreach ($row["indexes"] as $index) {
 
 		echo "<td><input name='indexes[$j][name]' value='", h($index["name"]), "' autocapitalize='off' aria-labelledby='label-name'></td>\n",
 			"<td>",
-			"<button name='drop_col[$i]' value='1' title='", h(lang('Remove')), "' class='light'>", icon("remove"), "</button>",
+			"<button name='drop_col[$i]' value='1' title='", h(lang('Remove')), "' class='button light'>", icon("remove"), "</button>",
 			script("qsl('button').onclick = partial(editingRemoveRow, 'indexes\$1[type]');"),
 			"</td>\n";
 	}
@@ -152,6 +152,6 @@ foreach ($row["indexes"] as $index) {
 </table>
 </div>
 <p>
-<input type="submit" value="<?php echo lang('Save'); ?>">
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>
