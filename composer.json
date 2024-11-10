@@ -42,7 +42,6 @@
         "ext-mysqli": "*",
         "ext-mysql": "*",
         "ext-pgsql": "*",
-        "ext-mongo": "*",
         "ext-mongodb": "*",
         "ext-sqlsrv": "*",
         "ext-sqlite": "*",
