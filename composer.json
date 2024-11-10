@@ -42,7 +42,6 @@
         "ext-mysqli": "Allows access to MySQL database",
         "ext-mysql": "Allows access to MySQL database (old driver)",
         "ext-pgsql": "Allows access to PostgreSQL database",
-        "ext-mongo": "Allows access to MongoDB database (old extension)",
         "ext-mongodb": "Allows access to MongoDB database",
         "ext-sqlsrv": "Allows access to MS SQ database",
         "ext-oci8": "Allows access to Oracle database",
