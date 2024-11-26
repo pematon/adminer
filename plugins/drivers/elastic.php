@@ -19,7 +19,7 @@ if (isset($_GET["elastic"])) {
 			 * @param string $method
 			 * @return array|false
 			 */
-			function rootQuery($path, array $content = null, $method = 'GET') {
+			function rootQuery($path, ?array $content = null, $method = 'GET') {
 				@ini_set('track_errors', 1); // @ - may be disabled
 
 				$file = @file_get_contents("$this->_url/" . ltrim($path, '/'), false, stream_context_create(array('http' => array(
@@ -61,7 +61,7 @@ if (isset($_GET["elastic"])) {
 			 * @param string $method
 			 * @return array|false
 			 */
-			function query($path, array $content = null, $method = 'GET') {
+			function query($path, ?array $content = null, $method = 'GET') {
 				// Support for global search through all tables
 				if ($path != "" && $path[0] == "S" && preg_match('/SELECT 1 FROM ([^ ]+) WHERE (.+) LIMIT ([0-9]+)/', $path, $matches)) {
 					global $driver;
