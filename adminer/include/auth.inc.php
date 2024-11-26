@@ -243,7 +243,7 @@ if (isset($_GET["username"]) && is_string(get_password())) {
 $login = null;
 if (!is_object($connection) || ($login = $adminer->login($_GET["username"], get_password())) !== true) {
 	$error = (is_string($connection) ? h($connection) : (is_string($login) ? $login : lang('Invalid server or credentials.')));
-	auth_error($error . (preg_match('~^ | $~', get_password()) ? '<br>' . lang('There is a space in the input password which might be the cause.') : ''));
+	auth_error($error . (preg_match('~^ | $~', get_password() ?? "") ? '<br>' . lang('There is a space in the input password which might be the cause.') : ''));
 }
 
 if ($_POST["logout"] && $has_token && !verify_token()) {
