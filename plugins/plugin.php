@@ -15,7 +15,7 @@ class AdminerPlugin extends Adminer {
 	 * Registers plugins.
 	 * @param array $plugins Object instances or null to register all classes starting by 'Adminer'.
 	 */
-	function __construct(array $plugins = null)
+	function __construct(?array $plugins = null)
 	{
 		if ($plugins === null) {
 			$plugins = [];
@@ -31,7 +31,7 @@ class AdminerPlugin extends Adminer {
 	}
 
 	function _callParent($function, $args) {
-		return call_user_func_array(array('parent', $function), $args);
+		return call_user_func_array(array(parent::class, $function), $args);
 	}
 
 	function _applyPlugin($function, $args) {
