@@ -145,7 +145,7 @@ if (defined("DRIVER")) {
 define("SERVER", DRIVER ? $_GET[DRIVER] : null); // read from pgsql=localhost
 define("DB", $_GET["db"]); // for the sake of speed and size
 define("ME", preg_replace('~\?.*~', '', relative_uri()) . '?'
-	. (sid() ? SID . '&' : '')
+	. (sid() ? session_name() . "=" . urlencode(session_id()) . '&' : '')
 	. (SERVER !== null ? DRIVER . "=" . urlencode(SERVER) . '&' : '')
 	. (isset($_GET["username"]) ? "username=" . urlencode($_GET["username"]) . '&' : '')
 	. (DB != "" ? 'db=' . urlencode(DB) . '&' . (isset($_GET["ns"]) ? "ns=" . urlencode($_GET["ns"]) . "&" : "") : '')
