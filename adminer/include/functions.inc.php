@@ -160,7 +160,7 @@ function target_blank() {
 * @return string
 */
 function h($string) {
-	return str_replace("\0", "&#0;", htmlspecialchars($string, ENT_QUOTES, 'utf-8'));
+	return $string !== null ? str_replace("\0", "&#0;", htmlspecialchars($string, ENT_QUOTES, 'utf-8')) : "";
 }
 
 function icon(string $id, ?string $class = null): string
@@ -343,7 +343,7 @@ function ini_bool($ini) {
 function sid() {
 	static $return;
 	if ($return === null) { // restart_session() defines SID
-		$return = (SID && !($_COOKIE && ini_bool("session.use_cookies"))); // $_COOKIE - don't pass SID with permanent login
+		$return = (session_id() && !($_COOKIE && ini_bool("session.use_cookies"))); // $_COOKIE - don't pass SID with permanent login
 	}
 	return $return;
 }
@@ -627,7 +627,7 @@ function auth_url($vendor, $server, $username, $db = null) {
 	global $drivers;
 	preg_match('~([^?]*)\??(.*)~', remove_from_uri(implode("|", array_keys($drivers)) . "|username|" . ($db !== null ? "db|" : "") . session_name()), $match);
 	return "$match[1]?"
-		. (sid() ? SID . "&" : "")
+		. (sid() ? session_name() . "=" . urlencode(session_id()) . "&" : "")
 		. urlencode($vendor) . "=" . urlencode($server) . "&"
 		. "username=" . urlencode($username)
 		. ($db != "" ? "&db=" . urlencode($db) : "")
@@ -757,7 +757,7 @@ function relative_uri() {
 * @return string
 */
 function remove_from_uri($param = "") {
-	return substr(preg_replace("~(?<=[?&])($param" . (SID ? "" : "|" . session_name()) . ")=[^&]*&~", '', relative_uri() . "&"), 0, -1);
+	return substr(preg_replace("~(?<=[?&])($param" . (sid() ? "" : "|" . session_name()) . ")=[^&]*&~", '', relative_uri() . "&"), 0, -1);
 }
 
 /** Generate page number for pagination
