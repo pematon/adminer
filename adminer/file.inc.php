@@ -2,22 +2,43 @@
 
 namespace Adminer;
 
-// caching headers added in compile.php
-
-if ($_GET["file"] == "favicon.ico") {
-	header("Content-Type: image/x-icon");
-	echo lzw_decompress(compile_file('../adminer/static/favicon.ico', 'Adminer\lzw_compress'));
-} elseif ($_GET["file"] == "default.css") {
-	header("Content-Type: text/css; charset=utf-8");
-	echo lzw_decompress(compile_file('../adminer/static/default.css;../vendor/vrana/jush/jush.css', 'Adminer\minify_css'));
-} elseif ($_GET["file"] == "functions.js") {
-	header("Content-Type: text/javascript; charset=utf-8");
-	echo lzw_decompress(compile_file('../adminer/static/functions.js;static/editing.js', 'Adminer\minify_js'));
-} elseif ($_GET["file"] == "jush.js") {
-	header("Content-Type: text/javascript; charset=utf-8");
-	echo lzw_decompress(compile_file('../vendor/vrana/jush/modules/jush.js;../vendor/vrana/jush/modules/jush-textarea.js;../vendor/vrana/jush/modules/jush-txt.js;../vendor/vrana/jush/modules/jush-js.js;../vendor/vrana/jush/modules/jush-sql.js;../vendor/vrana/jush/modules/jush-pgsql.js;../vendor/vrana/jush/modules/jush-sqlite.js;../vendor/vrana/jush/modules/jush-mssql.js;../vendor/vrana/jush/modules/jush-oracle.js;../vendor/vrana/jush/modules/jush-simpledb.js', 'Adminer\minify_js'));
-} elseif ($_GET["file"] == "icons.svg") {
-	header("Content-Type: image/svg+xml");
-	echo compile_file('../adminer/static/' . $_GET["file"]);
+if (isset($_GET["file"])) {
+	load_compiled_file($_GET["file"]);
 }
-exit;
+
+function load_compiled_file(string $filename)
+{
+	if ($filename == "") {
+		http_response_code(404);
+		exit;
+	}
+
+	if ($_SERVER["HTTP_IF_MODIFIED_SINCE"]) {
+		http_response_code(304);
+		exit;
+	}
+
+	header("Expires: " . gmdate("D, d M Y H:i:s", time() + 365 * 24 * 60 * 60) . " GMT");
+	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+	header("Cache-Control: immutable");
+
+	switch (pathinfo($filename, PATHINFO_EXTENSION)) {
+		case "css":
+			header("Content-Type: text/css; charset=utf-8");
+			break;
+		case "js":
+			header("Content-Type: text/javascript; charset=utf-8");
+			break;
+		case "ico":
+			header("Content-Type: image/x-icon");
+			break;
+		case "svg":
+			header("Content-Type: image/svg+xml");
+			break;
+	}
+
+	$file = read_compiled_file($filename); // !compile: get compiled file
+
+	echo lzw_decompress(base64_decode($file));
+	exit;
+}
