@@ -1,7 +1,5 @@
-/adminer/adminer.css
-/adminer*.php
-/editor*.php
-/**/compiled
-/vendor/
+/**/compiled/*
+/**/adminer.css
+/export
+/vendor
 /composer.lock
-/export/
