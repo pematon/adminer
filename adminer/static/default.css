@@ -19,6 +19,9 @@
 	--button-bg: #eee;
 	--button-bg-hover: #ddd;
 	--button-borer: #ccc;
+	--button-default-bg: #d6dff6;
+	--button-default-bg-hover: #bfd2ff;
+	--button-default-border: #7a89d9;
 	--required-border: #c40;
 	--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIgLz48L3N2Zz4=");
 
@@ -44,7 +47,7 @@
 		--logo-text: #999;
 		--panel-bg: #333;
 		--panel-border: #555;
-		--header-bg: #434B68;
+		--header-bg: #434b68;
 		--header-text: #eee;
 		--warning-text: #d63;
 		--version-text: #d63;
@@ -55,6 +58,9 @@
 		--button-bg: #333;
 		--button-bg-hover: #444;
 		--button-borer: #555;
+		--button-default-bg: #434b68;
+		--button-default-bg-hover: #4f5878;
+		--button-default-border: #7386A5;
 		--required-border: #d63;
 		--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2VlZSI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIvPjwvc3ZnPg==");
 
@@ -132,7 +138,8 @@ input, textarea, select { box-sizing: border-box; }
 a.button { display: inline-block; }
 .button.light { border: none; padding: 3px 5px; background: transparent; color: var(--link-text); }
 .button.light:hover { color: var(--link-text-hover); }
-.button.default { color: var(--link-text); }
+.button.default { background-color: var(--button-default-bg); border-color: var(--button-default-border); }
+.button.default:hover { background: var(--button-default-bg-hover); }
 input[type="checkbox"], input[type="radio"] { margin: 3px 5px 3px 3px; vertical-align: top; position: relative; top: 2px; }
 table input[type="checkbox"], table input[type="radio"] { margin-top: 0; }
 input[type="number"] { -moz-appearance: textfield; }

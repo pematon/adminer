@@ -1178,12 +1178,19 @@ function findDefaultSubmit(el) {
 		return null;
 	}
 
-	const inputs = qsa('input', el.form);
+	const inputs = qsa('input[type="submit"]', el.form);
+	let submit = null;
+
 	for (const input of inputs) {
-		if (input.type === 'submit' && !input.classList.contains("invisible") && !input.style.zIndex) {
-			return input;
+		if (!input.classList.contains("invisible") && !input.style.zIndex) {
+			// Find the last submit button with the same name as the first one.
+			if (!submit || input.name === submit.name) {
+				submit = input;
+			}
 		}
 	}
+
+	return submit;
 }
 
 
