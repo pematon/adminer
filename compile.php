@@ -10,9 +10,9 @@ function adminer_errors($errno, $errstr) {
 error_reporting(6135); // errors and warnings
 set_error_handler('Adminer\adminer_errors', E_WARNING);
 
-include dirname(__FILE__) . "/adminer/include/debug.inc.php";
 include dirname(__FILE__) . "/adminer/include/version.inc.php";
-include dirname(__FILE__) . "/vendor/vrana/jsshrink/jsShrink.php";
+include dirname(__FILE__) . "/adminer/include/debug.inc.php";
+include dirname(__FILE__) . "/adminer/include/compile.inc.php";
 
 function is_dev_version()
 {
@@ -23,14 +23,6 @@ function is_dev_version()
 
 function add_apo_slashes($s) {
 	return addcslashes($s, "\\'");
-}
-
-function add_quo_slashes($s) {
-	$return = $s;
-	$return = addcslashes($return, "\n\r\$\"\\");
-	$return = preg_replace('~\0(?![0-7])~', '\\\\0', $return);
-	$return = addcslashes($return, "\0");
-	return $return;
 }
 
 function replace_lang($match) {
@@ -56,25 +48,9 @@ function put_file($match) {
 
 	$content = file_get_contents(dirname(__FILE__) . "/$project/$match[2]");
 
-	if ($filename == "file.inc.php") {
-		$content = str_replace("\n// caching headers added in compile.php", (is_dev_version() ? '' : '
-			if ($_SERVER["HTTP_IF_MODIFIED_SINCE"]) {
-				header("HTTP/1.1 304 Not Modified");
-				exit;
-			}
-
-			header("Expires: " . gmdate("D, d M Y H:i:s", time() + 365*24*60*60) . " GMT");
-			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Cache-Control: immutable");
-			'), $content, $count);
-		if (!$count) {
-			echo "adminer/file.inc.php: Caching headers placeholder not found\n";
-		}
-	}
-
 	if ($filename == "lang.inc.php") {
 		$content = str_replace(
-			'return $key; // compile: convert translation key',
+			'return $key; // !compile: convert translation key',
 			'static $en_translations = null;
 
 			// Convert string key used in plugins to compiled numeric key.
@@ -102,7 +78,7 @@ function put_file($match) {
 		if ($selected_languages) {
 			$available_languages = array_fill_keys($selected_languages, true);
 			$content = str_replace(
-				'return $languages; // compile: available languages',
+				'return $languages; // !compile: available languages',
 				'return ' . var_export($available_languages, true) . ';',
 				$content
 			);
@@ -112,43 +88,6 @@ function put_file($match) {
 	$tokens = token_get_all($content); // to find out the last token
 
 	return "?>\n$content" . (in_array($tokens[count($tokens) - 1][0], array(T_CLOSE_TAG, T_INLINE_HTML), true) ? "<?php" : "");
-}
-
-function lzw_compress($string) {
-	// compression
-	$dictionary = array_flip(range("\0", "\xFF"));
-	$word = "";
-	$codes = array();
-	for ($i=0; $i <= strlen($string); $i++) {
-		$x = @$string[$i];
-		if (strlen($x) && isset($dictionary[$word . $x])) {
-			$word .= $x;
-		} elseif ($i) {
-			$codes[] = $dictionary[$word];
-			$dictionary[$word . $x] = count($dictionary);
-			$word = $x;
-		}
-	}
-	// convert codes to binary string
-	$dictionary_count = 256;
-	$bits = 8; // ceil(log($dictionary_count, 2))
-	$return = "";
-	$rest = 0;
-	$rest_length = 0;
-	foreach ($codes as $code) {
-		$rest = ($rest << $bits) + $code;
-		$rest_length += $bits;
-		$dictionary_count++;
-		if ($dictionary_count >> $bits) {
-			$bits++;
-		}
-		while ($rest_length > 7) {
-			$rest_length -= 8;
-			$return .= chr($rest >> $rest_length);
-			$rest &= (1 << $rest_length) - 1;
-		}
-	}
-	return $return . ($rest_length ? chr($rest << (8 - $rest_length)) : "");
 }
 
 function put_file_lang() {
@@ -184,7 +123,7 @@ function put_file_lang() {
 			}
 		}
 
-		$cases .= 'case "' . $language . '": $compressed = "' . add_quo_slashes(lzw_compress(json_encode($translation_ids, JSON_UNESCAPED_UNICODE))) . '"; break;';
+		$cases .= 'case "' . $language . '": $compressed = "' . base64_encode(lzw_compress(json_encode($translation_ids, JSON_UNESCAPED_UNICODE))) . '"; break;';
 	}
 
 	$translations_version = crc32($cases);
@@ -193,7 +132,7 @@ function put_file_lang() {
 		function get_translations($lang) {
 			switch ($lang) {' . $cases . '}
 
-			return json_decode(lzw_decompress($compressed), true);
+			return json_decode(lzw_decompress(base64_decode($compressed)), true);
 		}
 
 		function get_plural_translation_id($key) {
@@ -341,32 +280,6 @@ function php_shrink($input) {
 	return $output;
 }
 
-function minify_css($file) {
-	return lzw_compress(preg_replace('~\s*([:;{},])\s*~', '\1', preg_replace('~/\*.*\*/~sU', '', $file)));
-}
-
-function minify_js($file) {
-	if (function_exists('jsShrink')) {
-		$file = jsShrink($file);
-	}
-	return lzw_compress($file);
-}
-
-function compile_file($match) {
-	global $project;
-	$file = "";
-	list(, $filenames, $callback) = $match;
-	if ($filenames != "") {
-		foreach (explode(";", $filenames) as $filename) {
-			$file .= file_get_contents(dirname(__FILE__) . "/$project/$filename");
-		}
-	}
-	if ($callback) {
-		$file = call_user_func($callback, $file);
-	}
-	return '"' . add_quo_slashes($file) . '"';
-}
-
 if (!function_exists("each")) {
 	function each(&$arr) {
 		$key = key($arr);
@@ -469,8 +382,9 @@ if ($single_driver) {
 // Compile files included into the index.php.
 $file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'Adminer\put_file', $file);
 
-// Remove including debug files.
+// Remove including devel files.
 $file = str_replace('include "../adminer/include/debug.inc.php";', '', $file);
+$file = str_replace('include "../adminer/include/compile.inc.php";', '', $file);
 $file = str_replace('include "../adminer/include/coverage.inc.php";', '', $file);
 
 // Remove including unwanted drivers.
@@ -491,7 +405,9 @@ if ($single_driver) {
 		}
 	}
 
-	$file = preg_replace('(;\.\./vendor/vrana/jush/modules/jush-(?!textarea\.|txt\.|js\.|' . preg_quote($single_driver == "mysql" ? "sql" : $single_driver) . '\.)[^.]+.js)', '', $file);
+	// Remove Jush modules for other drivers.
+	$file = preg_replace('~"\.\./vendor/vrana/jush/modules/jush-(?!textarea\.|txt\.|js\.|' . ($single_driver == "mysql" ? "sql" : preg_quote($single_driver)) . '\.)[^.]+.js",\n~', '', $file);
+
 	$file = preg_replace_callback('~doc_link\(array\((.*)\)\)~sU', function ($match) use ($single_driver) {
 		list(, $links) = $match;
 		$links = preg_replace("~'(?!(" . ($single_driver == "mysql" ? "sql|mariadb" : $single_driver) . ")')[^']*' => [^,]*,?~", '', $links);
@@ -501,11 +417,7 @@ if ($single_driver) {
 	//! strip doc_link() definition
 }
 
-if ($project == "editor") {
-	$file = preg_replace('~;\.\./vendor/vrana/jush/jush\.css~', '', $file);
-	$file = preg_replace('~compile_file\(\'\.\./(vendor/vrana/jush/modules/jush\.js|adminer/static/[^.]+\.gif)[^)]+\)~', "''", $file);
-}
-
+// Compile language files.
 $file = preg_replace_callback("~lang\\('((?:[^\\\\']+|\\\\.)*)'([,)])~s", 'Adminer\replace_lang', $file);
 $file = preg_replace_callback('~\b(include|require) "([^"]*\$LANG.inc.php)";~', 'Adminer\put_file_lang', $file);
 
@@ -519,19 +431,36 @@ $usages = implode("\n", array_combine($matches[1], $matches[0]));
 $pos = strpos($file, "namespace Adminer;\n") + strlen("namespace Adminer;\n");
 $file = substr($file, 0, $pos) . $usages . str_replace("namespace Adminer;\n", "", substr($file, $pos));
 
-$file = str_replace('<?php echo script_src("static/editing.js?" . filemtime("../adminer/static/editing.js")); ?>' . "\n", "", $file);
-$file = preg_replace('~\s+echo script_src\("\.\./vendor/vrana/jush/modules/jush-(textarea|txt|js|\$jush)\.js"\);~', '', $file);
-$file = str_replace('<link rel="stylesheet" type="text/css" href="../vendor/vrana/jush/jush.css">' . "\n", "", $file);
-$file = preg_replace_callback("~compile_file\\('([^']+)'(?:, '([^']*)')?\\)~", 'Adminer\compile_file', $file); // integrate static files
-$replace = 'preg_replace("~\\\\\\\\?.*~", "", ME) . "?file=\1&version=' . substr(md5(microtime()), 0, 8) . '"';
-$file = preg_replace('~\.\./adminer/static/(favicon\.ico)~', '<?php echo h(' . $replace . '); ?>', $file);
-$file = preg_replace('~\.\./adminer/static/(default\.css)\?.*default.css"\);\s+\?>~', '<?php echo h(' . $replace . '); ?>', $file);
-$file = preg_replace('~"\.\./adminer/static/(functions\.js)\?".*functions.js"\)~', $replace, $file);
-$file = preg_replace('~\.\./adminer/static/([^\'"]*)~', '" . h(' . $replace . ') . "', $file);
-$file = preg_replace('~"\.\./vendor/vrana/jush/modules/(jush\.js)"~', $replace, $file);
+// Integrate static files.
+preg_match_all('~link_files\("([^"]+)", \[([^]]+)]\)~', $file, $matches);
+
+$cases = "";
+$linked_files = [];
+for ($i = 0; $i < count($matches[0]); $i++) {
+	$name = $matches[1][$i];
+	$file_paths = preg_split('~",\s+"~', trim($matches[2][$i], " \n\r\t\","));
+
+	$linked_files[$name] = linked_filename($name, $file_paths);
+	$cases .= 'case "' . $linked_files[$name] . '": $file = "' . compile_file($name, $file_paths) . '"; break;';
+}
+
+$file = str_replace(
+	'$file = read_compiled_file($filename); // !compile: get compiled file',
+	'switch ($filename) {' . $cases . '}',
+	$file
+);
+
+$file = preg_replace_callback('~link_files\("([^"]+)", [^)]+\)~', function (array $match) use ($linked_files) {
+	return 'BASE_URL . "?file=' . urlencode($linked_files[$match[1]]) . '"';
+}, $file);
+
+// Remove superfluous PHP tags.
 $file = preg_replace("~<\\?php\\s*\\?>\n?|\\?>\n?<\\?php~", '', $file);
+
+// Shrink final file.
 $file = php_shrink($file);
 
+// Save file to temp directory.
 @mkdir("temp", 0777, true);
 $filename = "temp/$project"
 	. (is_dev_version() ? "" : "-$VERSION")

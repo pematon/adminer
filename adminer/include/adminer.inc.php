@@ -107,8 +107,19 @@ class Adminer {
 	*/
 	function head() {
 		?>
-<link rel="stylesheet" type="text/css" href="../vendor/vrana/jush/jush.css">
-<?php
+		<link rel="stylesheet" type="text/css" href="<?= link_files("jush.css", ["../vendor/vrana/jush/jush.css"]); ?>">
+		<?php
+
+		echo script_src(link_files("jush.js", [
+			"../vendor/vrana/jush/modules/jush.js",
+			"../vendor/vrana/jush/modules/jush-textarea.js",
+			"../vendor/vrana/jush/modules/jush-sql.js",
+			"../vendor/vrana/jush/modules/jush-pgsql.js",
+			"../vendor/vrana/jush/modules/jush-mssql.js",
+			"../vendor/vrana/jush/modules/jush-oracle.js",
+			"../vendor/vrana/jush/modules/jush-simpledb.js",
+		]));
+
 		return true;
 	}
 
@@ -1149,12 +1160,8 @@ class Adminer {
 				$connection->select_db(DB);
 				$tables = table_status('', true);
 			}
-			echo script_src("../vendor/vrana/jush/modules/jush.js");
-			echo script_src("../vendor/vrana/jush/modules/jush-textarea.js");
-			echo script_src("../vendor/vrana/jush/modules/jush-txt.js");
-			echo script_src("../vendor/vrana/jush/modules/jush-js.js");
+
 			if (support("sql")) {
-				echo script_src("../vendor/vrana/jush/modules/jush-$jush.js");
 				?>
 <script<?php echo nonce(); ?>>
 <?php
