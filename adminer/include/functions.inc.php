@@ -163,6 +163,11 @@ function h($string) {
 	return $string !== null ? str_replace("\0", "&#0;", htmlspecialchars($string, ENT_QUOTES, 'utf-8')) : "";
 }
 
+function icon_solo(string $id): string
+{
+	return icon($id, "solo");
+}
+
 function icon(string $id, ?string $class = null): string
 {
 	static $timestamp = null;
