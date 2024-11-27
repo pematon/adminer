@@ -442,7 +442,7 @@ class Adminer {
 				echo $column;
 			}
 
-			echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
+			echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon_solo("remove"), "</button>",
 				script("qsl('#fieldset-select .remove').onclick = selectRemoveRow;", ""),
 				"</div>\n";
 
@@ -485,7 +485,7 @@ class Adminer {
 					html_select("where[$i][op]", $this->operators, $val["op"], $change_next),
 					"<input type='search' class='input' name='where[$i][val]' value='" . h($val["val"]) . "'>",
 					script("mixin(qsl('input'), {oninput: function () { $change_next }, onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", ""),
-					" <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon("remove"), "</button>",
+					" <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon_solo("remove"), "</button>",
 					script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', ""),
 					"</div>\n";
 			}
@@ -513,7 +513,7 @@ class Adminer {
 				icon("handle", "handle jsonly"),
 				select_input("name='order[$i]'", $columns, $val, $key !== "" ? "selectFieldChange" : "selectAddRow"),
 				" ", checkbox("desc[$i]", 1, isset($_GET["desc"][$key]), lang('descending')),
-				" <button class='button light remove jsonly' title='" . h(lang('Remove')), "'>", icon("remove"), "</button>",
+				" <button class='button light remove jsonly' title='" . h(lang('Remove')), "'>", icon_solo("remove"), "</button>",
 				script('qsl("#fieldset-sort .remove").onclick = selectRemoveRow;', ""),
 				"</div>\n";
 

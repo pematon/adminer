@@ -66,7 +66,7 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 	if ($breadcrumb !== null) {
 		echo '<p id="breadcrumb">';
 
-		echo '<a href="' . h(HOME_URL) . '" title="', lang('Home'), '">', icon("home", "solo"), '</a> » ';
+		echo '<a href="' . h(HOME_URL) . '" title="', lang('Home'), '">', icon_solo("home"), '</a> » ';
 
 		$server = "";
 		if ($breadcrumb === false) {

@@ -317,7 +317,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		<?php echo (support("comment") ? "<td id='label-comment' $comment_class>" . lang('Comment') . "</td>" : ""); ?>
 	<?php } ?>
 	<td><?php
-		echo "<button name='add[" . (support("move_col") ? 0 : count($fields)) . "]' value='1' title='" . h(lang('Add next')) . "' class='button light'>", icon("add", "solo"), "</button>",
+		echo "<button name='add[" . (support("move_col") ? 0 : count($fields)) . "]' value='1' title='" . h(lang('Add next')) . "' class='button light'>", icon_solo("add"), "</button>",
 			script("row_count = " . count($fields) . ";");
 	?></td>
 </tr></thead>
@@ -333,7 +333,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		echo "<tr $style>\n";
 
 		if (support("move_col")) {
-			echo "<th class='handle jsonly'>", icon("handle", "solo"), "</th>";
+			echo "<th class='handle jsonly'>", icon_solo("handle"), "</th>";
 		}
 		if ($type == "PROCEDURE") {
 			echo "<td>", html_select("fields[$i][inout]", explode("|", $inout), $field["inout"]), "</td>\n";
@@ -368,12 +368,12 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 
 		echo "<td>";
 		if (support("move_col")) {
-			echo "<button name='add[$i]' value='1' title='" . h(lang('Add next')) . "' class='button light'>", icon("add", "solo"), "</button>",
-				"<button name='up[$i]' value='1' title='" . h(lang('Move up')) . "' class='button light hidden'>", icon("arrow-up", "solo"), "</button>",
-				"<button name='down[$i]' value='1' title='" . h(lang('Move down')) . "' class='button light hidden'>", icon("arrow-down", "solo"), "</button>";
+			echo "<button name='add[$i]' value='1' title='" . h(lang('Add next')) . "' class='button light'>", icon_solo("add"), "</button>",
+				"<button name='up[$i]' value='1' title='" . h(lang('Move up')) . "' class='button light hidden'>", icon_solo("arrow-up"), "</button>",
+				"<button name='down[$i]' value='1' title='" . h(lang('Move down')) . "' class='button light hidden'>", icon_solo("arrow-down"), "</button>";
 		}
 		if ($orig == "" || support("drop_col")) {
-			echo "<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='button light'>", icon("remove", "solo"), "</button>";
+			echo "<button name='drop_col[$i]' value='1' title='" . h(lang('Remove')) . "' class='button light'>", icon_solo("remove"), "</button>";
 		}
 		echo "</td>\n</tr>\n";
 	}
