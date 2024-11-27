@@ -58,7 +58,7 @@ $languages = [
 function get_available_languages()
 {
 	global $languages;
-	return $languages; // compile: available languages
+	return $languages; // !compile: available languages
 }
 
 /**
@@ -71,7 +71,7 @@ function get_available_languages()
  */
 function convert_translation_key($key)
 {
-	return $key; // compile: convert translation key
+	return $key; // !compile: convert translation key
 }
 
 /**
