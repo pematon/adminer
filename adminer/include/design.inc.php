@@ -29,22 +29,23 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 	}
 	?>
 <!DOCTYPE html>
-<html lang="<?php echo $LANG; ?>" dir="<?php echo lang('ltr'); ?>">
+<html lang="<?= $LANG; ?>" dir="<?= lang('ltr'); ?>">
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="initial-scale=1"/>
-<title><?php echo $title_page; ?></title>
-<link rel="stylesheet" type="text/css" href="../adminer/static/default.css?<?php echo filemtime("../adminer/static/default.css"); ?>">
-<?php echo script_src("../adminer/static/functions.js?" . filemtime("../adminer/static/functions.js")); ?>
-<?php echo script_src("static/editing.js?" . filemtime("../adminer/static/editing.js")); ?>
-<?php if ($adminer->head()) { ?>
-<link rel="shortcut icon" type="image/x-icon" href="../adminer/static/favicon.ico">
-<link rel="apple-touch-icon" href="../adminer/static/favicon.ico">
-<?php foreach ($adminer->css() as $css) { ?>
-<link rel="stylesheet" type="text/css" href="<?php echo h($css); ?>">
-<?php } ?>
-<?php } ?>
 
+<title><?= $title_page; ?></title>
+<link rel="stylesheet" type="text/css" href="<?= link_files("default.css", ["../adminer/themes/default.css"]); ?>">
+<?= script_src(link_files("main.js", ["../adminer/scripts/functions.js", "scripts/editing.js"])); ?>
+
+<?php if ($adminer->head()) { ?>
+	<link rel="shortcut icon" type="image/x-icon" href="<?= link_files("favicon.ico", ["../adminer/images/favicon.ico"]); ?>">
+	<?php foreach ($adminer->css() as $css) { ?>
+		<link rel="stylesheet" type="text/css" href="<?= h($css); ?>">
+	<?php } ?>
+<?php } ?>
+</head>
 <body class="<?php echo lang('ltr'); ?> nojs">
 <script<?php echo nonce(); ?>>
 	const body = document.body;

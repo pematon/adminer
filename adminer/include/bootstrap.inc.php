@@ -28,11 +28,10 @@ if (function_exists("mb_internal_encoding")) {
 }
 
 include "../adminer/include/functions.inc.php";
+include "../adminer/include/compile.inc.php";
 
-// used only in compiled file
-if (isset($_GET["file"])) {
-	include "../adminer/file.inc.php";
-}
+// Compiled files loading.
+include "../adminer/file.inc.php";
 
 if ($_GET["script"] == "version") {
 	$file = open_file_with_lock(get_temp_dir() . "/adminer.version");
@@ -144,7 +143,8 @@ if (defined("DRIVER")) {
 
 define("SERVER", DRIVER ? $_GET[DRIVER] : null); // read from pgsql=localhost
 define("DB", $_GET["db"]); // for the sake of speed and size
-define("ME", preg_replace('~\?.*~', '', relative_uri()) . '?'
+define("BASE_URL", preg_replace('~\?.*~', '', relative_uri()));
+define("ME", BASE_URL . '?'
 	. (sid() ? session_name() . "=" . urlencode(session_id()) . '&' : '')
 	. (SERVER !== null ? DRIVER . "=" . urlencode(SERVER) . '&' : '')
 	. (isset($_GET["username"]) ? "username=" . urlencode($_GET["username"]) . '&' : '')
