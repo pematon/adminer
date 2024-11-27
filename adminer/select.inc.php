@@ -332,7 +332,7 @@ if (!$columns && support("table")) {
 
 			if ($group || !$select) {
 				echo "<td><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
-					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon("edit-all", "solo"), "</a>";
+					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon_solo("edit-all"), "</a>";
 			}
 
 			$names = array();
@@ -361,10 +361,10 @@ if (!$columns && support("table")) {
 						}
 						echo "<span class='column hidden'>";
 						if ($sortable) {
-							echo "<a href='" . h($href . $desc) . "' title='" . lang('descending') . "' class='button light'>", icon("arrow-down"), "</a>";
+							echo "<a href='" . h($href . $desc) . "' title='" . lang('descending') . "' class='button light'>", icon_solo("arrow-down"), "</a>";
 						}
 						if (!isset($val["fun"]) && isset($field["privileges"]["where"])) {
-							echo '<a href="#fieldset-search" title="' . lang('Search') . '" class="button light jsonly">', icon("search"), '</a>';
+							echo '<a href="#fieldset-search" title="' . lang('Search') . '" class="button light jsonly">', icon_solo("search"), '</a>';
 							echo script("qsl('a').onclick = partial(selectSearch, '" . js_escape($key) . "');");
 						}
 						echo "</span>";
@@ -417,7 +417,7 @@ if (!$columns && support("table")) {
 						checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array)$_POST["check"]));
 
 					if (!$is_group && !information_schema(DB)) {
-						echo " <a href='", h(ME . "edit=" . urlencode($TABLE) . $unique_idf), "' class='edit' title='", lang('Edit'), "'>", icon("edit", "solo"), "</a>";
+						echo " <a href='", h(ME . "edit=" . urlencode($TABLE) . $unique_idf), "' class='edit' title='", lang('Edit'), "'>", icon_solo("edit"), "</a>";
 					}
 				}
 
