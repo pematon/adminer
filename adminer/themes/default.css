@@ -61,7 +61,7 @@
 		--button-borer: #555;
 		--button-default-bg: #434b68;
 		--button-default-bg-hover: #4f5878;
-		--button-default-border: #7386A5;
+		--button-default-border: #687a98;
 		--required-border: #d63;
 		--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2VlZSI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIvPjwvc3ZnPg==");
 
@@ -74,6 +74,10 @@
 		--message-error-bg: #733;
 		--message-error-text: #f6e0e0;
 	}
+}
+
+::selection {
+	background: var(--header-bg);
 }
 
 :focus-visible {
