@@ -1,0 +1,23 @@
+:root {
+	--link-text: #080;
+	--link-text-hover: #c40;
+
+	--header-bg: #c6eac6;
+
+	--button-default-bg: #c6eac6;
+	--button-default-bg-hover: #aee0ae;
+	--button-default-border: #70bb70;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--link-text: #aad3aa;
+		--link-text-hover: #e99;
+
+		--header-bg: #353;
+
+		--button-default-bg: #353;
+		--button-default-bg-hover: #464;
+		--button-default-border: #558055;
+	}
+}
