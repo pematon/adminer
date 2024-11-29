@@ -3,16 +3,14 @@
 
 namespace Adminer;
 
-function adminer_errors($errno, $errstr) {
-	return !!preg_match('~^(Trying to access array offset on value of type null|Undefined array key)~', $errstr);
-}
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+set_error_handler(function ($errno, $errstr) {
+	return (bool)preg_match('~^Undefined array key~', $errstr);
+}, E_WARNING);
 
-error_reporting(6135); // errors and warnings
-set_error_handler('Adminer\adminer_errors', E_WARNING);
-
-include dirname(__FILE__) . "/adminer/include/version.inc.php";
-include dirname(__FILE__) . "/adminer/include/debug.inc.php";
-include dirname(__FILE__) . "/adminer/include/compile.inc.php";
+include __DIR__ . "/adminer/include/version.inc.php";
+include __DIR__ . "/adminer/include/debug.inc.php";
+include __DIR__ . "/adminer/include/compile.inc.php";
 
 function is_dev_version()
 {
@@ -46,7 +44,7 @@ function put_file($match) {
 		return $match[0];
 	}
 
-	$content = file_get_contents(dirname(__FILE__) . "/$project/$match[2]");
+	$content = file_get_contents(__DIR__ . "/$project/$match[2]");
 
 	if ($filename == "lang.inc.php") {
 		$content = str_replace(
@@ -96,7 +94,7 @@ function put_file_lang() {
 	$languages = array_map(function ($filename) {
 		preg_match('~/([^/.]+)\.inc\.php$~', $filename, $matches);
 		return $matches[1];
-	}, glob(dirname(__FILE__) . "/adminer/lang/*.inc.php"));
+	}, glob(__DIR__ . "/adminer/lang/*.inc.php"));
 
 	$cases = "";
 	$plurals_map = [];
@@ -110,7 +108,7 @@ function put_file_lang() {
 
 		// Assign $translations
 		$translations = [];
-		include dirname(__FILE__) . "/adminer/lang/$language.inc.php";
+		include __DIR__ . "/adminer/lang/$language.inc.php";
 
 		$translation_ids = array_flip($lang_ids); // default translation
 		foreach ($translations as $key => $val) {
@@ -307,7 +305,7 @@ if ($argv[0] == "editor") {
 $selected_drivers = [];
 if ($argv) {
 	$params = explode(",", $argv[0]);
-	if (file_exists(dirname(__FILE__) . "/adminer/drivers/" . $params[0] . ".inc.php")) {
+	if (file_exists(__DIR__ . "/adminer/drivers/" . $params[0] . ".inc.php")) {
 		$selected_drivers = $params;
 		array_shift($argv);
 	}
@@ -317,7 +315,7 @@ $single_driver = count($selected_drivers) == 1 ? $selected_drivers[0] : null;
 $selected_languages = [];
 if ($argv) {
 	$params = explode(",", $argv[0]);
-	if (file_exists(dirname(__FILE__) . "/adminer/lang/" . $params[0] . ".inc.php")) {
+	if (file_exists(__DIR__ . "/adminer/lang/" . $params[0] . ".inc.php")) {
 		$selected_languages = $params;
 		array_shift($argv);
 	}
@@ -331,14 +329,14 @@ if ($argv) {
 }
 
 // Check function definition in drivers.
-$file = file_get_contents(dirname(__FILE__) . "/adminer/drivers/mysql.inc.php");
+$file = file_get_contents(__DIR__ . "/adminer/drivers/mysql.inc.php");
 $file = preg_replace('~class Min_Driver.*\n\t}~sU', '', $file);
 preg_match_all('~\bfunction ([^(]+)~', $file, $matches); //! respect context (extension, class)
 $functions = array_combine($matches[1], $matches[0]);
 //! do not warn about functions without declared support()
 unset($functions["__construct"], $functions["__destruct"], $functions["set_charset"]);
 
-foreach (glob(dirname(__FILE__) . "/adminer/drivers/*.inc.php") as $filename) {
+foreach (glob(__DIR__ . "/adminer/drivers/*.inc.php") as $filename) {
 	preg_match('~/([^/.]+)\.inc\.php$~', $filename, $matches);
 	if ($matches[1] == "mysql" || ($selected_drivers && !in_array($matches[1], $selected_drivers))) {
 		continue;
@@ -352,19 +350,19 @@ foreach (glob(dirname(__FILE__) . "/adminer/drivers/*.inc.php") as $filename) {
 	}
 }
 
-include dirname(__FILE__) . "/adminer/include/pdo.inc.php";
-include dirname(__FILE__) . "/adminer/include/driver.inc.php";
+include __DIR__ . "/adminer/include/pdo.inc.php";
+include __DIR__ . "/adminer/include/driver.inc.php";
 
 $features = ["call" => "routine", "dump", "event", "privileges", "procedure" => "routine", "processlist", "routine", "scheme", "sequence", "status", "trigger", "type", "user" => "privileges", "variables", "view"];
 $lang_ids = []; // global variable simplifies usage in a callback functions
 
 // Start with index.php.
-$file = file_get_contents(dirname(__FILE__) . "/$project/index.php");
+$file = file_get_contents(__DIR__ . "/$project/index.php");
 
 // Remove including source code for unsupported features in single-driver file.
 if ($single_driver) {
 	$_GET[$single_driver] = true; // to load the driver
-	include_once dirname(__FILE__) . "/adminer/drivers/$single_driver.inc.php";
+	include_once __DIR__ . "/adminer/drivers/$single_driver.inc.php";
 
 	foreach ($features as $key => $feature) {
 		if (!support($feature)) {
