@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
-error_reporting(6135); // errors and warnings
+
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+
 unset($_COOKIE["adminer_lang"]);
-$_SESSION["lang"] = isset($_SERVER["argv"][1]) ? $_SERVER["argv"][1] : null; // Adminer functions read language from session
+$_SESSION["lang"] = $_SERVER["argv"][1] ?? null; // Adminer functions read language from session
 if (isset($_SESSION["lang"])) {
-	include dirname(__FILE__) . "/adminer/include/lang.inc.php";
+	include __DIR__ . "/adminer/include/lang.inc.php";
 	if (isset($_SERVER["argv"][2]) || (!isset($languages[$_SESSION["lang"]]) && $_SESSION["lang"] != "xx")) {
 		echo "Usage: php lang.php [lang]\nPurpose: Update adminer/lang/*.inc.php from source code messages.\n";
 		exit(1);
@@ -13,13 +15,13 @@ if (isset($_SESSION["lang"])) {
 
 $messages_all = array();
 foreach (array_merge(
-	glob(dirname(__FILE__) . "/adminer/*.php"),
-	glob(dirname(__FILE__) . "/adminer/include/*.php"),
-	glob(dirname(__FILE__) . "/adminer/drivers/*.php"),
-	glob(dirname(__FILE__) . "/editor/*.php"),
-	glob(dirname(__FILE__) . "/editor/include/*.php"),
-	glob(dirname(__FILE__) . "/plugins/*.php"),
-	glob(dirname(__FILE__) . "/plugins/drivers/*.php")
+	glob(__DIR__ . "/adminer/*.php"),
+	glob(__DIR__ . "/adminer/include/*.php"),
+	glob(__DIR__ . "/adminer/drivers/*.php"),
+	glob(__DIR__ . "/editor/*.php"),
+	glob(__DIR__ . "/editor/include/*.php"),
+	glob(__DIR__ . "/plugins/*.php"),
+	glob(__DIR__ . "/plugins/drivers/*.php")
 ) as $filename) {
 	$file = file_get_contents($filename);
 	if (preg_match_all("~lang\\(('(?:[^\\\\']+|\\\\.)*')([),])~", $file, $matches)) { // lang() always uses apostrophes
@@ -27,7 +29,7 @@ foreach (array_merge(
 	}
 }
 
-foreach (glob(dirname(__FILE__) . "/adminer/lang/" . ($_SESSION["lang"] ? $_SESSION["lang"] : "*") . ".inc.php") as $filename) {
+foreach (glob(__DIR__ . "/adminer/lang/" . ($_SESSION["lang"] ? $_SESSION["lang"] : "*") . ".inc.php") as $filename) {
 	$messages = $messages_all;
 	$file = file_get_contents($filename);
 	$file = str_replace("\r", "", $file);
