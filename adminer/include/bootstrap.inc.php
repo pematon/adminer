@@ -2,12 +2,10 @@
 
 namespace Adminer;
 
-function adminer_errors($errno, $errstr) {
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+set_error_handler(function ($errno, $errstr) {
 	return (bool)preg_match('~^Undefined array key~', $errstr);
-}
-
-error_reporting(6135); // errors and warnings
-set_error_handler('Adminer\adminer_errors', E_WARNING);
+}, E_WARNING);
 
 include "../adminer/include/debug.inc.php";
 include "../adminer/include/coverage.inc.php";
@@ -54,15 +52,11 @@ if ($_SERVER["HTTP_X_FORWARDED_PREFIX"]) {
 }
 $HTTPS = ($_SERVER["HTTPS"] && strcasecmp($_SERVER["HTTPS"], "off")) || ini_bool("session.cookie_secure"); // session.cookie_secure could be set on HTTP if we are behind a reverse proxy
 
-@ini_set("session.use_trans_sid", false); // protect links in export, @ - may be disabled
+@ini_set("session.use_trans_sid", false); // protect links in export @ - may be disabled
 if (!defined("SID")) {
 	session_cache_limiter(""); // to allow restarting session
-	session_name("adminer_sid"); // use specific session name to get own namespace
-	$params = array(0, preg_replace('~\?.*~', '', $_SERVER["REQUEST_URI"]), "", $HTTPS);
-	if (version_compare(PHP_VERSION, '5.2.0') >= 0) {
-		$params[] = true; // HttpOnly
-	}
-	call_user_func_array('session_set_cookie_params', $params); // ini_set() may be disabled
+	session_name("adminer_sid");
+	session_set_cookie_params(0, preg_replace('~\?.*~', '', $_SERVER["REQUEST_URI"]), "", $HTTPS, true);
 	session_start();
 }
 
