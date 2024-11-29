@@ -962,11 +962,7 @@ function input($field, $value, $function) {
 	$name = h(bracket_escape($field["field"]));
 
 	if (is_array($value) && !$function) {
-		$args = array($value);
-		if (version_compare(PHP_VERSION, 5.4) >= 0) {
-			$args[] = JSON_PRETTY_PRINT;
-		}
-		$value = call_user_func_array('json_encode', $args);
+		$value = json_encode($value, JSON_PRETTY_PRINT);
 		$function = "json";
 	}
 	$reset = ($jush == "mssql" && $field["auto_increment"]);
