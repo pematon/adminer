@@ -5,10 +5,10 @@ namespace Adminer;
 /** Pretty print JSON values in edit
 */
 class AdminerPrettyJsonColumn {
-	/** @var AdminerPlugin */
+	/** @var Pluginer */
 	protected $adminer;
 
-	public function __construct($adminer) {
+	public function __construct(Pluginer $adminer) {
 		$this->adminer = $adminer;
 	}
 
@@ -37,6 +37,6 @@ HTML;
 				$value = json_encode($json);
 			}
 		}
-		return $this->adminer->_callParent('processInput', [$field, $value, $function]);
+		return $this->adminer->callParent('processInput', [$field, $value, $function]);
 	}
 }

@@ -13,10 +13,8 @@ if (extension_loaded('pdo')) {
 
 		function __construct() {
 			global $adminer;
-			$pos = array_search("SQL", $adminer->operators);
-			if ($pos !== false) {
-				unset($adminer->operators[$pos]);
-			}
+
+			$adminer->removeOperator("SQL");
 		}
 
 		function dsn($dsn, $username, $password, $options = []) {

@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 namespace Adminer;
@@ -362,7 +361,7 @@ $file = file_get_contents(__DIR__ . "/$project/index.php");
 // Remove including source code for unsupported features in single-driver file.
 if ($single_driver) {
 	$_GET[$single_driver] = true; // to load the driver
-	include_once __DIR__ . "/adminer/drivers/$single_driver.inc.php";
+	include __DIR__ . "/adminer/drivers/$single_driver.inc.php";
 
 	foreach ($features as $key => $feature) {
 		if (!support($feature)) {

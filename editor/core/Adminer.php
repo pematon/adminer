@@ -2,11 +2,34 @@
 
 namespace Adminer;
 
-class Adminer {
-	var $operators = array("<=", ">=");
-	var $operator_like = null;
-	var $operator_regexp = null;
-	var $_values = array();
+class Adminer extends AdminerBase
+{
+	private $values = [];
+
+	public function setOperators(?array $operators, ?string $likeOperator, ?string $regexpOperator): void
+	{
+		//
+	}
+
+	public function removeOperator(string $operator): void
+	{
+		//
+	}
+
+	public function getOperators(): ?array
+	{
+		return ["<=", ">="];
+	}
+
+	public function getLikeOperator(): ?string
+	{
+		return null;
+	}
+
+	public function getRegexpOperator(): ?string
+	{
+		return null;
+	}
 
 	function name() {
 		return "<a id='h1' href='" . h(HOME_URL) . "'>" . lang('Editor') . "</a>";
@@ -159,6 +182,10 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		return "<!--\n" . str_replace("--", "--><!-- ", $query) . "\n(" . format_time($start) . ")\n-->\n";
 	}
 
+	public function sqlCommandQuery($query)
+	{
+	}
+
 	function rowDescription($table) {
 		// first varchar column
 		foreach (fields($table) as $field) {
@@ -172,14 +199,14 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 	function rowDescriptions($rows, $foreignKeys) {
 		$return = $rows;
 		foreach ($rows[0] as $key => $val) {
-			if (list($table, $id, $name) = $this->_foreignColumn($foreignKeys, $key)) {
+			if (list($table, $id, $name) = $this->foreignColumn($foreignKeys, $key)) {
 				// find all used ids
 				$ids = array();
 				foreach ($rows as $row) {
 					$ids[$row[$key]] = q($row[$key]);
 				}
 				// uses constant number of queries to get the descriptions, join would be complex, multiple queries would be slow
-				$descriptions = $this->_values[$table];
+				$descriptions = $this->values[$table];
 				if (!$descriptions) {
 					$descriptions = get_key_vals("SELECT $id, $name FROM " . table($table) . " WHERE $id IN (" . implode(", ", $ids) . ")");
 				}
@@ -206,13 +233,13 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				$return = "<img src='$link' alt='$return'>";
 			}
 		}
-		if (like_bool($field) && $return != "") { // bool
+		if ($this->looksLikeBool($field) && $return != "") { // bool
 			$return = (preg_match('~^(1|t|true|y|yes|on)$~i', $val) ? lang('yes') : lang('no'));
 		}
 		if ($link) {
 			$return = "<a href='$link'" . (is_web_url($link) ? target_blank() : "") . ">$return</a>";
 		}
-		if (!$link && !like_bool($field) && preg_match(number_type(), $field["type"])) {
+		if (!$link && !$this->looksLikeBool($field) && preg_match(number_type(), $field["type"])) {
 			$return = "<div class='number'>$return</div>"; // Firefox doesn't support <colgroup>
 		} elseif (preg_match('~date~', $field["type"])) {
 			$return = "<div class='datetime'>$return</div>";
@@ -225,6 +252,18 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 			return preg_replace('~^(\d{2}(\d+))-(0?(\d+))-(0?(\d+))~', lang('$1-$3-$5'), $val);
 		}
 		return $val;
+	}
+
+	public function tableStructurePrint($fields)
+	{
+	}
+
+	public function tablePartitionsPrint($partition_info)
+	{
+	}
+
+	public function tableIndexesPrint($indexes)
+	{
 	}
 
 	function selectColumnsPrint(array $select, array $columns) {
@@ -242,17 +281,17 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		$fields = fields($_GET["select"]);
 		foreach ($columns as $name => $desc) {
 			$field = $fields[$name];
-			if (preg_match("~enum~", $field["type"]) || like_bool($field)) { //! set - uses 1 << $i and FIND_IN_SET()
+			if (preg_match("~enum~", $field["type"]) || $this->looksLikeBool($field)) { //! set - uses 1 << $i and FIND_IN_SET()
 				$key = $keys[$name];
 				$i--;
 				echo "<div>" . h($desc) . "<input type='hidden' name='where[$i][col]' value='" . h($name) . "'>:";
-				echo (like_bool($field)
+				echo ($this->looksLikeBool($field)
 					? " <select name='where[$i][val]'>" . optionlist(array("" => "", lang('no'), lang('yes')), $where[$key]["val"] ?? null, true) . "</select>"
 					: enum_input("checkbox", " name='where[$i][val][]'", $field, (array) ($where[$key]["val"] ?? []), ($field["null"] ? 0 : null))
 				);
 				echo "</div>\n";
 				unset($columns[$name]);
-			} elseif (is_array($options = $this->_foreignKeyOptions($_GET["select"], $name))) {
+			} elseif (is_array($options = $this->foreignKeyOptions($_GET["select"], $name))) {
 				if ($fields[$name]["null"]) {
 					$options[0] = '(' . lang('empty') . ')';
 				}
@@ -266,7 +305,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		foreach ($where as $val) {
 			if (($val["col"] == "" || $columns[$val["col"]]) && "$val[col]$val[val]" != "") {
 				echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, $val["col"], true) . "</select>";
-				echo html_select("where[$i][op]", array(-1 => "") + $this->operators, $val["op"]);
+				echo html_select("where[$i][op]", array(-1 => "") + $this->getOperators(), $val["op"]);
 				echo "<input type='search' class='input' name='where[$i][val]' value='" . h($val["val"]) . "'>" . script("mixin(qsl('input'), {onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", "");
 				echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon_solo("remove"), "</button>";
 				echo script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', "");
@@ -276,7 +315,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		}
 		echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, null, true) . "</select>";
 		echo script("qsl('select').onchange = selectAddRow;", "");
-		echo html_select("where[$i][op]", array(-1 => "") + $this->operators);
+		echo html_select("where[$i][op]", array(-1 => "") + $this->getOperators());
 		echo "<input type='search' class='input' name='where[$i][val]'>";
 		echo script("mixin(qsl('input'), {onchange: function () { this.parentNode.firstChild.onchange(); }, onsearch: selectSearchSearch});");
 		echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon_solo("remove"), "</button>";
@@ -378,7 +417,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 							$value = $this->processInput($field, (!$op && $text_type && preg_match('~^[^%]+$~', $val) ? "%$val%" : $val));
 
 							$conds[] = $driver->convertSearch($name, $where, $field) . ($value == "NULL" ? " IS" . ($op == ">=" ? " NOT" : "") . " $value"
-								: (in_array($op, $this->operators) || $op == "=" ? " $op $value"
+								: (in_array($op, $this->getOperators()) || $op == "=" ? " $op $value"
 								: ($text_type ? " LIKE $value"
 								: " IN (" . str_replace(",", "', '", $value) . ")"
 							)));
@@ -456,7 +495,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 						$replace['{$' . "$val}"] = $this->editVal($row[$val], $fields[$val]);
 					}
 					$email = $row[$_POST["email_field"]];
-					if (is_mail($email) && send_mail($email, strtr($subject, $replace), strtr($message, $replace), $_POST["email_from"], $_FILES["email_files"])) {
+					if (is_mail($email) && $this->sendEmail($email, strtr($subject, $replace), strtr($message, $replace), $_POST["email_from"], $_FILES["email_files"])) {
 						$sent++;
 					}
 				}
@@ -483,7 +522,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		if ($field["null"] && preg_match('~blob~', $field["type"])) {
 			$return["NULL"] = lang('empty');
 		}
-		$return[""] = ($field["null"] || $field["auto_increment"] || like_bool($field) ? "" : "*");
+		$return[""] = ($field["null"] || $field["auto_increment"] || $this->looksLikeBool($field) ? "" : "*");
 		//! respect driver
 		if (preg_match('~date|time~', $field["type"])) {
 			$return["now"] = lang('now');
@@ -500,7 +539,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				. enum_input("radio", $attrs, $field, ($value || isset($_GET["select"]) ? $value : 0), ($field["null"] ? "" : null))
 			;
 		}
-		$options = $this->_foreignKeyOptions($table, $field["field"], $value);
+		$options = $this->foreignKeyOptions($table, $field["field"], $value);
 		if ($options !== null) {
 			return (is_array($options)
 				? "<select$attrs>" . optionlist($options, $value, true) . "</select>"
@@ -511,7 +550,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 qsl('div').onclick = whisperClick;", "")
 			);
 		}
-		if (like_bool($field)) {
+		if ($this->looksLikeBool($field)) {
 			return '<input type="checkbox" value="1"' . (preg_match('~^(1|t|true|y|yes|on)$~i', $value) ? ' checked' : '') . "$attrs>";
 		}
 		$hint = "";
@@ -548,7 +587,7 @@ qsl('div').onclick = whisperClick;", "")
 			$return = ($match["p1"] != "" ? $match["p1"] : ($match["p2"] != "" ? ($match["p2"] < 70 ? 20 : 19) . $match["p2"] : gmdate("Y"))) . "-$match[p3]$match[p4]-$match[p5]$match[p6]" . end($match);
 		}
 		$return = ($field["type"] == "bit" && preg_match('~^[0-9]+$~', $value) ? $return : q($return));
-		if ($value == "" && like_bool($field)) {
+		if ($value == "" && $this->looksLikeBool($field)) {
 			$return = "'0'";
 		} elseif ($value == "" && ($field["null"] || !preg_match('~char|text~', $field["type"]))) {
 			$return = "NULL";
@@ -688,13 +727,13 @@ qsl('div').onclick = whisperClick;", "")
 		echo "</ul>\n";
 	}
 
-	function _foreignColumn($foreignKeys, $column) {
+	public function foreignColumn($foreignKeys, $column): ?array {
 		foreach ((array) $foreignKeys[$column] as $foreignKey) {
 			if (count($foreignKey["source"]) == 1) {
 				$name = $this->rowDescription($foreignKey["table"]);
 				if ($name != "") {
 					$id = idf_escape($foreignKey["target"][0]);
-					return array($foreignKey["table"], $id, $name);
+					return [$foreignKey["table"], $id, $name];
 				}
 			}
 		}
@@ -702,10 +741,10 @@ qsl('div').onclick = whisperClick;", "")
 		return null;
 	}
 
-	function _foreignKeyOptions($table, $column, $value = null) {
+	private function foreignKeyOptions($table, $column, $value = null) {
 		global $connection;
-		if (list($target, $id, $name) = $this->_foreignColumn(column_foreign_keys($table), $column)) {
-			$return = &$this->_values[$target];
+		if (list($target, $id, $name) = $this->foreignColumn(column_foreign_keys($table), $column)) {
+			$return = &$this->values[$target];
 			if ($return === null) {
 				$table_status = table_status($target);
 				$return = ($table_status["Rows"] > 1000 ? "" : array("" => "") + get_key_vals("SELECT $id, $name FROM " . table($target) . " ORDER BY 2"));
@@ -717,4 +756,51 @@ qsl('div').onclick = whisperClick;", "")
 		}
 	}
 
+	/**
+	 * Checks whether the column looks like boolean.
+	 *
+	 * @param array $field Single field returned from fields().
+	 */
+	protected function looksLikeBool(array $field): bool
+	{
+		return preg_match("~bool|(tinyint|bit)\\(1\\)~", $field["full_type"]);
+	}
+
+	/**
+	 * Sends e-mail in UTF-8.
+	 */
+	protected function sendEmail(string $email, string $subject, string $message, string $from = "", array $files = []):bool
+	{
+		$eol = "\r\n";
+		$message = str_replace("\n", $eol, wordwrap(str_replace("\r", "", "$message\n")));
+		$boundary = uniqid("boundary");
+		$attachments = "";
+
+		foreach ((array) $files["error"] as $key => $val) {
+			if ($val) {
+				continue;
+			}
+
+			$attachments .= "--$boundary$eol"
+				. "Content-Type: " . str_replace("\n", "", $files["type"][$key]) . $eol
+				. "Content-Disposition: attachment; filename=\"" . preg_replace('~["\n]~', '', $files["name"][$key]) . "\"$eol"
+				. "Content-Transfer-Encoding: base64$eol$eol"
+				. chunk_split(base64_encode(file_get_contents($files["tmp_name"][$key])), 76, $eol) . $eol;
+		}
+
+		$beginning = "";
+		$headers = "Content-Type: text/plain; charset=utf-8$eol" . "Content-Transfer-Encoding: 8bit";
+		if ($attachments) {
+			$attachments .= "--$boundary--$eol";
+			$beginning = "--$boundary$eol$headers$eol$eol";
+			$headers = "Content-Type: multipart/mixed; boundary=\"$boundary\"";
+		}
+		$headers .= $eol . "MIME-Version: 1.0$eol" . "X-Mailer: Adminer Editor"
+			. ($from ? $eol . "From: " . str_replace("\n", "", $from) : ""); //! should escape display name
+
+		// iconv_mime_encode requires iconv, imap_8bit requires IMAP extension
+		$subject = "=?UTF-8?B?" . base64_encode($subject) . "?="; //! split long lines
+
+		return mail($email, $subject, $beginning . $message . $attachments, $headers);
+	}
 }
