@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 namespace Adminer;
@@ -34,17 +33,18 @@ function replace_lang($match) {
 	return "lang($lang_ids[$text]$match[2]";
 }
 
-function put_file($match) {
+function put_file($match, $current_path = "") {
 	global $project, $selected_languages, $single_driver;
 
 	$filename = basename($match[2]);
+	$file_path = ltrim($match[2], "/");
 
 	// Language is processed later.
 	if ($filename == '$LANG.inc.php') {
 		return $match[0];
 	}
 
-	$content = file_get_contents(__DIR__ . "/$project/$match[2]");
+	$content = file_get_contents(__DIR__ . "/$project/" . ($current_path ? "$current_path/" : "") . $file_path);
 
 	if ($filename == "lang.inc.php") {
 		$content = str_replace(
@@ -223,10 +223,12 @@ function php_shrink($input) {
 	$output = '';
 	$in_echo = false;
 	$doc_comment = false; // include only first /**
+
 	for (reset($tokens); list($i, $token) = each($tokens); ) {
 		if (!is_array($token)) {
 			$token = array(0, $token);
 		}
+
 		if (isset($tokens[$i+4]) && $tokens[$i+2][0] === T_CLOSE_TAG && $tokens[$i+3][0] === T_INLINE_HTML && $tokens[$i+4][0] === T_OPEN_TAG
 			&& strlen(add_apo_slashes($tokens[$i+3][1])) < strlen($tokens[$i+3][1]) + 3
 		) {
@@ -234,6 +236,7 @@ function php_shrink($input) {
 			$tokens[$i+3] = array(T_CONSTANT_ENCAPSED_STRING, "'" . add_apo_slashes($tokens[$i+3][1]) . "'");
 			$tokens[$i+4] = array(0, ';');
 		}
+
 		if ($token[0] == T_COMMENT || $token[0] == T_WHITESPACE || ($token[0] == T_DOC_COMMENT && $doc_comment)) {
 			$space = " ";
 		} else {
@@ -275,6 +278,7 @@ function php_shrink($input) {
 			$space = '';
 		}
 	}
+
 	return $output;
 }
 
@@ -364,14 +368,14 @@ $file = file_get_contents(__DIR__ . "/$project/index.php");
 // Remove including source code for unsupported features in single-driver file.
 if ($single_driver) {
 	$_GET[$single_driver] = true; // to load the driver
-	include_once __DIR__ . "/adminer/drivers/$single_driver.inc.php";
+	include __DIR__ . "/adminer/drivers/$single_driver.inc.php";
 
 	foreach ($features as $key => $feature) {
 		if (!support($feature)) {
 			if (is_string($key)) {
 				$feature = $key;
 			}
-			$file = str_replace("} elseif (isset(\$_GET[\"$feature\"])) {\n\tinclude \"./$feature.inc.php\";\n", "", $file);
+			$file = str_replace("} elseif (isset(\$_GET[\"$feature\"])) {\n\tinclude \"$feature.inc.php\";\n", "", $file);
 		}
 	}
 	if (!support("routine")) {
@@ -380,22 +384,24 @@ if ($single_driver) {
 }
 
 // Compile files included into the index.php.
-$file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'Adminer\put_file', $file);
+$file = preg_replace_callback('~\binclude (__DIR__ \. )?"([^"]*)";~', 'Adminer\put_file', $file);
 
 // Remove including devel files.
-$file = str_replace('include "../adminer/include/debug.inc.php";', '', $file);
-$file = str_replace('include "../adminer/include/compile.inc.php";', '', $file);
-$file = str_replace('include "../adminer/include/coverage.inc.php";', '', $file);
+$file = str_replace('include __DIR__ . "/debug.inc.php"', '', $file);
+$file = str_replace('include __DIR__ . "/compile.inc.php";', '', $file);
+$file = str_replace('include __DIR__ . "/coverage.inc.php";', '', $file);
 
 // Remove including unwanted drivers.
 if ($selected_drivers) {
-	$file = preg_replace_callback('~include "../adminer/drivers/([^.]+).*\n~', function ($match) use ($selected_drivers) {
+	$file = preg_replace_callback('~\binclude __DIR__ \. "/../drivers/([^.]+).*\n~', function ($match) use ($selected_drivers) {
 		return in_array($match[1], $selected_drivers) ? $match[0] : "";
 	}, $file);
 }
 
-// Compile files included into the bootstrap.inc.php.
-$file = preg_replace_callback('~\b(include|require) "([^"]*)";~', 'Adminer\put_file', $file);
+// Compile files included into the /adminer/include/bootstrap.inc.php.
+$file = preg_replace_callback('~\binclude (__DIR__ \. )?"([^"]*)";~', function ($match) {
+	return put_file($match, "../adminer/include");
+}, $file);
 
 if ($single_driver) {
 	// Remove source code for unsupported features.
@@ -419,7 +425,7 @@ if ($single_driver) {
 
 // Compile language files.
 $file = preg_replace_callback("~lang\\('((?:[^\\\\']+|\\\\.)*)'([,)])~s", 'Adminer\replace_lang', $file);
-$file = preg_replace_callback('~\b(include|require) "([^"]*\$LANG.inc.php)";~', 'Adminer\put_file_lang', $file);
+$file = preg_replace_callback('~\binclude __DIR__ \. "([^"]*\$LANG.inc.php)";~', 'Adminer\put_file_lang', $file);
 
 $file = str_replace("\r", "", $file);
 
@@ -438,6 +444,11 @@ $cases = "";
 $linked_files = [];
 for ($i = 0; $i < count($matches[0]); $i++) {
 	$name = $matches[1][$i];
+	// TODO: Compile selected theme.
+	if ($name == '$theme.css') {
+		continue;
+	}
+
 	$file_paths = preg_split('~",\s+"~', trim($matches[2][$i], " \n\r\t\","));
 
 	$linked_files[$name] = linked_filename($name, $file_paths);
