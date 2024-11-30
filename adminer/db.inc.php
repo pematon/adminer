@@ -84,13 +84,13 @@ if ($adminer->homepage()) {
 				echo "<input type='search' class='input' name='query' value='" . h($_POST["query"]) . "'>";
 				echo script("qsl('input').onkeydown = partialArg(bodyKeydown, 'search');", "");
 				echo " <input type='submit' class='button' name='search' value='" . lang('Search') . "'>\n";
-				if ($adminer->operator_regexp !== null) {
+				if ($adminer->getRegexpOperator()) {
 					echo "<p><label><input type='checkbox' name='regexp' value='1'" . (empty($_POST['regexp']) ? '' : ' checked') . '>' . lang('as a regular expression') . '</label>';
 					echo doc_link(['sql' => 'regexp.html', 'pgsql' => 'functions-matching.html#FUNCTIONS-POSIX-REGEXP', 'elastic' => "regexp-syntax.html"]) . "</p>\n";
 				}
 				echo "</div></fieldset>\n";
 				if ($_POST["search"] && $_POST["query"] != "") {
-					$_GET["where"][0]["op"] = $adminer->operator_regexp !== null && !empty($_POST['regexp']) ? $adminer->operator_regexp : $adminer->operator_like;
+					$_GET["where"][0]["op"] = $adminer->getRegexpOperator() && !empty($_POST['regexp']) ? $adminer->getRegexpOperator() : $adminer->getLikeOperator();
 					search_tables();
 				}
 				echo "</div>\n";

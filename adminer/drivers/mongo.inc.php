@@ -4,8 +4,8 @@ namespace Adminer;
 
 use DateTime;
 use Exception;
-use MongoDB\Driver;
 use MongoDB\BSON;
+use MongoDB\Driver;
 
 $drivers["mongo"] = "MongoDB (alpha)";
 
@@ -312,7 +312,7 @@ if (isset($_GET["mongo"])) {
 							list(, $class, $val) = $match;
 							$val = new $class($val);
 						}
-						if (!in_array($op, $adminer->operators)) {
+						if (!in_array($op, $adminer->getOperators())) {
 							continue;
 						}
 						if (preg_match('~^\(f\)(.+)~', $op, $match)) {
