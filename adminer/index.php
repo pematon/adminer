@@ -13,8 +13,13 @@
 
 namespace Adminer;
 
-include "./include/bootstrap.inc.php";
-include "./include/tmpfile.inc.php";
+include "core/AdminerBase.php";
+include "core/Adminer.php";
+include "core/TmpFile.php";
+
+include "include/editing.inc.php";
+include "include/bootstrap.inc.php";
+include "include/connect.inc.php";
 
 $enum_length = "'(?:''|[^'\\\\]|\\\\.)*'";
 $inout = "IN|OUT|INOUT";
@@ -30,55 +35,55 @@ if (isset($_GET["function"])) {
 }
 
 if (isset($_GET["download"])) {
-	include "./download.inc.php";
+	include "download.inc.php";
 } elseif (isset($_GET["table"])) {
-	include "./table.inc.php";
+	include "table.inc.php";
 } elseif (isset($_GET["schema"])) {
-	include "./schema.inc.php";
+	include "schema.inc.php";
 } elseif (isset($_GET["dump"])) {
-	include "./dump.inc.php";
+	include "dump.inc.php";
 } elseif (isset($_GET["privileges"])) {
-	include "./privileges.inc.php";
+	include "privileges.inc.php";
 } elseif (isset($_GET["sql"])) {
-	include "./sql.inc.php";
+	include "sql.inc.php";
 } elseif (isset($_GET["edit"])) {
-	include "./edit.inc.php";
+	include "edit.inc.php";
 } elseif (isset($_GET["create"])) {
-	include "./create.inc.php";
+	include "create.inc.php";
 } elseif (isset($_GET["indexes"])) {
-	include "./indexes.inc.php";
+	include "indexes.inc.php";
 } elseif (isset($_GET["database"])) {
-	include "./database.inc.php";
+	include "database.inc.php";
 } elseif (isset($_GET["scheme"])) {
-	include "./scheme.inc.php";
+	include "scheme.inc.php";
 } elseif (isset($_GET["call"])) {
-	include "./call.inc.php";
+	include "call.inc.php";
 } elseif (isset($_GET["foreign"])) {
-	include "./foreign.inc.php";
+	include "foreign.inc.php";
 } elseif (isset($_GET["view"])) {
-	include "./view.inc.php";
+	include "view.inc.php";
 } elseif (isset($_GET["event"])) {
-	include "./event.inc.php";
+	include "event.inc.php";
 } elseif (isset($_GET["procedure"])) {
-	include "./procedure.inc.php";
+	include "procedure.inc.php";
 } elseif (isset($_GET["sequence"])) {
-	include "./sequence.inc.php";
+	include "sequence.inc.php";
 } elseif (isset($_GET["type"])) {
-	include "./type.inc.php";
+	include "type.inc.php";
 } elseif (isset($_GET["trigger"])) {
-	include "./trigger.inc.php";
+	include "trigger.inc.php";
 } elseif (isset($_GET["user"])) {
-	include "./user.inc.php";
+	include "user.inc.php";
 } elseif (isset($_GET["processlist"])) {
-	include "./processlist.inc.php";
+	include "processlist.inc.php";
 } elseif (isset($_GET["select"])) {
-	include "./select.inc.php";
+	include "select.inc.php";
 } elseif (isset($_GET["variables"])) {
-	include "./variables.inc.php";
+	include "variables.inc.php";
 } elseif (isset($_GET["script"])) {
-	include "./script.inc.php";
+	include "script.inc.php";
 } else {
-	include "./db.inc.php";
+	include "db.inc.php";
 }
 
 // each page calls its own page_header(), if the footer should not be called then the page exits
