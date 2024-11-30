@@ -17,15 +17,21 @@ Requirements
 
 - PHP 7.1+ with enabled sessions.
 
-Migration from Adminer
-----------------------
+Security
+--------
 
-- Remove plugin AdminerTablesFilter (plugins/tables-filter.php).
-- If you use complex custom theme, you will probably need to adjust a thing or two.
+AdminerNeo does not allow connecting to databases without a password, and it rate-limits connection attempts to protect
+against brute force attacks. However, it is highly recommended to **restrict access to AdminerNeo** 🔒 by whitelisting IP
+addresses allowed to connect to it, by password protecting access in your web server, or by enabling security plugins
+(e.g. to require an OTP).
 
-More information can be found in [Upgrade Guide](docs/upgrade.md).
+Migration from older versions
+-----------------------------
 
-Please, read also 👉 **[What to expect](#what-to-expect)** section before you decide to switch to this project.
+Version 5 has been significantly redesigned and refactored. Unfortunately, this has resulted in many changes that break
+backward compatibility.
+
+A complete list of changes can be found in the [Upgrade Guide](docs/upgrade.md).
 
 Usage
 -----
@@ -55,19 +61,44 @@ php compile.php mysql,pgsql en,de,cs,sk
 [Available drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers), 
 [languages](https://github.com/pematon/adminer/tree/adminerneo/adminerneo/lang).
 
-Security
---------
+Configuration
+-------------
 
-AdminerNeo does not allow connecting to databases without a password and it rate-limits the connection attempts to protect 
-against brute-force attacks. Still, it is highly recommended to 🔒 **restrict access to AdminerNeo** 🔒 by whitelisting IP 
-addresses allowed to connect to it, by password-protecting the access in your web server or by enabling security plugins 
-(e.g. to require an OTP).
+You can define a configuration as a constructor parameter. Create `index.php` file implementing `create_adminer()` 
+method that returns configured `Adminer` instance.
+
+```php
+<?php
+
+use Adminer\Adminer;
+
+function create_adminer(): Adminer 
+{
+    // Define configuration.
+    $config = [
+        "theme" => "default-green",
+    ];
+	
+    return new Adminer($config);
+}
+
+// Include original Adminer.
+include "adminer.php";
+```
+
+Available configuration parameters:
+
+| Parameter | Default value | Description                                                                                                                                         |
+|-----------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `theme`   | default       | Theme code. Available themes are: `default`, `default-green`, `default-red`. Please, be sure that the theme is compiled into the final single file. |
 
 Plugins
 -------
 
-* Download plugins you want and place them into the `plugins` folder.
-* Create `index.php` file specifying which plugins do you want to use.
+AdminerNeo functions can be changed or extended by plugins. Plugins are managed by `Pluginer` customization class. 
+
+* Download `Pluginer.php` and plugins you want and place them into the `plugins` folder.
+* Create `index.php` file implementing `create_adminer()` method that returns Pluginer instance.
 
 File structure will be:
 
@@ -75,6 +106,7 @@ File structure will be:
 - plugins
     - drivers
         - elastic.php
+    - Pluginer.php
     - dump-xml.php
     - tinymce.php
     - file-upload.php
@@ -84,21 +116,23 @@ File structure will be:
 ```
 
 Index.php:
+
 ```php
 <?php
-function adminer_object() {
+
+use Adminer\Pluginer;
+
+function create_adminer(): Pluginer
+{
     // Required to run any plugin.
-    include_once "./plugins/plugin.php";
+    include "plugins/Pluginer.php";
     
-    // Autoloader.
-    foreach (glob("plugins/*.php") as $filename) {
-        include_once "./$filename";
-    }
+    // Include plugins.
+    include "plugins/dump-xml.php";
+    include "plugins/tinymce.php.php";
+    include "plugins/file-upload.php";
     
-    // Enable extra drivers just by including them.
-    include_once "./plugins/drivers/elastic.php";
-    
-    // Specify enabled plugins.
+    // Enable plugins.
     $plugins = [
         new AdminerDumpXml(),
         new AdminerTinymce(),
@@ -106,16 +140,19 @@ function adminer_object() {
         // ...
     ];
     
-    // It is possible to combine customization and plugins.
-    // class AdminerCustomization extends AdminerPlugin {
-    // }
-    // return new AdminerCustomization($plugins);
+    // Enable extra drivers just by including them.
+    include "plugins/drivers/elastic.php";
     
-    return new AdminerPlugin($plugins);
+    // Define configuration.
+    $config = [
+        "theme" => "default-green",
+    ];
+    
+    return new Pluginer($plugins, $config);
 }
 
-// Include original Adminer or Adminer Editor.
-include "./adminer.php";
+// Include AdminerNeo or AdminerNeo Editor.
+include "adminer.php";
 ```
 
 [Available plugins](https://github.com/adminerneo/adminerneo/tree/main/plugins).
@@ -125,12 +162,10 @@ Main project files
 
 - adminer/index.php - Run development version of AdminerNeo.
 - editor/index.php - Run development version of AdminerNeo Editor.
-- editor/example.php - Example customization.
-- plugins/readme.txt - Plugins for AdminerNeo and AdminerNeo Editor.
-- adminer/plugin.php - Plugin demo.
+- editor/example.php - Example Editor customization.
+- adminer/plugins.php - Plugins demo.
 - adminer/sqlite.php - Development version of AdminerNeo with SQLite allowed.
 - editor/sqlite.php - Development version of Editor with SQLite allowed.
-- adminer/designs.php - Development version of AdminerNeo with adminer.css switcher.
 - compile.php - Create a single file version.
 - lang.php - Update translations.
 - tests/katalon.html - Katalon Automation Recorder test suite.
@@ -153,15 +188,12 @@ without requirement of additional plugins.
 
 ### Version 4.x
 
-Original design and backward compatibility is kept. Many issues were fixed, and we introduced several functional and 
-UI improvements.
+Original design and backward compatibility is maintained. Many bugs have been fixed and several functional and 
+UI improvements have been introduced.
 
 ### Version 5
 
-Bridges will be burned 🔥🔥🔥. It's in development already, so you [can check](https://github.com/adminerneo/adminerneo/tree/version-5) 
-what's going on. Or you can become the early adopter and help us with testing 😉
-
-Our goals are:
+Bridges are burned 🔥🔥🔥. Our goals are:
 
 - **Requirements** - Bump minimal PHP to 7.1, maybe even higher. 
 - **Themes** – Modernize the current old-school theme, add new default theme based on our [Adminer theme](https://github.com/pematon/adminer-theme), 

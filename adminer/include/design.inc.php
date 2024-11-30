@@ -38,12 +38,8 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 <title><?= $title_page; ?></title>
 <link rel="stylesheet" type="text/css" href="<?= link_files("default.css", ["../adminer/themes/default.css"]); ?>">
 <?php
-// TODO: Theme configuration.
-	$theme = null;
-//	$theme = $adminer->config->getTheme();
-//	$theme = "default-green";
-//	$theme = "default-red";
-	if ($theme) {
+	$theme = $adminer->getConfig()->getTheme();
+	if ($theme != "default") {
 ?>
 <link rel="stylesheet" type="text/css" href="<?= link_files("$theme.css", ["../adminer/themes/$theme.css"]); ?>">
 <?php } ?>
