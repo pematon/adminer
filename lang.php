@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
@@ -16,9 +15,11 @@ if (isset($_SESSION["lang"])) {
 $messages_all = array();
 foreach (array_merge(
 	glob(__DIR__ . "/adminer/*.php"),
+	glob(__DIR__ . "/adminer/core/*.php"),
 	glob(__DIR__ . "/adminer/include/*.php"),
 	glob(__DIR__ . "/adminer/drivers/*.php"),
 	glob(__DIR__ . "/editor/*.php"),
+	glob(__DIR__ . "/editor/core/*.php"),
 	glob(__DIR__ . "/editor/include/*.php"),
 	glob(__DIR__ . "/plugins/*.php"),
 	glob(__DIR__ . "/plugins/drivers/*.php")

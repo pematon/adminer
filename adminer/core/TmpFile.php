@@ -2,23 +2,26 @@
 
 namespace Adminer;
 
-class TmpFile {
+class TmpFile
+{
 	var $handler;
 	var $size;
 
-	function __construct() {
+	function __construct()
+	{
 		$this->handler = tmpfile();
 	}
 
-	function write($contents) {
+	function write($contents)
+	{
 		$this->size += strlen($contents);
 		fwrite($this->handler, $contents);
 	}
 
-	function send() {
+	function send()
+	{
 		fseek($this->handler, 0);
 		fpassthru($this->handler);
 		fclose($this->handler);
 	}
-
 }
