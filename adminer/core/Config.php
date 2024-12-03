@@ -16,4 +16,9 @@ class Config
 	{
 		return $this->config["theme"] ?? "default";
 	}
+
+	public function isVersionVerificationEnabled(): bool
+	{
+		return $this->config["versionVerification"] ?? true;
+	}
 }
