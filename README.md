@@ -88,9 +88,10 @@ include "adminer.php";
 
 Available configuration parameters:
 
-| Parameter | Default value | Description                                                                                                                                         |
-|-----------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `theme`   | default       | Theme code. Available themes are: `default`, `default-green`, `default-red`. Please, be sure that the theme is compiled into the final single file. |
+| Parameter             | Default value | Description                                                                                                                                         |
+|-----------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `theme`               | default       | Theme code. Available themes are: `default`, `default-green`, `default-red`. Please, be sure that the theme is compiled into the final single file. |
+| `versionVerification` | true          | Whether verification of the new Adminer's version is enabled.                                                                                       |
 
 Plugins
 -------
