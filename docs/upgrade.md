@@ -10,6 +10,7 @@ Migrating to 5.0
 - TODO: AdminerPlugin -> Pluginer
 - TODO: removed autoload of plugins based on class name 
 - TODO: removed all designs, new configurable theme
+- TODO: removed plugin `AdminerVersionNoverify`, config option `versionVerification`
 
 Migrating to 4.10
 -----------------

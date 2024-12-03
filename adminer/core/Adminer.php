@@ -1138,20 +1138,22 @@ class Adminer extends AdminerBase
 	*/
 	function navigation($missing) {
 		global $VERSION, $jush, $drivers, $connection;
+
+		$last_version = $_COOKIE["adminer_version"] ?? null;
 ?>
 
 <h1>
-	<?php echo $this->name(); ?>
+	<?= $this->name(); ?>
 
 	<?php if ($missing != "auth"): ?>
 		<span class="version">
-			<?php echo $VERSION; ?>
-			<a href="https://github.com/pematon/adminer/releases"<?php echo target_blank(); ?> id="version">
-				<?php echo (version_compare($VERSION, $_COOKIE["adminer_version"]) < 0 ? h($_COOKIE["adminer_version"]) : ""); ?>
+			<?= h($VERSION); ?>
+			<a href="https://github.com/pematon/adminer/releases"<?= target_blank(); ?> id="version">
+				<?= ($this->config->isVersionVerificationEnabled() && $last_version && version_compare($VERSION, $last_version) < 0 ? h($last_version) : ""); ?>
 			</a>
 		</span>
 		<?php
-		if (!isset($_COOKIE["adminer_version"])) {
+		if ($this->config->isVersionVerificationEnabled() && !$last_version) {
 			echo script("verifyVersion('" . js_escape(ME) . "', '" . get_token() . "');");
 		}
 		?>

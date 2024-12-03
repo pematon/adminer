@@ -10,7 +10,7 @@ namespace Adminer;
 * @return null
 */
 function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
-	global $LANG, $VERSION, $adminer, $drivers, $jush;
+	global $LANG, $adminer, $drivers, $jush;
 	page_headers();
 	if (is_ajax() && $error) {
 		page_messages($error);
@@ -20,12 +20,14 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 	$title_page = strip_tags($title_all . (SERVER != "" && SERVER != "localhost" ? h(" - " . SERVER) : "") . " - " . $adminer->name());
 
 	// Load Adminer version from file if cookie is missing.
-	$filename = get_temp_dir() . "/adminer.version";
-	if (!$_COOKIE["adminer_version"] && file_exists($filename) && ($lifetime = filemtime($filename) + 86400 - time()) > 0) { // 86400 - 1 day in seconds
-		$data = unserialize(file_get_contents($filename));
+	if ($adminer->getConfig()->isVersionVerificationEnabled()) {
+		$filename = get_temp_dir() . "/adminer.version";
+		if (!isset($_COOKIE["adminer_version"]) && file_exists($filename) && ($lifetime = filemtime($filename) + 86400 - time()) > 0) { // 86400 - 1 day in seconds
+			$data = unserialize(file_get_contents($filename));
 
-		$_COOKIE["adminer_version"] = $data["version"];
-		cookie("adminer_version", $data["version"], $lifetime); // Sync expiration with the file.
+			$_COOKIE["adminer_version"] = $data["version"];
+			cookie("adminer_version", $data["version"], $lifetime); // Sync expiration with the file.
+		}
 	}
 	?>
 <!DOCTYPE html>
