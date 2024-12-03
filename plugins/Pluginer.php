@@ -87,12 +87,12 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function schemas()
+	public function schemas(): array
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function databases($flush = true)
+	public function databases($flush = true): array
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
