@@ -92,6 +92,8 @@ Available configuration parameters:
 |-----------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `theme`               | default       | Theme code. Available themes are: `default`, `default-green`, `default-red`. Please, be sure that the theme is compiled into the final single file. |
 | `versionVerification` | true          | Whether verification of the new Adminer's version is enabled.                                                                                       |
+| `hiddenDatabases`     | []            | List of databases to hide from the UI or a `__system` keyword to hide all system databases. Access to these databases is not restricted.            |
+| `hiddenSchemas`       | []            | List of schemas to hide from the UI or a `__system` keyword to hide all system schemas. Access to these schemas is not restricted.                  |
 
 Plugins
 -------

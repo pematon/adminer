@@ -69,14 +69,6 @@ class Adminer extends AdminerBase
 		}
 	}
 
-	function schemas() {
-		return schemas();
-	}
-
-	function databases($flush = true) {
-		return get_databases($flush);
-	}
-
 	function queryTimeout() {
 		return 5;
 	}
