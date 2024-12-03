@@ -41,9 +41,37 @@ abstract class AdminerBase
 
 	public abstract function database();
 
-	public abstract function databases($flush = true): array;
+	/**
+	 * Returns cached list of databases.
+	 */
+	function databases($flush = true): array
+	{
+		$databases = get_databases($flush);
 
-	public abstract function schemas(): array;
+		if ($hiddenList = $this->config->getHiddenDatabases()) {
+			$databases = array_filter($databases, function (string $name) use ($hiddenList) {
+				return !in_array($name, $hiddenList);
+			});
+		}
+
+		return $databases;
+	}
+
+	/**
+	 * Returns list of schemas.
+	 */
+	function schemas(): array
+	{
+		$schemas = schemas();
+
+		if ($hiddenList = $this->config->getHiddenDatabases()) {
+			$schemas = array_filter($schemas, function (string $name) use ($hiddenList) {
+				return !in_array($name, $hiddenList);
+			});
+		}
+
+		return $schemas;
+	}
 
 	public abstract function queryTimeout();
 

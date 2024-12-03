@@ -1,6 +1,5 @@
 <?php
 
-use Adminer\AdminerDatabaseHide;
 use Adminer\AdminerDumpAlter;
 use Adminer\AdminerDumpBz2;
 use Adminer\AdminerDumpJson;
@@ -23,7 +22,6 @@ function create_adminer(): Pluginer
 	}
 
 	$plugins = [
-		new AdminerDatabaseHide(['information_schema']),
 		new AdminerDumpJson,
 		new AdminerDumpBz2,
 		new AdminerDumpZip,
@@ -45,6 +43,8 @@ function create_adminer(): Pluginer
 
 	$config = [
 		"theme" => "default-green",
+		"hiddenDatabases" => "__system",
+		"hiddenSchemas" => "__system",
 	];
 
 	return new Pluginer($plugins, $config);
