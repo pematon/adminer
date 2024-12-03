@@ -96,21 +96,6 @@ class Adminer extends AdminerBase
 		return DB;
 	}
 
-	/** Get cached list of databases
-	* @param bool
-	* @return array
-	*/
-	function databases($flush = true) {
-		return get_databases($flush);
-	}
-
-	/** Get list of schemas
-	* @return array
-	*/
-	function schemas() {
-		return schemas();
-	}
-
 	/** Specify limit for waiting on some slow queries like DB list
 	* @return float number of seconds
 	*/

@@ -52,7 +52,7 @@ page_header(($_GET["ns"] == "" ? lang('Database') . ": " . h(DB) : lang('Schema'
 if ($adminer->homepage()) {
 	if ($_GET["ns"] === "") {
 		echo "<h3 id='schemas'>" . lang('Schemas') . "</h3>\n";
-		$schemas = schemas();
+		$schemas = $adminer->schemas();
 		if (!$schemas) {
 			echo "<p class='message'>" . lang('No schemas.') . "\n";
 		} else {
