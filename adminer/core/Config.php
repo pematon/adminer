@@ -31,6 +31,22 @@ class Config
 		return $this->config["theme"] ?? "default";
 	}
 
+	/**
+	 * @return string[]
+	 */
+	public function getCssUrls(): array
+	{
+		return $this->config["cssUrls"] ?? [];
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getJsUrls(): array
+	{
+		return $this->config["jsUrls"] ?? [];
+	}
+
 	public function isVersionVerificationEnabled(): bool
 	{
 		return $this->config["versionVerification"] ?? true;

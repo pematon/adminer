@@ -117,11 +117,6 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function css()
-	{
-		return $this->applyPlugin(__FUNCTION__, func_get_args());
-	}
-
 	public function loginForm()
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
