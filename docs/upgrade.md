@@ -12,6 +12,8 @@ Migrating to 5.0
 - TODO: removed all designs, new configurable theme
 - TODO: removed plugin `AdminerVersionNoverify`, config option `versionVerification`
 - TODO: removed plugin `AdminerDatabaseHide`, config options `hiddenDatabases`, `hiddenSchemas`
+- TODO: removed plugin `AdminerDotJs`, config option `jsUrls`
+- TODO: removed customizable css() method, config option `cssUrls`
 
 Migrating to 4.10
 -----------------

@@ -49,8 +49,11 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 
 <?php if ($adminer->head()) { ?>
 	<link rel="shortcut icon" type="image/x-icon" href="<?= link_files("favicon.ico", ["../adminer/images/favicon.ico"]); ?>">
-	<?php foreach ($adminer->css() as $css) { ?>
-		<link rel="stylesheet" type="text/css" href="<?= h($css); ?>">
+	<?php foreach ($adminer->css() as $url) { ?>
+		<link rel="stylesheet" type="text/css" href="<?= h($url); ?>">
+	<?php } ?>
+	<?php foreach ($adminer->getConfig()->getJsUrls() as $url) { ?>
+		<?= script_src($url); ?>
 	<?php } ?>
 <?php } ?>
 </head>
