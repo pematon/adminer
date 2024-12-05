@@ -86,7 +86,22 @@ abstract class AdminerBase
 
 	public abstract function head();
 
-	public abstract function css();
+	/**
+	 * Returns URLs of the CSS files.
+	 *
+	 * @return string[]
+	 */
+	function css(): array
+	{
+		$urls = $this->getConfig()->getCssUrls();
+
+		$filename = "adminer.css";
+		if (file_exists($filename)) {
+			$urls[] = "$filename?v=" . filemtime($filename);
+		}
+
+		return $urls;
+	}
 
 	public abstract function loginForm();
 
