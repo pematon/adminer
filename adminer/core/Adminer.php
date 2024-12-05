@@ -137,18 +137,6 @@ class Adminer extends AdminerBase
 		return true;
 	}
 
-	/** Get URLs of the CSS files
-	* @return array of strings
-	*/
-	function css() {
-		$return = array();
-		$filename = "adminer.css";
-		if (file_exists($filename)) {
-			$return[] = "$filename?v=" . crc32(file_get_contents($filename));
-		}
-		return $return;
-	}
-
 	/** Print login form
 	* @return null
 	*/
