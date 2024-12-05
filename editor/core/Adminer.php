@@ -84,15 +84,6 @@ class Adminer extends AdminerBase
 		return true;
 	}
 
-	function css() {
-		$return = array();
-		$filename = "adminer.css";
-		if (file_exists($filename)) {
-			$return[] = $filename;
-		}
-		return $return;
-	}
-
 	function loginForm() {
 		echo "<table class='layout'>\n";
 		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input type="hidden" name="auth[driver]" value="mysql"><input class="input" name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">');
