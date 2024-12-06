@@ -10,7 +10,6 @@ use Adminer\AdminerEnumOption;
 use Adminer\AdminerFileUpload;
 use Adminer\AdminerForeignSystem;
 use Adminer\AdminerJsonColumn;
-use Adminer\AdminerLoginSsl;
 use Adminer\AdminerSlugify;
 use Adminer\AdminerTranslation;
 use Adminer\Pluginer;
@@ -38,13 +37,13 @@ function create_adminer(): Pluginer
 		new AdminerForeignSystem,
 		new AdminerEnumOption,
 		new AdminerEditForeign,
-		new AdminerLoginSsl(["TrustServerCertificate" => true]),
 	];
 
 	$config = [
 		"theme" => "default-green",
 		"hiddenDatabases" => "__system",
 		"hiddenSchemas" => "__system",
+		"sslTrustServerCertificate" => true,
 	];
 
 	return new Pluginer($plugins, $config);
