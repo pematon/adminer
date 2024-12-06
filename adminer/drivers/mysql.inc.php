@@ -23,14 +23,13 @@ if (isset($_GET["mysql"])) {
 				mysqli_report(MYSQLI_REPORT_OFF);
 				list($host, $port) = explode(":", $server, 2); // part after : is used for port or socket
 
-				$ssl = $adminer->connectSsl();
-				if (isset($ssl['key']) || isset($ssl['cert']) || isset($ssl['ca'])) {
-					$this->ssl_set(
-						isset($ssl['key']) ? $ssl['key'] : null,
-						isset($ssl['cert']) ? $ssl['cert'] : null,
-						isset($ssl['ca']) ? $ssl['ca'] : null,
-						null, null
-					);
+				$key = $adminer->getConfig()->getSslKey();
+				$certificate = $adminer->getConfig()->getSslCertificate();
+				$ca_certificate = $adminer->getConfig()->getSslCaCertificate();
+				$ssl_defined = $key || $certificate || $ca_certificate;
+
+				if ($ssl_defined) {
+					$this->ssl_set($key, $certificate, $ca_certificate, null, null);
 				}
 
 				$return = @$this->real_connect(
@@ -40,7 +39,7 @@ if (isset($_GET["mysql"])) {
 					$database,
 					(is_numeric($port) ? $port : ini_get("mysqli.default_port")),
 					(!is_numeric($port) ? $port : $socket),
-					($ssl ? MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT : 0)
+					($ssl_defined ? MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT : 0)
 				);
 				$this->options(MYSQLI_OPT_LOCAL_INFILE, false);
 				return $return;
@@ -79,15 +78,20 @@ if (isset($_GET["mysql"])) {
 				$dsn = "mysql:charset=utf8;host=" . str_replace(":", ";unix_socket=", preg_replace('~:(\d)~', ';port=\1', $server));
 
 				$options = [PDO::MYSQL_ATTR_LOCAL_INFILE => false];
-				$ssl = $adminer->connectSsl();
-				if (isset($ssl['key'])) {
-					$options[PDO::MYSQL_ATTR_SSL_KEY] = $ssl['key'];
+
+				$key = $adminer->getConfig()->getSslKey();
+				if ($key) {
+					$options[PDO::MYSQL_ATTR_SSL_KEY] = $key;
 				}
-				if (isset($ssl['cert'])) {
-					$options[PDO::MYSQL_ATTR_SSL_CERT] = $ssl['cert'];
+
+				$certificate = $adminer->getConfig()->getSslCertificate();
+				if ($certificate) {
+					$options[PDO::MYSQL_ATTR_SSL_CERT] = $certificate;
 				}
-				if (isset($ssl['ca'])) {
-					$options[PDO::MYSQL_ATTR_SSL_CA] = $ssl['ca'];
+
+				$ca_certificate = $adminer->getConfig()->getSslCaCertificate();
+				if ($ca_certificate) {
+					$options[PDO::MYSQL_ATTR_SSL_CA] = $ca_certificate;
 				}
 
 				$this->dsn($dsn, $username, $password, $options);
