@@ -61,4 +61,34 @@ class Config
 	{
 		return $this->config["hiddenSchemas"] ?? [];
 	}
+
+	public function getSslKey(): ?string
+	{
+		return $this->config["sslKey"] ?? null;
+	}
+
+	public function getSslCertificate(): ?string
+	{
+		return $this->config["sslCertificate"] ?? null;
+	}
+
+	public function getSslCaCertificate(): ?string
+	{
+		return $this->config["sslCaCertificate"] ?? null;
+	}
+
+	public function getSslMode(): ?string
+	{
+		return $this->config["sslMode"] ?? null;
+	}
+
+	public function getSslEncrypt(): ?bool
+	{
+		return $this->config["sslEncrypt"] ?? null;
+	}
+
+	public function getSslTrustServerCertificate(): ?bool
+	{
+		return $this->config["sslTrustServerCertificate"] ?? null;
+	}
 }
