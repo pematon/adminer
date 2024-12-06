@@ -25,9 +25,9 @@ if (isset($_GET["pgsql"])) {
 
 				$this->_string = "host='" . str_replace(":", "' port='", addcslashes($server, "'\\")) . "' user='" . addcslashes($username, "'\\") . "' password='" . addcslashes($password, "'\\") . "'";
 
-				$ssl = $adminer->connectSsl();
-				if (isset($ssl["mode"])) {
-					$this->_string .= " sslmode='" . $ssl["mode"] . "'";
+				$ssl_mode = $adminer->getConfig()->getSslMode();
+				if ($ssl_mode) {
+					$this->_string .= " sslmode='$ssl_mode'";
 				}
 
 				$this->_link = @pg_connect("$this->_string dbname='" . ($db != "" ? addcslashes($db, "'\\") : "postgres") . "'", PGSQL_CONNECT_FORCE_NEW);
@@ -169,9 +169,9 @@ if (isset($_GET["pgsql"])) {
 				//! client_encoding is supported since 9.1, but we can't yet use min_version here
 				$dsn = "pgsql:host='" . str_replace(":", "' port='", addcslashes($server, "'\\")) . "' client_encoding=utf8 dbname='" . ($db != "" ? addcslashes($db, "'\\") : "postgres") . "'";
 
-				$ssl = $adminer->connectSsl();
-				if (isset($ssl["mode"])) {
-					$dsn .= " sslmode='" . $ssl["mode"] . "'";
+				$ssl_mode = $adminer->getConfig()->getSslMode();
+				if ($ssl_mode) {
+					$dsn .= " sslmode='$ssl_mode'";
 				}
 
 				$this->dsn($dsn, $username, $password);

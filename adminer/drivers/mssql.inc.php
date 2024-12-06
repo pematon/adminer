@@ -36,12 +36,14 @@ if (isset($_GET["mssql"])) {
 					"CharacterSet" => "UTF-8",
 				];
 
-				$ssl = $adminer->connectSsl();
-				if (isset($ssl["Encrypt"])) {
-					$connection_info["Encrypt"] = $ssl["Encrypt"];
+				$encrypt = $adminer->getConfig()->getSslEncrypt();
+				if ($encrypt !== null) {
+					$connection_info["Encrypt"] = $encrypt;
 				}
-				if (isset($ssl["TrustServerCertificate"])) {
-					$connection_info["TrustServerCertificate"] = $ssl["TrustServerCertificate"];
+
+				$trust = $adminer->getConfig()->getSslTrustServerCertificate();
+				if ($trust !== null) {
+					$connection_info["TrustServerCertificate"] = $trust;
 				}
 
 				$db = $adminer->database();
