@@ -658,20 +658,22 @@ qsl('div').onclick = whisperClick;", "")
 				foreach ($servers[""] as $username => $password) {
 					if ($password !== null) {
 						if ($first) {
-							echo "<ul id='logins'>";
-							echo script("mixin(gid('logins'), {onmouseover: menuOver, onmouseout: menuOut});");
+							echo "<nav id='logins'><menu>";
 							$first = false;
 						}
-						echo "<li><a href='" . h(auth_url($vendor, "", $username)) . "'>" . ($username != "" ? h($username) : "<i>" . lang('empty') . "</i>") . "</a>\n";
+						echo "<li><a href='" . h(auth_url($vendor, "", $username)) . "' class='primary'>" . ($username != "" ? h($username) : "<i>" . lang('empty') . "</i>") . "</a></li>\n";
 					}
 				}
+			}
+			if (!$first) {
+				echo "</menu></nav>\n";
 			}
 		} else {
 			$this->databasesPrint($missing);
 			if ($missing != "db" && $missing != "ns") {
 				$table_status = table_status('', true);
 				if (!$table_status) {
-					echo "<p class='message'>" . lang('No tables.') . "\n";
+					echo "<p class='message'>" . lang('No tables.') . "</p>\n";
 				} else {
 					$this->printTablesFilter();
 					$this->tablesPrint($table_status);
@@ -683,18 +685,8 @@ qsl('div').onclick = whisperClick;", "")
 	function databasesPrint($missing) {
 	}
 
-	function printTablesFilter()
-	{
-		global $adminer;
-
-		echo "<div class='tables-filter jsonly'>"
-			. "<input id='tables-filter' autocomplete='off' placeholder='" . lang('Table') . "' class='input'>"
-			. script("initTablesFilter(" . json_encode($adminer->database()) . ");")
-			. "</div>\n";
-	}
-
 	function tablesPrint(array $tables) {
-		echo "<ul id='tables'>" . script("mixin(gid('tables'), {onmouseover: menuOver, onmouseout: menuOut});");
+		echo "<nav id='tables'><menu>";
 
 		foreach ($tables as $row) {
 			// Skip views and tables without a name.
@@ -705,11 +697,11 @@ qsl('div').onclick = whisperClick;", "")
 			$active = $_GET["select"] == $row["Name"] || $_GET["edit"] == $row["Name"];
 
 			echo '<li><a href="' . h(ME) . 'select=' . urlencode($row["Name"]) . '"'
-				. bold($active, "select")
-				. " title='" . lang('Select data') . "'  data-main='true'>$name</a></li>\n";
+				. bold($active, "primary")
+				. " data-primary='true'>$name</a></li>\n";
 		}
 
-		echo "</ul>\n";
+		echo "</menu></nav>\n";
 	}
 
 	public function foreignColumn($foreignKeys, $column): ?array {
