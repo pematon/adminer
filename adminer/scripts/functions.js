@@ -404,7 +404,7 @@ function filterTables() {
 
 	const tables = qsa('#tables li');
 	for (let i = 0; i < tables.length; i++) {
-		let a = qs('a[data-main="true"], span[data-main="true"]', tables[i]);
+		let a = qs('*[data-primary="true"]', tables[i]);
 
 		let tableName = tables[i].dataset.tableName;
 		if (tableName == null) {
@@ -424,26 +424,6 @@ function filterTables() {
 		}
 	}
 }
-
-/** Display items in menu
-* @param MouseEvent
-* @this HTMLElement
-*/
-function menuOver(event) {
-	var a = event.target;
-	if (isTag(a, 'a|span') && a.offsetLeft + a.offsetWidth > a.parentNode.offsetWidth - 15) { // 15 - ellipsis
-		this.style.overflow = 'visible';
-	}
-}
-
-/** Hide items in menu
-* @this HTMLElement
-*/
-function menuOut() {
-	this.style.overflow = 'hidden';
-}
-
-
 
 /**
  * Adds row in select fieldset.
