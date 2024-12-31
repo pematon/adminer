@@ -201,12 +201,23 @@ class Adminer extends AdminerBase
 
 		echo '<p id="top-links" class="links">';
 
-		$links = [
-			"select" => [lang('Select data'), "data"],
-		];
+		$links = [];
+
+		$selectionFirst = ($this->config->isSelectionPreferred() && !$this->config->isNavigationReversed()) ||
+			(!$this->config->isSelectionPreferred() && $this->config->isNavigationReversed());
+
+		if ($selectionFirst) {
+			$links["select"] = [lang('Select data'), "data"];
+		}
+
 		if (support("table") || support("indexes")) {
 			$links["table"] = [lang('Show structure'), "structure"];
 		}
+
+		if (!$selectionFirst) {
+			$links["select"] = [lang('Select data'), "data"];
+		}
+
 		if (support("table")) {
 			if (is_view($tableStatus)) {
 				$links["view"] = [lang('Alter view'), "edit"];
@@ -1156,7 +1167,7 @@ class Adminer extends AdminerBase
 				}
 			}
 			if ($output) {
-				echo "<ul id='logins'>\n$output</ul>\n" . script("mixin(gid('logins'), {onmouseover: menuOver, onmouseout: menuOut});");
+				echo "<nav id='logins'><menu>\n$output</menu></nav>\n";
 			}
 		} else {
 			$tables = array();
@@ -1262,16 +1273,6 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 		return null;
 	}
 
-	function printTablesFilter()
-	{
-		global $adminer;
-
-		echo "<div class='tables-filter jsonly'>"
-			. "<input id='tables-filter' class='input' autocomplete='off' placeholder='" . lang('Table') . "'>"
-			. script("initTablesFilter(" . json_encode($adminer->database()) . ");")
-			. "</div>\n";
-	}
-
 	/**
 	 * Prints table list in menu.
 	 *
@@ -1279,29 +1280,53 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 	 * @return null
 	 */
 	function tablesPrint(array $tables) {
-		echo "<ul id='tables'>" . script("mixin(gid('tables'), {onmouseover: menuOver, onmouseout: menuOut});");
+		$menuClass = ($this->config->isNavigationDual() ? "class='dual'" : ($this->config->isNavigationReversed() ? "class='reversed'" : ""));
+
+		echo "<nav id='tables'><menu $menuClass>";
 
 		foreach ($tables as $table => $status) {
 			$name = $this->tableName($status);
-			if ($name != "") {
-				echo '<li>',
-					"<a href='", h(ME), "select=", urlencode($table), "' title='", lang('Select data'), "'>", icon("data"), "</a>";
+			if ($name == "") {
+				continue;
+			}
 
-				$active = in_array($table, [$_GET["table"], $_GET["select"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"]]);
-				$class = is_view($status) ? "view" : "structure";
+			echo "<li>";
 
-				if (support("table") || support("indexes")) {
-					echo "<a href='", h(ME), 'table=', urlencode($table), "'", bold($active, $class),
-						" title='", lang('Show structure'), "' data-main='true'>$name</a>";
-				} else {
-					echo "<span data-main='true'", bold($active, $class), ">$name</span>";
+			$active = in_array($table, [$_GET["table"], $_GET["select"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"]]);
+			$class = "primary" . (is_view($status) ? " view" : "");
+			$supportStructure = support("table") || support("indexes");
+			$title =  $this->config->isNavigationDual() ? "title='$name'" : "";
+
+			if ($this->config->isSelectionPreferred()) {
+				if ($this->config->isNavigationReversed() && $supportStructure) {
+					echo " <a href='", h(ME), "table=", urlencode($table), "' title='", lang('Show structure'), "' class='secondary'>", icon("structure"), "</a>";
 				}
 
-				echo "</li>\n";
+				echo "<a href='", h(ME), 'select=', urlencode($table), "'", bold($active, $class), " data-primary='true' $title>$name</a>";
+
+				if ($this->config->isNavigationDual() && $supportStructure) {
+					echo " <a href='", h(ME), "table=", urlencode($table), "' title='", lang('Show structure'), "' class='secondary'>", icon_solo("structure"), "</a>";
+				}
+			} else {
+				if ($this->config->isNavigationReversed()) {
+					echo " <a href='", h(ME), "select=", urlencode($table), "' title='", lang('Select data'), "' class='secondary'>", icon("data"), "</a>";
+				}
+
+				if ($supportStructure) {
+					echo "<a href='", h(ME), 'table=', urlencode($table), "'", bold($active, $class), " data-primary='true' $title>$name</a>";
+				} else {
+					echo "<span data-primary='true'", bold($active, $class), ">$name</span>";
+				}
+
+				if ($this->config->isNavigationDual()) {
+					echo " <a href='", h(ME), "select=", urlencode($table), "' title='", lang('Select data'), "' class='secondary'>", icon_solo("data"), "</a>";
+				}
 			}
+
+			echo "</li>\n";
 		}
 
-		echo "</ul>\n";
+		echo "</menu></nav>\n";
 
 		return null;
 	}
