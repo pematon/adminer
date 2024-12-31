@@ -41,6 +41,8 @@ function create_adminer(): Pluginer
 
 	$config = [
 		"theme" => "default-green",
+		"navigationMode" => "dual",
+		"preferSelection" => true,
 		"hiddenDatabases" => "__system",
 		"hiddenSchemas" => "__system",
 		"sslTrustServerCertificate" => true,

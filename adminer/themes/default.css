@@ -694,31 +694,63 @@ table.dragging {
 	padding-bottom: 20px;
 }
 
-#menu p, #logins, #tables {
+#menu p, menu {
 	padding: 10px 15px;
 	margin: 0;
 	border-bottom: 1px solid var(--panel-border);
 }
 
-#logins li, #tables li {
+menu li {
 	list-style: none;
+	position: relative;
 }
 
-#logins li a, #tables li a {
+menu .primary {
+	display: block;
 	padding: 0;
+	background: var(--body-bg);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+menu .secondary {
+	position: absolute;
+	padding: 0;
+	top: 0;
+}
+
+menu li:hover {
+	overflow: visible;
+}
+
+menu li:hover .primary {
+	min-width: max-content;
+	padding-inline-end: 5px;
+	color: var(--link-text-hover);
+}
+
+menu.reversed .primary {
+	/* icon width + icon margin */
+	padding-inline-start: 1.75em;
+}
+
+menu.dual .primary {
+	/* icon width + icon margin */
+	padding-inline-end: 1.75em !important;
+}
+
+menu.dual .secondary {
+	left: auto;
+	right: 0;
+}
+
+menu.dual li:hover .primary {
+	min-width: auto;
 }
 
 #dbs {
 	overflow: hidden;
-}
-
-#logins, #tables {
-	white-space: nowrap;
-	overflow: hidden;
-}
-
-#logins a, #tables a, #tables span {
-	background: var(--body-bg);
 }
 
 #content {
@@ -810,6 +842,16 @@ table.dragging {
 }
 
 .rtl #lang, .rtl #menu {
+	left: auto;
+	right: 0;
+}
+
+.rtl menu .secondary {
+	left: 0;
+	right: auto;
+}
+
+.rtl menu.reversed .secondary {
 	left: auto;
 	right: 0;
 }

@@ -286,7 +286,7 @@ function print_fieldset($id, $legend, $visible = false, $sortable = false) {
 * @return string
 */
 function bold($bold, $class = "") {
-	return ($bold ? " class='active $class'" : ($class ? " class='$class'" : ""));
+	return ($bold ? " class='$class active'" : ($class ? " class='$class'" : ""));
 }
 
 /** Generate class for odd rows
