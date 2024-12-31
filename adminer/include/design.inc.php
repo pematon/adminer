@@ -79,7 +79,7 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 <div id="content">
 <?php
 	if ($breadcrumb !== null) {
-		echo '<p id="breadcrumb">';
+		echo '<nav id="breadcrumb">';
 
 		echo '<a href="' . h(HOME_URL) . '" title="', lang('Home'), '">', icon_solo("home"), '</a> » ';
 
@@ -116,6 +116,8 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 
 			echo "$title\n";
 		}
+
+		echo "</nav>";
 	}
 
 	echo "<h2>$title_all</h2>\n";
