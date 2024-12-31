@@ -4,6 +4,10 @@ namespace Adminer;
 
 class Config
 {
+	public const NavigationSimple = "simple";
+	public const NavigationDual = "dual";
+	public const NavigationReversed = "reversed";
+
 	/** @var array */
 	private $config;
 
@@ -45,6 +49,31 @@ class Config
 	public function getJsUrls(): array
 	{
 		return $this->config["jsUrls"] ?? [];
+	}
+
+	public function getNavigationMode(): string
+	{
+		return $this->config["navigationMode"] ?? self::NavigationSimple;
+	}
+
+	public function isNavigationSimple(): bool
+	{
+		return $this->getNavigationMode() == self::NavigationSimple;
+	}
+
+	public function isNavigationDual(): bool
+	{
+		return $this->getNavigationMode() == self::NavigationDual;
+	}
+
+	public function isNavigationReversed(): bool
+	{
+		return $this->getNavigationMode() == self::NavigationReversed;
+	}
+
+	public function isSelectionPreferred(): bool
+	{
+		return $this->config["preferSelection"] ?? false;
 	}
 
 	public function isVersionVerificationEnabled(): bool
