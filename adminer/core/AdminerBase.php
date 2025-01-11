@@ -183,8 +183,6 @@ abstract class AdminerBase
 
 	public abstract function selectEmailProcess($where, $foreignKeys);
 
-	public abstract function selectQueryBuild($select, $where, $group, $order, $limit, $page);
-
 	public abstract function messageQuery($query, $time, $failed = false);
 
 	public abstract function editRowPrint($table, $fields, $row, $update);
