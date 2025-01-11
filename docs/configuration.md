@@ -61,6 +61,12 @@ Default value: `false`
 
 Whether data selection is the primary action for all table links.
 
+### recordsPerPage
+
+Default value: `50`
+
+Number of selected records per one page.
+
 ### versionVerification
 
 Default value: `true`
