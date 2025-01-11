@@ -147,7 +147,7 @@ abstract class AdminerBase
 
 	public abstract function selectOrderPrint(array $order, array $columns, array $indexes);
 
-	public abstract function selectLimitPrint($limit);
+	public abstract function selectLimitPrint(?int $limit): void;
 
 	public abstract function selectLengthPrint($text_length);
 
@@ -165,7 +165,19 @@ abstract class AdminerBase
 
 	public abstract function selectOrderProcess($fields, $indexes);
 
-	public abstract function selectLimitProcess();
+	/**
+	 * Processed limit box in select.
+	 *
+	 * @return ?int Expression to use in LIMIT, will be escaped.
+	 */
+	public function selectLimitProcess(): ?int
+	{
+		if (!isset($_GET["limit"])) {
+			return $this->config->getRecordsPerPage();
+		}
+
+		return $_GET["limit"] != "" ? (int)$_GET["limit"] : null;
+	}
 
 	public abstract function selectLengthProcess();
 
