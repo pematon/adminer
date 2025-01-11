@@ -227,9 +227,9 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function selectLimitPrint($limit)
+	public function selectLimitPrint(?int $limit): void
 	{
-		return $this->applyPlugin(__FUNCTION__, func_get_args());
+		$this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
 	public function selectLengthPrint($text_length)
@@ -272,7 +272,7 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function selectLimitProcess()
+	public function selectLimitProcess(): ?int
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}

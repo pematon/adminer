@@ -263,12 +263,12 @@ if (isset($_GET["mysql"])) {
 	/** Formulate SQL query with limit
 	* @param string everything after SELECT
 	* @param string including WHERE
-	* @param int
+	* @param ?int
 	* @param int
 	* @param string
 	* @return string
 	*/
-	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
+	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
 		return " $query$where" . ($limit !== null ? $separator . "LIMIT $limit" . ($offset ? " OFFSET $offset" : "") : "");
 	}
 
