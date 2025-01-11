@@ -15,6 +15,7 @@ Migrating to 5.0
 - TODO: removed plugin `AdminerDotJs`, config option `jsUrls`
 - TODO: removed plugin `AdminerLoginSsl`, config options `ssl*`
 - TODO: removed customizable css() method, config option `cssUrls`
+- TODO: removed unused selectQueryBuild() customization method
 - TODO: set navigationMode to `reversed` for original-like menu
 
 Migrating to 4.10
