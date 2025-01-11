@@ -142,7 +142,7 @@ if (isset($_GET["firebird"])) {
 		return array("domain");
 	}
 
-	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
+	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
 		$return = '';
 		$return .= ($limit !== null ? $separator . "FIRST $limit" . ($offset ? " SKIP $offset" : "") : "");
 		$return .= " $query$where";
