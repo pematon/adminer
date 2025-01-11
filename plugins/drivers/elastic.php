@@ -133,7 +133,7 @@ if (isset($_GET["elastic"])) {
 
 	class Min_Driver extends Min_SQL {
 
-		function select($table, $select, $where, $group, $order = array(), $limit = 1, $page = 0, $print = false) {
+		function select($table, $select, $where, $group, $order = array(), ?int $limit = 1, $page = 0, $print = false) {
 			$data = array();
 			if ($select != array("*")) {
 				$data["fields"] = array_values($select);
@@ -148,7 +148,7 @@ if (isset($_GET["elastic"])) {
 				$data["sort"] = $sort;
 			}
 
-			if ($limit) {
+			if ($limit !== null) {
 				$data["size"] = +$limit;
 				if ($page) {
 					$data["from"] = ($page * $limit);
@@ -310,7 +310,7 @@ if (isset($_GET["elastic"])) {
 		return array(ELASTIC_DB_NAME);
 	}
 
-	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
+	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
 		return " $query$where" . ($limit !== null ? $separator . "LIMIT $limit" . ($offset ? " OFFSET $offset" : "") : "");
 	}
 

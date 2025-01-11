@@ -43,6 +43,7 @@ function create_adminer(): Pluginer
 		"theme" => "default-green",
 		"navigationMode" => "dual",
 		"preferSelection" => true,
+		"recordsPerPage" => 30,
 		"hiddenDatabases" => "__system",
 		"hiddenSchemas" => "__system",
 		"sslTrustServerCertificate" => true,

@@ -315,7 +315,7 @@ if (!$columns && support("table")) {
 		}
 
 		// use count($rows) without LIMIT, COUNT(*) without grouping, FOUND_ROWS otherwise (slowest)
-		if ($_GET["page"] != "last" && $limit != "" && $group && $is_group && $jush == "sql") {
+		if ($_GET["page"] != "last" && $limit !== null && $group && $is_group && $jush == "sql") {
 			$found_rows = $connection->result(" SELECT FOUND_ROWS()"); // space to allow mysql.trace_mode
 		}
 
@@ -514,7 +514,7 @@ if (!$columns && support("table")) {
 					}
 				}
 
-				$pagination = ($limit != "" && ($found_rows === false || $found_rows > $limit || $page));
+				$pagination = ($limit !== null && ($found_rows === false || $found_rows > $limit || $page));
 				if ($pagination) {
 					if (($found_rows === false ? count($rows) + 1 : $found_rows - $page * $limit) > $limit) {
 						echo '<p class="links">',

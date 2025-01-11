@@ -124,7 +124,7 @@ if (isset($_GET["mongo"])) {
 		class Min_Driver extends Min_SQL {
 			public $primary = "_id";
 
-			function select($table, $select, $where, $group, $order = array(), $limit = 1, $page = 0, $print = false) {
+			function select($table, $select, $where, $group, $order = array(), ?int $limit = 1, $page = 0, $print = false) {
 				global $connection;
 				$select = ($select == array("*")
 					? array()
@@ -138,9 +138,6 @@ if (isset($_GET["mongo"])) {
 				foreach ($order as $val) {
 					$val = preg_replace('~ DESC$~', '', $val, 1, $count);
 					$sort[$val] = ($count ? -1 : 1);
-				}
-				if (isset($_GET['limit']) && is_numeric($_GET['limit']) && $_GET['limit'] > 0) {
-					$limit = $_GET['limit'];
 				}
 				$limit = min(200, max(1, (int) $limit));
 				$skip = $page * $limit;

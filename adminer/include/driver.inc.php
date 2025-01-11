@@ -39,20 +39,20 @@ function get_driver($id) {
 	* @param array result of $adminer->selectSearchProcess()
 	* @param array result of $adminer->selectColumnsProcess()[1]
 	* @param array result of $adminer->selectOrderProcess()
-	* @param int result of $adminer->selectLimitProcess()
+	* @param ?int result of $adminer->selectLimitProcess()
 	* @param int index of page starting at zero
 	* @param bool whether to print the query
 	* @return Min_Result
 	*/
-	function select($table, $select, $where, $group, $order = array(), $limit = 1, $page = 0, $print = false) {
+	function select($table, $select, $where, $group, $order = array(), ?int $limit = 1, $page = 0, $print = false) {
 		global $adminer, $jush;
 		$is_group = (count($group) < count($select));
 		$query = $adminer->selectQueryBuild($select, $where, $group, $order, $limit, $page);
 		if (!$query) {
 			$query = "SELECT" . limit(
-				($_GET["page"] != "last" && $limit != "" && $group && $is_group && $jush == "sql" ? "SQL_CALC_FOUND_ROWS " : "") . implode(", ", $select) . "\nFROM " . table($table),
+				($_GET["page"] != "last" && $limit !== null && $group && $is_group && $jush == "sql" ? "SQL_CALC_FOUND_ROWS " : "") . implode(", ", $select) . "\nFROM " . table($table),
 				($where ? "\nWHERE " . implode(" AND ", $where) : "") . ($group && $is_group ? "\nGROUP BY " . implode(", ", $group) : "") . ($order ? "\nORDER BY " . implode(", ", $order) : ""),
-				($limit != "" ? +$limit : null),
+				($limit !== null ? +$limit : null),
 				($page ? $limit * $page : 0),
 				"\n"
 			);

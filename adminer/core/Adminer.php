@@ -547,15 +547,16 @@ class Adminer extends AdminerBase
 		echo "</div>", script("initSortable('#fieldset-sort');"), "</fieldset>\n";
 	}
 
-	/** Print limit box in select
-	* @param string result of selectLimitProcess()
-	* @return null
-	*/
-	function selectLimitPrint($limit) {
-		echo "<fieldset><legend>" . lang('Limit') . "</legend><div>"; // <div> for easy styling
-		echo "<input type='number' name='limit' class='input size' value='" . h($limit) . "'>";
-		echo script("qsl('input').oninput = selectFieldChange;", "");
-		echo "</div></fieldset>\n";
+	/**
+	 * Prints limit box in select.
+	 * @param ?int $limit result of selectLimitProcess()
+	 */
+	public function selectLimitPrint(?int $limit): void
+	{
+		echo "<fieldset><legend>" . lang('Limit') . "</legend><div>", // <div> for easy styling
+			"<input type='number' name='limit' class='input size' value='" . h($limit) . "'>",
+			script("qsl('input').oninput = selectFieldChange;", ""),
+			"</div></fieldset>\n";
 	}
 
 	/** Print text length box in select
@@ -721,13 +722,6 @@ class Adminer extends AdminerBase
 		return $return;
 	}
 
-	/** Process limit box in select
-	* @return string expression to use in LIMIT, will be escaped
-	*/
-	function selectLimitProcess() {
-		return (isset($_GET["limit"]) ? $_GET["limit"] : "50");
-	}
-
 	/** Process length box in select
 	* @return string number of characters to shorten texts, will be escaped
 	*/
@@ -749,7 +743,7 @@ class Adminer extends AdminerBase
 	* @param array result of selectSearchProcess()
 	* @param array result of selectColumnsProcess()[1]
 	* @param array result of selectOrderProcess()
-	* @param int result of selectLimitProcess()
+	* @param ?int result of selectLimitProcess()
 	* @param int index of page starting at zero
 	* @return string empty string to use default query
 	*/

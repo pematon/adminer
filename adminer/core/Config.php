@@ -75,6 +75,11 @@ class Config
 		return $this->config["preferSelection"] ?? false;
 	}
 
+	public function getRecordsPerPage(): int
+	{
+		return (int)($this->config["recordsPerPage"] ?? 50);
+	}
+
 	public function isVersionVerificationEnabled(): bool
 	{
 		return $this->config["versionVerification"] ?? true;
