@@ -287,11 +287,6 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function selectQueryBuild($select, $where, $group, $order, $limit, $page)
-	{
-		return $this->applyPlugin(__FUNCTION__, func_get_args());
-	}
-
 	public function messageQuery($query, $time, $failed = false)
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());

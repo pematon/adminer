@@ -486,10 +486,6 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		return false;
 	}
 
-	function selectQueryBuild($select, $where, $group, $order, $limit, $page) {
-		return "";
-	}
-
 	function messageQuery($query, $time, $failed = false) {
 		return " <span class='time'>" . @date("H:i:s") . "</span><!--\n" . str_replace("--", "--><!-- ", $query) . "\n" . ($time ? "($time)\n" : "") . "-->";
 	}
