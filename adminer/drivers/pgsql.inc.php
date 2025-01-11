@@ -304,7 +304,7 @@ if (isset($_GET["pgsql"])) {
                  ORDER BY d.datname");
 	}
 
-	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
+	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
 		return " $query$where" . ($limit !== null ? $separator . "LIMIT $limit" . ($offset ? " OFFSET $offset" : "") : "");
 	}
 

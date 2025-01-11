@@ -189,7 +189,7 @@ if (isset($_GET["simpledb"])) {
 			return $return;
 		}
 
-		function select($table, $select, $where, $group, $order = array(), $limit = 1, $page = 0, $print = false) {
+		function select($table, $select, $where, $group, $order = array(), ?int $limit = 1, $page = 0, $print = false) {
 			global $connection;
 			$connection->next = $_GET["next"];
 			$return = parent::select($table, $select, $where, $group, $order, $limit, $page, $print);
@@ -399,7 +399,7 @@ if (isset($_GET["simpledb"])) {
 		return "`" . str_replace("`", "``", $idf) . "`";
 	}
 
-	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
+	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
 		return " $query$where" . ($limit !== null ? $separator . "LIMIT $limit" : "");
 	}
 
