@@ -267,7 +267,7 @@ if (!$columns && support("table")) {
 	$adminer->selectActionPrint($indexes);
 	echo "</div>\n</form>\n";
 
-	$page = $_GET["page"];
+	$page = $_GET["page"] ?? 0;
 	if ($page == "last") {
 		$found_rows = $connection->result(count_rows($TABLE, $where, $is_group, $group));
 		$page = floor(max(0, $found_rows - 1) / $limit);
@@ -500,6 +500,8 @@ if (!$columns && support("table")) {
 		if (!is_ajax()) {
 			if ($rows || $page) {
 				$exact_count = true;
+				$found_rows = false;
+
 				if ($_GET["page"] != "last") {
 					if ($limit == "" || (count($rows) < $limit && ($rows || !$page))) {
 						$found_rows = ($page ? $page * $limit : 0) + count($rows);
@@ -507,7 +509,8 @@ if (!$columns && support("table")) {
 						$found_rows = ($is_group ? false : found_rows($table_status, $where));
 						if ($found_rows < max(1e4, 2 * ($page + 1) * $limit)) {
 							// slow with big tables
-							$found_rows = reset(slow_query(count_rows($TABLE, $where, $is_group, $group)));
+							$result = slow_query(count_rows($TABLE, $where, $is_group, $group));
+							$found_rows = reset($result);
 						} else {
 							$exact_count = false;
 						}
@@ -523,9 +526,7 @@ if (!$columns && support("table")) {
 					}
 					echo "\n";
 				}
-			}
 
-			if ($rows || $page) {
 			    echo "<div class='footer'><div class='field-sets'>\n";
 
 				if ($pagination) {
@@ -534,27 +535,56 @@ if (!$columns && support("table")) {
 						? $page + (count($rows) >= $limit ? 2 : 1)
 						: floor(($found_rows - 1) / $limit)
 					);
+					$dots = "<li>…</li>";
+
 					echo "<fieldset>";
+
 					if ($jush != "simpledb") {
 						echo "<legend><a href='" . h(remove_from_uri("page")) . "'>" . lang('Page') . "</a></legend>";
 						echo script("qsl('a').onclick = function () { pageClick(this.href, +prompt('" . lang('Page') . "', '" . ($page + 1) . "')); return false; };");
-						echo pagination(0, $page) . ($page > 5 ? " …" : "");
+						echo "<div id='fieldset-pagination'><ul class='pagination'>";
+
+						echo pagination(0, $page);
+						if ($page > 5) {
+							echo $dots;
+						}
+
 						for ($i = max(1, $page - 4); $i < min($max_page, $page + 5); $i++) {
 							echo pagination($i, $page);
 						}
+
 						if ($max_page > 0) {
-							echo ($page + 5 < $max_page ? " …" : "");
+							if ($page + 5 < $max_page) {
+								echo $dots;
+							}
 							echo ($exact_count && $found_rows !== false
 								? pagination($max_page, $page)
 								: " <a href='" . h(remove_from_uri("page") . "&page=last") . "' title='~$max_page'>" . lang('last') . "</a>"
 							);
 						}
+
+						echo "</ul></div>";
 					} else {
 						echo "<legend>" . lang('Page') . "</legend>";
-						echo pagination(0, $page) . ($page > 1 ? " …" : "");
-						echo ($page ? pagination($page, $page) : "");
-						echo ($max_page > $page ? pagination($page + 1, $page) . ($max_page > $page + 1 ? " …" : "") : "");
+						echo "<div id='fieldset-pagination'><ul class='pagination'>";
+
+						echo pagination(0, $page);
+						if ($page > 1) {
+							echo $dots;
+						}
+						if ($page) {
+							echo pagination($page, $page);
+						}
+						if ($max_page > $page) {
+							echo pagination($page + 1, $page);
+							if ($max_page > $page + 1) {
+								echo $dots;
+							}
+						}
+
+						echo "</ul></div>";
 					}
+
 					echo "</fieldset>\n";
 				}
 
