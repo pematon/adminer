@@ -760,16 +760,16 @@ function remove_from_uri($param = "") {
 	return substr(preg_replace("~(?<=[?&])($param" . (sid() ? "" : "|" . session_name()) . ")=[^&]*&~", '', relative_uri() . "&"), 0, -1);
 }
 
-/** Generate page number for pagination
-* @param int
-* @param int
-* @return string
-*/
-function pagination($page, $current) {
-	return " " . ($page == $current
-		? $page + 1
-		: '<a href="' . h(remove_from_uri("page") . ($page ? "&page=$page" . ($_GET["next"] ? "&next=" . urlencode($_GET["next"]) : "") : "")) . '">' . ($page + 1) . "</a>"
-	);
+/**
+ * Generates page number for pagination.
+ */
+function pagination(int $page, int $current): string
+{
+	return "<li>" .
+		($page == $current ?
+			"<strong>" . ($page + 1) . "</strong>":
+			'<a href="' . h(remove_from_uri("page") . ($page ? "&page=$page" . ($_GET["next"] ? "&next=" . urlencode($_GET["next"]) : "") : "")) . '">' . ($page + 1) . "</a>") .
+		"</li>";
 }
 
 /** Get file contents from $_FILES
