@@ -682,6 +682,27 @@ table.dragging {
 	background: var(--panel-bg);
 }
 
+.pagination {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: inline;
+}
+
+.pagination li {
+	display: inline;
+	line-height: 24px;
+	margin-inline-end: 0.5em;
+}
+
+.pagination li:last-child {
+	margin-inline-end: 0;
+}
+
+.pagination a {
+	/*padding: 3px;*/
+}
+
 #top-links {
 	margin: 20px;
 }
