@@ -81,7 +81,7 @@ if (isset($_GET["username"])) {
 	}
 
 	// No URL param for any driver.
-	$driver_params = array_filter(["mysql", "pgsql", "sqlite", "sqlite2", "oracle", "mssql", "mongo", "clickhouse", "elastic", "elastic5", "firebird", "simpledb"], function ($driver) {
+	$driver_params = array_filter(["mysql", "pgsql", "sqlite", "oracle", "mssql", "mongo", "clickhouse", "elastic", "elastic5", "firebird", "simpledb"], function ($driver) {
 		return isset($_GET[$driver]);
 	});
 	if (!$driver_params) {

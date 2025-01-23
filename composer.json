@@ -44,7 +44,6 @@
         "ext-pgsql": "*",
         "ext-mongodb": "*",
         "ext-sqlsrv": "*",
-        "ext-sqlite": "*",
         "ext-sqlite3": "*",
         "ext-oci8": "*",
         "ext-interbase": "*",
