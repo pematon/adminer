@@ -44,6 +44,7 @@
         "ext-pgsql": "Allows access to PostgreSQL database",
         "ext-mongodb": "Allows access to MongoDB database",
         "ext-sqlsrv": "Allows access to MS SQ database",
+        "ext-sqlite3": "Allows access to SQLite database",
         "ext-oci8": "Allows access to Oracle database",
         "ext-interbase": "Allows access to Firebird database",
         "ext-pdo_pgsql": "PDO interface for PostgreSQL database",
