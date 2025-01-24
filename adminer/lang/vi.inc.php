@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Hệ thống',
@@ -336,7 +336,7 @@ $translations = array(
 	'DB' => null,
 	'ATTACH queries are not supported.' => null,
 	'Warnings' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Limit rows' => null,
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
@@ -363,4 +363,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

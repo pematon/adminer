@@ -29,11 +29,11 @@ foreach (process_list() as $i => $row) {
 	if (!$i) {
 		echo "<thead><tr lang='en'>" . (support("kill") ? "<th>" : "");
 		foreach ($row as $key => $val) {
-			echo "<th>$key" . doc_link(array(
+			echo "<th>$key" . doc_link([
 				'sql' => "show-processlist.html#processlist_" . strtolower($key),
 				'pgsql' => "monitoring-stats.html#PG-STAT-ACTIVITY-VIEW",
 				'oracle' => "REFRN30223",
-			));
+			]);
 		}
 		echo "</thead>\n";
 	}

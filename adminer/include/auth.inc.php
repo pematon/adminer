@@ -10,7 +10,7 @@ if (!$has_token) {
 }
 $token = get_token(); ///< @var string CSRF protection
 
-$permanent = array();
+$permanent = [];
 if ($_COOKIE["adminer_permanent"]) {
 	foreach (explode(" ", $_COOKIE["adminer_permanent"]) as $val) {
 		list($key) = explode(":", $val);
@@ -100,7 +100,7 @@ function add_invalid_login() {
 	}
 	$invalid = &$invalids[$adminer->bruteForceKey()];
 	if (!$invalid) {
-		$invalid = array($time + 30*60, 0); // active for 30 minutes
+		$invalid = [$time + 30*60, 0]; // active for 30 minutes
 	}
 	$invalid[1]++;
 	write_and_unlock_file($file, serialize($invalids));
@@ -145,7 +145,7 @@ if ($auth) {
 	}
 
 } elseif ($_POST["logout"] && (!$has_token || verify_token())) {
-	foreach (array("pwds", "db", "dbs", "queries") as $key) {
+	foreach (["pwds", "db", "dbs", "queries"] as $key) {
 		set_session($key, null);
 	}
 	unset_permanent();
@@ -206,7 +206,7 @@ function auth_error($error) {
 	page_header(lang('Login'), $error, null);
 	echo "<form action='' method='post'>\n";
 	echo "<div>";
-	if (hidden_fields($_POST, array("auth"))) { // expired session
+	if (hidden_fields($_POST, ["auth"])) { // expired session
 		echo "<p class='message'>" . lang('The action will be performed after successful login with the same credentials.') . "\n";
 	}
 	echo "</div>\n";
@@ -262,7 +262,7 @@ if ($_POST) {
 		$ini = "max_input_vars";
 		$max_vars = ini_get($ini);
 		if (extension_loaded("suhosin")) {
-			foreach (array("suhosin.request.max_vars", "suhosin.post.max_vars") as $key) {
+			foreach (["suhosin.request.max_vars", "suhosin.post.max_vars"] as $key) {
 				$val = ini_get($key);
 				if ($val && (!$max_vars || $val < $max_vars)) {
 					$ini = $key;

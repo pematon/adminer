@@ -3,7 +3,7 @@
 namespace Adminer;
 
 $TABLE = $_GET["indexes"];
-$index_types = array("PRIMARY", "UNIQUE", "INDEX");
+$index_types = ["PRIMARY", "UNIQUE", "INDEX"];
 $table_status = table_status($TABLE, true);
 if (preg_match('~MyISAM|M?aria' . (min_version(5.6, '10.0.5') ? '|InnoDB' : '') . '~i', $table_status["Engine"])) {
 	$index_types[] = "FULLTEXT";
@@ -12,7 +12,7 @@ if (preg_match('~MyISAM|M?aria' . (min_version(5.7, '10.2.2') ? '|InnoDB' : '') 
 	$index_types[] = "SPATIAL";
 }
 $indexes = indexes($TABLE);
-$primary = array();
+$primary = [];
 if ($jush == "mongo") { // doesn't support primary key
 	$primary = $indexes["_id_"];
 	unset($index_types[0]);
@@ -21,14 +21,14 @@ if ($jush == "mongo") { // doesn't support primary key
 $row = $_POST;
 
 if ($_POST && !$error && !$_POST["add"] && !$_POST["drop_col"]) {
-	$alter = array();
+	$alter = [];
 	foreach ($row["indexes"] as $index) {
 		$name = $index["name"];
 		if (in_array($index["type"], $index_types)) {
-			$columns = array();
-			$lengths = array();
-			$descs = array();
-			$set = array();
+			$columns = [];
+			$lengths = [];
+			$descs = [];
+			$set = [];
 			ksort($index["columns"]);
 			foreach ($index["columns"] as $key => $column) {
 				if ($column != "") {
@@ -57,14 +57,14 @@ if ($_POST && !$error && !$_POST["add"] && !$_POST["drop_col"]) {
 						continue;
 					}
 				}
-				$alter[] = array($index["type"], $name, $set);
+				$alter[] = [$index["type"], $name, $set];
 			}
 		}
 	}
 
 	// drop removed indexes
 	foreach ($indexes as $name => $existing) {
-		$alter[] = array($existing["type"], $name, "DROP");
+		$alter[] = [$existing["type"], $name, "DROP"];
 	}
 	if (!$alter) {
 		redirect(ME . "table=" . urlencode($TABLE));
@@ -72,7 +72,7 @@ if ($_POST && !$error && !$_POST["add"] && !$_POST["drop_col"]) {
 	queries_redirect(ME . "table=" . urlencode($TABLE), lang('Indexes have been altered.'), alter_indexes($TABLE, $alter));
 }
 
-page_header(lang('Indexes'), $error, array("table" => $TABLE), h($TABLE));
+page_header(lang('Indexes'), $error, ["table" => $TABLE], h($TABLE));
 
 $fields = array_keys(fields($TABLE));
 if ($_POST["add"]) {
@@ -83,7 +83,7 @@ if ($_POST["add"]) {
 	}
 	$index = end($row["indexes"]);
 	if ($index["type"] || array_filter($index["columns"], 'strlen')) {
-		$row["indexes"][] = array("columns" => array(1 => ""));
+		$row["indexes"][] = ["columns" => [1 => ""]];
 	}
 }
 if (!$row) {
@@ -91,7 +91,7 @@ if (!$row) {
 		$indexes[$key]["name"] = $key;
 		$indexes[$key]["columns"][] = "";
 	}
-	$indexes[] = array("columns" => array(1 => ""));
+	$indexes[] = ["columns" => [1 => ""]];
 	$row["indexes"] = $indexes;
 }
 ?>
@@ -120,7 +120,7 @@ $j = 1;
 foreach ($row["indexes"] as $index) {
 	if (!$_POST["drop_col"] || $j != key($_POST["drop_col"])) {
 		echo "<tr><td>",
-			html_select("indexes[$j][type]", array(-1 => "") + $index_types, $index["type"], ($j == count($row["indexes"]) ? "indexesAddRow.call(this);" : 1), "label-type"),
+			html_select("indexes[$j][type]", [-1 => ""] + $index_types, $index["type"], ($j == count($row["indexes"]) ? "indexesAddRow.call(this);" : 1), "label-type"),
 			"</td>";
 
 		echo "<td>";

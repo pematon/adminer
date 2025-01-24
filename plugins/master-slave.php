@@ -9,7 +9,7 @@ namespace Adminer;
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
 class AdminerMasterSlave {
-	private $masters = array();
+	private $masters = [];
 
 	/**
 	* @param array ($slave => $master)
@@ -20,7 +20,7 @@ class AdminerMasterSlave {
 
 	function credentials() {
 		if ($_POST && isset($this->masters[SERVER])) {
-			return array($this->masters[SERVER], $_GET["username"], get_session("pwds"));
+			return [$this->masters[SERVER], $_GET["username"], get_session("pwds")];
 		}
 	}
 

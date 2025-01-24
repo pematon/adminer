@@ -3,7 +3,7 @@
 namespace Adminer;
 
 $USER = $_GET["user"];
-$privileges = array("" => array("All privileges" => ""));
+$privileges = ["" => ["All privileges" => ""]];
 foreach (get_rows("SHOW PRIVILEGES") as $row) {
 	foreach (explode(",", ($row["Privilege"] == "Grant option" ? "" : $row["Context"])) as $context) {
 		$privileges[$context][$row["Privilege"]] = $row["Comment"];
@@ -12,8 +12,8 @@ foreach (get_rows("SHOW PRIVILEGES") as $row) {
 $privileges["Server Admin"] += $privileges["File access on server"];
 $privileges["Databases"]["Create routine"] = $privileges["Procedures"]["Create routine"]; // MySQL bug #30305
 unset($privileges["Procedures"]["Create routine"]);
-$privileges["Columns"] = array();
-foreach (array("Select", "Insert", "Update", "References") as $val) {
+$privileges["Columns"] = [];
+foreach (["Select", "Insert", "Update", "References"] as $val) {
 	$privileges["Columns"][$val] = $privileges["Tables"][$val];
 }
 unset($privileges["Server Admin"]["Usage"]);
@@ -21,13 +21,13 @@ foreach ($privileges["Tables"] as $key => $val) {
 	unset($privileges["Databases"][$key]);
 }
 
-$new_grants = array();
+$new_grants = [];
 if ($_POST) {
 	foreach ($_POST["objects"] as $key => $val) {
 		$new_grants[$val] = (array) $new_grants[$val] + (array) $_POST["grants"][$key];
 	}
 }
-$grants = array();
+$grants = [];
 $old_pass = "";
 
 if (isset($_GET["host"]) && ($result = $connection->query("SHOW GRANTS FOR " . q($USER) . "@" . q($_GET["host"])))) { //! use information_schema for MySQL 5 - column names in column privileges are not escaped
@@ -72,7 +72,7 @@ if ($_POST && !$error) {
 		}
 
 		if (!$error) {
-			$revoke = array();
+			$revoke = [];
 			foreach ($new_grants as $object => $grant) {
 				if (isset($_GET["grant"])) {
 					$grant = array_filter($grant);
@@ -118,13 +118,13 @@ if ($_POST && !$error) {
 	}
 }
 
-page_header((isset($_GET["host"]) ? lang('Username') . ": " . h("$USER@$_GET[host]") : lang('Create user')), $error, array("privileges" => array('', lang('Privileges'))));
+page_header((isset($_GET["host"]) ? lang('Username') . ": " . h("$USER@$_GET[host]") : lang('Create user')), $error, ["privileges" => ['', lang('Privileges')]]);
 
 if ($_POST) {
 	$row = $_POST;
 	$grants = $new_grants;
 } else {
-	$row = $_GET + array("host" => $connection->result("SELECT SUBSTRING_INDEX(CURRENT_USER, '@', -1)")); // create user on the same domain by default
+	$row = $_GET + ["host" => $connection->result("SELECT SUBSTRING_INDEX(CURRENT_USER, '@', -1)")]; // create user on the same domain by default
 	$row["pass"] = $old_pass;
 	if ($old_pass != "") {
 		$row["hashed"] = true;
@@ -153,7 +153,7 @@ if ($_POST) {
 //! MAX_* limits, REQUIRE
 echo "<table>\n";
 
-echo "<thead><tr><th colspan='2'>" . lang('Privileges') . doc_link(array('sql' => "grant.html#priv_level")) . "</th>";
+echo "<thead><tr><th colspan='2'>" . lang('Privileges') . doc_link(['sql' => "grant.html#priv_level"]) . "</th>";
 $i = 0;
 foreach ($grants as $object => $grant) {
 	echo "<th>";

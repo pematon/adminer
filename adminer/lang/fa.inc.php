@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'سیستم',
@@ -15,7 +15,7 @@ $translations = array(
 	'Logged as: %s' => 'ورود به عنوان: %s',
 	'Logout successful.' => 'با موفقیت خارج شدید.',
 	'Invalid server or credentials.' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('ورودهای ناموفق بیش از حد، %d دقیقه دیگر تلاش نمایید.', 'ورودهای ناموفق بیش از حد، %d دقیقه دیگر تلاش نمایید.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['ورودهای ناموفق بیش از حد، %d دقیقه دیگر تلاش نمایید.', 'ورودهای ناموفق بیش از حد، %d دقیقه دیگر تلاش نمایید.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'رمز اصلی باطل شده است. روش %s را <a href="https://www.adminer.org/en/extension/"%s>پیاده سازی</a> کرده تا آن را دائمی سازید.',
 	'Language' => 'زبان',
 	'Invalid CSRF token. Send the form again.' => 'CSRF token نامعتبر است. دوباره سعی کنید.',
@@ -120,7 +120,7 @@ $translations = array(
 	'Tables have been copied.' => 'جدولها کپی شدند.',
 
 	'Routines' => 'روالها',
-	'Routine has been called, %d row(s) affected.' => array('روال فراخوانی شد %d سطر متاثر شد.', 'روال فراخوانی شد %d سطر متاثر شد.'),
+	'Routine has been called, %d row(s) affected.' => ['روال فراخوانی شد %d سطر متاثر شد.', 'روال فراخوانی شد %d سطر متاثر شد.'],
 	'Call' => 'صدا زدن',
 	'Parameter name' => 'نام پارامتر',
 	'Create procedure' => 'ایجاد زیربرنامه',
@@ -243,16 +243,16 @@ $translations = array(
 	'Unable to select the table' => 'قادر به انتخاب جدول نیستید',
 	'No rows.' => 'سطری وجود ندارد',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d سطر', '%d سطر'),
+	'%d row(s)' => ['%d سطر', '%d سطر'],
 	'Page' => 'صفحه',
 	'last' => 'آخری',
 	'Load more data' => 'بارگزاری اطلاعات بیشتر',
 	'Loading' => 'در حال بارگزاری',
 	'Whole result' => 'همه نتایج',
-	'%d byte(s)' => array('%d بایت', '%d بایت'),
+	'%d byte(s)' => ['%d بایت', '%d بایت'],
 
 	'Import' => 'وارد کردن',
-	'%d row(s) have been imported.' => array('%d سطر وارد شد.', '%d سطر وارد شد.'),
+	'%d row(s) have been imported.' => ['%d سطر وارد شد.', '%d سطر وارد شد.'],
 	'File must be in UTF-8 encoding.' => 'فرمت فایل باید UTF-8 باشید.',
 
 	// in-place editing in select
@@ -264,7 +264,7 @@ $translations = array(
 	'Item%s has been inserted.' => '%s آیتم درج شد.',
 	'Item has been deleted.' => 'آیتم حذف شد.',
 	'Item has been updated.' => 'آیتم بروز رسانی شد.',
-	'%d item(s) have been affected.' => array('%d آیتم متاثر شد.', '%d آیتم متاثر شد.'),
+	'%d item(s) have been affected.' => ['%d آیتم متاثر شد.', '%d آیتم متاثر شد.'],
 	'New item' => 'آیتم جدید',
 	'original' => 'اصلی',
 	// label for value '' in enum data type
@@ -285,7 +285,7 @@ $translations = array(
 	'Subject' => 'موضوع',
 	'Attachments' => 'پیوست ها',
 	'Send' => 'ارسال',
-	'%d e-mail(s) have been sent.' => array('%d ایمیل ارسال شد.', '%d ایمیل ارسال شد.'),
+	'%d e-mail(s) have been sent.' => ['%d ایمیل ارسال شد.', '%d ایمیل ارسال شد.'],
 
 	// data type descriptions
 	'Numbers' => 'اعداد',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];
