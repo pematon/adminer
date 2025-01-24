@@ -73,11 +73,11 @@ if (isset($_GET["sqlite"])) {
 			function fetch_field() {
 				$column = $this->_offset++;
 				$type = $this->_result->columnType($column);
-				return (object) array(
+				return (object) [
 					"name" => $this->_result->columnName($column),
 					"type" => $type,
 					"charsetnr" => ($type == SQLITE3_BLOB ? 63 : 0), // 63 - binary
-				);
+				];
 			}
 
 			function __desctruct() {
@@ -129,7 +129,7 @@ if (isset($_GET["sqlite"])) {
 	class Min_Driver extends Min_SQL {
 
 		function insertUpdate($table, $rows, $primary) {
-			$values = array();
+			$values = [];
 			foreach ($rows as $set) {
 				$values[] = "(" . implode(", ", $set) . ")";
 			}
@@ -167,7 +167,7 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function get_databases() {
-		return array();
+		return [];
 	}
 
 	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
@@ -188,7 +188,7 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function engines() {
-		return array();
+		return [];
 	}
 
 	function logged_user() {
@@ -200,12 +200,12 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function count_tables($databases) {
-		return array();
+		return [];
 	}
 
 	function table_status($name = "") {
 		global $connection;
-		$return = array();
+		$return = [];
 		foreach (get_rows("SELECT name AS Name, type AS Engine, 'rowid' AS Oid, '' AS Auto_increment FROM sqlite_master WHERE type IN ('table', 'view') " . ($name != "" ? "AND name = " . q($name) : "ORDER BY name")) as $row) {
 			$row["Rows"] = $connection->result("SELECT COUNT(*) FROM " . idf_escape($row["Name"]));
 			$return[$row["Name"]] = $row;
@@ -227,21 +227,21 @@ if (isset($_GET["sqlite"])) {
 
 	function fields($table) {
 		global $connection;
-		$return = array();
+		$return = [];
 		$primary = "";
 		foreach (get_rows("PRAGMA table_info(" . table($table) . ")") as $row) {
 			$name = $row["name"];
 			$type = strtolower($row["type"]);
 			$default = $row["dflt_value"];
-			$return[$name] = array(
+			$return[$name] = [
 				"field" => $name,
 				"type" => (preg_match('~int~i', $type) ? "integer" : (preg_match('~char|clob|text~i', $type) ? "text" : (preg_match('~blob~i', $type) ? "blob" : (preg_match('~real|floa|doub~i', $type) ? "real" : "numeric")))),
 				"full_type" => $type,
 				"default" => (preg_match("~'(.*)'~", $default, $match) ? str_replace("''", "'", $match[1]) : ($default == "NULL" ? null : $default)),
 				"null" => !$row["notnull"],
-				"privileges" => array("select" => 1, "insert" => 1, "update" => 1, "where" => 1, "order" => 1),
+				"privileges" => ["select" => 1, "insert" => 1, "update" => 1, "where" => 1, "order" => 1],
 				"primary" => $row["pk"],
-			);
+			];
 			if ($row["pk"]) {
 				if ($primary != "") {
 					$return[$primary]["auto_increment"] = false;
@@ -267,10 +267,10 @@ if (isset($_GET["sqlite"])) {
 		if (!is_object($connection2)) {
 			$connection2 = $connection;
 		}
-		$return = array();
+		$return = [];
 		$sql = $connection2->result("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = " . q($table));
 		if (preg_match('~\bPRIMARY\s+KEY\s*\((([^)"]+|"[^"]*"|`[^`]*`)++)~i', $sql, $match)) {
-			$return[""] = array("type" => "PRIMARY", "columns" => array(), "lengths" => array(), "descs" => array());
+			$return[""] = ["type" => "PRIMARY", "columns" => [], "lengths" => [], "descs" => []];
 			preg_match_all('~((("[^"]*+")+|(?:`[^`]*+`)+)|(\S+))(\s+(ASC|DESC))?(,\s*|$)~i', $match[1], $matches, PREG_SET_ORDER);
 			foreach ($matches as $match) {
 				$return[""]["columns"][] = idf_unescape($match[2]) . $match[4];
@@ -280,16 +280,16 @@ if (isset($_GET["sqlite"])) {
 		if (!$return) {
 			foreach (fields($table) as $name => $field) {
 				if ($field["primary"]) {
-					$return[""] = array("type" => "PRIMARY", "columns" => array($name), "lengths" => array(), "descs" => array(null));
+					$return[""] = ["type" => "PRIMARY", "columns" => [$name], "lengths" => [], "descs" => [null]];
 				}
 			}
 		}
 		$sqls = get_key_vals("SELECT name, sql FROM sqlite_master WHERE type = 'index' AND tbl_name = " . q($table), $connection2);
 		foreach (get_rows("PRAGMA index_list(" . table($table) . ")", $connection2) as $row) {
 			$name = $row["name"];
-			$index = array("type" => ($row["unique"] ? "UNIQUE" : "INDEX"));
-			$index["lengths"] = array();
-			$index["descs"] = array();
+			$index = ["type" => ($row["unique"] ? "UNIQUE" : "INDEX")];
+			$index["lengths"] = [];
+			$index["descs"] = [];
 			foreach (get_rows("PRAGMA index_info(" . idf_escape($name) . ")", $connection2) as $row1) {
 				$index["columns"][] = $row1["name"];
 				$index["descs"][] = null;
@@ -310,7 +310,7 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function foreign_keys($table) {
-		$return = array();
+		$return = [];
 		foreach (get_rows("PRAGMA foreign_key_list(" . table($table) . ")") as $row) {
 			$foreign_key = &$return[$row["id"]];
 			if (!$foreign_key) {
@@ -324,11 +324,11 @@ if (isset($_GET["sqlite"])) {
 
 	function view($name) {
 		global $connection;
-		return array("select" => preg_replace('~^(?:[^`"[]+|`[^`]*`|"[^"]*")* AS\s+~iU', '', $connection->result("SELECT sql FROM sqlite_master WHERE name = " . q($name)))); //! identifiers may be inside []
+		return ["select" => preg_replace('~^(?:[^`"[]+|`[^`]*`|"[^"]*")* AS\s+~iU', '', $connection->result("SELECT sql FROM sqlite_master WHERE name = " . q($name)))]; //! identifiers may be inside []
 	}
 
 	function collations() {
-		return (isset($_GET["create"]) ? get_vals("PRAGMA collation_list", 1) : array());
+		return (isset($_GET["create"]) ? get_vals("PRAGMA collation_list", 1) : []);
 	}
 
 	function information_schema($db) {
@@ -495,7 +495,7 @@ if (isset($_GET["sqlite"])) {
 						// This will transform column constrain to basic index.
 						$key_name = preg_replace('~^sqlite_~', "", $key_name);
 
-						$indexes[] = array($index["type"], $key_name, $columns);
+						$indexes[] = [$index["type"], $key_name, $columns];
 					}
 				}
 			}
@@ -615,7 +615,7 @@ if (isset($_GET["sqlite"])) {
 	function trigger($name) {
 		global $connection;
 		if ($name == "") {
-			return array("Statement" => "BEGIN\n\t;\nEND");
+			return ["Statement" => "BEGIN\n\t;\nEND"];
 		}
 		$idf = '(?:[^`"\s]+|`[^`]*`|"[^"]*")+';
 		$trigger_options = trigger_options();
@@ -625,31 +625,31 @@ if (isset($_GET["sqlite"])) {
 			$match
 		);
 		$of = $match[3];
-		return array(
+		return [
 			"Timing" => strtoupper($match[1]),
 			"Event" => strtoupper($match[2]) . ($of ? " OF" : ""),
 			"Of" => idf_unescape($of),
 			"Trigger" => $name,
 			"Statement" => $match[4],
-		);
+		];
 	}
 
 	function triggers($table) {
-		$return = array();
+		$return = [];
 		$trigger_options = trigger_options();
 		foreach (get_rows("SELECT * FROM sqlite_master WHERE type = 'trigger' AND tbl_name = " . q($table)) as $row) {
 			preg_match('~^CREATE\s+TRIGGER\s*(?:[^`"\s]+|`[^`]*`|"[^"]*")+\s*(' . implode("|", $trigger_options["Timing"]) . ')\s*(.*?)\s+ON\b~i', $row["sql"], $match);
-			$return[$row["name"]] = array($match[1], $match[2]);
+			$return[$row["name"]] = [$match[1], $match[2]];
 		}
 		return $return;
 	}
 
 	function trigger_options() {
-		return array(
-			"Timing" => array("BEFORE", "AFTER", "INSTEAD OF"),
-			"Event" => array("INSERT", "UPDATE", "UPDATE OF", "DELETE"),
-			"Type" => array("FOR EACH ROW"),
-		);
+		return [
+			"Timing" => ["BEFORE", "AFTER", "INSTEAD OF"],
+			"Event" => ["INSERT", "UPDATE", "UPDATE OF", "DELETE"],
+			"Type" => ["FOR EACH ROW"],
+		];
 	}
 
 	function begin() {
@@ -669,11 +669,11 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function types() {
-		return array();
+		return [];
 	}
 
 	function schemas() {
-		return array();
+		return [];
 	}
 
 	function get_schema() {
@@ -713,8 +713,8 @@ if (isset($_GET["sqlite"])) {
 
 	function show_variables() {
 		global $connection;
-		$return = array();
-		foreach (array("auto_vacuum", "cache_size", "count_changes", "default_cache_size", "empty_result_callbacks", "encoding", "foreign_keys", "full_column_names", "fullfsync", "journal_mode", "journal_size_limit", "legacy_file_format", "locking_mode", "page_size", "max_page_count", "read_uncommitted", "recursive_triggers", "reverse_unordered_selects", "secure_delete", "short_column_names", "synchronous", "temp_store", "temp_store_directory", "schema_version", "integrity_check", "quick_check") as $key) {
+		$return = [];
+		foreach (["auto_vacuum", "cache_size", "count_changes", "default_cache_size", "empty_result_callbacks", "encoding", "foreign_keys", "full_column_names", "fullfsync", "journal_mode", "journal_size_limit", "legacy_file_format", "locking_mode", "page_size", "max_page_count", "read_uncommitted", "recursive_triggers", "reverse_unordered_selects", "secure_delete", "short_column_names", "synchronous", "temp_store", "temp_store_directory", "schema_version", "integrity_check", "quick_check"] as $key) {
 			$return[$key] = $connection->result("PRAGMA $key");
 		}
 		return $return;
@@ -732,7 +732,7 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function show_status() {
-		$return = array();
+		$return = [];
 		foreach (get_vals("PRAGMA compile_options") as $option) {
 			list($key, $val) = explode("=", $option, 2);
 			$return[$key] = $val;
@@ -752,26 +752,26 @@ if (isset($_GET["sqlite"])) {
 	}
 
 	function driver_config() {
-		$types = array("integer" => 0, "real" => 0, "numeric" => 0, "text" => 0, "blob" => 0);
-		return array(
-			'possible_drivers' => array((isset($_GET["sqlite"]) ? "SQLite3" : "SQLite"), "PDO_SQLite"),
+		$types = ["integer" => 0, "real" => 0, "numeric" => 0, "text" => 0, "blob" => 0];
+		return [
+			'possible_drivers' => [(isset($_GET["sqlite"]) ? "SQLite3" : "SQLite"), "PDO_SQLite"],
 			'jush' => "sqlite",
 			'types' => $types,
 			'structured_types' => array_keys($types),
-			'unsigned' => array(),
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL"), // REGEXP can be user defined function
+			'unsigned' => [],
+			'operators' => ["=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL"], // REGEXP can be user defined function
 			'operator_like' => "LIKE %%",
-			'functions' => array("hex", "length", "lower", "round", "unixepoch", "upper"),
-			'grouping' => array("avg", "count", "count distinct", "group_concat", "max", "min", "sum"),
-			'edit_functions' => array(
-				array(
+			'functions' => ["hex", "length", "lower", "round", "unixepoch", "upper"],
+			'grouping' => ["avg", "count", "count distinct", "group_concat", "max", "min", "sum"],
+			'edit_functions' => [
+				[
 					// "text" => "date('now')/time('now')/datetime('now')",
-				), array(
+				], [
 					"integer|real|numeric" => "+/-",
 					// "text" => "date/time/datetime",
 					"text" => "||",
-				)
-			),
-		);
+				]
+			],
+		];
 	}
 }

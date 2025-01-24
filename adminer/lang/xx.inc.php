@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => 'Xx',
 	'System' => 'Xx',
@@ -18,7 +18,7 @@ $translations = array(
 	'There is a space in the input password which might be the cause.' => 'Xx.',
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Xx, <a href="https://www.adminer.org/en/password/"%s>xx</a>.',
 	'Database does not support password.' => 'Xx.',
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Xx %d.', 'Xx %d.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Xx %d.', 'Xx %d.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => '<a href="https://www.adminer.org/en/extension/"%s>Xx</a> %s xx.',
 	'Language' => 'Xx',
 	'Invalid CSRF token. Send the form again.' => 'Xx.',
@@ -50,15 +50,15 @@ $translations = array(
 	'Revoke' => 'Xx',
 
 	'Process list' => 'Xx',
-	'%d process(es) have been killed.' => array('%d xx.', '%d xx.'),
+	'%d process(es) have been killed.' => ['%d xx.', '%d xx.'],
 	'Kill' => 'Xx',
 
 	'Variables' => 'Xx',
 	'Status' => 'Xx',
 
 	'SQL command' => 'Xx',
-	'%d query(s) executed OK.' => array('%d xx.', '%d xx.'),
-	'Query executed OK, %d row(s) affected.' => array('Xx, %d.', 'Xx, %d.'),
+	'%d query(s) executed OK.' => ['%d xx.', '%d xx.'],
+	'Query executed OK, %d row(s) affected.' => ['Xx, %d.', 'Xx, %d.'],
 	'No commands to execute.' => 'Xx.',
 	'Error in query' => 'Xx',
 	'Unknown error.' => 'Xx.',
@@ -135,7 +135,7 @@ $translations = array(
 	'overwrite' => 'xx',
 
 	'Routines' => 'Xx',
-	'Routine has been called, %d row(s) affected.' => array('Xx, %d.', 'Xx, %d.'),
+	'Routine has been called, %d row(s) affected.' => ['Xx, %d.', 'Xx, %d.'],
 	'Call' => 'Xx',
 	'Parameter name' => 'Xx',
 	'Create procedure' => 'Xx',
@@ -259,16 +259,16 @@ $translations = array(
 	'Unable to select the table' => 'Xx',
 	'No rows.' => 'Xx.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d xx', '%d xx'),
+	'%d row(s)' => ['%d xx', '%d xx'],
 	'Page' => 'Xx',
 	'last' => 'xx',
 	'Load more data' => 'Xx',
 	'Loading' => 'Xx',
 	'Whole result' => 'Xx',
-	'%d byte(s)' => array('%d xx', '%d xx'),
+	'%d byte(s)' => ['%d xx', '%d xx'],
 
 	'Import' => 'Xx',
-	'%d row(s) have been imported.' => array('%d xx.', '%d xx.'),
+	'%d row(s) have been imported.' => ['%d xx.', '%d xx.'],
 	'File must be in UTF-8 encoding.' => 'Xx.',
 
 	// in-place editing in select
@@ -280,7 +280,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Xx%s.',
 	'Item has been deleted.' => 'Xx.',
 	'Item has been updated.' => 'Xx.',
-	'%d item(s) have been affected.' => array('%d xx.', '%d xx.'),
+	'%d item(s) have been affected.' => ['%d xx.', '%d xx.'],
 	'New item' => 'Xx',
 	'original' => 'xx',
 	// label for value '' in enum data type
@@ -301,7 +301,7 @@ $translations = array(
 	'Subject' => 'Xx',
 	'Attachments' => 'Xx',
 	'Send' => 'Xx',
-	'%d e-mail(s) have been sent.' => array('%d xx.', '%d xx.'),
+	'%d e-mail(s) have been sent.' => ['%d xx.', '%d xx.'],
 
 	// data type descriptions
 	'Numbers' => 'Xx',
@@ -363,4 +363,4 @@ $translations = array(
 	'No' => 'Xx',
 	'One Time Password' => 'Xx',
 	'Invalid OTP code.' => 'Xx.',
-);
+];

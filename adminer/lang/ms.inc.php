@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Sistem',
@@ -254,7 +254,7 @@ $translations = array(
 	'Load more data' => 'Load lebih data',
 	'Loading' => 'Loading',
 	'Whole result' => 'Keputusan keseluruhan',
-	'%d byte(s)' => array('%d byte', '%d bytes'),
+	'%d byte(s)' => ['%d byte', '%d bytes'],
 
 	'Import' => 'Import',
 	'%d row(s) have been imported.' => '%d baris telah diimport.',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

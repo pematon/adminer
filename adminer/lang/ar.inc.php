@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	'Home' => null,
 	'Login' => 'تسجيل الدخول',
 	'Logout successful.' => 'تم تسجيل الخروج بنجاح.',
@@ -257,7 +257,7 @@ $translations = array(
 	'Attachments' => 'ملفات مرفقة.',
 	'Item%s has been inserted.' => 'تم إدراج العنصر.',
 	'now' => 'الآن',
-	'%d query(s) executed OK.' => array('تم تنفيذ الاستعلام %d بنجاح.', 'تم تنفيذ الاستعلامات %d بنجاح.'),
+	'%d query(s) executed OK.' => ['تم تنفيذ الاستعلام %d بنجاح.', 'تم تنفيذ الاستعلامات %d بنجاح.'],
 	'Show only errors' => 'إظهار الأخطاء فقط',
 	'Refresh' => 'تحديث',
 	'Invalid schema.' => 'مخطط غير صالح.',
@@ -283,12 +283,12 @@ $translations = array(
 	'Loading' => null,
 	'ATTACH queries are not supported.' => null,
 	'Warnings' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Limit rows' => null,
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
 	'Full table scan' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array(),
+	'Too many unsuccessful logins, try again in %d minute(s).' => [],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => null,
 	'The action will be performed after successful login with the same credentials.' => null,
 	'Connecting to privileged ports is not allowed.' => null,
@@ -319,4 +319,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

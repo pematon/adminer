@@ -13,7 +13,7 @@ class AdminerDumpXml {
 	var $database = false;
 
 	function dumpFormat() {
-		return array('xml' => 'XML');
+		return ['xml' => 'XML'];
 	}
 
 	function dumpTable($table, $style, $is_view = 0) {
@@ -31,7 +31,7 @@ class AdminerDumpXml {
 			if (!$this->database) {
 				$this->database = true;
 				echo "<database name='" . h(DB) . "'>\n";
-				register_shutdown_function(array($this, '_database'));
+				register_shutdown_function([$this, '_database']);
 			}
 			$connection = connection();
 			$result = $connection->query($query, 1);

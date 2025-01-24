@@ -8,11 +8,11 @@ namespace Adminer;
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
 class AdminerDumpPhp {
-	var $output = array();
+	var $output = [];
 	var $shutdown_callback = false;
 
 	function dumpFormat() {
-		return array('php' => 'PHP');
+		return ['php' => 'PHP'];
 	}
 
 	function dumpHeaders() {
@@ -24,10 +24,10 @@ class AdminerDumpPhp {
 
 	function dumpTable($table, $style, $is_view = 0) {
 		if ($_POST['format'] == 'php') {
-			$this->output[$table] = array();
+			$this->output[$table] = [];
 			if (!$this->shutdown_callback) {
 				$this->shutdown_callback = true;
-				register_shutdown_function(array($this, '_export'));
+				register_shutdown_function([$this, '_export']);
 			}
 			return true;
 		}
