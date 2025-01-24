@@ -12,7 +12,7 @@ class AdminerEnumOption {
 
 	function editInput($table, $field, $attrs, $value) {
 		if ($field["type"] == "enum") {
-			$options = array();
+			$options = [];
 			$selected = $value;
 			if (isset($_GET["select"])) {
 				$options[-1] = lang('original');

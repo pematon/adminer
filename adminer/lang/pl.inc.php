@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Rodzaj bazy',
@@ -15,7 +15,7 @@ $translations = array(
 	'Logged as: %s' => 'Zalogowany jako: %s',
 	'Logout successful.' => 'Wylogowano pomyślnie.',
 	'Invalid server or credentials.' => 'Nieprawidłowy serwer lub dane logowania.',
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Za dużo nieudanych prób logowania, spróbuj ponownie za %d minutę.', 'Za dużo nieudanych prób logowania, spróbuj ponownie za %d minuty.', 'Za dużo nieudanych prób logowania, spróbuj ponownie za %d minut.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Za dużo nieudanych prób logowania, spróbuj ponownie za %d minutę.', 'Za dużo nieudanych prób logowania, spróbuj ponownie za %d minuty.', 'Za dużo nieudanych prób logowania, spróbuj ponownie za %d minut.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Ważność hasła głównego wygasła. <a href="https://www.adminer.org/pl/extension/"%s>Zaimplementuj</a> własną metodę %s, aby ustawić je na stałe.',
 	'Language' => 'Język',
 	'Invalid CSRF token. Send the form again.' => 'Nieprawidłowy token CSRF. Spróbuj wysłać formularz ponownie.',
@@ -43,15 +43,15 @@ $translations = array(
 	'Revoke' => 'Usuń uprawnienia',
 
 	'Process list' => 'Lista procesów',
-	'%d process(es) have been killed.' => array('Przerwano %d wątek.', 'Przerwano %d wątki.', 'Przerwano %d wątków.'),
+	'%d process(es) have been killed.' => ['Przerwano %d wątek.', 'Przerwano %d wątki.', 'Przerwano %d wątków.'],
 	'Kill' => 'Przerwij wykonywanie',
 
 	'Variables' => 'Zmienne',
 	'Status' => 'Status',
 
 	'SQL command' => 'Zapytanie SQL',
-	'%d query(s) executed OK.' => array('Pomyślnie wykonano %d zapytanie.', 'Pomyślnie wykonano %d zapytania.', 'Pomyślnie wykonano %d zapytań.'),
-	'Query executed OK, %d row(s) affected.' => array('Zapytanie wykonane pomyślnie, zmieniono %d rekord.', 'Zapytanie wykonane pomyślnie, zmieniono %d rekordy.', 'Zapytanie wykonane pomyślnie, zmieniono %d rekordów.'),
+	'%d query(s) executed OK.' => ['Pomyślnie wykonano %d zapytanie.', 'Pomyślnie wykonano %d zapytania.', 'Pomyślnie wykonano %d zapytań.'],
+	'Query executed OK, %d row(s) affected.' => ['Zapytanie wykonane pomyślnie, zmieniono %d rekord.', 'Zapytanie wykonane pomyślnie, zmieniono %d rekordy.', 'Zapytanie wykonane pomyślnie, zmieniono %d rekordów.'],
 	'No commands to execute.' => 'Nic do wykonania.',
 	'Error in query' => 'Błąd w zapytaniu',
 	'ATTACH queries are not supported.' => 'Zapytania ATTACH są niewspierane.',
@@ -123,7 +123,7 @@ $translations = array(
 	'Tables have been copied.' => 'Tabele zostały skopiowane.',
 
 	'Routines' => 'Procedury i funkcje',
-	'Routine has been called, %d row(s) affected.' => array('Procedura została uruchomiona, zmieniono %d rekord.', 'Procedura została uruchomiona, zmieniono %d rekordy.', 'Procedura została uruchomiona, zmieniono %d rekordów.'),
+	'Routine has been called, %d row(s) affected.' => ['Procedura została uruchomiona, zmieniono %d rekord.', 'Procedura została uruchomiona, zmieniono %d rekordy.', 'Procedura została uruchomiona, zmieniono %d rekordów.'],
 	'Call' => 'Uruchom',
 	'Parameter name' => 'Nazwa parametru',
 	'Create procedure' => 'Utwórz procedurę',
@@ -247,16 +247,16 @@ $translations = array(
 	'Unable to select the table' => 'Nie udało się pobrać danych z tabeli',
 	'No rows.' => 'Brak rekordów.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d rekord', '%d rekordy', '%d rekordów'),
+	'%d row(s)' => ['%d rekord', '%d rekordy', '%d rekordów'],
 	'Page' => 'Strona',
 	'last' => 'ostatni',
 	'Load more data' => 'Wczytaj więcej danych',
 	'Loading' => 'Wczytywanie',
 	'Whole result' => 'Wybierz wszystkie',
-	'%d byte(s)' => array('%d bajt', '%d bajty', '%d bajtów'),
+	'%d byte(s)' => ['%d bajt', '%d bajty', '%d bajtów'],
 
 	'Import' => 'Import',
-	'%d row(s) have been imported.' => array('%d rekord został zaimportowany.', '%d rekordy zostały zaimportowane.', '%d rekordów zostało zaimportowanych.'),
+	'%d row(s) have been imported.' => ['%d rekord został zaimportowany.', '%d rekordy zostały zaimportowane.', '%d rekordów zostało zaimportowanych.'],
 	'File must be in UTF-8 encoding.' => 'Kodowanie pliku musi być ustawione na UTF-8.',
 
 	// in-place editing in select
@@ -268,7 +268,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Rekord%s został dodany.',
 	'Item has been deleted.' => 'Rekord został usunięty.',
 	'Item has been updated.' => 'Rekord został zaktualizowany.',
-	'%d item(s) have been affected.' => array('Zmieniono %d rekord.', 'Zmieniono %d rekordy.', 'Zmieniono %d rekordów.'),
+	'%d item(s) have been affected.' => ['Zmieniono %d rekord.', 'Zmieniono %d rekordy.', 'Zmieniono %d rekordów.'],
 	'New item' => 'Nowy rekord',
 	'original' => 'bez zmian',
 	// label for value '' in enum data type
@@ -290,7 +290,7 @@ $translations = array(
 	'Subject' => 'Temat',
 	'Attachments' => 'Załączniki',
 	'Send' => 'Wyślij',
-	'%d e-mail(s) have been sent.' => array('Wysłano %d e-mail.', 'Wysłano %d e-maile.', 'Wysłano %d e-maili.'),
+	'%d e-mail(s) have been sent.' => ['Wysłano %d e-mail.', 'Wysłano %d e-maile.', 'Wysłano %d e-maili.'],
 
 	// data type descriptions
 	'Numbers' => 'Numeryczne',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

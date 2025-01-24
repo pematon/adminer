@@ -6,8 +6,8 @@ $PROCEDURE = $_GET["name"] ?: $_GET["call"];
 page_header(lang('Call') . ": " . h($PROCEDURE), $error);
 
 $routine = routine($_GET["call"], (isset($_GET["callf"]) ? "FUNCTION" : "PROCEDURE"));
-$in = array();
-$out = array();
+$in = [];
+$out = [];
 foreach ($routine["fields"] as $i => $field) {
 	if (substr($field["inout"], -3) == "OUT") {
 		$out[$i] = "@" . idf_escape($field["field"]) . " AS " . idf_escape($field["field"]);
@@ -18,7 +18,7 @@ foreach ($routine["fields"] as $i => $field) {
 }
 
 if (!$error && $_POST) {
-	$call = array();
+	$call = [];
 	foreach ($routine["fields"] as $key => $field) {
 		if (in_array($key, $in)) {
 			$val = process_input($field);

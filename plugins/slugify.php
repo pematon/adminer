@@ -25,7 +25,7 @@ class AdminerSlugify {
 		static $slugify;
 		if (!$_GET["select"] && !$_GET["where"]) {
 			if ($slugify === null) {
-				$slugify = array();
+				$slugify = [];
 				$prev = null;
 				foreach (fields($table) as $name => $val) {
 					if ($prev && preg_match('~(^|_)slug(_|$)~', $name)) {

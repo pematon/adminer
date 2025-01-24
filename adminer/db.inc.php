@@ -103,14 +103,14 @@ if ($adminer->homepage()) {
 			echo '<thead><tr class="wrap">';
 			echo '<td><input id="check-all" type="checkbox" class="input jsonly">' . script("gid('check-all').onclick = partial(formCheck, /^(tables|views)\[/);", "");
 			echo '<th>' . lang('Table');
-			echo '<td>' . lang('Engine') . doc_link(array('sql' => 'storage-engines.html'));
-			echo '<td>' . lang('Collation') . doc_link(array('sql' => 'charset-charsets.html', 'mariadb' => 'supported-character-sets-and-collations/'));
-			echo '<td>' . lang('Data Length') . doc_link(array('sql' => 'show-table-status.html', 'pgsql' => 'functions-admin.html#FUNCTIONS-ADMIN-DBOBJECT', 'oracle' => 'REFRN20286'));
-			echo '<td>' . lang('Index Length') . doc_link(array('sql' => 'show-table-status.html', 'pgsql' => 'functions-admin.html#FUNCTIONS-ADMIN-DBOBJECT'));
-			echo '<td>' . lang('Data Free') . doc_link(array('sql' => 'show-table-status.html'));
-			echo '<td>' . lang('Auto Increment') . doc_link(array('sql' => 'example-auto-increment.html', 'mariadb' => 'auto_increment/'));
-			echo '<td>' . lang('Rows') . doc_link(array('sql' => 'show-table-status.html', 'pgsql' => 'catalog-pg-class.html#CATALOG-PG-CLASS', 'oracle' => 'REFRN20286'));
-			echo (support("comment") ? '<td>' . lang('Comment') . doc_link(array('sql' => 'show-table-status.html', 'pgsql' => 'functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE')) : '');
+			echo '<td>' . lang('Engine') . doc_link(['sql' => 'storage-engines.html']);
+			echo '<td>' . lang('Collation') . doc_link(['sql' => 'charset-charsets.html', 'mariadb' => 'supported-character-sets-and-collations/']);
+			echo '<td>' . lang('Data Length') . doc_link(['sql' => 'show-table-status.html', 'pgsql' => 'functions-admin.html#FUNCTIONS-ADMIN-DBOBJECT', 'oracle' => 'REFRN20286']);
+			echo '<td>' . lang('Index Length') . doc_link(['sql' => 'show-table-status.html', 'pgsql' => 'functions-admin.html#FUNCTIONS-ADMIN-DBOBJECT']);
+			echo '<td>' . lang('Data Free') . doc_link(['sql' => 'show-table-status.html']);
+			echo '<td>' . lang('Auto Increment') . doc_link(['sql' => 'example-auto-increment.html', 'mariadb' => 'auto_increment/']);
+			echo '<td>' . lang('Rows') . doc_link(['sql' => 'show-table-status.html', 'pgsql' => 'catalog-pg-class.html#CATALOG-PG-CLASS', 'oracle' => 'REFRN20286']);
+			echo (support("comment") ? '<td>' . lang('Comment') . doc_link(['sql' => 'show-table-status.html', 'pgsql' => 'functions-info.html#FUNCTIONS-INFO-COMMENT-TABLE']) : '');
 			echo "</thead>\n";
 
 			$tables = 0;
@@ -131,15 +131,15 @@ if ($adminer->homepage()) {
 					echo '<td colspan="6"><a href="' . h(ME) . "view=" . urlencode($name) . '" title="' . lang('Alter view') . '">' . (preg_match('~materialized~i', $type) ? lang('Materialized view') : lang('View')) . '</a>';
 					echo '<td align="right"><a href="' . h(ME) . "select=" . urlencode($name) . '" title="' . lang('Select data') . '">?</a>';
 				} else {
-					foreach (array(
-						"Engine" => array(),
-						"Collation" => array(),
-						"Data_length" => array("create", lang('Alter table')),
-						"Index_length" => array("indexes", lang('Alter indexes')),
-						"Data_free" => array("edit", lang('New item')),
-						"Auto_increment" => array("auto_increment=1&create", lang('Alter table')),
-						"Rows" => array("select", lang('Select data')),
-					) as $key => $link) {
+					foreach ([
+						"Engine" => [],
+						"Collation" => [],
+						"Data_length" => ["create", lang('Alter table')],
+						"Index_length" => ["indexes", lang('Alter indexes')],
+						"Data_free" => ["edit", lang('New item')],
+						"Auto_increment" => ["auto_increment=1&create", lang('Alter table')],
+						"Rows" => ["select", lang('Select data')],
+					] as $key => $link) {
 						$id = " id='$key-" . h($name) . "'";
 						echo ($link ? "<td align='right'>" . (support("table") || $key == "Rows" || (support("indexes") && $key != "Data_length")
 							? "<a href='" . h(ME . "$link[0]=") . urlencode($name) . "'$id title='$link[1]'>?</a>"
@@ -154,7 +154,7 @@ if ($adminer->homepage()) {
 			echo "<tr><td><th>" . lang('%d in total', count($tables_list));
 			echo "<td>" . h($jush == "sql" ? $connection->result("SELECT @@default_storage_engine") : "");
 			echo "<td>" . h(db_collation(DB, collations()));
-			foreach (array("Data_length", "Index_length", "Data_free") as $key) {
+			foreach (["Data_length", "Index_length", "Data_free"] as $key) {
 				echo "<td align='right' id='sum-$key'>";
 			}
 

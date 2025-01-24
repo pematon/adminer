@@ -15,9 +15,9 @@ class AdminerDumpBz2 {
 
 	function dumpOutput() {
 		if (!function_exists('bzopen')) {
-			return array();
+			return [];
 		}
-		return array('bz2' => 'bzip2');
+		return ['bz2' => 'bzip2'];
 	}
 
 	function _bz2($string, $state) {
@@ -36,7 +36,7 @@ class AdminerDumpBz2 {
 			$this->filename = tempnam("", "bz2");
 			$this->fp = bzopen($this->filename, 'w');
 			header("Content-Type: application/x-bzip");
-			ob_start(array($this, '_bz2'), 1e6);
+			ob_start([$this, '_bz2'], 1e6);
 		}
 	}
 

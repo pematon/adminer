@@ -2,34 +2,34 @@
 
 namespace Adminer;
 
-page_header(lang('Database schema'), "", array(), h(DB . ($_GET["ns"] ? ".$_GET[ns]" : "")));
+page_header(lang('Database schema'), "", [], h(DB . ($_GET["ns"] ? ".$_GET[ns]" : "")));
 
-$table_pos = array();
-$table_pos_js = array();
+$table_pos = [];
+$table_pos_js = [];
 $SCHEMA = ($_GET["schema"] ? $_GET["schema"] : $_COOKIE["adminer_schema-" . str_replace(".", "_", DB)]); // $_COOKIE["adminer_schema"] was used before 3.2.0 //! ':' in table name
 preg_match_all('~([^:]+):([-0-9.]+)x([-0-9.]+)(_|$)~', $SCHEMA, $matches, PREG_SET_ORDER);
 foreach ($matches as $i => $match) {
-	$table_pos[$match[1]] = array($match[2], $match[3]);
+	$table_pos[$match[1]] = [$match[2], $match[3]];
 	$table_pos_js[] = "\n\t'" . js_escape($match[1]) . "': [ $match[2], $match[3] ]";
 }
 
 $top = 0;
 $base_left = -1;
-$schema = array(); // table => array("fields" => array(name => field), "pos" => array(top, left), "references" => array(table => array(left => array(source, target))))
-$referenced = array(); // target_table => array(table => array(left => target_column))
-$lefts = array(); // float => bool
+$schema = []; // table => array("fields" => array(name => field), "pos" => array(top, left), "references" => array(table => array(left => array(source, target))))
+$referenced = []; // target_table => array(table => array(left => target_column))
+$lefts = []; // float => bool
 foreach (table_status('', true) as $table => $table_status) {
 	if (is_view($table_status)) {
 		continue;
 	}
 	$pos = 0;
-	$schema[$table]["fields"] = array();
+	$schema[$table]["fields"] = [];
 	foreach (fields($table) as $name => $field) {
 		$pos += 1.25;
 		$field["pos"] = $pos;
 		$schema[$table]["fields"][$name] = $field;
 	}
-	$schema[$table]["pos"] = ($table_pos[$table] ?? array($top, 0));
+	$schema[$table]["pos"] = ($table_pos[$table] ?? [$top, 0]);
 	foreach ($adminer->foreignKeys($table) as $val) {
 		if (!$val["db"]) {
 			$left = $base_left;
@@ -42,7 +42,7 @@ foreach (table_status('', true) as $table => $table_status) {
 				// find free $left
 				$left -= .0001;
 			}
-			$schema[$table]["references"][$val["table"]][(string) $left] = array($val["source"], $val["target"]);
+			$schema[$table]["references"][$val["table"]][(string) $left] = [$val["source"], $val["target"]];
 			$referenced[$val["table"]][$table][(string) $left] = $val["target"];
 			$lefts[(string) $left] = true;
 		}

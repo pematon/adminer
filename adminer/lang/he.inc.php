@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	'Home' => null,
 	'Login' => 'התחברות',
 	'Logout successful.' => 'ההתחברות הצליחה',
@@ -319,4 +319,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

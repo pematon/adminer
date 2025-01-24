@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'System',
@@ -18,7 +18,7 @@ $translations = array(
 	'There is a space in the input password which might be the cause.' => 'Det finns ett mellanslag i lösenordet, vilket kan vara anledningen.',
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Adminer tillåter inte att ansluta till en databas utan lösenord. <a href="https://www.adminer.org/en/password/"%s>Mer information</a>.',
 	'Database does not support password.' => 'Databasen stödjer inte lösenord.',
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('För många misslyckade inloggningar, försök igen om %d minut.', 'För många misslyckade inloggningar, försök igen om %d minuter.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['För många misslyckade inloggningar, försök igen om %d minut.', 'För många misslyckade inloggningar, försök igen om %d minuter.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Huvudlösenordet har löpt ut. <a href="https://www.adminer.org/en/extension/"%s>Implementera</a> %s en metod för att göra det permanent.',
 	'Language' => 'Språk',
 	'Invalid CSRF token. Send the form again.' => 'Ogiltig CSRF-token. Skicka formuläret igen.',
@@ -48,15 +48,15 @@ $translations = array(
 	'Revoke' => 'Neka',
 
 	'Process list' => 'Processlista',
-	'%d process(es) have been killed.' => array('%d process har avslutats.', '%d processer har avslutats.'),
+	'%d process(es) have been killed.' => ['%d process har avslutats.', '%d processer har avslutats.'],
 	'Kill' => 'Avsluta',
 
 	'Variables' => 'Variabler',
 	'Status' => 'Status',
 
 	'SQL command' => 'SQL-kommando',
-	'%d query(s) executed OK.' => array('%d förfrågan lyckades.', '%d förfrågor lyckades.'),
-	'Query executed OK, %d row(s) affected.' => array('Förfrågan lyckades, %d rad påverkades.', 'Förfrågan lyckades, %d rader påverkades.'),
+	'%d query(s) executed OK.' => ['%d förfrågan lyckades.', '%d förfrågor lyckades.'],
+	'Query executed OK, %d row(s) affected.' => ['Förfrågan lyckades, %d rad påverkades.', 'Förfrågan lyckades, %d rader påverkades.'],
 	'No commands to execute.' => 'Inga kommandon att köra.',
 	'Error in query' => 'Fel i förfrågan',
 	'Unknown error.' => 'Okänt fel.',
@@ -133,7 +133,7 @@ $translations = array(
 	'overwrite' => 'Skriv över',
 
 	'Routines' => 'Rutiner',
-	'Routine has been called, %d row(s) affected.' => array('Rutin har kallats, %d rad påverkades.', 'Rutin har kallats, %d rader påverkades.'),
+	'Routine has been called, %d row(s) affected.' => ['Rutin har kallats, %d rad påverkades.', 'Rutin har kallats, %d rader påverkades.'],
 	'Call' => 'Kalla',
 	'Parameter name' => 'Namn på parameter',
 	'Create procedure' => 'Skapa procedur',
@@ -257,16 +257,16 @@ $translations = array(
 	'Unable to select the table' => 'Kunde inte välja tabellen',
 	'No rows.' => 'Inga rader.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d rad', '%d rader'),
+	'%d row(s)' => ['%d rad', '%d rader'],
 	'Page' => 'Sida',
 	'last' => 'sist',
 	'Load more data' => 'Ladda mer data',
 	'Loading' => 'Laddar',
 	'Whole result' => 'Hela resultatet',
-	'%d byte(s)' => array('%d byte', '%d bytes'),
+	'%d byte(s)' => ['%d byte', '%d bytes'],
 
 	'Import' => 'Importera',
-	'%d row(s) have been imported.' => array('%d rad har importerats.', '%d rader har importerats.'),
+	'%d row(s) have been imported.' => ['%d rad har importerats.', '%d rader har importerats.'],
 	'File must be in UTF-8 encoding.' => 'Filer måste vara i UTF-8-format.',
 
 	// in-place editing in select
@@ -278,7 +278,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Sak%s har skapats.',
 	'Item has been deleted.' => 'En sak har tagits bort.',
 	'Item has been updated.' => 'En sak har ändrats.',
-	'%d item(s) have been affected.' => array('%d sak har blivit förändrad.', '%d saker har blivit förändrade.'),
+	'%d item(s) have been affected.' => ['%d sak har blivit förändrad.', '%d saker har blivit förändrade.'],
 	'New item' => 'Ny sak',
 	'original' => 'original',
 	// label for value '' in enum data type
@@ -299,7 +299,7 @@ $translations = array(
 	'Subject' => 'Ämne',
 	'Attachments' => 'Bilagor',
 	'Send' => 'Skicka',
-	'%d e-mail(s) have been sent.' => array('%d email har blivit skickat.', '%d email har blivit skickade.'),
+	'%d e-mail(s) have been sent.' => ['%d email har blivit skickat.', '%d email har blivit skickade.'],
 
 	// data type descriptions
 	'Numbers' => 'Nummer',
@@ -363,4 +363,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

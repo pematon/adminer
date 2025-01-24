@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => 'Domů',
 	'System' => 'Systém',
@@ -18,7 +18,7 @@ $translations = array(
 	'There is a space in the input password which might be the cause.' => 'Problém může být, že je v zadaném hesle mezera.',
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Adminer nepodporuje přístup k databázi bez hesla, <a href="https://www.adminer.org/cs/password/"%s>více informací</a>.',
 	'Database does not support password.' => 'Databáze nepodporuje heslo.',
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Příliš mnoho pokusů o přihlášení, zkuste to znovu za %d minutu.', 'Příliš mnoho pokusů o přihlášení, zkuste to znovu za %d minuty.', 'Příliš mnoho pokusů o přihlášení, zkuste to znovu za %d minut.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Příliš mnoho pokusů o přihlášení, zkuste to znovu za %d minutu.', 'Příliš mnoho pokusů o přihlášení, zkuste to znovu za %d minuty.', 'Příliš mnoho pokusů o přihlášení, zkuste to znovu za %d minut.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Platnost hlavního hesla vypršela. <a href="https://www.adminer.org/cs/extension/"%s>Implementujte</a> metodu %s, aby platilo stále.',
 	'Language' => 'Jazyk',
 	'Invalid CSRF token. Send the form again.' => 'Neplatný token CSRF. Odešlete formulář znovu.',
@@ -50,15 +50,15 @@ $translations = array(
 	'Revoke' => 'Zakázat',
 
 	'Process list' => 'Seznam procesů',
-	'%d process(es) have been killed.' => array('Byl ukončen %d proces.', 'Byly ukončeny %d procesy.', 'Bylo ukončeno %d procesů.'),
+	'%d process(es) have been killed.' => ['Byl ukončen %d proces.', 'Byly ukončeny %d procesy.', 'Bylo ukončeno %d procesů.'],
 	'Kill' => 'Ukončit',
 
 	'Variables' => 'Proměnné',
 	'Status' => 'Stav',
 
 	'SQL command' => 'SQL příkaz',
-	'%d query(s) executed OK.' => array('%d příkaz proběhl v pořádku.', '%d příkazy proběhly v pořádku.', '%d příkazů proběhlo v pořádku.'),
-	'Query executed OK, %d row(s) affected.' => array('Příkaz proběhl v pořádku, byl změněn %d záznam.', 'Příkaz proběhl v pořádku, byly změněny %d záznamy.', 'Příkaz proběhl v pořádku, bylo změněno %d záznamů.'),
+	'%d query(s) executed OK.' => ['%d příkaz proběhl v pořádku.', '%d příkazy proběhly v pořádku.', '%d příkazů proběhlo v pořádku.'],
+	'Query executed OK, %d row(s) affected.' => ['Příkaz proběhl v pořádku, byl změněn %d záznam.', 'Příkaz proběhl v pořádku, byly změněny %d záznamy.', 'Příkaz proběhl v pořádku, bylo změněno %d záznamů.'],
 	'No commands to execute.' => 'Žádné příkazy k vykonání.',
 	'Error in query' => 'Chyba v dotazu',
 	'Unknown error.' => 'Neznámá chyba.',
@@ -134,7 +134,7 @@ $translations = array(
 	'overwrite' => 'přepsat',
 
 	'Routines' => 'Procedury a funkce',
-	'Routine has been called, %d row(s) affected.' => array('Procedura byla zavolána, byl změněn %d záznam.', 'Procedura byla zavolána, byly změněny %d záznamy.', 'Procedura byla zavolána, bylo změněno %d záznamů.'),
+	'Routine has been called, %d row(s) affected.' => ['Procedura byla zavolána, byl změněn %d záznam.', 'Procedura byla zavolána, byly změněny %d záznamy.', 'Procedura byla zavolána, bylo změněno %d záznamů.'],
 	'Call' => 'Zavolat',
 	'Parameter name' => 'Název parametru',
 	'Create procedure' => 'Vytvořit proceduru',
@@ -258,16 +258,16 @@ $translations = array(
 	'Unable to select the table' => 'Nepodařilo se vypsat tabulku',
 	'No rows.' => 'Žádné řádky.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d řádek', '%d řádky', '%d řádků'),
+	'%d row(s)' => ['%d řádek', '%d řádky', '%d řádků'],
 	'Page' => 'Stránka',
 	'last' => 'poslední',
 	'Load more data' => 'Načíst další data',
 	'Loading' => 'Načítá se',
 	'Whole result' => 'Celý výsledek',
-	'%d byte(s)' => array('%d bajt', '%d bajty', '%d bajtů'),
+	'%d byte(s)' => ['%d bajt', '%d bajty', '%d bajtů'],
 
 	'Import' => 'Import',
-	'%d row(s) have been imported.' => array('Byl importován %d záznam.', 'Byly importovány %d záznamy.', 'Bylo importováno %d záznamů.'),
+	'%d row(s) have been imported.' => ['Byl importován %d záznam.', 'Byly importovány %d záznamy.', 'Bylo importováno %d záznamů.'],
 	'File must be in UTF-8 encoding.' => 'Soubor musí být v kódování UTF-8.',
 
 	// in-place editing in select
@@ -279,7 +279,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Položka%s byla vložena.',
 	'Item has been deleted.' => 'Položka byla smazána.',
 	'Item has been updated.' => 'Položka byla aktualizována.',
-	'%d item(s) have been affected.' => array('Byl ovlivněn %d záznam.', 'Byly ovlivněny %d záznamy.', 'Bylo ovlivněno %d záznamů.'),
+	'%d item(s) have been affected.' => ['Byl ovlivněn %d záznam.', 'Byly ovlivněny %d záznamy.', 'Bylo ovlivněno %d záznamů.'],
 	'New item' => 'Nová položka',
 	'original' => 'původní',
 	// label for value '' in enum data type
@@ -301,7 +301,7 @@ $translations = array(
 	'Subject' => 'Předmět',
 	'Attachments' => 'Přílohy',
 	'Send' => 'Odeslat',
-	'%d e-mail(s) have been sent.' => array('Byl odeslán %d e-mail.', 'Byly odeslány %d e-maily.', 'Bylo odesláno %d e-mailů.'),
+	'%d e-mail(s) have been sent.' => ['Byl odeslán %d e-mail.', 'Byly odeslány %d e-maily.', 'Bylo odesláno %d e-mailů.'],
 
 	// data type descriptions
 	'Numbers' => 'Čísla',
@@ -363,4 +363,4 @@ $translations = array(
 	'No' => 'Ne',
 	'One Time Password' => 'Jednorázové heslo',
 	'Invalid OTP code.' => 'Neplatný kód OTP.',
-);
+];

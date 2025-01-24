@@ -17,9 +17,9 @@ class AdminerDumpZip {
 
 	function dumpOutput() {
 		if (!class_exists('ZipArchive')) {
-			return array();
+			return [];
 		}
-		return array('zip' => 'ZIP');
+		return ['zip' => 'ZIP'];
 	}
 
 	function _zip($string, $state) {
@@ -42,7 +42,7 @@ class AdminerDumpZip {
 		if ($_POST["output"] == "zip") {
 			$this->filename = "$identifier." . ($multi_table && preg_match("~[ct]sv~", $_POST["format"]) ? "tar" : $_POST["format"]);
 			header("Content-Type: application/zip");
-			ob_start(array($this, '_zip'));
+			ob_start([$this, '_zip']);
 		}
 	}
 

@@ -21,7 +21,7 @@ if (isset($_GET["pgsql"])) {
 			function connect($server, $username, $password) {
 				global $adminer;
 				$db = $adminer->database();
-				set_error_handler(array($this, '_error'));
+				set_error_handler([$this, '_error']);
 
 				$this->_string = "host='" . str_replace(":", "' port='", addcslashes($server, "'\\")) . "' user='" . addcslashes($username, "'\\") . "' password='" . addcslashes($password, "'\\") . "'";
 
@@ -214,8 +214,8 @@ if (isset($_GET["pgsql"])) {
 		function insertUpdate($table, $rows, $primary) {
 			global $connection;
 			foreach ($rows as $set) {
-				$update = array();
-				$where = array();
+				$update = [];
+				$where = [];
 				foreach ($set as $key => $val) {
 					$update[] = "$key = $val";
 					if (isset($primary[idf_unescape($key)])) {
@@ -255,10 +255,10 @@ if (isset($_GET["pgsql"])) {
 		}
 
 		function tableHelp($name) {
-			$links = array(
+			$links = [
 				"information_schema" => "infoschema",
 				"pg_catalog" => "catalog",
-			);
+			];
 			$link = $links[$_GET["ns"]];
 			if ($link) {
 				return "$link-" . str_replace("_", "-", $name) . ".html";
@@ -321,7 +321,7 @@ if (isset($_GET["pgsql"])) {
 	}
 
 	function engines() {
-		return array();
+		return [];
 	}
 
 	function logged_user() {
@@ -344,11 +344,11 @@ ORDER BY 1";
 	}
 
 	function count_tables($databases) {
-		return array(); // would require reconnect
+		return []; // would require reconnect
 	}
 
 	function table_status($name = "") {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SELECT c.relname AS \"Name\", CASE c.relkind WHEN 'r' THEN 'table' WHEN 'm' THEN 'materialized view' ELSE 'view' END AS \"Engine\", pg_table_size(c.oid) AS \"Data_length\", pg_indexes_size(c.oid) AS \"Index_length\", obj_description(c.oid, 'pg_class') AS \"Comment\", " . (min_version(12) ? "''" : "CASE WHEN c.relhasoids THEN 'oid' ELSE '' END") . " AS \"Oid\", c.reltuples as \"Rows\", n.nspname
 FROM pg_class c
 JOIN pg_namespace n ON(n.nspname = current_schema() AND n.oid = c.relnamespace)
@@ -361,7 +361,7 @@ WHERE relkind IN ('r', 'm', 'v', 'f', 'p')
 	}
 
 	function is_view($table_status) {
-		return in_array($table_status["Engine"], array("view", "materialized view"));
+		return in_array($table_status["Engine"], ["view", "materialized view"]);
 	}
 
 	function fk_support($table_status) {
@@ -369,11 +369,11 @@ WHERE relkind IN ('r', 'm', 'v', 'f', 'p')
 	}
 
 	function fields($table) {
-		$return = array();
-		$aliases = array(
+		$return = [];
+		$aliases = [
 			'timestamp without time zone' => 'timestamp',
 			'timestamp with time zone' => 'timestamptz',
-		);
+		];
 
 		foreach (get_rows("SELECT a.attname AS field, format_type(a.atttypid, a.atttypmod) AS full_type, pg_get_expr(d.adbin, d.adrelid) AS default, a.attnotnull::int, col_description(c.oid, a.attnum) AS comment" . (min_version(10) ? ", a.attidentity" : "") . "
 FROM pg_class c
@@ -398,12 +398,12 @@ ORDER BY a.attnum"
 				$row["type"] = $type;
 				$row["full_type"] = $row["type"] . $length . $addon . $array;
 			}
-			if (in_array($row['attidentity'], array('a', 'd'))) {
+			if (in_array($row['attidentity'], ['a', 'd'])) {
 				$row['default'] = 'GENERATED ' . ($row['attidentity'] == 'd' ? 'BY DEFAULT' : 'ALWAYS') . ' AS IDENTITY';
 			}
 			$row["null"] = !$row["attnotnull"];
 			$row["auto_increment"] = $row['attidentity'] || preg_match('~^nextval\(~i', $row["default"]);
-			$row["privileges"] = array("insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1);
+			$row["privileges"] = ["insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1];
 			if (preg_match('~(.+)::[^,)]+(.*)~', $row["default"], $match)) {
 				$row["default"] = ($match[1] == "NULL" ? null : idf_unescape($match[1]) . $match[2]);
 			}
@@ -417,28 +417,28 @@ ORDER BY a.attnum"
 		if (!is_object($connection2)) {
 			$connection2 = $connection;
 		}
-		$return = array();
+		$return = [];
 		$table_oid = $connection2->result("SELECT oid FROM pg_class WHERE relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = current_schema()) AND relname = " . q($table));
 		$columns = get_key_vals("SELECT attnum, attname FROM pg_attribute WHERE attrelid = $table_oid AND attnum > 0", $connection2);
 		foreach (get_rows("SELECT relname, indisunique::int, indisprimary::int, indkey, indoption, (indpred IS NOT NULL)::int as indispartial FROM pg_index i, pg_class ci WHERE i.indrelid = $table_oid AND ci.oid = i.indexrelid", $connection2) as $row) {
 			$relname = $row["relname"];
 			$return[$relname]["type"] = ($row["indispartial"] ? "INDEX" : ($row["indisprimary"] ? "PRIMARY" : ($row["indisunique"] ? "UNIQUE" : "INDEX")));
-			$return[$relname]["columns"] = array();
+			$return[$relname]["columns"] = [];
 			foreach (explode(" ", $row["indkey"]) as $indkey) {
 				$return[$relname]["columns"][] = $columns[$indkey];
 			}
-			$return[$relname]["descs"] = array();
+			$return[$relname]["descs"] = [];
 			foreach (explode(" ", $row["indoption"]) as $indoption) {
 				$return[$relname]["descs"][] = ($indoption & 1 ? '1' : null); // 1 - INDOPTION_DESC
 			}
-			$return[$relname]["lengths"] = array();
+			$return[$relname]["lengths"] = [];
 		}
 		return $return;
 	}
 
 	function foreign_keys($table) {
 		global $on_actions;
-		$return = array();
+		$return = [];
 		foreach (get_rows("SELECT conname, condeferrable::int AS deferrable, pg_get_constraintdef(oid) AS definition
 FROM pg_constraint
 WHERE conrelid = (SELECT pc.oid FROM pg_class AS pc INNER JOIN pg_namespace AS pn ON (pn.oid = pc.relnamespace) WHERE pc.relname = " . q($table) . " AND pn.nspname = current_schema())
@@ -461,7 +461,7 @@ ORDER BY conkey, conname") as $row) {
 
 	function constraints($table) {
 		global $on_actions;
-		$return = array();
+		$return = [];
 		foreach (get_rows("SELECT conname, consrc
 FROM pg_catalog.pg_constraint
 INNER JOIN pg_catalog.pg_namespace ON pg_constraint.connamespace = pg_namespace.oid
@@ -478,12 +478,12 @@ ORDER BY connamespace, conname") as $row) {
 
 	function view($name) {
 		global $connection;
-		return array("select" => trim($connection->result("SELECT pg_get_viewdef(" . $connection->result("SELECT oid FROM pg_class WHERE relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = current_schema()) AND relname = " . q($name)) . ")")));
+		return ["select" => trim($connection->result("SELECT pg_get_viewdef(" . $connection->result("SELECT oid FROM pg_class WHERE relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = current_schema()) AND relname = " . q($name)) . ")"))];
 	}
 
 	function collations() {
 		//! supported in CREATE DATABASE
-		return array();
+		return [];
 	}
 
 	function information_schema($db) {
@@ -524,8 +524,8 @@ ORDER BY connamespace, conname") as $row) {
 	}
 
 	function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning) {
-		$alter = array();
-		$queries = array();
+		$alter = [];
+		$queries = [];
 		if ($table != "" && $table != $name) {
 			$queries[] = "ALTER TABLE " . table($table) . " RENAME TO " . table($name);
 		}
@@ -581,9 +581,9 @@ ORDER BY connamespace, conname") as $row) {
 	}
 
 	function alter_indexes($table, $alter) {
-		$create = array();
-		$drop = array();
-		$queries = array();
+		$create = [];
+		$drop = [];
+		$queries = [];
 		foreach ($alter as $val) {
 			if ($val[0] != "INDEX") {
 				//! descending UNIQUE indexes results in syntax error
@@ -642,14 +642,14 @@ ORDER BY connamespace, conname") as $row) {
 
 	function trigger($name, $table) {
 		if ($name == "") {
-			return array("Statement" => "EXECUTE PROCEDURE ()");
+			return ["Statement" => "EXECUTE PROCEDURE ()"];
 		}
-		$columns = array();
+		$columns = [];
 		$where = "WHERE trigger_schema = current_schema() AND event_object_table = " . q($table) . " AND trigger_name = " . q($name);
 		foreach (get_rows("SELECT * FROM information_schema.triggered_update_columns $where") as $row) {
 			$columns[] = $row["event_object_column"];
 		}
-		$return = array();
+		$return = [];
 		foreach (get_rows('SELECT trigger_name AS "Trigger", action_timing AS "Timing", event_manipulation AS "Event", \'FOR EACH \' || action_orientation AS "Type", action_statement AS "Statement" FROM information_schema.triggers ' . "$where ORDER BY event_manipulation DESC") as $row) {
 			if ($columns && $row["Event"] == "UPDATE") {
 				$row["Event"] .= " OF";
@@ -664,20 +664,20 @@ ORDER BY connamespace, conname") as $row) {
 	}
 
 	function triggers($table) {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SELECT * FROM information_schema.triggers WHERE trigger_schema = current_schema() AND event_object_table = " . q($table)) as $row) {
 			$trigger = trigger($row["trigger_name"], $table);
-			$return[$trigger["Trigger"]] = array($trigger["Timing"], $trigger["Event"]);
+			$return[$trigger["Trigger"]] = [$trigger["Timing"], $trigger["Event"]];
 		}
 		return $return;
 	}
 
 	function trigger_options() {
-		return array(
-			"Timing" => array("BEFORE", "AFTER"),
-			"Event" => array("INSERT", "UPDATE", "UPDATE OF", "DELETE", "INSERT OR UPDATE", "INSERT OR UPDATE OF", "DELETE OR INSERT", "DELETE OR UPDATE", "DELETE OR UPDATE OF", "DELETE OR INSERT OR UPDATE", "DELETE OR INSERT OR UPDATE OF"),
-			"Type" => array("FOR EACH ROW", "FOR EACH STATEMENT"),
-		);
+		return [
+			"Timing" => ["BEFORE", "AFTER"],
+			"Event" => ["INSERT", "UPDATE", "UPDATE OF", "DELETE", "INSERT OR UPDATE", "INSERT OR UPDATE OF", "DELETE OR INSERT", "DELETE OR UPDATE", "DELETE OR UPDATE OF", "DELETE OR INSERT OR UPDATE", "DELETE OR INSERT OR UPDATE OF"],
+			"Type" => ["FOR EACH ROW", "FOR EACH STATEMENT"],
+		];
 	}
 
 	function routine($name, $type) {
@@ -711,7 +711,7 @@ ORDER BY connamespace, conname") as $row) {
 	}
 
 	function routine_id($name, $row) {
-		$return = array();
+		$return = [];
 		foreach ($row["fields"] as $field) {
 			$return[] = $field["type"];
 		}
@@ -789,8 +789,8 @@ AND typelem = 0"
 	}
 
 	function create_sql($table, $auto_increment, $style) {
-		$return_parts = array();
-		$sequences = array();
+		$return_parts = [];
+		$sequences = [];
 
 		$status = table_status($table);
 		if (is_view($status)) {
@@ -853,7 +853,7 @@ AND typelem = 0"
 		// "basic" indexes after table definition
 		foreach ($indexes as $index_name => $index) {
 			if ($index['type'] == 'INDEX') {
-				$columns = array();
+				$columns = [];
 				foreach ($index['columns'] as $key => $val) {
 					$columns[] = idf_escape($val) . ($index['descs'][$key] ? " DESC" : "");
 				}
@@ -947,41 +947,41 @@ AND typelem = 0"
 	}
 
 	function driver_config() {
-		$types = array();
-		$structured_types = array();
-		foreach (array( //! arrays
-			lang('Numbers') => array("smallint" => 5, "integer" => 10, "bigint" => 19, "boolean" => 1, "numeric" => 0, "real" => 7, "double precision" => 16, "money" => 20),
-			lang('Date and time') => array("date" => 13, "time" => 17, "timestamp" => 20, "timestamptz" => 21, "interval" => 0),
-			lang('Strings') => array("character" => 0, "character varying" => 0, "text" => 0, "tsquery" => 0, "tsvector" => 0, "uuid" => 0, "xml" => 0),
-			lang('Binary') => array("bit" => 0, "bit varying" => 0, "bytea" => 0),
-			lang('Network') => array("cidr" => 43, "inet" => 43, "macaddr" => 17, "macaddr8" => 23, "txid_snapshot" => 0),
-			lang('Geometry') => array("box" => 0, "circle" => 0, "line" => 0, "lseg" => 0, "path" => 0, "point" => 0, "polygon" => 0),
-		) as $key => $val) { //! can be retrieved from pg_type
+		$types = [];
+		$structured_types = [];
+		foreach ([ //! arrays
+			lang('Numbers') => ["smallint" => 5, "integer" => 10, "bigint" => 19, "boolean" => 1, "numeric" => 0, "real" => 7, "double precision" => 16, "money" => 20],
+			lang('Date and time') => ["date" => 13, "time" => 17, "timestamp" => 20, "timestamptz" => 21, "interval" => 0],
+			lang('Strings') => ["character" => 0, "character varying" => 0, "text" => 0, "tsquery" => 0, "tsvector" => 0, "uuid" => 0, "xml" => 0],
+			lang('Binary') => ["bit" => 0, "bit varying" => 0, "bytea" => 0],
+			lang('Network') => ["cidr" => 43, "inet" => 43, "macaddr" => 17, "macaddr8" => 23, "txid_snapshot" => 0],
+			lang('Geometry') => ["box" => 0, "circle" => 0, "line" => 0, "lseg" => 0, "path" => 0, "point" => 0, "polygon" => 0],
+		] as $key => $val) { //! can be retrieved from pg_type
 			$types += $val;
 			$structured_types[$key] = array_keys($val);
 		}
-		return array(
-			'possible_drivers' => array("PgSQL", "PDO_PgSQL"),
+		return [
+			'possible_drivers' => ["PgSQL", "PDO_PgSQL"],
 			'jush' => "pgsql",
 			'types' => $types,
 			'structured_types' => $structured_types,
-			'unsigned' => array(),
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "~", "~*", "!~", "!~*", "LIKE", "LIKE %%", "ILIKE", "ILIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL"), // no "SQL" to avoid CSRF
+			'unsigned' => [],
+			'operators' => ["=", "<", ">", "<=", ">=", "!=", "~", "~*", "!~", "!~*", "LIKE", "LIKE %%", "ILIKE", "ILIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL"], // no "SQL" to avoid CSRF
 			'operator_like' => "LIKE %%",
 			'operator_regexp' => '~*',
-			'functions' => array("char_length", "lower", "round", "to_hex", "to_timestamp", "upper"),
-			'grouping' => array("avg", "count", "count distinct", "max", "min", "sum"),
-			'edit_functions' => array(
-				array(
+			'functions' => ["char_length", "lower", "round", "to_hex", "to_timestamp", "upper"],
+			'grouping' => ["avg", "count", "count distinct", "max", "min", "sum"],
+			'edit_functions' => [
+				[
 					"char" => "md5",
 					"date|time" => "now",
-				), array(
+				], [
 					number_type() => "+/-",
 					"date|time" => "+ interval/- interval", //! escape
 					"char|text" => "||",
-				)
-			),
+				]
+			],
 			'c_style_escapes' => true,
-		);
+		];
 	}
 }
