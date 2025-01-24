@@ -126,12 +126,12 @@ if (isset($_GET["mysql"])) {
 		function insertUpdate($table, $rows, $primary) {
 			$columns = array_keys(reset($rows));
 			$prefix = "INSERT INTO " . table($table) . " (" . implode(", ", $columns) . ") VALUES\n";
-			$values = array();
+			$values = [];
 			foreach ($columns as $key) {
 				$values[$key] = "$key = VALUES($key)";
 			}
 			$suffix = "\nON DUPLICATE KEY UPDATE " . implode(", ", $values);
-			$values = array();
+			$values = [];
 			$length = 0;
 			foreach ($rows as $set) {
 				$value = "(" . implode(", ", $set) . ")";
@@ -139,7 +139,7 @@ if (isset($_GET["mysql"])) {
 					if (!queries($prefix . implode(",\n", $values) . $suffix)) {
 						return false;
 					}
-					$values = array();
+					$values = [];
 					$length = 0;
 				}
 				$values[] = $value;
@@ -304,7 +304,7 @@ if (isset($_GET["mysql"])) {
 	* @return array
 	*/
 	function engines() {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SHOW ENGINES") as $row) {
 			if (preg_match("~YES|DEFAULT~", $row["Support"])) {
 				$return[] = $row["Engine"];
@@ -336,7 +336,7 @@ if (isset($_GET["mysql"])) {
 	* @return array array($db => $tables)
 	*/
 	function count_tables($databases) {
-		$return = array();
+		$return = [];
 		foreach ($databases as $db) {
 			$return[$db] = count(get_vals("SHOW TABLES IN " . idf_escape($db)));
 		}
@@ -398,10 +398,10 @@ if (isset($_GET["mysql"])) {
 	* @return array array($name => array("field" => , "full_type" => , "type" => , "length" => , "unsigned" => , "default" => , "null" => , "auto_increment" => , "on_update" => , "collation" => , "privileges" => , "comment" => , "primary" => ))
 	*/
 	function fields($table) {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SHOW FULL COLUMNS FROM " . table($table)) as $row) {
 			preg_match('~^([^( ]+)(?:\((.+)\))?( unsigned)?( zerofill)?$~', $row["Type"], $match);
-			$return[$row["Field"]] = array(
+			$return[$row["Field"]] = [
 				"field" => $row["Field"],
 				"full_type" => $row["Type"],
 				"type" => $match[1],
@@ -417,7 +417,7 @@ if (isset($_GET["mysql"])) {
 				"primary" => ($row["Key"] == "PRI"),
 				// https://mariadb.com/kb/en/library/show-columns/, https://github.com/vrana/adminer/pull/359#pullrequestreview-276677186
 				"generated" => preg_match('~^(VIRTUAL|PERSISTENT|STORED)~', $row["Extra"]),
-			);
+			];
 		}
 		return $return;
 	}
@@ -425,10 +425,10 @@ if (isset($_GET["mysql"])) {
 	/** Get table indexes
 	* @param string
 	* @param string Min_DB to use
-	* @return array array($key_name => array("type" => , "columns" => array(), "lengths" => array(), "descs" => array()))
+	* @return array array($key_name => array("type" => , "columns" => [], "lengths" => [], "descs" => []))
 	*/
 	function indexes($table, $connection2 = null) {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SHOW INDEX FROM " . table($table), $connection2) as $row) {
 			$name = $row["Key_name"];
 			$return[$name]["type"] = ($name == "PRIMARY" ? "PRIMARY" : ($row["Index_type"] == "FULLTEXT" ? "FULLTEXT" : ($row["Non_unique"] ? ($row["Index_type"] == "SPATIAL" ? "SPATIAL" : "INDEX") : "UNIQUE")));
@@ -441,26 +441,26 @@ if (isset($_GET["mysql"])) {
 
 	/** Get foreign keys in table
 	* @param string
-	* @return array array($name => array("db" => , "ns" => , "table" => , "source" => array(), "target" => array(), "on_delete" => , "on_update" => ))
+	* @return array array($name => array("db" => , "ns" => , "table" => , "source" => [], "target" => [], "on_delete" => , "on_update" => ))
 	*/
 	function foreign_keys($table) {
 		global $connection, $on_actions;
 		static $pattern = '(?:`(?:[^`]|``)+`|"(?:[^"]|"")+")';
-		$return = array();
+		$return = [];
 		$create_table = $connection->result("SHOW CREATE TABLE " . table($table), 1);
 		if ($create_table) {
 			preg_match_all("~CONSTRAINT ($pattern) FOREIGN KEY ?\\(((?:$pattern,? ?)+)\\) REFERENCES ($pattern)(?:\\.($pattern))? \\(((?:$pattern,? ?)+)\\)(?: ON DELETE ($on_actions))?(?: ON UPDATE ($on_actions))?~", $create_table, $matches, PREG_SET_ORDER);
 			foreach ($matches as $match) {
 				preg_match_all("~$pattern~", $match[2], $source);
 				preg_match_all("~$pattern~", $match[5], $target);
-				$return[idf_unescape($match[1])] = array(
+				$return[idf_unescape($match[1])] = [
 					"db" => idf_unescape($match[4] != "" ? $match[3] : $match[4]),
 					"table" => idf_unescape($match[4] != "" ? $match[4] : $match[3]),
 					"source" => array_map('Adminer\idf_unescape', $source[0]),
 					"target" => array_map('Adminer\idf_unescape', $target[0]),
 					"on_delete" => ($match[6] ? $match[6] : "RESTRICT"),
 					"on_update" => ($match[7] ? $match[7] : "RESTRICT"),
-				);
+				];
 			}
 		}
 		return $return;
@@ -472,7 +472,7 @@ if (isset($_GET["mysql"])) {
 	*/
 	function view($name) {
 		global $connection;
-		return array("select" => preg_replace('~^(?:[^`]|`[^`]*`)*\s+AS\s+~isU', '', $connection->result("SHOW CREATE VIEW " . table($name), 1)));
+		return ["select" => preg_replace('~^(?:[^`]|`[^`]*`)*\s+AS\s+~isU', '', $connection->result("SHOW CREATE VIEW " . table($name), 1))];
 	}
 
 	/** Get sorted grouped list of collations
@@ -481,7 +481,7 @@ if (isset($_GET["mysql"])) {
 	function collations() {
 		global $connection;
 
-		$return = array();
+		$return = [];
 
 		// Since MariaDB 10.10, one collation can be compatible with more character sets, so collations no longer have unique IDs.
 		// All combinations can be selected from information_schema.COLLATION_CHARACTER_SET_APPLICABILITY table.
@@ -550,8 +550,8 @@ if (isset($_GET["mysql"])) {
 	function rename_database($name, $collation) {
 		$return = false;
 		if (create_database($name, $collation)) {
-			$tables = array();
-			$views = array();
+			$tables = [];
+			$views = [];
 			foreach (tables_list() as $table => $type) {
 				if ($type == 'VIEW') {
 					$views[] = $table;
@@ -560,7 +560,7 @@ if (isset($_GET["mysql"])) {
 				}
 			}
 			$return = (!$tables && !$views) || move_tables($tables, $views, $name);
-			drop_databases($return ? array(DB) : array());
+			drop_databases($return ? [DB] : []);
 		}
 		return $return;
 	}
@@ -598,7 +598,7 @@ if (isset($_GET["mysql"])) {
 	* @return bool
 	*/
 	function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning) {
-		$alter = array();
+		$alter = [];
 		foreach ($fields as $field) {
 			$alter[] = ($field[1]
 				? ($table != "" ? ($field[0] != "" ? "CHANGE " . idf_escape($field[0]) : "ADD") : " ") . " " . implode($field[1]) . ($table != "" ? $field[2] : "")
@@ -670,12 +670,12 @@ if (isset($_GET["mysql"])) {
 	*/
 	function move_tables($tables, $views, $target) {
 		global $connection;
-		$rename = array();
+		$rename = [];
 		foreach ($tables as $table) {
 			$rename[] = table($table) . " TO " . idf_escape($target) . "." . table($table);
 		}
 		if (!$rename || queries("RENAME TABLE " . implode(", ", $rename))) {
-			$definitions = array();
+			$definitions = [];
 			foreach ($views as $table) {
 				$definitions[table($table)] = view($table);
 			}
@@ -732,7 +732,7 @@ if (isset($_GET["mysql"])) {
 	*/
 	function trigger($name) {
 		if ($name == "") {
-			return array();
+			return [];
 		}
 		$rows = get_rows("SHOW TRIGGERS WHERE `Trigger` = " . q($name));
 		return reset($rows);
@@ -743,22 +743,22 @@ if (isset($_GET["mysql"])) {
 	* @return array array($name => array($timing, $event))
 	*/
 	function triggers($table) {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SHOW TRIGGERS LIKE " . q(addcslashes($table, "%_\\"))) as $row) {
-			$return[$row["Trigger"]] = array($row["Timing"], $row["Event"]);
+			$return[$row["Trigger"]] = [$row["Timing"], $row["Event"]];
 		}
 		return $return;
 	}
 
 	/** Get trigger options
-	* @return array ("Timing" => array(), "Event" => array(), "Type" => array())
+	* @return array ("Timing" => [], "Event" => [], "Type" => [])
 	*/
 	function trigger_options() {
-		return array(
-			"Timing" => array("BEFORE", "AFTER"),
-			"Event" => array("INSERT", "UPDATE", "DELETE"),
-			"Type" => array("FOR EACH ROW"),
-		);
+		return [
+			"Timing" => ["BEFORE", "AFTER"],
+			"Event" => ["INSERT", "UPDATE", "DELETE"],
+			"Type" => ["FOR EACH ROW"],
+		];
 	}
 
 	/**
@@ -822,7 +822,7 @@ if (isset($_GET["mysql"])) {
 	* @return array
 	*/
 	function routine_languages() {
-		return array(); // "SQL" not required
+		return []; // "SQL" not required
 	}
 
 	/** Get routine signature
@@ -864,14 +864,14 @@ if (isset($_GET["mysql"])) {
 	* @return array
 	*/
 	function types() {
-		return array();
+		return [];
 	}
 
 	/** Get existing schemas
 	* @return array
 	*/
 	function schemas() {
-		return array();
+		return [];
 	}
 
 	/** Get current schema
@@ -1048,42 +1048,42 @@ if (isset($_GET["mysql"])) {
 	* @return array array('possible_drivers' => , 'jush' => , 'types' => , 'structured_types' => , 'unsigned' => , 'operators' => , 'functions' => , 'grouping' => , 'edit_functions' => )
 	*/
 	function driver_config() {
-		$types = array(); ///< @var array ($type => $maximum_unsigned_length, ...)
-		$structured_types = array(); ///< @var array ($description => array($type, ...), ...)
-		foreach (array(
-			lang('Numbers') => array("tinyint" => 3, "smallint" => 5, "mediumint" => 8, "int" => 10, "bigint" => 20, "decimal" => 66, "float" => 12, "double" => 21),
-			lang('Date and time') => array("date" => 10, "datetime" => 19, "timestamp" => 19, "time" => 10, "year" => 4),
-			lang('Strings') => array("char" => 255, "varchar" => 65535, "tinytext" => 255, "text" => 65535, "mediumtext" => 16777215, "longtext" => 4294967295),
-			lang('Lists') => array("enum" => 65535, "set" => 64),
-			lang('Binary') => array("bit" => 20, "binary" => 255, "varbinary" => 65535, "tinyblob" => 255, "blob" => 65535, "mediumblob" => 16777215, "longblob" => 4294967295),
-			lang('Geometry') => array("geometry" => 0, "point" => 0, "linestring" => 0, "polygon" => 0, "multipoint" => 0, "multilinestring" => 0, "multipolygon" => 0, "geometrycollection" => 0),
-		) as $key => $val) {
+		$types = []; ///< @var array ($type => $maximum_unsigned_length, ...)
+		$structured_types = []; ///< @var array ($description => array($type, ...), ...)
+		foreach ([
+			lang('Numbers') => ["tinyint" => 3, "smallint" => 5, "mediumint" => 8, "int" => 10, "bigint" => 20, "decimal" => 66, "float" => 12, "double" => 21],
+			lang('Date and time') => ["date" => 10, "datetime" => 19, "timestamp" => 19, "time" => 10, "year" => 4],
+			lang('Strings') => ["char" => 255, "varchar" => 65535, "tinytext" => 255, "text" => 65535, "mediumtext" => 16777215, "longtext" => 4294967295],
+			lang('Lists') => ["enum" => 65535, "set" => 64],
+			lang('Binary') => ["bit" => 20, "binary" => 255, "varbinary" => 65535, "tinyblob" => 255, "blob" => 65535, "mediumblob" => 16777215, "longblob" => 4294967295],
+			lang('Geometry') => ["geometry" => 0, "point" => 0, "linestring" => 0, "polygon" => 0, "multipoint" => 0, "multilinestring" => 0, "multipolygon" => 0, "geometrycollection" => 0],
+		] as $key => $val) {
 			$types += $val;
 			$structured_types[$key] = array_keys($val);
 		}
-		return array(
-			'possible_drivers' => array("MySQLi", "MySQL", "PDO_MySQL"),
+		return [
+			'possible_drivers' => ["MySQLi", "MySQL", "PDO_MySQL"],
 			'jush' => "sql", ///< @var string JUSH identifier
 			'types' => $types,
 			'structured_types' => $structured_types,
-			'unsigned' => array("unsigned", "zerofill", "unsigned zerofill"), ///< @var array number variants
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "REGEXP", "IN", "FIND_IN_SET", "IS NULL", "NOT LIKE", "NOT REGEXP", "NOT IN", "IS NOT NULL", "SQL"), ///< @var array operators used in select
+			'unsigned' => ["unsigned", "zerofill", "unsigned zerofill"], ///< @var array number variants
+			'operators' => ["=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "REGEXP", "IN", "FIND_IN_SET", "IS NULL", "NOT LIKE", "NOT REGEXP", "NOT IN", "IS NOT NULL", "SQL"], ///< @var array operators used in select
 			'operator_like' => "LIKE %%",
 			'operator_regexp' => 'REGEXP',
-			'functions' => array("char_length", "date", "from_unixtime", "unix_timestamp", "lower", "round", "floor", "ceil", "sec_to_time", "time_to_sec", "upper"), ///< @var array functions used in select
-			'grouping' => array("avg", "count", "count distinct", "group_concat", "max", "min", "sum"), ///< @var array grouping functions used in select
-			'edit_functions' => array( ///< @var array of array("$type|$type2" => "$function/$function2") functions used in editing, [0] - edit and insert, [1] - edit only
-				array(
+			'functions' => ["char_length", "date", "from_unixtime", "unix_timestamp", "lower", "round", "floor", "ceil", "sec_to_time", "time_to_sec", "upper"], ///< @var array functions used in select
+			'grouping' => ["avg", "count", "count distinct", "group_concat", "max", "min", "sum"], ///< @var array grouping functions used in select
+			'edit_functions' => [ ///< @var array of array("$type|$type2" => "$function/$function2") functions used in editing, [0] - edit and insert, [1] - edit only
+				[
 					"char" => "md5/sha1/password/encrypt/uuid",
 					"binary" => "md5/sha1",
 					"date|time" => "now",
-				), array(
+				], [
 					number_type() => "+/-",
 					"date" => "+ interval/- interval",
 					"time" => "addtime/subtime",
 					"char|text" => "concat",
-				)
-			),
-		);
+				]
+			],
+		];
 	}
 }

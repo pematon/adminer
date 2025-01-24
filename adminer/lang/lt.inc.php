@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Sistema',
@@ -39,15 +39,15 @@ $translations = array(
 	'Revoke' => 'Atšaukti',
 
 	'Process list' => 'Procesų sąrašas',
-	'%d process(es) have been killed.' => array('%d procesas nutrauktas.', '%d procesai nutraukti.', '%d procesų nutraukta.'),
+	'%d process(es) have been killed.' => ['%d procesas nutrauktas.', '%d procesai nutraukti.', '%d procesų nutraukta.'],
 	'Kill' => 'Nutraukti',
 
 	'Variables' => 'Kintamieji',
 	'Status' => 'Būsena',
 
 	'SQL command' => 'SQL užklausa',
-	'%d query(s) executed OK.' => array('%d užklausa įvykdyta.', '%d užklausos įvykdytos.', '%d užklausų įvykdyta.'),
-	'Query executed OK, %d row(s) affected.' => array('Užklausa įvykdyta. Pakeistas %d įrašas.', 'Užklausa įvykdyta. Pakeisti %d įrašai.', 'Užklausa įvykdyta. Pakeista %d įrašų.'),
+	'%d query(s) executed OK.' => ['%d užklausa įvykdyta.', '%d užklausos įvykdytos.', '%d užklausų įvykdyta.'],
+	'Query executed OK, %d row(s) affected.' => ['Užklausa įvykdyta. Pakeistas %d įrašas.', 'Užklausa įvykdyta. Pakeisti %d įrašai.', 'Užklausa įvykdyta. Pakeista %d įrašų.'],
 	'No commands to execute.' => 'Nėra vykdomų užklausų.',
 	'Error in query' => 'Klaida užklausoje',
 	'Execute' => 'Vykdyti',
@@ -115,7 +115,7 @@ $translations = array(
 	'Tables have been copied.' => 'Lentelės nukopijuotos.',
 
 	'Routines' => 'Procedūros',
-	'Routine has been called, %d row(s) affected.' => array('Procedūra įvykdyta. %d įrašas pakeistas.', 'Procedūra įvykdyta. %d įrašai pakeisti.', 'Procedūra įvykdyta. %d įrašų pakeista.'),
+	'Routine has been called, %d row(s) affected.' => ['Procedūra įvykdyta. %d įrašas pakeistas.', 'Procedūra įvykdyta. %d įrašai pakeisti.', 'Procedūra įvykdyta. %d įrašų pakeista.'],
 	'Call' => 'Vykdyti',
 	'Parameter name' => 'Parametro pavadinimas',
 	'Create procedure' => 'Sukurti procedūrą',
@@ -230,14 +230,14 @@ $translations = array(
 	'Action' => 'Veiksmas',
 	'Unable to select the table' => 'Neįmanoma atrinkti lentelės',
 	'No rows.' => 'Nėra įrašų.',
-	'%d row(s)' => array('%d įrašas', '%d įrašai', '%d įrašų'),
+	'%d row(s)' => ['%d įrašas', '%d įrašai', '%d įrašų'],
 	'Page' => 'Puslapis',
 	'last' => 'paskutinis',
 	'Whole result' => 'Visas rezultatas',
-	'%d byte(s)' => array('%d baitas', '%d baigai', '%d baitų'),
+	'%d byte(s)' => ['%d baitas', '%d baigai', '%d baitų'],
 
 	'Import' => 'Importas',
-	'%d row(s) have been imported.' => array('%d įrašas įkelta.', '%d įrašai įkelti.', '%d įrašų įkelta.'),
+	'%d row(s) have been imported.' => ['%d įrašas įkelta.', '%d įrašai įkelti.', '%d įrašų įkelta.'],
 
 	// in-place editing in select
 	'Use edit link to modify this value.' => 'Norėdami redaguoti reikšmę naudokite redagavimo nuorodą.',
@@ -246,7 +246,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Įrašas%s sukurtas.',
 	'Item has been deleted.' => 'Įrašas ištrintas.',
 	'Item has been updated.' => 'Įrašas pakeistas.',
-	'%d item(s) have been affected.' => array('Pakeistas %d įrašas.', 'Pakeisti %d įrašai.', 'Pakeistas %d įrašų.'),
+	'%d item(s) have been affected.' => ['Pakeistas %d įrašas.', 'Pakeisti %d įrašai.', 'Pakeistas %d įrašų.'],
 	'New item' => 'Naujas įrašas',
 	'original' => 'originalas',
 	// label for value '' in enum data type
@@ -265,7 +265,7 @@ $translations = array(
 	'Subject' => 'Antraštė',
 	'Attachments' => 'Priedai',
 	'Send' => 'Siųsti',
-	'%d e-mail(s) have been sent.' => array('Išsiųstas %d laiškas.', 'Išsiųsti %d laiškai.', 'Išsiųsta %d laiškų.'),
+	'%d e-mail(s) have been sent.' => ['Išsiųstas %d laiškas.', 'Išsiųsti %d laiškai.', 'Išsiųsta %d laiškų.'],
 
 	// data type descriptions
 	'Numbers' => 'Skaičiai',
@@ -328,12 +328,12 @@ $translations = array(
 	'Loading' => null,
 	'ATTACH queries are not supported.' => null,
 	'Warnings' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Limit rows' => null,
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
 	'Full table scan' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array(),
+	'Too many unsuccessful logins, try again in %d minute(s).' => [],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => null,
 	'The action will be performed after successful login with the same credentials.' => null,
 	'Connecting to privileged ports is not allowed.' => null,
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

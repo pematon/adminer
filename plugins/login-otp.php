@@ -52,7 +52,7 @@ class AdminerLoginOtp
 
 		$timeSlot = floor(time() / 30);
 
-		foreach (array(0, -1, 1) as $skew) {
+		foreach ([0, -1, 1] as $skew) {
 			if ($_SESSION["otp"] == $this->getOtp($timeSlot + $skew)) {
 				restart_session();
 				unset($_SESSION["otp"]);

@@ -15,7 +15,7 @@ function create_adminer(): Adminer
 		function credentials()
 		{
 			// ODBC user without password on localhost
-			return array('localhost', 'ODBC', '');
+			return ['localhost', 'ODBC', ''];
 		}
 
 		function database()

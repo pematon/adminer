@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	'Home' => null,
 	'$1-$3-$5' => '$1-$3-$5',
 	'%.3f s' => '%.3f 초',
@@ -290,11 +290,11 @@ $translations = array(
 	'Ctrl+click on a value to modify it.' => null,
 	'File must be in UTF-8 encoding.' => null,
 	'ATTACH queries are not supported.' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
 	'Full table scan' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array(),
+	'Too many unsuccessful logins, try again in %d minute(s).' => [],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => null,
 	'The action will be performed after successful login with the same credentials.' => null,
 	'Connecting to privileged ports is not allowed.' => null,
@@ -319,4 +319,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];
