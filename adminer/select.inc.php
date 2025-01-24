@@ -10,10 +10,10 @@ $foreign_keys = column_foreign_keys($TABLE);
 $oid = $table_status["Oid"];
 parse_str($_COOKIE["adminer_import"], $adminer_import);
 
-$rights = array(); // privilege => 0
-$columns = array(); // selectable columns
-$search_columns = array(); // searchable columns
-$order_columns = array(); // searchable columns
+$rights = []; // privilege => 0
+$columns = []; // selectable columns
+$search_columns = []; // searchable columns
+$order_columns = []; // searchable columns
 $text_length = null;
 foreach ($fields as $key => $field) {
 	$name = $adminer->fieldName($field);
@@ -42,7 +42,7 @@ if ($_GET["val"] && is_ajax()) {
 	header("Content-Type: text/plain; charset=utf-8");
 	foreach ($_GET["val"] as $unique_idf => $row) {
 		$as = convert_field($fields[key($row)]);
-		$select = array($as ? $as : idf_escape(key($row)));
+		$select = [$as ?: idf_escape(key($row))];
 		$where[] = where_check($unique_idf, $fields);
 		$return = $driver->select($TABLE, $select, $where, $select);
 		if ($return) {
@@ -56,7 +56,7 @@ $primary = $unselected = null;
 foreach ($indexes as $index) {
 	if ($index["type"] == "PRIMARY") {
 		$primary = array_flip($index["columns"]);
-		$unselected = ($select ? $primary : array());
+		$unselected = ($select ? $primary : []);
 		foreach ($unselected as $key => $val) {
 			if (in_array(idf_escape($key), $select)) {
 				unset($unselected[$key]);
@@ -66,14 +66,14 @@ foreach ($indexes as $index) {
 	}
 }
 if ($oid && !$primary) {
-	$primary = $unselected = array($oid => 0);
-	$indexes[] = array("type" => "PRIMARY", "columns" => array($oid));
+	$primary = $unselected = [$oid => 0];
+	$indexes[] = ["type" => "PRIMARY", "columns" => [$oid]];
 }
 
 if ($_POST && !$error) {
 	$where_check = $where;
 	if (!$_POST["all"] && is_array($_POST["check"])) {
-		$checks = array();
+		$checks = [];
 		foreach ($_POST["check"] as $check) {
 			$checks[] = where_check($check, $fields);
 		}
@@ -91,7 +91,7 @@ if ($_POST && !$error) {
 		if (!is_array($_POST["check"]) || $primary) {
 			$query = "SELECT $from$where_check$group_by";
 		} else {
-			$union = array();
+			$union = [];
 			foreach ($_POST["check"] as $val) {
 				// where is not unique so OR can't be used
 				$union[] = "(SELECT" . limit($from, "\nWHERE " . ($where ? implode(" AND ", $where) . " AND " : "") . where_check($val, $fields) . $group_by, 1) . ")";
@@ -106,7 +106,7 @@ if ($_POST && !$error) {
 		if ($_POST["save"] || $_POST["delete"]) { // edit
 			$result = true;
 			$affected = 0;
-			$set = array();
+			$set = [];
 			if (!$_POST["delete"]) {
 				foreach ($columns as $name => $val) { //! should check also for edit or insert privileges
 					$val = process_input($fields[$name]);
@@ -167,7 +167,7 @@ if ($_POST && !$error) {
 				$result = true;
 				$affected = 0;
 				foreach ($_POST["val"] as $unique_idf => $row) {
-					$set = array();
+					$set = [];
 					foreach ($row as $key => $val) {
 						$key = bracket_escape($key, 1); // 1 - back
 						$set[idf_escape($key)] = (preg_match('~char|text~', $fields[$key]["type"]) || $val != "" ? $adminer->processInput($fields[$key], $val) : "NULL");
@@ -199,7 +199,7 @@ if ($_POST && !$error) {
 			$affected = count($matches[0]);
 			$driver->begin();
 			$separator = ($_POST["separator"] == "csv" ? "," : ($_POST["separator"] == "tsv" ? "\t" : ";"));
-			$rows = array();
+			$rows = [];
 			foreach ($matches[0] as $key => $val) {
 				preg_match_all("~((?>\"[^\"]*\")+|[^$separator]*)$separator~", $val . $separator, $matches2);
 				if (!$key && !array_diff($matches2[1], $cols)) { //! doesn't work with column names containing ",\n
@@ -207,7 +207,7 @@ if ($_POST && !$error) {
 					$cols = $matches2[1];
 					$affected--;
 				} else {
-					$set = array();
+					$set = [];
 					foreach ($matches2[1] as $i => $col) {
 						$set[idf_escape($cols[$i])] = ($col == "" && $fields[$cols[$i]]["null"] ? "NULL" : q(str_replace('""', '"', preg_replace('~^"|"$~', '', $col))));
 					}
@@ -304,9 +304,9 @@ if (!$columns && support("table")) {
 		if ($jush == "mssql" && $page) {
 			$result->seek($limit * $page);
 		}
-		$email_fields = array();
+		$email_fields = [];
 		echo "<form action='' method='post' enctype='multipart/form-data'>\n";
-		$rows = array();
+		$rows = [];
 		while ($row = $result->fetch_assoc()) {
 			if ($page && $jush == "oracle") {
 				unset($row["RNUM"]);
@@ -335,8 +335,8 @@ if (!$columns && support("table")) {
 					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon_solo("edit-all"), "</a>";
 			}
 
-			$names = array();
-			$functions = array();
+			$names = [];
+			$functions = [];
 			reset($select);
 			$rank = 1;
 			foreach ($rows[0] as $key => $val) {
@@ -374,7 +374,7 @@ if (!$columns && support("table")) {
 				}
 			}
 
-			$lengths = array();
+			$lengths = [];
 			if ($_GET["modify"]) {
 				foreach ($rows as $row) {
 					foreach ($row as $key => $val) {
@@ -395,7 +395,7 @@ if (!$columns && support("table")) {
 			foreach ($adminer->rowDescriptions($rows, $foreign_keys) as $n => $row) {
 				$unique_array = unique_array($rows[$n], $indexes);
 				if (!$unique_array) {
-					$unique_array = array();
+					$unique_array = [];
 					foreach ($rows[$n] as $key => $val) {
 						if (!preg_match('~^(COUNT\((\*|(DISTINCT )?`(?:[^`]|``)+`)\)|(AVG|GROUP_CONCAT|MAX|MIN|SUM)\(`(?:[^`]|``)+`\))$~', $key)) { //! columns looking like functions
 							$unique_array[$key] = $val;
@@ -635,7 +635,7 @@ if (!$columns && support("table")) {
 				echo "</p>";
 				echo "<p id='import' class='hidden'>";
 				echo "<input type='file' name='csv_file'> ";
-				echo html_select("separator", array("csv" => "CSV,", "csv;" => "CSV;", "tsv" => "TSV"), $adminer_import["format"]);
+				echo html_select("separator", ["csv" => "CSV,", "csv;" => "CSV;", "tsv" => "TSV"], $adminer_import["format"]);
 				echo " <input type='submit' class='button' name='import' value='" . lang('Import') . "'>";
 				echo "</p>";
 			}

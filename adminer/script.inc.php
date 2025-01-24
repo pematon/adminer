@@ -5,14 +5,14 @@ namespace Adminer;
 header("Content-Type: text/javascript; charset=utf-8");
 
 if ($_GET["script"] == "db") {
-	$sums = array("Data_length" => 0, "Index_length" => 0, "Data_free" => 0);
+	$sums = ["Data_length" => 0, "Index_length" => 0, "Data_free" => 0];
 	foreach (table_status() as $name => $table_status) {
 		json_row("Comment-$name", h($table_status["Comment"]));
 		if (!is_view($table_status)) {
-			foreach (array("Engine", "Collation") as $key) {
+			foreach (["Engine", "Collation"] as $key) {
 				json_row("$key-$name", h($table_status[$key]));
 			}
-			foreach ($sums + array("Auto_increment" => 0, "Rows" => 0) as $key => $val) {
+			foreach ($sums + ["Auto_increment" => 0, "Rows" => 0] as $key => $val) {
 				if ($table_status[$key] != "") {
 					$val = format_number($table_status[$key]);
 					json_row("$key-$name", ($key == "Rows" && $val && $table_status["Engine"] == ($jush == "pgsql" ? "table" : "InnoDB")

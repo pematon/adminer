@@ -98,12 +98,12 @@ if (isset($_GET["firebird"])) {
 
 			function fetch_field() {
 				$field = ibase_field_info($this->_result, $this->_offset++);
-				return (object) array(
+				return (object) [
 					'name' => $field['name'],
 					'orgname' => $field['name'],
 					'type' => $field['type'],
 					'charsetnr' => $field['length'],
-				);
+				];
 			}
 
 			function __destruct() {
@@ -139,7 +139,7 @@ if (isset($_GET["firebird"])) {
 	}
 
 	function get_databases($flush) {
-		return array("domain");
+		return ["domain"];
 	}
 
 	function limit($query, $where, ?int $limit, $offset = 0, $separator = " ") {
@@ -157,7 +157,7 @@ if (isset($_GET["firebird"])) {
 	}
 
 	function engines() {
-		return array();
+		return [];
 	}
 
 	function logged_user() {
@@ -170,7 +170,7 @@ if (isset($_GET["firebird"])) {
 		global $connection;
 		$query = 'SELECT RDB$RELATION_NAME FROM rdb$relations WHERE rdb$system_flag = 0';
 		$result = ibase_query($connection->_link, $query);
-		$return = array();
+		$return = [];
 		while ($row = ibase_fetch_assoc($result)) {
 				$return[$row['RDB$RELATION_NAME']] = 'table';
 		}
@@ -179,19 +179,19 @@ if (isset($_GET["firebird"])) {
 	}
 
 	function count_tables($databases) {
-		return array();
+		return [];
 	}
 
 	function table_status($name = "", $fast = false) {
 		global $connection;
-		$return = array();
+		$return = [];
 		$data = tables_list();
 		foreach ($data as $index => $val) {
 			$index = trim($index);
-			$return[$index] = array(
+			$return[$index] = [
 				'Name' => $index,
 				'Engine' => 'standard',
-			);
+			];
 			if ($name == $index) {
 				return $return[$index];
 			}
@@ -209,7 +209,7 @@ if (isset($_GET["firebird"])) {
 
 	function fields($table) {
 		global $connection;
-		$return = array();
+		$return = [];
 		$query = 'SELECT r.RDB$FIELD_NAME AS field_name,
 r.RDB$DESCRIPTION AS field_description,
 r.RDB$DEFAULT_VALUE AS field_default_value,
@@ -245,7 +245,7 @@ WHERE r.RDB$RELATION_NAME = ' . q($table) . '
 ORDER BY r.RDB$FIELD_POSITION';
 		$result = ibase_query($connection->_link, $query);
 		while ($row = ibase_fetch_assoc($result)) {
-			$return[trim($row['FIELD_NAME'])] = array(
+			$return[trim($row['FIELD_NAME'])] = [
 				"field" => trim($row["FIELD_NAME"]),
 				"full_type" => trim($row["FIELD_TYPE"]),
 				"type" => trim($row["FIELD_SUB_TYPE"]),
@@ -253,15 +253,15 @@ ORDER BY r.RDB$FIELD_POSITION';
 				"null" => (trim($row["FIELD_NOT_NULL_CONSTRAINT"]) == "YES"),
 				"auto_increment" => '0',
 				"collation" => trim($row["FIELD_COLLATION"]),
-				"privileges" => array("insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1),
+				"privileges" => ["insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1],
 				"comment" => trim($row["FIELD_DESCRIPTION"]),
-			);
+			];
 		}
 		return $return;
 	}
 
 	function indexes($table, $connection2 = null) {
-		$return = array();
+		$return = [];
 		/*
 		$query = 'SELECT RDB$INDEX_SEGMENTS.RDB$FIELD_NAME AS field_name,
 RDB$INDICES.RDB$DESCRIPTION AS description,
@@ -278,11 +278,11 @@ ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION';
 	}
 
 	function foreign_keys($table) {
-		return array();
+		return [];
 	}
 
 	function collations() {
-		return array();
+		return [];
 	}
 
 	function information_schema($db) {
@@ -295,11 +295,11 @@ ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION';
 	}
 
 	function types() {
-		return array();
+		return [];
 	}
 
 	function schemas() {
-		return array();
+		return [];
 	}
 
 	function get_schema() {
@@ -315,14 +315,14 @@ ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION';
 	}
 
 	function driver_config() {
-		return array(
-			'possible_drivers' => array("interbase"),
+		return [
+			'possible_drivers' => ["interbase"],
 			'jush' => "firebird",
-			'operators' => array("="),
+			'operators' => ["="],
 			'operator_like' => "LIKE %%", // TODO: LIKE operator is not listed in operators.
-			'functions' => array(),
-			'grouping' => array(),
-			'edit_functions' => array(),
-		);
+			'functions' => [],
+			'grouping' => [],
+			'edit_functions' => [],
+		];
 	}
 }

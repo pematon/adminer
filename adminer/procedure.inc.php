@@ -14,7 +14,7 @@ if ($_POST && !process_fields($row["fields"]) && !$error) {
 		"DROP $routine " . routine_id($PROCEDURE, $orig),
 		create_routine($routine, $row),
 		"DROP $routine " . routine_id($row["name"], $row),
-		create_routine($routine, array("name" => $temp_name) + $row),
+		create_routine($routine, ["name" => $temp_name] + $row),
 		"DROP $routine " . routine_id($temp_name, $row),
 		substr(ME, 0, -1),
 		lang('Routine has been dropped.'),
@@ -50,7 +50,7 @@ if (isset($_GET["function"])) {
 		(support("move_col") ? "<th></th>" : ""),
 		"<th>", lang('Return type'), "</th>";
 
-	edit_type("returns", $row["returns"], $collations, array(), ($jush == "pgsql" ? array("void", "trigger") : array()));
+	edit_type("returns", $row["returns"], $collations, [], ($jush == "pgsql" ? ["void", "trigger"] : []));
 
 	echo "<td></td></tr></tbody>\n";
 }

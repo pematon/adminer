@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Система Бази Даних',
@@ -39,15 +39,15 @@ $translations = array(
 	'Revoke' => 'Заборонити',
 
 	'Process list' => 'Перелік процесів',
-	'%d process(es) have been killed.' => array('Було завершено %d процес.', 'Було завершено %d процеси.', 'Було завершёно %d процесів.'),
+	'%d process(es) have been killed.' => ['Було завершено %d процес.', 'Було завершено %d процеси.', 'Було завершёно %d процесів.'],
 	'Kill' => 'Завершити процес',
 
 	'Variables' => 'Змінні',
 	'Status' => 'Статус',
 
 	'SQL command' => 'SQL запит',
-	'%d query(s) executed OK.' => array('%d запит виконано успішно.', '%d запити виконано успішно.', '%d запитів виконано успішно.'),
-	'Query executed OK, %d row(s) affected.' => array('Запит виконано успішно, змінено %d рядок.', 'Запит виконано успішно, змінено %d рядки.', 'Запит виконано успішно, змінено %d рядків.'),
+	'%d query(s) executed OK.' => ['%d запит виконано успішно.', '%d запити виконано успішно.', '%d запитів виконано успішно.'],
+	'Query executed OK, %d row(s) affected.' => ['Запит виконано успішно, змінено %d рядок.', 'Запит виконано успішно, змінено %d рядки.', 'Запит виконано успішно, змінено %d рядків.'],
 	'No commands to execute.' => 'Нема запитів до виконання.',
 	'Error in query' => 'Помилка в запиті',
 	'Execute' => 'Виконати',
@@ -115,7 +115,7 @@ $translations = array(
 	'Tables have been copied.' => 'Таблиці було зкопійовано.',
 
 	'Routines' => 'Збережені процедури',
-	'Routine has been called, %d row(s) affected.' => array('Була викликана процедура, %d запис було змінено.', 'Була викликана процедура, %d записи було змінено.', 'Була викликана процедура, %d записів було змінено.'),
+	'Routine has been called, %d row(s) affected.' => ['Була викликана процедура, %d запис було змінено.', 'Була викликана процедура, %d записи було змінено.', 'Була викликана процедура, %d записів було змінено.'],
 	'Call' => 'Викликати',
 	'Parameter name' => 'Назва параметра',
 	'Create procedure' => 'Створити процедуру',
@@ -231,14 +231,14 @@ $translations = array(
 	'Action' => 'Дія',
 	'Unable to select the table' => 'Неможливо вибрати таблицю',
 	'No rows.' => 'Нема рядків.',
-	'%d row(s)' => array('%d рядок', '%d рядки', '%d рядків'),
+	'%d row(s)' => ['%d рядок', '%d рядки', '%d рядків'],
 	'Page' => 'Сторінка',
 	'last' => 'остання',
 	'Whole result' => 'Весь результат',
-	'%d byte(s)' => array('%d байт', '%d байта', '%d байтів'),
+	'%d byte(s)' => ['%d байт', '%d байта', '%d байтів'],
 
 	'Import' => 'Імпортувати',
-	'%d row(s) have been imported.' => array('%d рядок було імпортовано.', '%d рядки було імпортовано.', '%d рядків було імпортовано.'),
+	'%d row(s) have been imported.' => ['%d рядок було імпортовано.', '%d рядки було імпортовано.', '%d рядків було імпортовано.'],
 
 	// in-place editing in select
 	'Ctrl+click on a value to modify it.' => 'Ctrl+клікніть на значенні щоб змінити його.',
@@ -248,7 +248,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Запис%s було вставлено.',
 	'Item has been deleted.' => 'Запис було видалено.',
 	'Item has been updated.' => 'Запис було змінено.',
-	'%d item(s) have been affected.' => array('Було змінено %d запис.', 'Було змінено %d записи.', 'Було змінено %d записів.'),
+	'%d item(s) have been affected.' => ['Було змінено %d запис.', 'Було змінено %d записи.', 'Було змінено %d записів.'],
 	'New item' => 'Новий запис',
 	'original' => 'початковий',
 	// label for value '' in enum data type
@@ -267,7 +267,7 @@ $translations = array(
 	'Subject' => 'Заголовок',
 	'Attachments' => 'Додатки',
 	'Send' => 'Надіслати',
-	'%d e-mail(s) have been sent.' => array('Було надіслано %d повідомлення.', 'Було надіслано %d повідомлення.', 'Було надіслано %d повідомлень.'),
+	'%d e-mail(s) have been sent.' => ['Було надіслано %d повідомлення.', 'Було надіслано %d повідомлення.', 'Було надіслано %d повідомлень.'],
 
 	// data type descriptions
 	'Numbers' => 'Числа',
@@ -332,7 +332,7 @@ $translations = array(
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Adminer не підтримує доступ до бази даних без пароля, <a href="https://www.adminer.org/en/password/"%s>більше інформації</a>.',
 	'Default value' => 'Значення за замовчуванням',
 	'Full table scan' => 'Повне сканування таблиці',
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Занадто багато невдалих спроб входу. Спробуйте знову через %d хвилину.', 'Занадто багато невдалих спроб входу. Спробуйте знову через %d хвилини.', 'Занадто багато невдалих спроб входу. Спробуйте знову через %d хвилин.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Занадто багато невдалих спроб входу. Спробуйте знову через %d хвилину.', 'Занадто багато невдалих спроб входу. Спробуйте знову через %d хвилини.', 'Занадто багато невдалих спроб входу. Спробуйте знову через %d хвилин.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Термін дії майстер пароля минув. <a href="https://www.adminer.org/en/extension/"%s>Реалізуйте</a> метод %s, щоб зробити його постійним.',
 	'The action will be performed after successful login with the same credentials.' => 'Дія буде виконуватися після успішного входу в систему з тими ж обліковими даними.',
 	'Connecting to privileged ports is not allowed.' => 'Підключення до привілейованих портів заборонено.',
@@ -348,7 +348,7 @@ $translations = array(
 	'Database does not support password.' => 'База даних не підтримує пароль.',
 
 	'Vacuum' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

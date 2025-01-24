@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Система',
@@ -15,7 +15,7 @@ $translations = array(
 	'Logged as: %s' => 'Текущ потребител: %s',
 	'Logout successful.' => 'Излизането е успешно.',
 	'Invalid server or credentials.' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Прекалено много неуспешни опити за вход, опитайте пак след %d минута.', 'Прекалено много неуспешни опити за вход, опитайте пак след %d минути.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Прекалено много неуспешни опити за вход, опитайте пак след %d минута.', 'Прекалено много неуспешни опити за вход, опитайте пак след %d минути.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Главната парола вече е невалидна. <a href="https://www.adminer.org/en/extension/"%s>Изберете</a> %s метод, за да я направите постоянна.',
 	'Language' => 'Език',
 	'Invalid CSRF token. Send the form again.' => 'Невалиден шифроващ ключ. Попълнете и изпратете формуляра отново.',
@@ -44,15 +44,15 @@ $translations = array(
 	'Revoke' => 'Отнемане',
 
 	'Process list' => 'Списък с процеси',
-	'%d process(es) have been killed.' => array('%d процес беше прекъснат.', '%d процеса бяха прекъснати.'),
+	'%d process(es) have been killed.' => ['%d процес беше прекъснат.', '%d процеса бяха прекъснати.'],
 	'Kill' => 'Прекъсване',
 
 	'Variables' => 'Променливи',
 	'Status' => 'Състояние',
 
 	'SQL command' => 'SQL команда',
-	'%d query(s) executed OK.' => array('%d заявка е изпълнена.', '%d заявки са изпълнени.'),
-	'Query executed OK, %d row(s) affected.' => array('Заявката е изпълнена, %d ред е засегнат.', 'Заявката е изпълнена, %d редове са засегнати.'),
+	'%d query(s) executed OK.' => ['%d заявка е изпълнена.', '%d заявки са изпълнени.'],
+	'Query executed OK, %d row(s) affected.' => ['Заявката е изпълнена, %d ред е засегнат.', 'Заявката е изпълнена, %d редове са засегнати.'],
 	'No commands to execute.' => 'Няма команди за изпълнение.',
 	'Error in query' => 'Грешка в заявката',
 	'Execute' => 'Изпълнение',
@@ -123,7 +123,7 @@ $translations = array(
 	'Tables have been copied.' => 'Таблиците бяха копирани.',
 
 	'Routines' => 'Процедури',
-	'Routine has been called, %d row(s) affected.' => array('Беше приложена процедура, %d ред е засегнат.', 'Беше приложена процедура, %d редове са засегнати.'),
+	'Routine has been called, %d row(s) affected.' => ['Беше приложена процедура, %d ред е засегнат.', 'Беше приложена процедура, %d редове са засегнати.'],
 	'Call' => 'Прилагане',
 	'Parameter name' => 'Име на параметъра',
 	'Create procedure' => 'Създаване на процедура',
@@ -246,16 +246,16 @@ $translations = array(
 	'Unable to select the table' => 'Неуспешно показване на таблицата',
 	'No rows.' => 'Няма редове.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d ред', '%d реда'),
+	'%d row(s)' => ['%d ред', '%d реда'],
 	'Page' => 'Страница',
 	'last' => 'последен',
 	'Load more data' => 'Зареждане на повече данни',
 	'Loading' => 'Зареждане',
 	'Whole result' => 'Пълен резултат',
-	'%d byte(s)' => array('%d байт', '%d байта'),
+	'%d byte(s)' => ['%d байт', '%d байта'],
 
 	'Import' => 'Импорт',
-	'%d row(s) have been imported.' => array('%d ред беше импортиран.', '%d реда бяха импортирани.'),
+	'%d row(s) have been imported.' => ['%d ред беше импортиран.', '%d реда бяха импортирани.'],
 	'File must be in UTF-8 encoding.' => 'Файла трябва да е с UTF-8 кодировка.',
 
 	// in-place editing in select
@@ -267,7 +267,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Елементи%s бяха вмъкнати.',
 	'Item has been deleted.' => 'Елемента беше изтрит.',
 	'Item has been updated.' => 'Елемента беше обновен.',
-	'%d item(s) have been affected.' => array('%d елемент беше засегнат.', '%d елемента бяха засегнати.'),
+	'%d item(s) have been affected.' => ['%d елемент беше засегнат.', '%d елемента бяха засегнати.'],
 	'New item' => 'Нов елемент',
 	'original' => 'оригинал',
 	// label for value '' in enum data type
@@ -289,7 +289,7 @@ $translations = array(
 	'Subject' => 'Тема',
 	'Attachments' => 'Прикачени',
 	'Send' => 'Изпращане',
-	'%d e-mail(s) have been sent.' => array('%d писмо беше изпратено.', '%d писма бяха изпратени.'),
+	'%d e-mail(s) have been sent.' => ['%d писмо беше изпратено.', '%d писма бяха изпратени.'],
 
 	// data type descriptions
 	'Numbers' => 'Числа',
@@ -363,4 +363,4 @@ $translations = array(
 	'No' => 'Не',
 	'One Time Password' => null,
 	'Invalid OTP code.' => null,
-);
+];

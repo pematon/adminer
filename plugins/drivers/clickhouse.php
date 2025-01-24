@@ -18,14 +18,14 @@ if (isset($_GET["clickhouse"])) {
 		 */
 		function rootQuery($db, $query) {
 			@ini_set('track_errors', 1); // @ - may be disabled
-			$file = @file_get_contents("$this->_url/?database=$db", false, stream_context_create(array('http' => array(
+			$file = @file_get_contents("$this->_url/?database=$db", false, stream_context_create(['http' => [
 				'method' => 'POST',
 				'content' => $this->isQuerySelectLike($query) ? "$query FORMAT JSONCompact" : $query,
 				'header' => 'Content-type: application/x-www-form-urlencoded',
 				'ignore_errors' => 1,
 				'follow_location' => 0,
 				'max_redirects' => 0,
-			))));
+			]]));
 
 			if ($file === false) {
 				$this->error = lang('Invalid server or credentials.');
@@ -165,7 +165,7 @@ if (isset($_GET["clickhouse"])) {
 		}
 
 		function update($table, $set, $queryWhere, $limit = 0, $separator = "\n") {
-			$values = array();
+			$values = [];
 			foreach ($set as $key => $val) {
 				$values[] = "$key = $val";
 			}
@@ -192,7 +192,7 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning) {
-		$alter = $order = array();
+		$alter = $order = [];
 		foreach ($fields as $field) {
 			if ($field[1][2] === " NULL") {
 				$field[1][1] = " Nullable({$field[1][1]})";
@@ -266,7 +266,7 @@ if (isset($_GET["clickhouse"])) {
 		global $connection;
 		$result = get_rows('SHOW DATABASES');
 
-		$return = array();
+		$return = [];
 		foreach ($result as $row) {
 			$return[] = $row['name'];
 		}
@@ -286,7 +286,7 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function engines() {
-		return array('MergeTree');
+		return ['MergeTree'];
 	}
 
 	function logged_user() {
@@ -297,7 +297,7 @@ if (isset($_GET["clickhouse"])) {
 
 	function tables_list() {
 		$result = get_rows('SHOW TABLES');
-		$return = array();
+		$return = [];
 		foreach ($result as $row) {
 			$return[$row['name']] = 'table';
 		}
@@ -306,18 +306,18 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function count_tables($databases) {
-		return array();
+		return [];
 	}
 
 	function table_status($name = "", $fast = false) {
 		global $connection;
-		$return = array();
+		$return = [];
 		$tables = get_rows("SELECT name, engine FROM system.tables WHERE database = " . q($connection->_db));
 		foreach ($tables as $table) {
-			$return[$table['name']] = array(
+			$return[$table['name']] = [
 				'Name' => $table['name'],
 				'Engine' => $table['engine'],
-			);
+			];
 			if ($name === $table['name']) {
 				return $return[$table['name']];
 			}
@@ -337,42 +337,42 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function unconvert_field(array $field, $return) {
-		if (in_array($field['type'], array("Int8", "Int16", "Int32", "Int64", "UInt8", "UInt16", "UInt32", "UInt64", "Float32", "Float64"))) {
+		if (in_array($field['type'], ["Int8", "Int16", "Int32", "Int64", "UInt8", "UInt16", "UInt32", "UInt64", "Float32", "Float64"])) {
 			return "to$field[type]($return)";
 		}
 		return $return;
 	}
 
 	function fields($table) {
-		$return = array();
+		$return = [];
 		$result = get_rows("SELECT name, type, default_expression FROM system.columns WHERE " . idf_escape('table') . " = " . q($table));
 		foreach ($result as $row) {
 			$type = trim($row['type']);
 			$nullable = strpos($type, 'Nullable(') === 0;
-			$return[trim($row['name'])] = array(
+			$return[trim($row['name'])] = [
 				"field" => trim($row['name']),
 				"full_type" => $type,
 				"type" => $type,
 				"default" => trim($row['default_expression']),
 				"null" => $nullable,
 				"auto_increment" => '0',
-				"privileges" => array("insert" => 1, "select" => 1, "update" => 0, "where" => 1, "order" => 1),
-			);
+				"privileges" => ["insert" => 1, "select" => 1, "update" => 0, "where" => 1, "order" => 1],
+			];
 		}
 
 		return $return;
 	}
 
 	function indexes($table, $connection2 = null) {
-		return array();
+		return [];
 	}
 
 	function foreign_keys($table) {
-		return array();
+		return [];
 	}
 
 	function collations() {
-		return array();
+		return [];
 	}
 
 	function information_schema($db) {
@@ -385,11 +385,11 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function types() {
-		return array();
+		return [];
 	}
 
 	function schemas() {
-		return array();
+		return [];
 	}
 
 	function get_schema() {
@@ -413,27 +413,27 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function driver_config() {
-		$types = array();
-		$structured_types = array();
-		foreach (array( //! arrays
-			lang('Numbers') => array("Int8" => 3, "Int16" => 5, "Int32" => 10, "Int64" => 19, "UInt8" => 3, "UInt16" => 5, "UInt32" => 10, "UInt64" => 20, "Float32" => 7, "Float64" => 16, 'Decimal' => 38, 'Decimal32' => 9, 'Decimal64' => 18, 'Decimal128' => 38),
-			lang('Date and time') => array("Date" => 13, "DateTime" => 20),
-			lang('Strings') => array("String" => 0),
-			lang('Binary') => array("FixedString" => 0),
-		) as $key => $val) {
+		$types = [];
+		$structured_types = [];
+		foreach ([ //! arrays
+			lang('Numbers') => ["Int8" => 3, "Int16" => 5, "Int32" => 10, "Int64" => 19, "UInt8" => 3, "UInt16" => 5, "UInt32" => 10, "UInt64" => 20, "Float32" => 7, "Float64" => 16, 'Decimal' => 38, 'Decimal32' => 9, 'Decimal64' => 18, 'Decimal128' => 38],
+			lang('Date and time') => ["Date" => 13, "DateTime" => 20],
+			lang('Strings') => ["String" => 0],
+			lang('Binary') => ["FixedString" => 0],
+		] as $key => $val) {
 			$types += $val;
 			$structured_types[$key] = array_keys($val);
 		}
-		return array(
+		return [
 			'jush' => "clickhouse",
 			'types' => $types,
 			'structured_types' => $structured_types,
-			'unsigned' => array(),
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "~", "!~", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL"),
+			'unsigned' => [],
+			'operators' => ["=", "<", ">", "<=", ">=", "!=", "~", "!~", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL"],
 			'operator_like' => "LIKE %%",
-			'functions' => array(),
-			'grouping' => array("avg", "count", "count distinct", "max", "min", "sum"),
-			'edit_functions' => array(),
-		);
+			'functions' => [],
+			'grouping' => ["avg", "count", "count distinct", "max", "min", "sum"],
+			'edit_functions' => [],
+		];
 	}
 }

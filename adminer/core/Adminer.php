@@ -52,7 +52,7 @@ class Adminer extends AdminerBase
 	* @return array ($server, $username, $password)
 	*/
 	function credentials() {
-		return array(SERVER, $_GET["username"], get_password());
+		return [SERVER, $_GET["username"], get_password()];
 	}
 
 	/** Get SSL connection options
@@ -233,7 +233,7 @@ class Adminer extends AdminerBase
 			echo " <a href='", h(ME), "$key=", urlencode($name), ($key == "edit" ? $set : ""), "'", bold(isset($_GET[$key])), ">", icon($val[1]), "$val[0]</a>";
 		}
 
-		echo doc_link(array($jush => $driver->tableHelp($name)), "?");
+		echo doc_link([$jush => $driver->tableHelp($name)], "?");
 		echo "\n";
 	}
 
@@ -251,7 +251,7 @@ class Adminer extends AdminerBase
 	* @return array $return[$target_table]["keys"][$key_name][$target_column] = $source_column; $return[$target_table]["name"] = $this->tableName($target_table);
 	*/
 	function backwardKeys($table, $tableName) {
-		return array();
+		return [];
 	}
 
 	/** Print backward keys for row
@@ -496,7 +496,7 @@ class Adminer extends AdminerBase
 		}
 
 		$change_next = "this.parentNode.firstChild.onchange();";
-		foreach (array_merge((array) $_GET["where"], array(array())) as $i => $val) {
+		foreach (array_merge((array) $_GET["where"], [[]]) as $i => $val) {
 			if (!$val || ("$val[col]$val[val]" != "" && in_array($val["op"], $this->operators))) {
 				echo "<div>",
 					select_input(
@@ -581,7 +581,7 @@ class Adminer extends AdminerBase
 		echo " <span id='noindex' title='" . lang('Full table scan') . "'></span>";
 		echo "<script" . nonce() . ">\n";
 		echo "var indexColumns = ";
-		$columns = array();
+		$columns = [];
 		foreach ($indexes as $index) {
 			$current_key = reset($index["columns"]);
 			if ($index["type"] != "FULLTEXT" && $current_key) {
@@ -627,8 +627,8 @@ class Adminer extends AdminerBase
 	*/
 	function selectColumnsProcess($columns, $indexes) {
 		global $functions, $grouping;
-		$select = array(); // select expressions, empty for *
-		$group = array(); // expressions without aggregation - will be used for GROUP BY if an aggregation function is used
+		$select = []; // select expressions, empty for *
+		$group = []; // expressions without aggregation - will be used for GROUP BY if an aggregation function is used
 		foreach ((array) $_GET["columns"] as $key => $val) {
 			if ($val["fun"] == "count" || ($val["col"] != "" && (!$val["fun"] || in_array($val["fun"], $functions) || in_array($val["fun"], $grouping)))) {
 				$select[$key] = apply_sql_function($val["fun"], ($val["col"] != "" ? idf_escape($val["col"]) : "*"));
@@ -637,7 +637,7 @@ class Adminer extends AdminerBase
 				}
 			}
 		}
-		return array($select, $group);
+		return [$select, $group];
 	}
 
 	/** Process search box in select
@@ -685,7 +685,7 @@ class Adminer extends AdminerBase
 					$return[] = $prefix . $driver->convertSearch(idf_escape($col), $where, $fields[$col]) . $cond;
 				} else {
 					// find anywhere
-					$cols = array();
+					$cols = [];
 					foreach ($fields as $name => $field) {
 						if (isset($field["privileges"]["where"])
                             && (preg_match('~^[-\d.' . (preg_match('~IN$~', $op) ? ',' : '') . ']+$~', $val) || !preg_match('~' . number_type() . '|bit~', $field["type"]))
@@ -711,7 +711,7 @@ class Adminer extends AdminerBase
 	* @return array expressions to join by comma
 	*/
 	function selectOrderProcess($fields, $indexes) {
-		$return = array();
+		$return = [];
 		foreach ((array) $_GET["order"] as $key => $val) {
 			if ($val != "") {
 				$return[] = (preg_match('~^((COUNT\(DISTINCT |[A-Z0-9_]+\()(`(?:[^`]|``)+`|"(?:[^"]|"")+")\)|COUNT\(\*\))$~', $val) ? $val : idf_escape($val)) //! MS SQL uses []
@@ -892,7 +892,7 @@ class Adminer extends AdminerBase
 	* @return array
 	*/
 	function dumpOutput() {
-		$return = array('file' => lang('save'), 'text' => lang('open'));
+		$return = ['file' => lang('save'), 'text' => lang('open')];
 		if (function_exists('gzencode')) {
 			$return['gz'] = 'gzip';
 		}
@@ -904,7 +904,7 @@ class Adminer extends AdminerBase
 	* @return array empty to disable export
 	*/
 	function dumpFormat() {
-		return array('sql' => 'SQL', 'csv' => 'CSV,', 'csv;' => 'CSV;', 'tsv' => 'TSV');
+		return ['sql' => 'SQL', 'csv' => 'CSV,', 'csv;' => 'CSV;', 'tsv' => 'TSV'];
 	}
 
 	/** Export database structure
@@ -928,7 +928,7 @@ class Adminer extends AdminerBase
 			}
 		} else {
 			if ($is_view == 2) {
-				$fields = array();
+				$fields = [];
 				foreach (fields($table) as $name => $field) {
 					$fields[] = idf_escape($name) . " $field[full_type]";
 				}
@@ -969,13 +969,13 @@ class Adminer extends AdminerBase
 			if ($result) {
 				$insert = "";
 				$buffer = "";
-				$keys = array();
-				$generatedKeys = array();
+				$keys = [];
+				$generatedKeys = [];
 				$suffix = "";
 				$fetch_function = ($table != '' ? 'fetch_assoc' : 'fetch_row');
 				while ($row = $result->$fetch_function()) {
 					if (!$keys) {
-						$values = array();
+						$values = [];
 						foreach ($row as $val) {
 							$field = $result->fetch_field();
 							if (!empty($fields[$field->name]['generated'])) {
@@ -1133,7 +1133,7 @@ class Adminer extends AdminerBase
 					foreach ($usernames as $username => $password) {
 						if ($password !== null) {
 							$dbs = $_SESSION["db"][$vendor][$server][$username];
-							foreach (($dbs ? array_keys($dbs) : array("")) as $db) {
+							foreach (($dbs ? array_keys($dbs) : [""]) as $db) {
 								$output .= "<li><a href='" . h(auth_url($vendor, $server, $username, $db)) . "'>"
 									. h($drivers[$vendor])
 									. ($username != "" || $server != "" ? " - " : "")
@@ -1151,7 +1151,7 @@ class Adminer extends AdminerBase
 				echo "<nav id='logins'><menu>\n$output</menu></nav>\n";
 			}
 		} else {
-			$tables = array();
+			$tables = [];
 			if ($_GET["ns"] !== "" && !$missing && DB != "") {
 				$connection->select_db(DB);
 				$tables = table_status('', true);
@@ -1162,12 +1162,12 @@ class Adminer extends AdminerBase
 <script<?php echo nonce(); ?>>
 <?php
 				if ($tables) {
-					$links = array();
+					$links = [];
 					foreach ($tables as $table => $type) {
 						$links[] = preg_quote($table, '/');
 					}
 					echo "var jushLinks = { $jush: [ '" . js_escape(ME) . (support("table") ? "table=" : "select=") . "\$&', /\\b(" . implode("|", $links) . ")\\b/g ] };\n";
-					foreach (array("bac", "bra", "sqlite_quo", "mssql_bra") as $val) {
+					foreach (["bac", "bra", "sqlite_quo", "mssql_bra"] as $val) {
 						echo "jushLinks.$val = jushLinks.$jush;\n";
 					}
 				}

@@ -13,14 +13,14 @@ class AdminerEnumTypes {
 
 	function editInput($table, $field, $attrs, $value) {
 		// PostgreSQL only
-		if (!in_array(strtolower(connection()->extension), array('pgsql', 'pdo_pgsql'))) {
+		if (!in_array(strtolower(connection()->extension), ['pgsql', 'pdo_pgsql'])) {
 			return;
 		}
 
 		// read types and "cache" it
 		if (is_null($this->_types)) {
 			$types = types();
-			$this->_types = array();
+			$this->_types = [];
 
 			foreach ($types as $type) {
 				$values = get_vals("SELECT unnest(enum_range(NULL::$type))::text AS value");
@@ -36,13 +36,13 @@ class AdminerEnumTypes {
 			$selected = $value;
 
 			if ($field["null"]) {
-				$options = array("" => array("" => "NULL")) + $options;
+				$options = ["" => ["" => "NULL"]] + $options;
 				if ($value === null && !isset($_GET["select"])) {
 					$selected = "";
 				}
 			}
 			if (isset($_GET["select"])) {
-				$options = array("" => array(-1 => lang('original'))) + $options;
+				$options = ["" => [-1 => lang('original')]] + $options;
 			}
 
 			return "<select$attrs>" . optionlist($options, (string) $selected, 1) . "</select>";
