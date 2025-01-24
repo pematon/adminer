@@ -3,19 +3,19 @@
 namespace Adminer;
 
 $TABLE = $_GET["create"];
-$partition_by = array();
-foreach (array('HASH', 'LINEAR HASH', 'KEY', 'LINEAR KEY', 'RANGE', 'LIST') as $key) {
+$partition_by = [];
+foreach (['HASH', 'LINEAR HASH', 'KEY', 'LINEAR KEY', 'RANGE', 'LIST'] as $key) {
 	$partition_by[$key] = $key;
 }
 
 $referencable_primary = referencable_primary($TABLE);
-$foreign_keys = array();
+$foreign_keys = [];
 foreach ($referencable_primary as $table_name => $field) {
 	$foreign_keys[str_replace("`", "``", $table_name) . "`" . str_replace("`", "``", $field["field"])] = $table_name; // not idf_escape() - used in JS
 }
 
-$orig_fields = array();
-$table_status = array();
+$orig_fields = [];
+$table_status = [];
 if ($TABLE != "") {
 	$orig_fields = fields($TABLE);
 	$table_status = table_status($TABLE);
@@ -31,17 +31,17 @@ if ($row["auto_increment_col"]) {
 }
 
 if ($_POST) {
-	set_adminer_settings(array("comments" => $_POST["comments"], "defaults" => $_POST["defaults"]));
+	set_adminer_settings(["comments" => $_POST["comments"], "defaults" => $_POST["defaults"]]);
 }
 
 if ($_POST && !process_fields($row["fields"]) && !$error) {
 	if ($_POST["drop"]) {
-		queries_redirect(substr(ME, 0, -1), lang('Table has been dropped.'), drop_tables(array($TABLE)));
+		queries_redirect(substr(ME, 0, -1), lang('Table has been dropped.'), drop_tables([$TABLE]));
 	} else {
-		$fields = array();
-		$all_fields = array();
+		$fields = [];
+		$all_fields = [];
 		$use_all_fields = false;
-		$foreign = array();
+		$foreign = [];
 		$orig_field = reset($orig_fields);
 		$after = " FIRST";
 
@@ -56,25 +56,25 @@ if ($_POST && !process_fields($row["fields"]) && !$error) {
 					$field["auto_increment"] = true;
 				}
 				$process_field = process_field($field, $type_field);
-				$all_fields[] = array($field["orig"], $process_field, $after);
+				$all_fields[] = [$field["orig"], $process_field, $after];
 				if (!$orig_field || $process_field != process_field($orig_field, $orig_field)) {
-					$fields[] = array($field["orig"], $process_field, $after);
+					$fields[] = [$field["orig"], $process_field, $after];
 					if ($field["orig"] != "" || $after) {
 						$use_all_fields = true;
 					}
 				}
 				if ($foreign_key !== null) {
-					$foreign[idf_escape($field["field"])] = ($TABLE != "" && $jush != "sqlite" ? "ADD" : " ") . format_foreign_key(array(
+					$foreign[idf_escape($field["field"])] = ($TABLE != "" && $jush != "sqlite" ? "ADD" : " ") . format_foreign_key([
 						'table' => $foreign_keys[$field["type"]],
-						'source' => array($field["field"]),
-						'target' => array($type_field["field"]),
+						'source' => [$field["field"]],
+						'target' => [$type_field["field"]],
 						'on_delete' => $field["on_delete"],
-					));
+					]);
 				}
 				$after = " AFTER " . idf_escape($field["field"]);
 			} elseif ($field["orig"] != "") {
 				$use_all_fields = true;
-				$fields[] = array($field["orig"]);
+				$fields[] = [$field["orig"]];
 			}
 			if ($field["orig"] != "") {
 				$orig_field = next($orig_fields);
@@ -141,19 +141,19 @@ if ($_POST && !process_fields($row["fields"]) && !$error) {
 	}
 }
 
-page_header(($TABLE != "" ? lang('Alter table') : lang('Create table')), $error, array("table" => $TABLE), h($TABLE));
+page_header(($TABLE != "" ? lang('Alter table') : lang('Create table')), $error, ["table" => $TABLE], h($TABLE));
 
 if (!$_POST) {
-	$row = array(
+	$row = [
 		"Engine" => $_COOKIE["adminer_engine"],
-		"fields" => array(array("field" => "", "type" => (isset($types["int"]) ? "int" : (isset($types["integer"]) ? "integer" : "")), "on_update" => "")),
-		"partition_names" => array(""),
-	);
+		"fields" => [["field" => "", "type" => (isset($types["int"]) ? "int" : (isset($types["integer"]) ? "integer" : "")), "on_update" => ""]],
+		"partition_names" => [""],
+	];
 
 	if ($TABLE != "") {
 		$row = $table_status;
 		$row["name"] = $TABLE;
-		$row["fields"] = array();
+		$row["fields"] = [];
 		if (!$_GET["auto_increment"]) { // don't prefill by original Auto_increment for the sake of performance and not reusing deleted ids
 			$row["Auto_increment"] = "";
 		}
@@ -185,8 +185,8 @@ foreach ($engines as $engine) {
 <p>
 <?php if (support("columns") || $TABLE == "") { ?>
 <?php echo lang('Table name'); ?>: <input class="input" name="name" data-maxlength="64" value="<?php echo h($row["name"]); ?>" autocapitalize="off" <?php echo ($TABLE == "" && !$_POST) ? "autofocus" : ""; ?>>
-<?php echo ($engines ? "<select name='Engine'>" . optionlist(array("" => "(" . lang('engine') . ")") + $engines, $row["Engine"]) . "</select>" . help_script_command("value", true) : ""); ?>
- <?php echo ($collations && !preg_match("~sqlite|mssql~", $jush) ? html_select("Collation", array("" => "(" . lang('collation') . ")") + $collations, $row["Collation"]) : ""); ?>
+<?php echo ($engines ? "<select name='Engine'>" . optionlist(["" => "(" . lang('engine') . ")"] + $engines, $row["Engine"]) . "</select>" . help_script_command("value", true) : ""); ?>
+ <?php echo ($collations && !preg_match("~sqlite|mssql~", $jush) ? html_select("Collation", ["" => "(" . lang('collation') . ")"] + $collations, $row["Collation"]) : ""); ?>
  <input type="submit" class="button" value="<?php echo lang('Save'); ?>">
 <?php } ?>
 
@@ -224,7 +224,7 @@ if (support("partitioning")) {
 	print_fieldset("partition", lang('Partition by'), $row["partition_by"]);
 	?>
 <p>
-<?php echo "<select name='partition_by'>" . optionlist(array("" => "") + $partition_by, $row["partition_by"]) . "</select>" . help_script_command("value.replace(/./, 'PARTITION BY \$&')", true) . script("qsl('select').onchange = partitionByChange;"); ?>
+<?php echo "<select name='partition_by'>" . optionlist(["" => ""] + $partition_by, $row["partition_by"]) . "</select>" . help_script_command("value.replace(/./, 'PARTITION BY \$&')", true) . script("qsl('select').onchange = partitionByChange;"); ?>
 (<input class="input" name="partition" value="<?php echo h($row["partition"]); ?>">)
 <?php echo lang('Partitions'); ?>: <input type="number" name="partitions" class="input size <?php echo ($partition_table || !$row["partition_by"] ? "hidden" : ""); ?>" value="<?php echo h($row["partitions"]); ?>">
 <table id="partition-table"<?php echo ($partition_table ? "" : " class='hidden'"); ?>>

@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Järjestelmä',
@@ -15,7 +15,7 @@ $translations = array(
 	'Logged as: %s' => 'Olet kirjautunut käyttäjänä: %s',
 	'Logout successful.' => 'Uloskirjautuminen onnistui.',
 	'Invalid server or credentials.' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Liian monta epäonnistunutta sisäänkirjautumisyritystä, kokeile uudestaan %d minuutin kuluttua.', 'Liian monta epäonnistunutta sisäänkirjautumisyritystä, kokeile uudestaan %d minuutin kuluttua.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Liian monta epäonnistunutta sisäänkirjautumisyritystä, kokeile uudestaan %d minuutin kuluttua.', 'Liian monta epäonnistunutta sisäänkirjautumisyritystä, kokeile uudestaan %d minuutin kuluttua.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Master-salasana ei ole enää voimassa. <a href="https://www.adminer.org/en/extension/"%s>Toteuta</a> %s-metodi sen tekemiseksi pysyväksi.',
 	'Language' => 'Kieli',
 	'Invalid CSRF token. Send the form again.' => 'Virheellinen CSRF-vastamerkki. Lähetä lomake uudelleen.',
@@ -42,15 +42,15 @@ $translations = array(
 	'Revoke' => 'Kiellä',
 
 	'Process list' => 'Prosessilista',
-	'%d process(es) have been killed.' => array('%d prosessi lopetettu.', '%d prosessia lopetettu..'),
+	'%d process(es) have been killed.' => ['%d prosessi lopetettu.', '%d prosessia lopetettu..'],
 	'Kill' => 'Lopeta',
 
 	'Variables' => 'Muuttujat',
 	'Status' => 'Tila',
 
 	'SQL command' => 'SQL-komento',
-	'%d query(s) executed OK.' => array('%d kysely onnistui.', '%d kyselyä onnistui.'),
-	'Query executed OK, %d row(s) affected.' => array('Kysely onnistui, kohdistui %d riviin.', 'Kysely onnistui, kohdistui %d riviin.'),
+	'%d query(s) executed OK.' => ['%d kysely onnistui.', '%d kyselyä onnistui.'],
+	'Query executed OK, %d row(s) affected.' => ['Kysely onnistui, kohdistui %d riviin.', 'Kysely onnistui, kohdistui %d riviin.'],
 	'No commands to execute.' => 'Ei komentoja suoritettavana.',
 	'Error in query' => 'Virhe kyselyssä',
 	'Execute' => 'Suorita',
@@ -122,7 +122,7 @@ $translations = array(
 	'Tables have been copied.' => 'Taulut on kopioitu.',
 
 	'Routines' => 'Rutiinit',
-	'Routine has been called, %d row(s) affected.' => array('Rutiini kutsuttu, kohdistui %d riviin.', 'Rutiini kutsuttu, kohdistui %d riviin.'),
+	'Routine has been called, %d row(s) affected.' => ['Rutiini kutsuttu, kohdistui %d riviin.', 'Rutiini kutsuttu, kohdistui %d riviin.'],
 	'Call' => 'Kutsua',
 	'Parameter name' => 'Parametrin nimi',
 	'Create procedure' => 'Luo proseduuri',
@@ -245,16 +245,16 @@ $translations = array(
 	'Unable to select the table' => 'Taulua ei voitu valita',
 	'No rows.' => 'Ei rivejä.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d rivi', '%d riviä'),
+	'%d row(s)' => ['%d rivi', '%d riviä'],
 	'Page' => 'Sivu',
 	'last' => 'viimeinen',
 	'Load more data' => 'Lataa lisää dataa',
 	'Loading' => 'Ladataan',
 	'Whole result' => 'Koko tulos',
-	'%d byte(s)' => array('%d tavu', '%d tavua'),
+	'%d byte(s)' => ['%d tavu', '%d tavua'],
 
 	'Import' => 'Tuonti',
-	'%d row(s) have been imported.' => array('%d rivi tuotiin.', '%d riviä tuotiin.'),
+	'%d row(s) have been imported.' => ['%d rivi tuotiin.', '%d riviä tuotiin.'],
 	'File must be in UTF-8 encoding.' => 'Tiedoston täytyy olla UTF-8-muodossa.',
 
 	// in-place editing in select
@@ -266,7 +266,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Tietue%s lisättiin.',
 	'Item has been deleted.' => 'Tietue poistettiin.',
 	'Item has been updated.' => 'Tietue päivitettiin.',
-	'%d item(s) have been affected.' => array('Kohdistui %d tietueeseen.', 'Kohdistui %d tietueeseen.'),
+	'%d item(s) have been affected.' => ['Kohdistui %d tietueeseen.', 'Kohdistui %d tietueeseen.'],
 	'New item' => 'Uusi tietue',
 	'original' => 'alkuperäinen',
 	// label for value '' in enum data type
@@ -287,7 +287,7 @@ $translations = array(
 	'Subject' => 'Aihe',
 	'Attachments' => 'Liitteet',
 	'Send' => 'Lähetä',
-	'%d e-mail(s) have been sent.' => array('% sähköpostiviestiä lähetetty.', '% sähköpostiviestiä lähetetty.'),
+	'%d e-mail(s) have been sent.' => ['% sähköpostiviestiä lähetetty.', '% sähköpostiviestiä lähetetty.'],
 
 	// data type descriptions
 	'Numbers' => 'Numerot',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	'Home' => null,
 	'Login' => 'Logi sisse',
 	'Logout successful.' => 'Väljalogimine õnnestus.',
@@ -72,7 +72,7 @@ $translations = array(
 	'Unable to select the table' => 'Tabeli valimine ebaõnnestus',
 	'Invalid CSRF token. Send the form again.' => 'Sobimatu CSRF, palun postitage vorm uuesti.',
 	'Comment' => 'Kommentaar',
-	'%d byte(s)' => array('%d bait', '%d baiti'),
+	'%d byte(s)' => ['%d bait', '%d baiti'],
 	'No commands to execute.' => 'Käsk puudub.',
 	'Unable to upload a file.' => 'Faili üleslaadimine pole võimalik.',
 	'File upload' => 'Faili üleslaadimine',
@@ -106,7 +106,7 @@ $translations = array(
 	'Create view' => 'Loo uus vaade (VIEW)',
 	'Name' => 'Nimi',
 	'Process list' => 'Protsesside nimekiri',
-	'%d process(es) have been killed.' => array('Protsess on edukalt peatatud (%d).', 'Valitud protsessid (%d) on edukalt peatatud.'),
+	'%d process(es) have been killed.' => ['Protsess on edukalt peatatud (%d).', 'Valitud protsessid (%d) on edukalt peatatud.'],
 	'Kill' => 'Peata',
 	'Parameter name' => 'Parameetri nimi',
 	'Database schema' => 'Andmebaasi skeem',
@@ -257,7 +257,7 @@ $translations = array(
 	'Geometry' => 'Geomeetria',
 	'File exists.' => 'Fail juba eksisteerib.',
 	'Attachments' => 'Manused',
-	'%d query(s) executed OK.' => array('%d päring edukalt käivitatud.', '%d päringut edukalt käivitatud.'),
+	'%d query(s) executed OK.' => ['%d päring edukalt käivitatud.', '%d päringut edukalt käivitatud.'],
 	'Show only errors' => 'Kuva vaid veateateid',
 	'Refresh' => 'Uuenda',
 	'Invalid schema.' => 'Sobimatu skeema.',
@@ -283,12 +283,12 @@ $translations = array(
 	'Loading' => null,
 	'ATTACH queries are not supported.' => null,
 	'Warnings' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Limit rows' => null,
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
 	'Full table scan' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array(),
+	'Too many unsuccessful logins, try again in %d minute(s).' => [],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => null,
 	'The action will be performed after successful login with the same credentials.' => null,
 	'Connecting to privileged ports is not allowed.' => null,
@@ -319,4 +319,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

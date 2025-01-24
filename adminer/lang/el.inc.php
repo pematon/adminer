@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Σύστημα',
@@ -15,7 +15,7 @@ $translations = array(
 	'Logged as: %s' => 'Συνδεθήκατε ως %s',
 	'Logout successful.' => 'Αποσυνδεθήκατε με επιτυχία.',
 	'Invalid server or credentials.' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Επανειλημμένες ανεπιτυχείς προσπάθειες σύνδεσης, δοκιμάστε ξανά σε %s λεπτό.', 'Επανειλημμένες ανεπιτυχείς προσπάθειες σύνδεσης, δοκιμάστε ξανά σε %s λεπτά.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Επανειλημμένες ανεπιτυχείς προσπάθειες σύνδεσης, δοκιμάστε ξανά σε %s λεπτό.', 'Επανειλημμένες ανεπιτυχείς προσπάθειες σύνδεσης, δοκιμάστε ξανά σε %s λεπτά.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Έληξε ο Κύριος Κωδικός. <a href="https://www.adminer.org/en/extension/"%s>Ενεργοποιήστε</a> τη μέθοδο %s για να τον κάνετε μόνιμο.',
 	'Language' => 'Γλώσσα',
 	'Invalid CSRF token. Send the form again.' => 'Άκυρο κουπόνι CSRF. Στείλτε τη φόρμα ξανά.',
@@ -42,15 +42,15 @@ $translations = array(
 	'Revoke' => 'Ανάκληση',
 
 	'Process list' => 'Λίστα διεργασιών',
-	'%d process(es) have been killed.' => array('Τερματίστηκε %d διεργασία.', 'Τερματίστηκαν %d διεργασίες.'),
+	'%d process(es) have been killed.' => ['Τερματίστηκε %d διεργασία.', 'Τερματίστηκαν %d διεργασίες.'],
 	'Kill' => 'Τερματισμός',
 
 	'Variables' => 'Μεταβλητές',
 	'Status' => 'Κατάσταση',
 
 	'SQL command' => 'Εντολή SQL',
-	'%d query(s) executed OK.' => array('Το ερώτημα %d εκτελέστηκε ΟΚ.', 'Τα ερώτηματα %d εκτελέστηκαν ΟΚ.'),
-	'Query executed OK, %d row(s) affected.' => array('Το ερώτημα εκτελέστηκε ΟΚ, επηρεάστηκε %d σειρά.', 'Το ερώτημα εκτελέστηκε ΟΚ, επηρεάστηκαν %d σειρές.'),
+	'%d query(s) executed OK.' => ['Το ερώτημα %d εκτελέστηκε ΟΚ.', 'Τα ερώτηματα %d εκτελέστηκαν ΟΚ.'],
+	'Query executed OK, %d row(s) affected.' => ['Το ερώτημα εκτελέστηκε ΟΚ, επηρεάστηκε %d σειρά.', 'Το ερώτημα εκτελέστηκε ΟΚ, επηρεάστηκαν %d σειρές.'],
 	'No commands to execute.' => 'Δεν υπάρχουν εντολές να εκτελεστούν.',
 	'Error in query' => 'Σφάλμα στο ερώτημα',
 	'Execute' => 'Εκτέλεση',
@@ -122,7 +122,7 @@ $translations = array(
 	'Tables have been copied.' => 'Οι πίνακες αντιγράφηκαν.',
 
 	'Routines' => 'Ρουτίνες',
-	'Routine has been called, %d row(s) affected.' => array('Η ρουτίνα εκτελέστηκε, επηρεάστηκε %d σειρά.', 'Η ρουτίνα εκτελέστηκε, επηρεάστηκαν %d σειρές.'),
+	'Routine has been called, %d row(s) affected.' => ['Η ρουτίνα εκτελέστηκε, επηρεάστηκε %d σειρά.', 'Η ρουτίνα εκτελέστηκε, επηρεάστηκαν %d σειρές.'],
 	'Call' => 'Εκτέλεση',
 	'Parameter name' => 'Όνομα παραμέτρου',
 	'Create procedure' => 'Δημιουργία διαδικασίας',
@@ -245,16 +245,16 @@ $translations = array(
 	'Unable to select the table' => 'Δεν είναι δυνατή η επιλογή πίνακα',
 	'No rows.' => 'Χωρίς σειρές.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d σειρά', '%d σειρές'),
+	'%d row(s)' => ['%d σειρά', '%d σειρές'],
 	'Page' => 'Σελίδα',
 	'last' => 'τελευταία',
 	'Load more data' => 'Φόρτωση κι άλλων δεδομένων',
 	'Loading' => 'Φορτώνει',
 	'Whole result' => 'Όλο το αποτέλεσμα',
-	'%d byte(s)' => array('%d byte', '%d bytes'),
+	'%d byte(s)' => ['%d byte', '%d bytes'],
 
 	'Import' => 'Εισαγωγή',
-	'%d row(s) have been imported.' => array('$d σειρά εισήχθη.', '%d σειρές εισήχθησαν.'),
+	'%d row(s) have been imported.' => ['$d σειρά εισήχθη.', '%d σειρές εισήχθησαν.'],
 	'File must be in UTF-8 encoding.' => 'Το αρχείο πρέπει να έχει κωδικοποίηση UTF-8.',
 
 	// in-place editing in select
@@ -266,7 +266,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Η εγγραφή%s εισήχθη.',
 	'Item has been deleted.' => 'Η εγγραφή διαγράφηκε.',
 	'Item has been updated.' => 'Η εγγραφή ενημερώθηκε.',
-	'%d item(s) have been affected.' => array('Επηρεάστηκε %d εγγραφή.', 'Επηρεάστηκαν %d εγγραφές.'),
+	'%d item(s) have been affected.' => ['Επηρεάστηκε %d εγγραφή.', 'Επηρεάστηκαν %d εγγραφές.'],
 	'New item' => 'Νέα εγγραφή',
 	'original' => 'πρωτότυπο',
 	// label for value '' in enum data type
@@ -287,7 +287,7 @@ $translations = array(
 	'Subject' => 'Θέμα',
 	'Attachments' => 'Συνημμένα',
 	'Send' => 'Αποστολή',
-	'%d e-mail(s) have been sent.' => array('%d e-mail απεστάλη.', '%d e-mail απεστάλησαν.'),
+	'%d e-mail(s) have been sent.' => ['%d e-mail απεστάλη.', '%d e-mail απεστάλησαν.'],
 
 	// data type descriptions
 	'Numbers' => 'Αριθμοί',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

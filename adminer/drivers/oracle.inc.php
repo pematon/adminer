@@ -48,7 +48,7 @@ if (isset($_GET["oracle"])) {
 					$this->error = $error["message"];
 					return false;
 				}
-				set_error_handler(array($this, '_error'));
+				set_error_handler([$this, '_error']);
 				$return = @oci_execute($result);
 				restore_error_handler();
 				if ($return) {
@@ -152,8 +152,8 @@ if (isset($_GET["oracle"])) {
 		function insertUpdate($table, $rows, $primary) {
 			global $connection;
 			foreach ($rows as $set) {
-				$update = array();
-				$where = array();
+				$update = [];
+				$where = [];
 				foreach ($set as $key => $val) {
 					$update[] = "$key = $val";
 					if (isset($primary[idf_unescape($key)])) {
@@ -218,7 +218,7 @@ if (isset($_GET["oracle"])) {
 	}
 
 	function engines() {
-		return array();
+		return [];
 	}
 
 	function logged_user() {
@@ -256,7 +256,7 @@ ORDER BY 1"
 
 	function count_tables($databases) {
 		global $connection;
-		$return = array();
+		$return = [];
 		foreach ($databases as $db) {
 			$return[$db] = $connection->result("SELECT COUNT(*) FROM all_tables WHERE tablespace_name = " . q($db));
 		}
@@ -264,7 +264,7 @@ ORDER BY 1"
 	}
 
 	function table_status($name = "") {
-		$return = array();
+		$return = [];
 		$search = q($name);
 		$db = get_current_db();
 		$view = views_table("view_name");
@@ -290,7 +290,7 @@ ORDER BY 1"
 	}
 
 	function fields($table) {
-		$return = array();
+		$return = [];
 		$owner = where_owner(" AND ");
 		foreach (get_rows("SELECT * FROM all_tab_columns WHERE table_name = " . q($table) . "$owner ORDER BY column_id") as $row) {
 			$type = $row["DATA_TYPE"];
@@ -298,7 +298,7 @@ ORDER BY 1"
 			if ($length == ",") {
 				$length = $row["CHAR_COL_DECL_LENGTH"];
 			} //! int
-			$return[$row["COLUMN_NAME"]] = array(
+			$return[$row["COLUMN_NAME"]] = [
 				"field" => $row["COLUMN_NAME"],
 				"full_type" => $type . ($length ? "($length)" : ""),
 				"type" => strtolower($type),
@@ -307,16 +307,16 @@ ORDER BY 1"
 				"null" => ($row["NULLABLE"] == "Y"),
 				//! "auto_increment" => false,
 				//! "collation" => $row["CHARACTER_SET_NAME"],
-				"privileges" => array("insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1),
+				"privileges" => ["insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1],
 				//! "comment" => $row["Comment"],
 				//! "primary" => ($row["Key"] == "PRI"),
-			);
+			];
 		}
 		return $return;
 	}
 
 	function indexes($table, $connection2 = null) {
-		$return = array();
+		$return = [];
 		$owner = where_owner(" AND ", "aic.table_owner");
 		foreach (get_rows("SELECT aic.*, ac.constraint_type, atc.data_default
 FROM all_ind_columns aic
@@ -342,7 +342,7 @@ ORDER BY ac.constraint_type, aic.column_position", $connection2) as $row) {
 	}
 
 	function collations() {
-		return array(); //!
+		return []; //!
 	}
 
 	function information_schema($db) {
@@ -367,8 +367,8 @@ ORDER BY ac.constraint_type, aic.column_position", $connection2) as $row) {
 	}
 
 	function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning) {
-		$alter = $drop = array();
-		$orig_fields = ($table ? fields($table) : array());
+		$alter = $drop = [];
+		$orig_fields = ($table ? fields($table) : []);
 		foreach ($fields as $field) {
 			$val = $field[1];
 			if ($val && $field[0] != "" && idf_escape($field[0]) != $val[0]) {
@@ -397,8 +397,8 @@ ORDER BY ac.constraint_type, aic.column_position", $connection2) as $row) {
 	}
 
 	function alter_indexes($table, $alter) {
-		$drop = array();
-		$queries = array();
+		$drop = [];
+		$queries = [];
 		foreach ($alter as $val) {
 			if ($val[0] != "INDEX") {
 				//! descending UNIQUE indexes results in syntax error
@@ -426,7 +426,7 @@ ORDER BY ac.constraint_type, aic.column_position", $connection2) as $row) {
 	}
 
 	function foreign_keys($table) {
-		$return = array();
+		$return = [];
 		$query = "SELECT c_list.CONSTRAINT_NAME as NAME,
 c_src.COLUMN_NAME as SRC_COLUMN,
 c_dest.OWNER as DEST_DB,
@@ -439,14 +439,14 @@ AND c_list.R_CONSTRAINT_NAME = c_dest.CONSTRAINT_NAME
 AND c_list.CONSTRAINT_TYPE = 'R'
 AND c_src.TABLE_NAME = " . q($table);
 		foreach (get_rows($query) as $row) {
-			$return[$row['NAME']] = array(
+			$return[$row['NAME']] = [
 				"db" => $row['DEST_DB'],
 				"table" => $row['DEST_TABLE'],
-				"source" => array($row['SRC_COLUMN']),
-				"target" => array($row['DEST_COLUMN']),
+				"source" => [$row['SRC_COLUMN']],
+				"target" => [$row['DEST_COLUMN']],
 				"on_delete" => $row['ON_DELETE'],
 				"on_update" => null,
-			);
+			];
 		}
 		return $return;
 	}
@@ -526,37 +526,37 @@ ORDER BY PROCESS
 	}
 
 	function driver_config() {
-		$types = array();
-		$structured_types = array();
-		foreach (array(
-			lang('Numbers') => array("number" => 38, "binary_float" => 12, "binary_double" => 21),
-			lang('Date and time') => array("date" => 10, "timestamp" => 29, "interval year" => 12, "interval day" => 28), //! year(), day() to second()
-			lang('Strings') => array("char" => 2000, "varchar2" => 4000, "nchar" => 2000, "nvarchar2" => 4000, "clob" => 4294967295, "nclob" => 4294967295),
-			lang('Binary') => array("raw" => 2000, "long raw" => 2147483648, "blob" => 4294967295, "bfile" => 4294967296),
-		) as $key => $val) {
+		$types = [];
+		$structured_types = [];
+		foreach ([
+			lang('Numbers') => ["number" => 38, "binary_float" => 12, "binary_double" => 21],
+			lang('Date and time') => ["date" => 10, "timestamp" => 29, "interval year" => 12, "interval day" => 28], //! year(), day() to second()
+			lang('Strings') => ["char" => 2000, "varchar2" => 4000, "nchar" => 2000, "nvarchar2" => 4000, "clob" => 4294967295, "nclob" => 4294967295],
+			lang('Binary') => ["raw" => 2000, "long raw" => 2147483648, "blob" => 4294967295, "bfile" => 4294967296],
+		] as $key => $val) {
 			$types += $val;
 			$structured_types[$key] = array_keys($val);
 		}
-		return array(
-			'possible_drivers' => array("OCI8", "PDO_OCI"),
+		return [
+			'possible_drivers' => ["OCI8", "PDO_OCI"],
 			'jush' => "oracle",
 			'types' => $types,
 			'structured_types' => $structured_types,
-			'unsigned' => array(),
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT REGEXP", "NOT IN", "IS NOT NULL", "SQL"),
+			'unsigned' => [],
+			'operators' => ["=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT REGEXP", "NOT IN", "IS NOT NULL", "SQL"],
 			'operator_like' => "LIKE %%",
-			'functions' => array("length", "lower", "round", "upper"),
-			'grouping' => array("avg", "count", "count distinct", "max", "min", "sum"),
-			'edit_functions' => array(
-				array( //! no parentheses
+			'functions' => ["length", "lower", "round", "upper"],
+			'grouping' => ["avg", "count", "count distinct", "max", "min", "sum"],
+			'edit_functions' => [
+				[ //! no parentheses
 					"date" => "current_date",
 					"timestamp" => "current_timestamp",
-				), array(
+				], [
 					"number|float|double" => "+/-",
 					"date|timestamp" => "+ interval/- interval",
 					"char|clob" => "||",
-				)
-			),
-		);
+				]
+			],
+		];
 	}
 }

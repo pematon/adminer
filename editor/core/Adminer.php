@@ -38,7 +38,7 @@ class Adminer extends AdminerBase
 	//! driver, ns
 
 	function credentials() {
-		return array(SERVER, $_GET["username"], get_password());
+		return [SERVER, $_GET["username"], get_password()];
 	}
 
 	function connectSsl() {
@@ -121,7 +121,7 @@ class Adminer extends AdminerBase
 	}
 
 	function backwardKeys($table, $tableName) {
-		$return = array();
+		$return = [];
 		foreach (get_rows("SELECT TABLE_NAME, CONSTRAINT_NAME, COLUMN_NAME, REFERENCED_COLUMN_NAME
 FROM information_schema.KEY_COLUMN_USAGE
 WHERE TABLE_SCHEMA = " . q($this->database()) . "
@@ -184,7 +184,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		foreach ($rows[0] as $key => $val) {
 			if (list($table, $id, $name) = $this->foreignColumn($foreignKeys, $key)) {
 				// find all used ids
-				$ids = array();
+				$ids = [];
 				foreach ($rows as $row) {
 					$ids[$row[$key]] = q($row[$key]);
 				}
@@ -256,7 +256,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 	function selectSearchPrint(array $where, array $columns, array $indexes) {
 		$where = (array) $_GET["where"];
 		echo '<fieldset id="fieldset-search"><legend>' . lang('Search') . "</legend><div>\n";
-		$keys = array();
+		$keys = [];
 		foreach ($where as $key => $val) {
 			$keys[$val["col"]] = $key;
 		}
@@ -269,7 +269,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				$i--;
 				echo "<div>" . h($desc) . "<input type='hidden' name='where[$i][col]' value='" . h($name) . "'>:";
 				echo ($this->looksLikeBool($field)
-					? " <select name='where[$i][val]'>" . optionlist(array("" => "", lang('no'), lang('yes')), $where[$key]["val"] ?? null, true) . "</select>"
+					? " <select name='where[$i][val]'>" . optionlist(["" => "", lang('no'), lang('yes')], $where[$key]["val"] ?? null, true) . "</select>"
 					: enum_input("checkbox", " name='where[$i][val][]'", $field, (array) ($where[$key]["val"] ?? []), ($field["null"] ? 0 : null))
 				);
 				echo "</div>\n";
@@ -288,7 +288,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		foreach ($where as $val) {
 			if (($val["col"] == "" || $columns[$val["col"]]) && "$val[col]$val[val]" != "") {
 				echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, $val["col"], true) . "</select>";
-				echo html_select("where[$i][op]", array(-1 => "") + $this->getOperators(), $val["op"]);
+				echo html_select("where[$i][op]", [-1 => ""] + $this->getOperators(), $val["op"]);
 				echo "<input type='search' class='input' name='where[$i][val]' value='" . h($val["val"]) . "'>" . script("mixin(qsl('input'), {onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", "");
 				echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon_solo("remove"), "</button>";
 				echo script('qsl("#fieldset-search .remove").onclick = selectRemoveRow;', "");
@@ -298,7 +298,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		}
 		echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, null, true) . "</select>";
 		echo script("qsl('select').onchange = selectAddRow;", "");
-		echo html_select("where[$i][op]", array(-1 => "") + $this->getOperators());
+		echo html_select("where[$i][op]", [-1 => ""] + $this->getOperators());
 		echo "<input type='search' class='input' name='where[$i][val]'>";
 		echo script("mixin(qsl('input'), {onchange: function () { this.parentNode.firstChild.onchange(); }, onsearch: selectSearchSearch});");
 		echo " <button class='button light remove jsonly' title='" . h(lang('Remove')) . "'>", icon_solo("remove"), "</button>";
@@ -309,9 +309,9 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 
 	function selectOrderPrint(array $order, array $columns, array $indexes) {
 		//! desc
-		$orders = array();
+		$orders = [];
 		foreach ($indexes as $key => $index) {
-			$order = array();
+			$order = [];
 			foreach ($index["columns"] as $val) {
 				$order[] = $columns[$val];
 			}
@@ -321,14 +321,14 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 		}
 		if ($orders) {
 			echo '<fieldset><legend>' . lang('Sort') . "</legend><div>";
-			echo "<select name='index_order'>" . optionlist(array("" => "") + $orders, (($_GET["order"][0] ?? null) != "" ? "" : $_GET["index_order"]), true) . "</select>";
+			echo "<select name='index_order'>" . optionlist(["" => ""] + $orders, (($_GET["order"][0] ?? null) != "" ? "" : $_GET["index_order"]), true) . "</select>";
 			echo "</div></fieldset>\n";
 		}
 		if ($_GET["order"]) {
-			echo "<div style='display: none;'>" . hidden_fields(array(
-				"order" => array(1 => reset($_GET["order"])),
-				"desc" => ($_GET["desc"] ? array(1 => 1) : array()),
-			)) . "</div>\n";
+			echo "<div style='display: none;'>" . hidden_fields([
+				"order" => [1 => reset($_GET["order"])],
+				"desc" => ($_GET["desc"] ? [1 => 1] : []),
+				]) . "</div>\n";
 		}
 	}
 
@@ -374,7 +374,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 	}
 
 	function selectColumnsProcess($columns, $indexes) {
-		return array(array(), array());
+		return [[], []];
 	}
 
 	function selectSearchProcess($fields, $indexes) {
@@ -426,9 +426,9 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 			unset($_GET["order"][1]);
 		}
 		if ($_GET["order"]) {
-			return array(idf_escape(reset($_GET["order"])) . ($_GET["desc"] ? " DESC" : ""));
+			return [idf_escape(reset($_GET["order"])) . ($_GET["desc"] ? " DESC" : "")];
 		}
-		foreach (($index_order != "" ? array($indexes[$index_order]) : $indexes) as $index) {
+		foreach (($index_order != "" ? [$indexes[$index_order]] : $indexes) as $index) {
 			if ($index_order != "" || $index["type"] == "INDEX") {
 				$has_desc = array_filter($index["descs"]);
 				$desc = false;
@@ -438,14 +438,14 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 						break;
 					}
 				}
-				$return = array();
+				$return = [];
 				foreach ($index["columns"] as $key => $val) {
 					$return[] = idf_escape($val) . (($has_desc ? $index["descs"][$key] : $desc) ? " DESC" : "");
 				}
 				return $return;
 			}
 		}
-		return array();
+		return [];
 	}
 
 	function selectLengthProcess() {
@@ -470,7 +470,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 				);
 				$fields = fields($_GET["select"]);
 				foreach ($this->rowDescriptions($rows, $foreignKeys) as $row) {
-					$replace = array('{\\' => '{'); // allow literal {$name}
+					$replace = ['{\\' => '{']; // allow literal {$name}
 					foreach ($matches[1] as $val) {
 						$replace['{$' . "$val}"] = $this->editVal($row[$val], $fields[$val]);
 					}
@@ -494,7 +494,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 	}
 
 	function editFunctions($field) {
-		$return = array();
+		$return = [];
 		if ($field["null"] && preg_match('~blob~', $field["type"])) {
 			$return["NULL"] = lang('empty');
 		}
@@ -574,11 +574,11 @@ qsl('div').onclick = whisperClick;", "")
 	}
 
 	function dumpOutput() {
-		return array();
+		return [];
 	}
 
 	function dumpFormat() {
-		return array('csv' => 'CSV,', 'csv;' => 'CSV;', 'tsv' => 'TSV');
+		return ['csv' => 'CSV,', 'csv;' => 'CSV;', 'tsv' => 'TSV'];
 	}
 
 	function dumpDatabase($db) {
@@ -717,7 +717,7 @@ qsl('div').onclick = whisperClick;", "")
 			$return = &$this->values[$target];
 			if ($return === null) {
 				$table_status = table_status($target);
-				$return = ($table_status["Rows"] > 1000 ? "" : array("" => "") + get_key_vals("SELECT $id, $name FROM " . table($target) . " ORDER BY 2"));
+				$return = ($table_status["Rows"] > 1000 ? "" : ["" => ""] + get_key_vals("SELECT $id, $name FROM " . table($target) . " ORDER BY 2"));
 			}
 			if (!$return && $value !== null) {
 				return $connection->result("SELECT $name FROM " . table($target) . " WHERE $id = " . q($value));

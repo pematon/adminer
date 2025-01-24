@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => '資料庫系統',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

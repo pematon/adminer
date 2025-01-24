@@ -12,7 +12,7 @@ if (isset($_SESSION["lang"])) {
 	}
 }
 
-$messages_all = array();
+$messages_all = [];
 foreach (array_merge(
 	glob(__DIR__ . "/adminer/*.php"),
 	glob(__DIR__ . "/adminer/core/*.php"),
@@ -53,13 +53,13 @@ foreach (glob(__DIR__ . "/adminer/lang/" . ($_SESSION["lang"] ? $_SESSION["lang"
 		foreach ($messages as $idf => $val) {
 			// add new messages
 			if ($val == "," && strpos($idf, "%d")) {
-				$s .= "\t$idf => array(),\n";
+				$s .= "\t$idf => [],\n";
 			} elseif (basename($filename) != "en.inc.php") {
 				$s .= "\t$idf => null,\n";
 			}
 		}
 	}
-	$s = "<?php\n\$translations = array(\n$s);\n";
+	$s = "<?php\n\$translations = [\n$s];\n";
 	if ($s != $file) {
 		file_put_contents($filename, $s);
 		echo "$filename updated.\n";

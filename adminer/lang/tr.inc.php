@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Sistem',
@@ -15,7 +15,7 @@ $translations = array(
 	'Logged as: %s' => '%s olarak giriş yapıldı.',
 	'Logout successful.' => 'Oturum başarıyla sonlandı.',
 	'Invalid server or credentials.' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array('Çok fazla oturum açma denemesi yapıldı.', '%d Dakika sonra tekrar deneyiniz.'),
+	'Too many unsuccessful logins, try again in %d minute(s).' => ['Çok fazla oturum açma denemesi yapıldı.', '%d Dakika sonra tekrar deneyiniz.'],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'Ana şifrenin süresi doldu. Kalıcı olması için <a href="https://www.adminer.org/en/extension/"%s>%s medodunu</a> kullanın.',
 	'Language' => 'Dil',
 	'Invalid CSRF token. Send the form again.' => 'Geçersiz (CSRF) jetonu. Formu tekrar yolla.',
@@ -44,15 +44,15 @@ $translations = array(
 	'Revoke' => 'Yetki Kaldır',
 
 	'Process list' => 'İşlem listesi',
-	'%d process(es) have been killed.' => array('%d işlem sonlandırıldı.', '%d adet işlem sonlandırıldı.'),
+	'%d process(es) have been killed.' => ['%d işlem sonlandırıldı.', '%d adet işlem sonlandırıldı.'],
 	'Kill' => 'Sonlandır',
 
 	'Variables' => 'Değişkenler',
 	'Status' => 'Durum',
 
 	'SQL command' => 'SQL komutu',
-	'%d query(s) executed OK.' => array('%d sorgu başarıyla çalıştırıldı.', '%d adet sorgu başarıyla çalıştırıldı.'),
-	'Query executed OK, %d row(s) affected.' => array('Sorgu başarıyla çalıştırıldı, %d adet kayıt etkilendi.', 'Sorgu başarıyla çalıştırıldı, %d adet kayıt etkilendi.'),
+	'%d query(s) executed OK.' => ['%d sorgu başarıyla çalıştırıldı.', '%d adet sorgu başarıyla çalıştırıldı.'],
+	'Query executed OK, %d row(s) affected.' => ['Sorgu başarıyla çalıştırıldı, %d adet kayıt etkilendi.', 'Sorgu başarıyla çalıştırıldı, %d adet kayıt etkilendi.'],
 	'No commands to execute.' => 'Çalıştırılacak komut yok.',
 	'Error in query' => 'Sorguda hata',
 	'Warnings' => 'Uyarılar',
@@ -127,7 +127,7 @@ $translations = array(
 	'Tables have been copied.' => 'Tablolar kopyalandı.',
 
 	'Routines' => 'Yordamlar',
-	'Routine has been called, %d row(s) affected.' => array('Yordam çağrıldı, %d adet kayıt etkilendi.', 'Yordam çağrıldı, %d kayıt etkilendi.'),
+	'Routine has been called, %d row(s) affected.' => ['Yordam çağrıldı, %d adet kayıt etkilendi.', 'Yordam çağrıldı, %d kayıt etkilendi.'],
 	'Call' => 'Çağır',
 	'Parameter name' => 'Parametre adı',
 	'Create procedure' => 'Yöntem oluştur',
@@ -251,16 +251,16 @@ $translations = array(
 	'Unable to select the table' => 'Tablo seçilemedi',
 	'No rows.' => 'Kayıt yok.',
 	'%d / ' => '%d / ',
-	'%d row(s)' => array('%d kayıt', '%d adet kayıt'),
+	'%d row(s)' => ['%d kayıt', '%d adet kayıt'],
 	'Page' => 'Sayfa',
 	'last' => 'son',
 	'Load more data' => 'Daha fazla veri yükle',
 	'Loading' => 'Yükleniyor',
 	'Whole result' => 'Tüm sonuç',
-	'%d byte(s)' => array('%d bayt', '%d bayt'),
+	'%d byte(s)' => ['%d bayt', '%d bayt'],
 
 	'Import' => 'İçeri Aktar',
-	'%d row(s) have been imported.' => array('%d kayıt içeri aktarıldı.', '%d adet kayıt içeri aktarıldı.'),
+	'%d row(s) have been imported.' => ['%d kayıt içeri aktarıldı.', '%d adet kayıt içeri aktarıldı.'],
 	'File must be in UTF-8 encoding.' => 'Dosya UTF-8 kodlamasında olmalıdır.',
 
 	// in-place editing in select
@@ -272,7 +272,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Kayıt%s eklendi.',
 	'Item has been deleted.' => 'Kayıt silindi.',
 	'Item has been updated.' => 'Kayıt güncellendi.',
-	'%d item(s) have been affected.' => array('%d kayıt etkilendi.', '%d adet kayıt etkilendi.'),
+	'%d item(s) have been affected.' => ['%d kayıt etkilendi.', '%d adet kayıt etkilendi.'],
 	'New item' => 'Yeni kayıt',
 	'original' => 'orijinal',
 	// label for value '' in enum data type
@@ -293,7 +293,7 @@ $translations = array(
 	'Subject' => 'Konu',
 	'Attachments' => 'Ekler',
 	'Send' => 'Gönder',
-	'%d e-mail(s) have been sent.' => array('%d e-posta gönderildi.', '%d adet e-posta gönderildi.'),
+	'%d e-mail(s) have been sent.' => ['%d e-posta gönderildi.', '%d adet e-posta gönderildi.'],
 
 	// data type descriptions
 	'Numbers' => 'Sayılar',
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

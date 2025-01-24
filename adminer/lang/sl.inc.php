@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Sistem',
@@ -39,15 +39,15 @@ $translations = array(
 	'Revoke' => 'Odvzemi',
 
 	'Process list' => 'Seznam procesov',
-	'%d process(es) have been killed.' => array('Končan je %d proces.', 'Končana sta %d procesa.', 'Končani so %d procesi.', 'Končanih je %d procesov.'),
+	'%d process(es) have been killed.' => ['Končan je %d proces.', 'Končana sta %d procesa.', 'Končani so %d procesi.', 'Končanih je %d procesov.'],
 	'Kill' => 'Končaj',
 
 	'Variables' => 'Spremenljivke',
 	'Status' => 'Stanje',
 
 	'SQL command' => 'Ukaz SQL',
-	'%d query(s) executed OK.' => array('Uspešno se je končala %d poizvedba.', 'Uspešno sta se končali %d poizvedbi.', 'Uspešno so se končale %d poizvedbe.', 'Uspešno se je končalo %d poizvedb.'),
-	'Query executed OK, %d row(s) affected.' => array('Poizvedba se je uspešno izvedla, spremenjena je %d vrstica.', 'Poizvedba se je uspešno izvedla, spremenjeni sta %d vrstici.', 'Poizvedba se je uspešno izvedla, spremenjene so %d vrstice.', 'Poizvedba se je uspešno izvedla, spremenjenih je %d vrstic.'),
+	'%d query(s) executed OK.' => ['Uspešno se je končala %d poizvedba.', 'Uspešno sta se končali %d poizvedbi.', 'Uspešno so se končale %d poizvedbe.', 'Uspešno se je končalo %d poizvedb.'],
+	'Query executed OK, %d row(s) affected.' => ['Poizvedba se je uspešno izvedla, spremenjena je %d vrstica.', 'Poizvedba se je uspešno izvedla, spremenjeni sta %d vrstici.', 'Poizvedba se je uspešno izvedla, spremenjene so %d vrstice.', 'Poizvedba se je uspešno izvedla, spremenjenih je %d vrstic.'],
 	'No commands to execute.' => 'Ni ukazov za izvedbo.',
 	'Error in query' => 'Napaka v poizvedbi',
 	'Execute' => 'Izvedi',
@@ -111,7 +111,7 @@ $translations = array(
 	'Tables have been copied.' => 'Tabele so kopirane.',
 
 	'Routines' => 'Postopki',
-	'Routine has been called, %d row(s) affected.' => array('Klican je bil postopek, spremenjena je %d vrstica.', 'Klican je bil postopek, spremenjeni sta %d vrstici.', 'Klican je bil postopek, spremenjene so %d vrstice.', 'Klican je bil postopek, spremenjenih je %d vrstic.'),
+	'Routine has been called, %d row(s) affected.' => ['Klican je bil postopek, spremenjena je %d vrstica.', 'Klican je bil postopek, spremenjeni sta %d vrstici.', 'Klican je bil postopek, spremenjene so %d vrstice.', 'Klican je bil postopek, spremenjenih je %d vrstic.'],
 	'Call' => 'Pokliči',
 	'Parameter name' => 'Ime parametra',
 	'Create procedure' => 'Ustvari postopek',
@@ -226,14 +226,14 @@ $translations = array(
 	'Action' => 'Dejanje',
 	'Unable to select the table' => 'Ne morem izbrati tabele',
 	'No rows.' => 'Ni vrstic.',
-	'%d row(s)' => array('%d vrstica', '%d vrstici', '%d vrstice', '%d vrstic'),
+	'%d row(s)' => ['%d vrstica', '%d vrstici', '%d vrstice', '%d vrstic'],
 	'Page' => 'Stran',
 	'last' => 'Zadnja',
 	'Whole result' => 'Cel razultat',
-	'%d byte(s)' => array('%d bajt', '%d bajta', '%d bajti', '%d bajtov'),
+	'%d byte(s)' => ['%d bajt', '%d bajta', '%d bajti', '%d bajtov'],
 
 	'Import' => 'Uvozi',
-	'%d row(s) have been imported.' => array('Uvožena je %d vrstica.', 'Uvoženi sta %d vrstici.', 'Uvožene so %d vrstice.', 'Uvoženih je %d vrstic.'),
+	'%d row(s) have been imported.' => ['Uvožena je %d vrstica.', 'Uvoženi sta %d vrstici.', 'Uvožene so %d vrstice.', 'Uvoženih je %d vrstic.'],
 
 	// in-place editing in select
 	'Ctrl+click on a value to modify it.' => 'Ctrl+klik na vrednost za urejanje.',
@@ -243,7 +243,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Predmet%s je vstavljen.',
 	'Item has been deleted.' => 'Predmet je izbrisan.',
 	'Item has been updated.' => 'Predmet je posodobljen.',
-	'%d item(s) have been affected.' => array('Spremenjen je %d predmet.', 'Spremenjena sta %d predmeta.', 'Spremenjeni so %d predmeti.', 'Spremenjenih je %d predmetov.'),
+	'%d item(s) have been affected.' => ['Spremenjen je %d predmet.', 'Spremenjena sta %d predmeta.', 'Spremenjeni so %d predmeti.', 'Spremenjenih je %d predmetov.'],
 	'New item' => 'Nov predmet',
 	'original' => 'original',
 	// label for value '' in enum data type
@@ -262,7 +262,7 @@ $translations = array(
 	'Subject' => 'Zadeva',
 	'Attachments' => 'Priponke',
 	'Send' => 'Pošlji',
-	'%d e-mail(s) have been sent.' => array('Poslan je %d e-mail.', 'Poslana sta %d e-maila.', 'Poslani so %d e-maili.', 'Poslanih je %d e-mailov.'),
+	'%d e-mail(s) have been sent.' => ['Poslan je %d e-mail.', 'Poslana sta %d e-maila.', 'Poslani so %d e-maili.', 'Poslanih je %d e-mailov.'],
 
 	// data type descriptions
 	'Numbers' => 'Števila',
@@ -323,13 +323,13 @@ $translations = array(
 	'Loading' => null,
 	'ATTACH queries are not supported.' => null,
 	'Warnings' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Limit rows' => null,
 	'Edit all' => null,
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
 	'Full table scan' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array(),
+	'Too many unsuccessful logins, try again in %d minute(s).' => [],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => null,
 	'The action will be performed after successful login with the same credentials.' => null,
 	'Connecting to privileged ports is not allowed.' => null,
@@ -361,4 +361,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];
