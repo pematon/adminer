@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$translations = array(
+$translations = [
 	// label for database system selection (MySQL, SQLite, ...)
 	'Home' => null,
 	'System' => 'Систем',
@@ -39,15 +39,15 @@ $translations = array(
 	'Revoke' => 'Опозови',
 
 	'Process list' => 'Списак процеса',
-	'%d process(es) have been killed.' => array('%d процес је убијен.', '%d процеса су убијена.', '%d процеса је убијено.'),
+	'%d process(es) have been killed.' => ['%d процес је убијен.', '%d процеса су убијена.', '%d процеса је убијено.'],
 	'Kill' => 'Убиј',
 
 	'Variables' => 'Променљиве',
 	'Status' => 'Статус',
 
 	'SQL command' => 'SQL команда',
-	'%d query(s) executed OK.' => array('%d упит је успешно извршен.', '%d упита су успешно извршена.', '%d упита је успешно извршено.'),
-	'Query executed OK, %d row(s) affected.' => array('Упит је успешно извршен, %d ред је погођен.', 'Упит је успешно извршен, %d реда су погођена.', 'Упит је успешно извршен, %d редова је погођено.'),
+	'%d query(s) executed OK.' => ['%d упит је успешно извршен.', '%d упита су успешно извршена.', '%d упита је успешно извршено.'],
+	'Query executed OK, %d row(s) affected.' => ['Упит је успешно извршен, %d ред је погођен.', 'Упит је успешно извршен, %d реда су погођена.', 'Упит је успешно извршен, %d редова је погођено.'],
 	'No commands to execute.' => 'Без команди за извршавање.',
 	'Error in query' => 'Грешка у упиту',
 	'Execute' => 'Изврши',
@@ -115,7 +115,7 @@ $translations = array(
 	'Tables have been copied.' => 'Табеле су умножене.',
 
 	'Routines' => 'Рутине',
-	'Routine has been called, %d row(s) affected.' => array('Позвана је рутина, %d ред је погођен.', 'Позвана је рутина, %d реда су погођена.', 'Позвана је рутина, %d редова је погођено.'),
+	'Routine has been called, %d row(s) affected.' => ['Позвана је рутина, %d ред је погођен.', 'Позвана је рутина, %d реда су погођена.', 'Позвана је рутина, %d редова је погођено.'],
 	'Call' => 'Позови',
 	'Parameter name' => 'Назив параметра',
 	'Create procedure' => 'Формирај процедуру',
@@ -232,16 +232,16 @@ $translations = array(
 	'Full table scan' => 'Скренирање комплетне табеле',
 	'Unable to select the table' => 'Не могу да изаберем табелу',
 	'No rows.' => 'Без редова.',
-	'%d row(s)' => array('%d ред', '%d реда', '%d редова'),
+	'%d row(s)' => ['%d ред', '%d реда', '%d редова'],
 	'Page' => 'Страна',
 	'last' => 'последња',
 	'Loading' => 'Учитавам',
 	'Load more data' => 'Учитавам још података',
 	'Whole result' => 'Цео резултат',
-	'%d byte(s)' => array('%d бајт', '%d бајта', '%d бајтова'),
+	'%d byte(s)' => ['%d бајт', '%d бајта', '%d бајтова'],
 
 	'Import' => 'Увоз',
-	'%d row(s) have been imported.' => array('%d ред је увежен.', '%d реда су увежена.', '%d редова је увежено.'),
+	'%d row(s) have been imported.' => ['%d ред је увежен.', '%d реда су увежена.', '%d редова је увежено.'],
 
 	// in-place editing in select
 	'Ctrl+click on a value to modify it.' => 'Ctrl+клик на вредност за измену.',
@@ -251,7 +251,7 @@ $translations = array(
 	'Item%s has been inserted.' => 'Ставка%s је додата.',
 	'Item has been deleted.' => 'Ставка је избрисана.',
 	'Item has been updated.' => 'Ставка је измењена.',
-	'%d item(s) have been affected.' => array('%d ставка је погођена.', '%d ставке су погођене.', '%d ставки је погођено.'),
+	'%d item(s) have been affected.' => ['%d ставка је погођена.', '%d ставке су погођене.', '%d ставки је погођено.'],
 	'New item' => 'Нова ставка',
 	'original' => 'оригинал',
 	// label for value '' in enum data type
@@ -270,7 +270,7 @@ $translations = array(
 	'Subject' => 'Наслов',
 	'Attachments' => 'Прилози',
 	'Send' => 'Пошаљи',
-	'%d e-mail(s) have been sent.' => array('%d порука ел. поште је послата.', '%d поруке ел. поште су послате.', '%d порука ел. поште је послато.'),
+	'%d e-mail(s) have been sent.' => ['%d порука ел. поште је послата.', '%d поруке ел. поште су послате.', '%d порука ел. поште је послато.'],
 
 	// data type descriptions
 	'Numbers' => 'Број',
@@ -331,11 +331,11 @@ $translations = array(
 	'Modify' => null,
 	'ATTACH queries are not supported.' => null,
 	'Warnings' => null,
-	'%d / ' => array(),
+	'%d / ' => [],
 	'Limit rows' => null,
 	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => null,
 	'Default value' => null,
-	'Too many unsuccessful logins, try again in %d minute(s).' => array(),
+	'Too many unsuccessful logins, try again in %d minute(s).' => [],
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => null,
 	'The action will be performed after successful login with the same credentials.' => null,
 	'Connecting to privileged ports is not allowed.' => null,
@@ -364,4 +364,4 @@ $translations = array(
 	'Show schema' => null,
 	'No driver' => null,
 	'Database driver not found.' => null,
-);
+];

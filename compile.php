@@ -85,7 +85,7 @@ function put_file($match, $current_path = "") {
 
 	$tokens = token_get_all($content); // to find out the last token
 
-	return "?>\n$content" . (in_array($tokens[count($tokens) - 1][0], array(T_CLOSE_TAG, T_INLINE_HTML), true) ? "<?php" : "");
+	return "?>\n$content" . (in_array($tokens[count($tokens) - 1][0], [T_CLOSE_TAG, T_INLINE_HTML], true) ? "<?php" : "");
 }
 
 function put_file_lang() {
@@ -169,8 +169,8 @@ function short_identifier($number, $chars) {
 // based on http://latrine.dgx.cz/jak-zredukovat-php-skripty
 function php_shrink($input) {
 	global $VERSION;
-	$special_variables = array_flip(array('$this', '$GLOBALS', '$_GET', '$_POST', '$_FILES', '$_COOKIE', '$_SESSION', '$_SERVER', '$http_response_header', '$php_errormsg'));
-	$short_variables = array();
+	$special_variables = array_flip(['$this', '$GLOBALS', '$_GET', '$_POST', '$_FILES', '$_COOKIE', '$_SESSION', '$_SERVER', '$http_response_header', '$php_errormsg']);
+	$short_variables = [];
 	$shortening = true;
 	$tokens = token_get_all($input);
 
@@ -179,10 +179,10 @@ function php_shrink($input) {
 	$shorten = 0;
 	$opening = -1;
 	foreach ($tokens as $i => $token) {
-		if (in_array($token[0], array(T_IF, T_ELSE, T_ELSEIF, T_WHILE, T_DO, T_FOR, T_FOREACH), true)) {
+		if (in_array($token[0], [T_IF, T_ELSE, T_ELSEIF, T_WHILE, T_DO, T_FOR, T_FOREACH], true)) {
 			$shorten = ($token[0] == T_FOR ? 4 : 2);
 			$opening = -1;
-		} elseif (in_array($token[0], array(T_SWITCH, T_FUNCTION, T_CLASS, T_CLOSE_TAG), true)) {
+		} elseif (in_array($token[0], [T_SWITCH, T_FUNCTION, T_CLASS, T_CLOSE_TAG], true)) {
 			$shorten = 0;
 		} elseif ($token === ';') {
 			$shorten--;
@@ -226,15 +226,15 @@ function php_shrink($input) {
 
 	for (reset($tokens); list($i, $token) = each($tokens); ) {
 		if (!is_array($token)) {
-			$token = array(0, $token);
+			$token = [0, $token];
 		}
 
 		if (isset($tokens[$i+4]) && $tokens[$i+2][0] === T_CLOSE_TAG && $tokens[$i+3][0] === T_INLINE_HTML && $tokens[$i+4][0] === T_OPEN_TAG
 			&& strlen(add_apo_slashes($tokens[$i+3][1])) < strlen($tokens[$i+3][1]) + 3
 		) {
-			$tokens[$i+2] = array(T_ECHO, 'echo');
-			$tokens[$i+3] = array(T_CONSTANT_ENCAPSED_STRING, "'" . add_apo_slashes($tokens[$i+3][1]) . "'");
-			$tokens[$i+4] = array(0, ';');
+			$tokens[$i+2] = [T_ECHO, 'echo'];
+			$tokens[$i+3] = [T_CONSTANT_ENCAPSED_STRING, "'" . add_apo_slashes($tokens[$i+3][1]) . "'"];
+			$tokens[$i+4] = [0, ';'];
 		}
 
 		if ($token[0] == T_COMMENT || $token[0] == T_WHITESPACE || ($token[0] == T_DOC_COMMENT && $doc_comment)) {
@@ -286,7 +286,7 @@ if (!function_exists("each")) {
 	function each(&$arr) {
 		$key = key($arr);
 		next($arr);
-		return $key === null ? false : array($key, $arr[$key]);
+		return $key === null ? false : [$key, $arr[$key]];
 	}
 }
 
@@ -417,7 +417,7 @@ if ($single_driver) {
 	$file = preg_replace_callback('~doc_link\(array\((.*)\)\)~sU', function ($match) use ($single_driver) {
 		list(, $links) = $match;
 		$links = preg_replace("~'(?!(" . ($single_driver == "mysql" ? "sql|mariadb" : $single_driver) . ")')[^']*' => [^,]*,?~", '', $links);
-		return (trim($links) ? "doc_link(array($links))" : "''");
+		return (trim($links) ? "doc_link([$links])" : "''");
 	}, $file);
 
 	//! strip doc_link() definition

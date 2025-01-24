@@ -20,14 +20,14 @@ if (isset($_GET["elastic5"])) {
 			function rootQuery($path, ?array $content = null, $method = 'GET') {
 				@ini_set('track_errors', 1); // @ - may be disabled
 
-				$file = @file_get_contents("$this->_url/" . ltrim($path, '/'), false, stream_context_create(array('http' => array(
+				$file = @file_get_contents("$this->_url/" . ltrim($path, '/'), false, stream_context_create(['http' => [
 					'method' => $method,
 					'content' => $content !== null ? json_encode($content) : null,
 					'header' => $content !== null ? 'Content-Type: application/json' : [],
 					'ignore_errors' => 1,
 					'follow_location' => 0,
 					'max_redirects' => 0,
-				))));
+				]]));
 
 				if ($file === false) {
 					$this->error = lang('Invalid server or credentials.');
@@ -65,7 +65,7 @@ if (isset($_GET["elastic5"])) {
 
 					$where = explode(" AND ", $matches[2]);
 
-					return $driver->select($matches[1], array("*"), $where, null, array(), $matches[3]);
+					return $driver->select($matches[1], ["*"], $where, null, [], $matches[3]);
 				}
 
 				return $this->rootQuery(($this->_db != "" ? "$this->_db/" : "/") . ltrim($path, '/'), $content, $method);
@@ -132,17 +132,17 @@ if (isset($_GET["elastic5"])) {
 
 	class Min_Driver extends Min_SQL {
 
-		function select($table, $select, $where, $group, $order = array(), ?int $limit = 1, $page = 0, $print = false) {
-			$data = array();
-			if ($select != array("*")) {
+		function select($table, $select, $where, $group, $order = [], ?int $limit = 1, $page = 0, $print = false) {
+			$data = [];
+			if ($select != ["*"]) {
 				$data["fields"] = array_values($select);
 			}
 
 			if ($order) {
-				$sort = array();
+				$sort = [];
 				foreach ($order as $col) {
 					$col = preg_replace('~ DESC$~', '', $col, 1, $count);
-					$sort[] = ($count ? array($col => "desc") : $col);
+					$sort[] = ($count ? [$col => "desc"] : $col);
 				}
 				$data["sort"] = $sort;
 			}
@@ -177,16 +177,16 @@ if (isset($_GET["elastic5"])) {
 				return false;
 			}
 
-			$return = array();
+			$return = [];
 			foreach ($search['hits']['hits'] as $hit) {
-				$row = array();
-				if ($select == array("*")) {
+				$row = [];
+				if ($select == ["*"]) {
 					$row["_id"] = $hit["_id"];
 				}
 
 				$fields = $hit['_source'];
-				if ($select != array("*")) {
-					$fields = array();
+				if ($select != ["*"]) {
+					$fields = [];
 					foreach ($select as $key) {
 						$fields[$key] = $key == "_id" ? [$hit["_id"]] : $hit['fields'][$key];
 					}
@@ -256,7 +256,7 @@ if (isset($_GET["elastic5"])) {
 
 		function delete($type, $queryWhere, $limit = 0) {
 			//! use $limit
-			$ids = array();
+			$ids = [];
 			if ($_GET["where"]["_id"] ?? null) {
 				$ids[] = $_GET["where"]["_id"];
 			}
@@ -332,7 +332,7 @@ if (isset($_GET["elastic5"])) {
 	}
 
 	function collations() {
-		return array();
+		return [];
 	}
 
 	function db_collation($db, $collations) {
@@ -340,11 +340,11 @@ if (isset($_GET["elastic5"])) {
 	}
 
 	function engines() {
-		return array();
+		return [];
 	}
 
 	function count_tables($databases) {
-		$return = array();
+		$return = [];
 
 		$result = connection()->query('_stats');
 		if ($result && $result['indices']) {
@@ -360,7 +360,7 @@ if (isset($_GET["elastic5"])) {
 
 	function tables_list() {
 		if (min_version(7)) {
-			return array('_doc' => 'table');
+			return ['_doc' => 'table'];
 		}
 
 		$return = connection()->query('_mapping');
@@ -372,28 +372,28 @@ if (isset($_GET["elastic5"])) {
 	}
 
 	function table_status($name = "", $fast = false) {
-		$search = connection()->query("_search", array(
+		$search = connection()->query("_search", [
 			"size" => 0,
-			"aggregations" => array(
-				"count_by_type" => array(
-					"terms" => array(
+			"aggregations" => [
+				"count_by_type" => [
+					"terms" => [
 						"field" => "_type"
-					)
-				)
-			)
-		), "POST");
+					]
+				]
+			]
+		], "POST");
 
-		$return = array();
+		$return = [];
 
 		if ($search) {
 			$tables = $search["aggregations"]["count_by_type"]["buckets"];
 
 			foreach ($tables as $table) {
-				$return[$table["key"]] = array(
+				$return[$table["key"]] = [
 					"Name" => $table["key"],
 					"Engine" => "table",
 					"Rows" => $table["doc_count"],
-				);
+				];
 
 				if ($name != "" && $name == $table["key"]) {
 					return $return[$name];
@@ -415,13 +415,13 @@ if (isset($_GET["elastic5"])) {
 	}
 
 	function indexes($table, $connection2 = null) {
-		return array(
-			array("type" => "PRIMARY", "columns" => array("_id")),
-		);
+		return [
+			["type" => "PRIMARY", "columns" => ["_id"]],
+		];
 	}
 
 	function fields($table) {
-		$mappings = array();
+		$mappings = [];
 
 		if (min_version(7)) {
 			$result = connection()->query("_mapping");
@@ -438,28 +438,28 @@ if (isset($_GET["elastic5"])) {
 			}
 		}
 
-		$return = array(
-			"_id" => array(
+		$return = [
+			"_id" => [
 				"field" => "_id",
 				"full_type" => "_id",
 				"type" => "_id",
-				"privileges" => array("insert" => 1, "select" => 1, "where" => 1, "order" => 1),
-			)
-		);
+				"privileges" => ["insert" => 1, "select" => 1, "where" => 1, "order" => 1],
+			]
+		];
 
 		foreach ($mappings as $name => $field) {
-			$return[$name] = array(
+			$return[$name] = [
 				"field" => $name,
 				"full_type" => $field["type"],
 				"type" => $field["type"],
-				"privileges" => array(
+				"privileges" => [
 					"insert" => 1,
 					"select" => 1,
 					"update" => 1,
 					"where" => !isset($field["index"]) || $field["index"] ?: null,
 					"order" => $field["type"] != "text" ?: null
-				),
-			);
+				],
+			];
 
 			if ($field["properties"]) { // only leaf fields can be edited
 				unset($return[$name]["privileges"]["insert"]);
@@ -471,7 +471,7 @@ if (isset($_GET["elastic5"])) {
 	}
 
 	function foreign_keys($table) {
-		return array();
+		return [];
 	}
 
 	function table($idf) {
@@ -519,17 +519,17 @@ if (isset($_GET["elastic5"])) {
 	 * @return mixed
 	 */
 	function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning) {
-		$properties = array();
+		$properties = [];
 		foreach ($fields as $f) {
 			$field_name = trim($f[1][0]);
 			$field_type = trim($f[1][1] ? $f[1][1] : "text");
-			$properties[$field_name] = array(
+			$properties[$field_name] = [
 				'type' => $field_type
-			);
+			];
 		}
 
 		if (!empty($properties)) {
-			$properties = array('properties' => $properties);
+			$properties = ['properties' => $properties];
 		}
 		return connection()->query("_mapping/{$name}", $properties, 'PUT');
 	}
@@ -552,34 +552,34 @@ if (isset($_GET["elastic5"])) {
 	}
 
 	function driver_config() {
-		$types = array();
-		$structured_types = array();
+		$types = [];
+		$structured_types = [];
 
-		foreach (array(
-			lang('Numbers') => array("long" => 3, "integer" => 5, "short" => 8, "byte" => 10, "double" => 20, "float" => 66, "half_float" => 12, "scaled_float" => 21, "boolean" => 1),
-			lang('Date and time') => array("date" => 10),
-			lang('Strings') => array("string" => 65535, "text" => 65535, "keyword" => 65535),
-			lang('Binary') => array("binary" => 255),
-		) as $key => $val) {
+		foreach ([
+			lang('Numbers') => ["long" => 3, "integer" => 5, "short" => 8, "byte" => 10, "double" => 20, "float" => 66, "half_float" => 12, "scaled_float" => 21, "boolean" => 1],
+			lang('Date and time') => ["date" => 10],
+			lang('Strings') => ["string" => 65535, "text" => 65535, "keyword" => 65535],
+			lang('Binary') => ["binary" => 255],
+		] as $key => $val) {
 			$types += $val;
 			$structured_types[$key] = array_keys($val);
 		}
 
-		return array(
-			'possible_drivers' => array("json + allow_url_fopen"),
+		return [
+			'possible_drivers' => ["json + allow_url_fopen"],
 			'jush' => "elastic",
-			'operators' => array(
+			'operators' => [
 				"must(term)", "must(match)", "must(regexp)",
 				"should(term)", "should(match)", "should(regexp)",
 				"must_not(term)", "must_not(match)", "must_not(regexp)",
-			),
+			],
 			'operator_like' => "should(match)",
 			'operator_regexp' => "should(regexp)",
-			'functions' => array(),
-			'grouping' => array(),
-			'edit_functions' => array(array("json")),
+			'functions' => [],
+			'grouping' => [],
+			'edit_functions' => [["json"]],
 			'types' => $types,
 			'structured_types' => $structured_types,
-		);
+		];
 	}
 }

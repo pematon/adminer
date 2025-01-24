@@ -144,7 +144,7 @@ function page_headers() {
 	header("X-Content-Type-Options: nosniff");
 	header("Referrer-Policy: origin-when-cross-origin");
 	foreach ($adminer->csp() as $csp) {
-		$header = array();
+		$header = [];
 		foreach ($csp as $key => $val) {
 			$header[] = "$key $val";
 		}

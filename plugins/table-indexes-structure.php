@@ -20,7 +20,7 @@ class AdminerTableIndexesStructure {
 		foreach ($indexes as $name => $index) {
 			echo "<tr><th>" . h($name) . "<td>" . $index['type'];
 			ksort($index["columns"]); // enforce correct columns order
-			$print = array();
+			$print = [];
 			foreach ($index["columns"] as $key => $val) {
 				$print[] = "<i>" . h($val) . "</i>"
 					. ($index["lengths"][$key] ? "(" . $index["lengths"][$key] . ")" : "")
