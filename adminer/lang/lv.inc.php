@@ -37,7 +37,6 @@ $translations = [
 	'Logout' => 'Iziet',
 	'Use' => 'Lietot',
 	'No tables.' => 'Datubāzē nav tabulu.',
-	'select' => 'izvēlēties',
 	'Item has been deleted.' => 'Ieraksts dzests.',
 	'Item has been updated.' => 'Ieraksts atjaunots.',
 	'Item%s has been inserted.' => 'Ieraksti tika ievietoti.',
@@ -60,7 +59,6 @@ $translations = [
 	'Limit' => 'Limits',
 	'No rows.' => 'Nav rindu.',
 	'Action' => 'Darbība',
-	'edit' => 'rediģēt',
 	'Page' => 'Lapa',
 	'Query executed OK, %d row(s) affected.' => ['Pieprasījums pabeigts, izmainīts %d ieraksts.', 'Pieprasījums pabeigts, izmainīti %d ieraksti.', 'Pieprasījums pabeigts, izmainīti %d ieraksti.'],
 	'Error in query' => 'Kļūda pieprasījumā',
@@ -303,8 +301,6 @@ $translations = [
 	'There is a space in the input password which might be the cause.' => 'Parole satur atstarpi, kas varētu būt lieka.',
 	'Unknown error.' => 'Nezināma kļūda.',
 	'Database does not support password.' => 'Datubāze neatbalsta paroli.',
-
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,
