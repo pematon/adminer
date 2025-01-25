@@ -209,8 +209,6 @@ $translations = [
 	'Time' => 'Čas',
 	'Event' => 'Dogodek',
 	'Name' => 'Naziv',
-
-	'select' => 'izberi',
 	'Select' => 'Izberi',
 	'Select data' => 'Izberi podatke',
 	'Functions' => 'Funkcije',
@@ -248,7 +246,6 @@ $translations = [
 	'original' => 'original',
 	// label for value '' in enum data type
 	'empty' => 'prazno',
-	'edit' => 'uredi',
 	'Edit' => 'Uredi',
 	'Insert' => 'Vstavi',
 	'Save' => 'Shrani',
@@ -343,7 +340,6 @@ $translations = [
 	'Saving' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 	'yes' => null,
 	'no' => null,
 	'HH:MM:SS' => null,

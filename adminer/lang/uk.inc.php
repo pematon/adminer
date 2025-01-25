@@ -214,8 +214,6 @@ $translations = [
 	'Time' => 'Час',
 	'Event' => 'Подія',
 	'Name' => 'Назва',
-
-	'select' => 'вибрати',
 	'Select' => 'Вибрати',
 	'Select data' => 'Вибрати дані',
 	'Functions' => 'Функції',
@@ -253,7 +251,6 @@ $translations = [
 	'original' => 'початковий',
 	// label for value '' in enum data type
 	'empty' => 'порожньо',
-	'edit' => 'редагувати',
 	'Edit' => 'Редагувати',
 	'Insert' => 'Вставити',
 	'Save' => 'Зберегти',
@@ -349,7 +346,6 @@ $translations = [
 
 	'Vacuum' => null,
 	'%d / ' => [],
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,
