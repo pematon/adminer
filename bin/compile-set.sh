@@ -6,19 +6,21 @@ set -e
 BASEDIR=$( cd `dirname $0`/.. ; pwd )
 cd "$BASEDIR"
 
-php compile.php
-php compile.php en
-php compile.php de
-php compile.php cs
-php compile.php sk
+composer update
 
-php compile.php mysql
-php compile.php mysql en
-php compile.php mysql de
-php compile.php mysql cs
-php compile.php mysql sk
+php bin/compile.php
+php bin/compile.php en
+php bin/compile.php de
+php bin/compile.php cs
+php bin/compile.php sk
 
-php compile.php editor
-php compile.php editor en
-php compile.php editor mysql
-php compile.php editor mysql en
+php bin/compile.php mysql
+php bin/compile.php mysql en
+php bin/compile.php mysql de
+php bin/compile.php mysql cs
+php bin/compile.php mysql sk
+
+php bin/compile.php editor
+php bin/compile.php editor en
+php bin/compile.php editor mysql
+php bin/compile.php editor mysql en
