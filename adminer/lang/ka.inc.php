@@ -37,7 +37,6 @@ $translations = [
 	'Logout' => 'გასვლა',
 	'Use' => 'არჩევა',
 	'No tables.' => 'ბაზაში ცხრილი არაა.',
-	'select' => 'არჩევა',
 	'Item has been deleted.' => 'ჩანაწერი წაიშალა.',
 	'Item has been updated.' => 'ჩანაწერი განახლდა.',
 	'Item%s has been inserted.' => 'ჩანაწერი%s ჩაჯდა.',
@@ -59,7 +58,6 @@ $translations = [
 	'Limit' => 'ზღვარი',
 	'No rows.' => 'ჩანაწერი არაა.',
 	'Action' => 'მოქმედება',
-	'edit' => 'რედაქტირება',
 	'Page' => 'გვერდი',
 	'Query executed OK, %d row(s) affected.' => 'მოთხოვდა შესრულდა, შეიცვალა %d ჩანაწერი.',
 	'Error in query' => 'შეცდომა მოთხოვნაში',
@@ -302,7 +300,6 @@ $translations = [
 	'There is a space in the input password which might be the cause.' => 'პაროლში არის გამოტოვება, შეიძლება ეს ქმნის პრობლემას.',
 	'Unknown error.' => 'უცნობი შეცდომა.',
 	'Database does not support password.' => 'ბაზაში არაა მხარდაჭერილი პაროლი.',
-	'Disable %s or enable %s or %s extensions.' => 'გათიშეთ %s ან ჩართეთ %s ან %s გაფართოება.',
 
 	'overwrite' => null,
 

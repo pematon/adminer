@@ -219,8 +219,6 @@ $translations = [
 	'Time' => 'Thời gian',
 	'Event' => 'Sự kiện',
 	'Name' => 'Tên',
-
-	'select' => 'xem',
 	'Select' => 'Xem',
 	'Select data' => 'Xem dữ liệu',
 	'Functions' => 'Các chức năng',
@@ -263,7 +261,6 @@ $translations = [
 	'original' => 'bản gốc',
 	// label for value '' in enum data type
 	'empty' => 'trống',
-	'edit' => 'sửa',
 	'Edit' => 'Sửa',
 	'Insert' => 'Thêm',
 	'Save' => 'Lưu',
@@ -348,7 +345,6 @@ $translations = [
 	'Saving' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,

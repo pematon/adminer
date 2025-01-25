@@ -228,8 +228,6 @@ $translations = [
 	'Time' => 'Masa',
 	'Event' => 'Peristiwa',
 	'Name' => 'Nama',
-
-	'select' => 'pilih',
 	'Select' => 'Pilih',
 	'Select data' => 'Pilih data',
 	'Functions' => 'Fungsi',
@@ -274,7 +272,6 @@ $translations = [
 	'original' => 'asli',
 	// label for value '' in enum data type
 	'empty' => 'kosong',
-	'edit' => 'ubah',
 	'Edit' => 'Ubah',
 	'Insert' => 'Masukkan',
 	'Save' => 'Simpan',
@@ -349,7 +346,6 @@ $translations = [
 	'There is a space in the input password which might be the cause.' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,

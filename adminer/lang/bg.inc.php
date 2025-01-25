@@ -226,8 +226,6 @@ $translations = [
 	'Time' => 'Време',
 	'Event' => 'Събитие',
 	'Name' => 'Име',
-
-	'select' => 'показване',
 	'Select' => 'Показване',
 	'Select data' => 'Показване на данни',
 	'Functions' => 'Функции',
@@ -272,7 +270,6 @@ $translations = [
 	'original' => 'оригинал',
 	// label for value '' in enum data type
 	'empty' => 'празно',
-	'edit' => 'редакция',
 	'Edit' => 'Редактиране',
 	'Insert' => 'Вмъкване',
 	'Save' => 'Запис',
@@ -354,7 +351,6 @@ $translations = [
 	'There is a space in the input password which might be the cause.' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,

@@ -2,6 +2,8 @@
 
 namespace Adminer;
 
+// TODO: Extract list of available languages to separated file.
+// Then it can be included into the update-translations.php without running unwanted code.
 $languages = [
 	'en' => 'English', // Jakub Vrána - https://www.vrana.cz
 	'ar' => 'العربية', // Y.M Amine - Algeria - nbr7@live.fr
@@ -169,7 +171,7 @@ if (isset($_COOKIE["adminer_lang"]) && isset($available_languages[$_COOKIE["admi
 	$accept_language = [];
 	preg_match_all('~([-a-z]+)(;q=([0-9.]+))?~', str_replace("_", "-", strtolower($_SERVER["HTTP_ACCEPT_LANGUAGE"])), $matches, PREG_SET_ORDER);
 	foreach ($matches as $match) {
-		$accept_language[$match[1]] = (isset($match[3]) ? $match[3] : 1);
+		$accept_language[$match[1]] = ($match[3] ?? 1);
 	}
 
 	arsort($accept_language);
