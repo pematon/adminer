@@ -214,8 +214,6 @@ $translations = [
 	'Time' => 'Waktu',
 	'Event' => 'Even',
 	'Name' => 'Nama',
-
-	'select' => 'pilih',
 	'Select' => 'Pilih',
 	'Select data' => 'Pilih data',
 	'Functions' => 'Fungsi',
@@ -253,7 +251,6 @@ $translations = [
 	'original' => 'asli',
 	// label for value '' in enum data type
 	'empty' => 'kosong',
-	'edit' => 'sunting',
 	'Edit' => 'Sunting',
 	'Insert' => 'Sisipkan',
 	'Save' => 'Simpan',
@@ -349,7 +346,6 @@ $translations = [
 	'Saving' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,

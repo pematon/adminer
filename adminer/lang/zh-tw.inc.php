@@ -26,7 +26,6 @@ $translations = [
 	'No extension' => '無擴充模組',
 	'None of the supported PHP extensions (%s) are available.' => '沒有任何支援的 PHP 擴充模組（%s）。',
 	'Connecting to privileged ports is not allowed.' => '不允許連接到特權埠。',
-	'Disable %s or enable %s or %s extensions.' => '禁用 %s 或啟用 %s 或 %s 擴充模組。',
 	'Session support must be enabled.' => 'Session 必須被啟用。',
 	'Session expired, please login again.' => 'Session 已過期，請重新登入。',
 	'The action will be performed after successful login with the same credentials.' => '此操作將在成功使用相同的憑據登錄後執行。',
@@ -237,8 +236,6 @@ $translations = [
 	'Time' => '時間',
 	'Event' => '事件',
 	'Name' => '名稱',
-
-	'select' => '選擇',
 	'Select' => '選擇',
 	'Select data' => '選擇資料',
 	'Functions' => '函式',
@@ -283,7 +280,6 @@ $translations = [
 	'original' => '原始',
 	// label for value '' in enum data type
 	'empty' => '空值',
-	'edit' => '編輯',
 	'Edit' => '編輯',
 	'Insert' => '新增',
 	'Save' => '儲存',

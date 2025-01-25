@@ -213,8 +213,6 @@ $translations = [
 	'Time' => 'Laikas',
 	'Event' => 'Įvykis',
 	'Name' => 'Pavadinimas',
-
-	'select' => 'atrinkti',
 	'Select' => 'Atrinkti',
 	'Select data' => 'Atrinkti duomenis',
 	'Functions' => 'Funkcijos',
@@ -251,7 +249,6 @@ $translations = [
 	'original' => 'originalas',
 	// label for value '' in enum data type
 	'empty' => 'tuščia',
-	'edit' => 'redaguoti',
 	'Edit' => 'Redaguoti',
 	'Insert' => 'Įrašyti',
 	'Save' => 'Išsaugoti',
@@ -347,7 +344,6 @@ $translations = [
 	'Saving' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 	'yes' => null,
 	'no' => null,
 

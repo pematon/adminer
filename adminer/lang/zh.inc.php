@@ -26,7 +26,6 @@ $translations = [
 	'No extension' => '没有扩展',
 	'None of the supported PHP extensions (%s) are available.' => '没有支持的 PHP 扩展可用（%s）。',
 	'Connecting to privileged ports is not allowed.' => '不允许连接到特权端口。',
-	'Disable %s or enable %s or %s extensions.' => '禁用 %s 或启用 %s 或 %s 扩展。',
 	'Session support must be enabled.' => '必须启用会话支持。',
 	'Session expired, please login again.' => '会话已过期，请重新登录。',
 	'The action will be performed after successful login with the same credentials.' => '此操作将在成功使用相同的凭据登录后执行。',
@@ -237,8 +236,6 @@ $translations = [
 	'Time' => '时间',
 	'Event' => '事件',
 	'Name' => '名称',
-
-	'select' => '选择',
 	'Select' => '选择',
 	'Select data' => '选择数据',
 	'Functions' => '函数',
@@ -283,7 +280,6 @@ $translations = [
 	'original' => '原始',
 	// label for value '' in enum data type
 	'empty' => '空',
-	'edit' => '编辑',
 	'Edit' => '编辑',
 	'Insert' => '插入',
 	'Save' => '保存',
