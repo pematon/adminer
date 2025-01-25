@@ -7,22 +7,24 @@ set_error_handler(function ($errno, $errstr) {
 	return (bool)preg_match('~^Undefined array key~', $errstr);
 }, E_WARNING);
 
-include __DIR__ . "/adminer/include/version.inc.php";
-include __DIR__ . "/adminer/include/debug.inc.php";
-include __DIR__ . "/adminer/include/compile.inc.php";
+include __DIR__ . "/../adminer/include/version.inc.php";
+include __DIR__ . "/../adminer/include/debug.inc.php";
+include __DIR__ . "/../adminer/include/compile.inc.php";
 
-function is_dev_version()
+function is_dev_version(): bool
 {
 	global $VERSION;
 
 	return (bool)preg_match('~-dev$~', $VERSION);
 }
 
-function add_apo_slashes($s) {
+function add_apo_slashes(string $s): string
+{
 	return addcslashes($s, "\\'");
 }
 
-function replace_lang($match) {
+function replace_lang(array $match): string
+{
 	global $lang_ids;
 
 	$text = stripslashes($match[1]);
@@ -33,7 +35,8 @@ function replace_lang($match) {
 	return "lang($lang_ids[$text]$match[2]";
 }
 
-function put_file($match, $current_path = "") {
+function put_file(array $match, string $current_path = ""): string
+{
 	global $project, $selected_languages, $single_driver;
 
 	$filename = basename($match[2]);
@@ -44,7 +47,7 @@ function put_file($match, $current_path = "") {
 		return $match[0];
 	}
 
-	$content = file_get_contents(__DIR__ . "/$project/" . ($current_path ? "$current_path/" : "") . $file_path);
+	$content = file_get_contents(__DIR__ . "/../$project/" . ($current_path ? "$current_path/" : "") . $file_path);
 
 	if ($filename == "lang.inc.php") {
 		$content = str_replace(
@@ -88,13 +91,14 @@ function put_file($match, $current_path = "") {
 	return "?>\n$content" . (in_array($tokens[count($tokens) - 1][0], [T_CLOSE_TAG, T_INLINE_HTML], true) ? "<?php" : "");
 }
 
-function put_file_lang() {
+function put_file_lang(): string
+{
 	global $lang_ids, $selected_languages;
 
 	$languages = array_map(function ($filename) {
 		preg_match('~/([^/.]+)\.inc\.php$~', $filename, $matches);
 		return $matches[1];
-	}, glob(__DIR__ . "/adminer/lang/*.inc.php"));
+	}, glob(__DIR__ . "/../adminer/lang/*.inc.php"));
 
 	$cases = "";
 	$plurals_map = [];
@@ -108,7 +112,7 @@ function put_file_lang() {
 
 		// Assign $translations
 		$translations = [];
-		include __DIR__ . "/adminer/lang/$language.inc.php";
+		include __DIR__ . "/../adminer/lang/$language.inc.php";
 
 		$translation_ids = array_flip($lang_ids); // default translation
 		foreach ($translations as $key => $val) {
@@ -157,18 +161,23 @@ function put_file_lang() {
 	';
 }
 
-function short_identifier($number, $chars) {
+function short_identifier(int $number, string $chars): string
+{
 	$return = '';
+
 	while ($number >= 0) {
 		$return .= $chars[$number % strlen($chars)];
 		$number = floor($number / strlen($chars)) - 1;
 	}
+
 	return $return;
 }
 
 // based on http://latrine.dgx.cz/jak-zredukovat-php-skripty
-function php_shrink($input) {
+function php_shrink(string $input): string
+{
 	global $VERSION;
+
 	$special_variables = array_flip(['$this', '$GLOBALS', '$_GET', '$_POST', '$_FILES', '$_COOKIE', '$_SESSION', '$_SERVER', '$http_response_header', '$php_errormsg']);
 	$short_variables = [];
 	$shortening = true;
@@ -290,57 +299,57 @@ if (!function_exists("each")) {
 	}
 }
 
-function min_version() {
+function min_version(): bool
+{
 	return true;
 }
 
-function number_type() {
-	return '';
-}
+// Parse script arguments.
+$arguments = $argv;
+array_shift($arguments);
 
 $project = "adminer";
-array_shift($argv);
-
-if ($argv[0] == "editor") {
+if ($arguments[0] == "editor") {
 	$project = "editor";
-	array_shift($argv);
+	array_shift($arguments);
 }
 
 $selected_drivers = [];
-if ($argv) {
-	$params = explode(",", $argv[0]);
-	if (file_exists(__DIR__ . "/adminer/drivers/" . $params[0] . ".inc.php")) {
+if ($arguments) {
+	$params = explode(",", $arguments[0]);
+	if (file_exists(__DIR__ . "/../adminer/drivers/" . $params[0] . ".inc.php")) {
 		$selected_drivers = $params;
-		array_shift($argv);
+		array_shift($arguments);
 	}
 }
 $single_driver = count($selected_drivers) == 1 ? $selected_drivers[0] : null;
 
 $selected_languages = [];
-if ($argv) {
-	$params = explode(",", $argv[0]);
-	if (file_exists(__DIR__ . "/adminer/lang/" . $params[0] . ".inc.php")) {
+if ($arguments) {
+	$params = explode(",", $arguments[0]);
+	if (file_exists(__DIR__ . "/../adminer/lang/" . $params[0] . ".inc.php")) {
 		$selected_languages = $params;
-		array_shift($argv);
+		array_shift($arguments);
 	}
 }
 $single_language = count($selected_languages) == 1 ? $selected_languages[0] : null;
 
-if ($argv) {
+if ($arguments) {
 	echo "Usage: php compile.php [editor] [driver] [language]\n";
 	echo "Purpose: Compile adminer[-driver][-lang].php or editor[-driver][-lang].php.\n";
 	exit(1);
 }
 
 // Check function definition in drivers.
-$file = file_get_contents(__DIR__ . "/adminer/drivers/mysql.inc.php");
+/* Disabled for now because it reports too many warnings.
+$file = file_get_contents(__DIR__ . "/../adminer/drivers/mysql.inc.php");
 $file = preg_replace('~class Min_Driver.*\n\t}~sU', '', $file);
 preg_match_all('~\bfunction ([^(]+)~', $file, $matches); //! respect context (extension, class)
 $functions = array_combine($matches[1], $matches[0]);
 //! do not warn about functions without declared support()
 unset($functions["__construct"], $functions["__destruct"], $functions["set_charset"]);
 
-foreach (glob(__DIR__ . "/adminer/drivers/*.inc.php") as $filename) {
+foreach (glob(__DIR__ . "/../adminer/drivers/*.inc.php") as $filename) {
 	preg_match('~/([^/.]+)\.inc\.php$~', $filename, $matches);
 	if ($matches[1] == "mysql" || ($selected_drivers && !in_array($matches[1], $selected_drivers))) {
 		continue;
@@ -353,20 +362,21 @@ foreach (glob(__DIR__ . "/adminer/drivers/*.inc.php") as $filename) {
 		}
 	}
 }
+*/
 
-include __DIR__ . "/adminer/include/pdo.inc.php";
-include __DIR__ . "/adminer/include/driver.inc.php";
+include __DIR__ . "/../adminer/include/pdo.inc.php";
+include __DIR__ . "/../adminer/include/driver.inc.php";
 
 $features = ["call" => "routine", "dump", "event", "privileges", "procedure" => "routine", "processlist", "routine", "scheme", "sequence", "status", "trigger", "type", "user" => "privileges", "variables", "view"];
 $lang_ids = []; // global variable simplifies usage in a callback functions
 
 // Start with index.php.
-$file = file_get_contents(__DIR__ . "/$project/index.php");
+$file = file_get_contents(__DIR__ . "/../$project/index.php");
 
 // Remove including source code for unsupported features in single-driver file.
 if ($single_driver) {
 	$_GET[$single_driver] = true; // to load the driver
-	include __DIR__ . "/adminer/drivers/$single_driver.inc.php";
+	include __DIR__ . "/../adminer/drivers/$single_driver.inc.php";
 
 	foreach ($features as $key => $feature) {
 		if (!support($feature)) {

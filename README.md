@@ -42,20 +42,20 @@ download the source code and compile your own AdminerNeo:
 
 - Download the source code.
 - Run `composer install` to install dependencies.
-- Run compile.php:
+- Run bin/compile.php:
 
 ```shell
 # AdminerNeo
-php compile.php <drivers> <languages>
+php bin/compile.php <drivers> <languages>
 
 # AdminerNeo Editor
-php compile.php editor <drivers> <languages>
+php bin/compile.php editor <drivers> <languages>
 ```
 
 For example:
 ```shell
-php compile.php pgsql cs
-php compile.php mysql,pgsql en,de,cs,sk
+php bin/compile.php pgsql cs
+php bin/compile.php mysql,pgsql en,de,cs,sk
 ```
 
 [Available drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers), 
@@ -182,7 +182,7 @@ Main project files
 - adminer/plugins.php - Plugins demo.
 - adminer/sqlite.php - Development version of AdminerNeo with SQLite allowed.
 - editor/sqlite.php - Development version of Editor with SQLite allowed.
-- compile.php - Create a single file version.
+- bin/compile.php - Create a single file version.
 - bin/update-languages.php - Update language files.
 - tests/katalon.html - Katalon Automation Recorder test suite.
 
