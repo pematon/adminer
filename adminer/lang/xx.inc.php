@@ -28,7 +28,6 @@ $translations = [
 	'No extension' => 'Xx',
 	'None of the supported PHP extensions (%s) are available.' => 'Xx (%s).',
 	'Connecting to privileged ports is not allowed.' => 'Xx.',
-	'Disable %s or enable %s or %s extensions.' => 'Xx %s xx %s xx %s xx.',
 	'Session support must be enabled.' => 'Xx.',
 	'Session expired, please login again.' => 'Xx.',
 	'The action will be performed after successful login with the same credentials.' => 'Xx.',
@@ -239,8 +238,6 @@ $translations = [
 	'Time' => 'Xx',
 	'Event' => 'Xx',
 	'Name' => 'Xx',
-
-	'select' => 'xx',
 	'Select' => 'Xx',
 	'Select data' => 'Xx',
 	'Functions' => 'Xx',
@@ -285,7 +282,6 @@ $translations = [
 	'original' => 'xx',
 	// label for value '' in enum data type
 	'empty' => 'xx',
-	'edit' => 'xx',
 	'Edit' => 'Xx',
 	'Insert' => 'Xx',
 	'Save' => 'Xx',
