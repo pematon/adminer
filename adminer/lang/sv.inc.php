@@ -26,7 +26,6 @@ $translations = [
 	'No extension' => 'Inget tillägg',
 	'None of the supported PHP extensions (%s) are available.' => 'Inga av de PHP-tilläggen som stöds (%s) är tillgängliga.',
 	'Connecting to privileged ports is not allowed.' => 'Anslutning till privilegierade portar är inte tillåtet.',
-	'Disable %s or enable %s or %s extensions.' => 'Stäng av %s eller sätt på %s eller %s tilläggen.',
 	'Session support must be enabled.' => 'Support för sessioner måste vara på.',
 	'Session expired, please login again.' => 'Session har löpt ut, vänligen logga in igen.',
 	'The action will be performed after successful login with the same credentials.' => 'Åtgärden kommer att utföras efter en lyckad inloggning med samma inloggningsuppgifter.',
@@ -237,8 +236,6 @@ $translations = [
 	'Time' => 'Tid',
 	'Event' => 'Event',
 	'Name' => 'Namn',
-
-	'select' => 'välj',
 	'Select' => 'Välj',
 	'Select data' => 'Välj data',
 	'Functions' => 'Funktioner',
@@ -283,7 +280,6 @@ $translations = [
 	'original' => 'original',
 	// label for value '' in enum data type
 	'empty' => 'tom',
-	'edit' => 'redigera',
 	'Edit' => 'Redigera',
 	'Insert' => 'Infoga',
 	'Save' => 'Spara',

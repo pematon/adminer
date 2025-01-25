@@ -223,8 +223,6 @@ $translations = [
 	'Time' => 'زمان',
 	'Event' => 'رویداد',
 	'Name' => 'نام',
-
-	'select' => 'انتخاب',
 	'Select' => 'انتخاب',
 	'Select data' => 'انتخاب داده',
 	'Functions' => 'توابع',
@@ -269,7 +267,6 @@ $translations = [
 	'original' => 'اصلی',
 	// label for value '' in enum data type
 	'empty' => 'خالی',
-	'edit' => 'ویرایش',
 	'Edit' => 'ویرایش',
 	'Insert' => 'درج',
 	'Save' => 'ذخیره',
@@ -349,7 +346,6 @@ $translations = [
 	'Saving' => null,
 	'Unknown error.' => null,
 	'Database does not support password.' => null,
-	'Disable %s or enable %s or %s extensions.' => null,
 
 	'Columns' => null,
 	'Nullable' => null,

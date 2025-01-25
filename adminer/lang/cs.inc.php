@@ -28,7 +28,6 @@ $translations = [
 	'No extension' => 'Žádné rozšíření',
 	'None of the supported PHP extensions (%s) are available.' => 'Není dostupné žádné z podporovaných PHP rozšíření (%s).',
 	'Connecting to privileged ports is not allowed.' => 'Připojování k privilegovaným portům není povoleno.',
-	'Disable %s or enable %s or %s extensions.' => 'Zakažte %s nebo povolte rozšíření %s nebo %s.',
 	'Session support must be enabled.' => 'Session proměnné musí být povolené.',
 	'Session expired, please login again.' => 'Session vypršela, přihlašte se prosím znovu.',
 	'The action will be performed after successful login with the same credentials.' => 'Akce bude provedena po úspěšném přihlášení se stejnými přihlašovacími údaji.',
@@ -238,8 +237,6 @@ $translations = [
 	'Time' => 'Čas',
 	'Event' => 'Událost',
 	'Name' => 'Název',
-
-	'select' => 'vypsat',
 	'Select' => 'Vypsat',
 	'Select data' => 'Vypsat data',
 	'Functions' => 'Funkce',
@@ -284,7 +281,6 @@ $translations = [
 	'original' => 'původní',
 	// label for value '' in enum data type
 	'empty' => 'prázdné',
-	'edit' => 'upravit',
 	'Edit' => 'Upravit',
 	'Insert' => 'Vložit',
 	'Save' => 'Uložit',

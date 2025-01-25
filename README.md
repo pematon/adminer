@@ -183,7 +183,7 @@ Main project files
 - adminer/sqlite.php - Development version of AdminerNeo with SQLite allowed.
 - editor/sqlite.php - Development version of Editor with SQLite allowed.
 - compile.php - Create a single file version.
-- lang.php - Update translations.
+- bin/update-languages.php - Update language files.
 - tests/katalon.html - Katalon Automation Recorder test suite.
 
 Project history
