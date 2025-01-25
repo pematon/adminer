@@ -37,7 +37,6 @@ $translations = [
 	'Logout' => 'Выйти',
 	'Use' => 'Выбрать',
 	'No tables.' => 'В базе данных нет таблиц.',
-	'select' => 'выбрать',
 	'Item has been deleted.' => 'Запись удалена.',
 	'Item has been updated.' => 'Запись обновлена.',
 	'Item%s has been inserted.' => 'Запись%s была вставлена.',
@@ -60,7 +59,6 @@ $translations = [
 	'Limit' => 'Лимит',
 	'No rows.' => 'Нет записей.',
 	'Action' => 'Действие',
-	'edit' => 'редактировать',
 	'Page' => 'Страница',
 	'Query executed OK, %d row(s) affected.' => ['Запрос завершён, изменена %d запись.', 'Запрос завершён, изменены %d записи.', 'Запрос завершён, изменено %d записей.'],
 	'Error in query' => 'Ошибка в запросe',
@@ -303,8 +301,6 @@ $translations = [
 	'There is a space in the input password which might be the cause.' => 'В введеном пароле есть пробел, это может быть причиною.',
 	'Unknown error.' => 'Неизвестная ошибка.',
 	'Database does not support password.' => 'База данных не поддерживает пароль.',
-
-	'Disable %s or enable %s or %s extensions.' => 'Отключите %s или включите расширения %s или %s.',
 
 	'Columns' => null,
 	'Nullable' => null,

@@ -225,8 +225,6 @@ $translations = [
 	'Time' => 'Aika',
 	'Event' => 'Tapahtuma',
 	'Name' => 'Nimi',
-
-	'select' => 'valitse',
 	'Select' => 'Valitse',
 	'Select data' => 'Valitse data',
 	'Functions' => 'Funktiot',
@@ -271,7 +269,6 @@ $translations = [
 	'original' => 'alkuperäinen',
 	// label for value '' in enum data type
 	'empty' => 'tyhjä',
-	'edit' => 'muokkaa',
 	'Edit' => 'Muokkaa',
 	'Insert' => 'Lisää',
 	'Save' => 'Tallenna',
@@ -349,7 +346,6 @@ $translations = [
 	'There is a space in the input password which might be the cause.' => 'Syynä voi olla syötetyssä salasanassa oleva välilyönti.',
 	'Unknown error.' => 'Tuntematon virhe.',
 	'Database does not support password.' => 'Tietokanta ei tue salasanaa.',
-	'Disable %s or enable %s or %s extensions.' => 'Poista käytöstä %s tai ota käyttöön laajennus %s tai %s.',
 
 	'Columns' => null,
 	'Nullable' => null,
