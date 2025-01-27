@@ -13,7 +13,7 @@ function create_adminer(): Adminer
 {
     // Define configuration.
     $config = [
-        "theme" => "default-green",
+        "colorVariant" => "green",
     ];
 	
     return new Adminer($config);
@@ -30,8 +30,14 @@ Options
 
 Default value: `default`
 
-Theme code. Available themes are: `default`, `default-green`, `default-red`. Please, be sure that the theme is compiled 
-into the final single file.
+Theme code. Available themes are: `default`. Please, be sure that the theme is compiled into the final single file.
+
+### colorVariant
+
+Default value: `null`
+
+Theme color code. Available variants are: `green`, `red`. Please, be sure that the color variant is compiled into the 
+final single file together with selected theme.
 
 ### cssUrls
 
