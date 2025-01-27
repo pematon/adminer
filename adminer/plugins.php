@@ -40,7 +40,7 @@ function create_adminer(): Pluginer
 	];
 
 	$config = [
-		"theme" => "default-green",
+		"colorVariant" => "green",
 		"navigationMode" => "dual",
 		"preferSelection" => true,
 		"recordsPerPage" => 30,

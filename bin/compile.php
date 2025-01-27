@@ -452,12 +452,18 @@ $cases = "";
 $linked_files = [];
 for ($i = 0; $i < count($matches[0]); $i++) {
 	$name = $matches[1][$i];
-	// TODO: Compile selected theme.
-	if ($name == '$theme.css') {
+	$files = trim($matches[2][$i], " \n\r\t\",");
+
+	// TODO: Compile selected themes.
+	if ($name == '$theme.css' || $name == '$theme-$variant.css') {
 		continue;
 	}
 
-	$file_paths = preg_split('~",\s+"~', trim($matches[2][$i], " \n\r\t\","));
+	// TODO: Compile icon variants.
+	$name = str_replace('icon$postfix', "icon", $name);
+	$files = str_replace('icon$postfix', "icon", $files);
+
+	$file_paths = preg_split('~",\s+"~', $files);
 
 	$linked_files[$name] = linked_filename($name, $file_paths);
 	$cases .= 'case "' . $linked_files[$name] . '": $file = "' . compile_file($name, $file_paths) . '"; break;';
@@ -470,7 +476,12 @@ $file = str_replace(
 );
 
 $file = preg_replace_callback('~link_files\("([^"]+)", [^)]+\)~', function (array $match) use ($linked_files) {
-	return 'BASE_URL . "?file=' . urlencode($linked_files[$match[1]]) . '"';
+	$name = $match[1];
+
+	// TODO: Compile icon variants.
+	$name = str_replace('icon$postfix', "icon", $name);
+
+	return 'BASE_URL . "?file=' . urlencode($linked_files[$name]) . '"';
 }, $file);
 
 // Remove superfluous PHP tags.

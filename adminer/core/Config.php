@@ -35,6 +35,11 @@ class Config
 		return $this->config["theme"] ?? "default";
 	}
 
+	public function getColorVariant(): ?string
+	{
+		return $this->config["colorVariant"] ?? null;
+	}
+
 	/**
 	 * @return string[]
 	 */

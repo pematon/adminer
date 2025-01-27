@@ -47,17 +47,39 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 	if ($theme != "default") {
 ?>
 <link rel="stylesheet" type="text/css" href="<?= link_files("$theme.css", ["../adminer/themes/$theme.css"]); ?>">
-<?php } ?>
-<?= script_src(link_files("main.js", ["../adminer/scripts/functions.js", "scripts/editing.js"])); ?>
+<?php
+	}
 
-<?php if ($adminer->head()) { ?>
-	<link rel="shortcut icon" type="image/x-icon" href="<?= link_files("favicon.ico", ["../adminer/images/favicon.ico"]); ?>">
-	<?php foreach ($adminer->css() as $url) { ?>
+	$variant = $adminer->getConfig()->getColorVariant();
+	if ($variant) {
+?>
+<link rel="stylesheet" type="text/css" href="<?= link_files("$theme-$variant.css", ["../adminer/themes/$theme-$variant.css"]); ?>">
+<?php
+	}
+
+	echo script_src(link_files("main.js", ["../adminer/scripts/functions.js", "scripts/editing.js"]));
+
+	// https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
+	// Converting PNG to ICO: https://redketchup.io/icon-converter
+	if ($adminer->head()) {
+		$variant = $adminer->getConfig()->getColorVariant();
+		$postfix = $variant ? "-$variant" : "";
+?>
+	<link rel="icon" type="image/x-icon" href="<?= link_files("favicon$postfix.ico", ["../adminer/images/variants/favicon$postfix.ico"]); ?>" sizes="32x32">
+	<link rel="icon" type="image/svg+xml" href="<?= link_files("favicon$postfix.svg", ["../adminer/images/variants/favicon$postfix.svg"]); ?>">
+	<link rel="apple-touch-icon" href="<?= link_files("apple-touch-icon$postfix.png", ["../adminer/images/variants/apple-touch-icon$postfix.png"]); ?>">
+
+	<?php
+	foreach ($adminer->getCssUrls() as $url) {
+	?>
 		<link rel="stylesheet" type="text/css" href="<?= h($url); ?>">
-	<?php } ?>
-	<?php foreach ($adminer->getConfig()->getJsUrls() as $url) { ?>
-		<?= script_src($url); ?>
-	<?php } ?>
+	<?php
+	}
+
+	foreach ($adminer->getJsUrls() as $url) {
+		echo script_src($url);
+	}
+	?>
 <?php } ?>
 </head>
 <body class="<?php echo lang('ltr'); ?> nojs">
