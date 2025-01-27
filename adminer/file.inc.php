@@ -32,6 +32,9 @@ function load_compiled_file(string $filename)
 		case "ico":
 			header("Content-Type: image/x-icon");
 			break;
+		case "png":
+			header("Content-Type: image/png");
+			break;
 		case "svg":
 			header("Content-Type: image/svg+xml");
 			break;

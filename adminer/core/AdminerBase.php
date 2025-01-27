@@ -87,15 +87,32 @@ abstract class AdminerBase
 	public abstract function head();
 
 	/**
-	 * Returns URLs of the CSS files.
+	 * Returns configured URLs of the CSS files together with autoloaded adminer.css if exists.
 	 *
 	 * @return string[]
 	 */
-	function css(): array
+	function getCssUrls(): array
 	{
 		$urls = $this->getConfig()->getCssUrls();
 
 		$filename = "adminer.css";
+		if (file_exists($filename)) {
+			$urls[] = "$filename?v=" . filemtime($filename);
+		}
+
+		return $urls;
+	}
+
+	/**
+	 * Returns configured URLs of the JS files together with autoloaded adminer.js if exists.
+	 *
+	 * @return string[]
+	 */
+	function getJsUrls(): array
+	{
+		$urls = $this->getConfig()->getJsUrls();
+
+		$filename = "adminer.js";
 		if (file_exists($filename)) {
 			$urls[] = "$filename?v=" . filemtime($filename);
 		}

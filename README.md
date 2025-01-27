@@ -76,7 +76,7 @@ function create_adminer(): Adminer
 {
     // Define configuration.
     $config = [
-        "theme" => "default-green",
+        "colorVariant" => "green",
     ];
 	
     return new Adminer($config);
@@ -90,7 +90,8 @@ Available configuration parameters:
 
 | Parameter                   | Default value | Description                                                                                                                                     |
 |-----------------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `theme`                     | default       | Theme code. Available themes are: `default`, `default-green`, `default-red`.                                                                    |
+| `theme`                     | default       | Theme code. Available themes are: `default`.                                                                                                    |
+| `colorVariant`              | null          | Theme color variant. Available variants are: `green`, `red`.                                                                                    |
 | `cssUrls`                   | []            | List of custom CSS files.                                                                                                                       |
 | `jsUrls`                    | []            | List of custom Javascript files.                                                                                                                |
 | `navigationMode`            | simple        | Main navigation mode that affects the left menu with the list of tables and top links: `simple`, `dual`, `reversed`.                            |
@@ -106,7 +107,7 @@ Available configuration parameters:
 | `sslEncrypt`                | null          | MS SQL: Value for [Encrypt connection option](https://learn.microsoft.com/en-us/sql/connect/php/connection-options).                            |
 | `sslTrustServerCertificate` | null          | MS SQL: Value for [TrustServerCertificate connection option](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE). |
 
-For detailed information see [Configuration documentation](docs/upgrade.md).
+For detailed information see [Configuration documentation](docs/configuration.md).
 
 Plugins
 -------
@@ -161,7 +162,7 @@ function create_adminer(): Pluginer
     
     // Define configuration.
     $config = [
-        "theme" => "default-green",
+        "colorVariant" => "green",
     ];
     
     return new Pluginer($plugins, $config);
