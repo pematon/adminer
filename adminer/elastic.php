@@ -15,7 +15,7 @@ function create_adminer(): Pluginer
 		// Attention! Inline the result of password_hash() so that the password is not visible in source codes.
 		new AdminerLoginPasswordLess(password_hash("YOUR_PASSWORD_HERE", PASSWORD_DEFAULT)),
 	], [
-		"theme" => "default-green",
+		"colorVariant" => "green",
 	]);
 }
 

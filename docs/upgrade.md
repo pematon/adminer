@@ -9,11 +9,12 @@ Migrating to 5.0
 - TODO: adminer_object -> create_adminer
 - TODO: AdminerPlugin -> Pluginer
 - TODO: removed autoload of plugins based on class name 
-- TODO: removed all designs, new configurable theme
+- TODO: removed all designs, new configurable theme and color variants
 - TODO: removed plugin `AdminerVersionNoverify`, config option `versionVerification`
 - TODO: removed plugin `AdminerDatabaseHide`, config options `hiddenDatabases`, `hiddenSchemas`
 - TODO: removed plugin `AdminerDotJs`, config option `jsUrls`
 - TODO: removed plugin `AdminerLoginSsl`, config options `ssl*`
+- TODO: removed plugin `AdminerDotJs`, adminer.js is autoloaded
 - TODO: removed customizable css() method, config option `cssUrls`
 - TODO: removed unused selectQueryBuild() customization method
 - TODO: set navigationMode to `reversed` for original-like menu
