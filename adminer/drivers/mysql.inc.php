@@ -5,7 +5,7 @@ namespace Adminer;
 use mysqli;
 use PDO;
 
-$drivers["mysql"] = "MySQL";
+add_driver("mysql", "MySQL");
 
 if (isset($_GET["mysql"])) {
 	define("DRIVER", "mysql");

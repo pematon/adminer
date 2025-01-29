@@ -2,7 +2,7 @@
 
 namespace Adminer;
 
-$drivers["pgsql"] = "PostgreSQL";
+add_driver("pgsql", "PostgreSQL");
 
 if (isset($_GET["pgsql"])) {
 	define("DRIVER", "pgsql");

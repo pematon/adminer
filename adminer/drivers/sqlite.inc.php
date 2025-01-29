@@ -5,7 +5,7 @@ namespace Adminer;
 use Exception;
 use SQLite3;
 
-$drivers["sqlite"] = "SQLite";
+add_driver("sqlite", "SQLite");
 
 if (isset($_GET["sqlite"])) {
 	define("DRIVER", "sqlite");
