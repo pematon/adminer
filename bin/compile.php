@@ -35,6 +35,17 @@ function replace_lang(array $match): string
 	return "lang($lang_ids[$text]$match[2]";
 }
 
+function append_linked_files_cases(string $name, string $files, string &$name_cases, string &$data_cases): void
+{
+	$file_paths = preg_split('~",\s+"~', $files);
+
+	$linked_filename = linked_filename($name, $file_paths);
+	if ($linked_filename) {
+		$name_cases .= "case '$name': \$filename = '$linked_filename'; break;";
+		$data_cases .= "case '$linked_filename': \$data = '" . compile_file($name, $file_paths) . "'; break;";
+	}
+}
+
 function put_file(array $match, string $current_path = ""): string
 {
 	global $project, $selected_languages, $single_driver;
@@ -317,6 +328,7 @@ if ($arguments[0] == "editor") {
 $selected_drivers = [];
 if ($arguments) {
 	$params = explode(",", $arguments[0]);
+
 	if (file_exists(__DIR__ . "/../adminer/drivers/" . $params[0] . ".inc.php")) {
 		$selected_drivers = $params;
 		array_shift($arguments);
@@ -327,12 +339,33 @@ $single_driver = count($selected_drivers) == 1 ? $selected_drivers[0] : null;
 $selected_languages = [];
 if ($arguments) {
 	$params = explode(",", $arguments[0]);
+
 	if (file_exists(__DIR__ . "/../adminer/lang/" . $params[0] . ".inc.php")) {
 		$selected_languages = $params;
 		array_shift($arguments);
 	}
 }
 $single_language = count($selected_languages) == 1 ? $selected_languages[0] : null;
+
+$selected_themes = [];
+if ($arguments) {
+	$params = explode(",", $arguments[0]);
+
+	if (file_exists(__DIR__ . "/../adminer/themes/" . str_replace("+", "", $params[0]) . ".css")) {
+		foreach ($params as $theme) {
+			// Expand names with wildcards.
+			if (strpos($theme, "+") !== false) {
+				foreach (glob(__DIR__ . "/../adminer/themes/" . str_replace("+", "*", $theme)) as $filename) {
+					$selected_themes[] = str_replace(".css", "", basename($filename));
+				};
+			} else {
+				$selected_themes[] = $theme;
+			}
+		}
+
+		array_shift($arguments);
+	}
+}
 
 if ($arguments) {
 	echo "Usage: php compile.php [editor] [driver] [language]\n";
@@ -369,6 +402,9 @@ include __DIR__ . "/../adminer/include/driver.inc.php";
 
 $features = ["call" => "routine", "dump", "event", "privileges", "procedure" => "routine", "processlist", "routine", "scheme", "sequence", "status", "trigger", "type", "user" => "privileges", "variables", "view"];
 $lang_ids = []; // global variable simplifies usage in a callback functions
+
+// Change current directory to the project's root. This is required for generating static files.
+chdir(__DIR__ . "/../$project");
 
 // Start with index.php.
 $file = file_get_contents(__DIR__ . "/../$project/index.php");
@@ -448,41 +484,68 @@ $file = substr($file, 0, $pos) . $usages . str_replace("namespace Adminer;\n", "
 // Integrate static files.
 preg_match_all('~link_files\("([^"]+)", \[([^]]+)]\)~', $file, $matches);
 
-$cases = "";
-$linked_files = [];
+$name_cases = "";
+$data_cases = "";
 for ($i = 0; $i < count($matches[0]); $i++) {
 	$name = $matches[1][$i];
 	$files = trim($matches[2][$i], " \n\r\t\",");
 
-	// TODO: Compile selected themes.
-	if ($name == '$theme.css' || $name == '$theme-$variant.css') {
+	if ($name == '$theme-$variant.css') {
 		continue;
 	}
 
-	// TODO: Compile icon variants.
-	$name = str_replace('icon$postfix', "icon", $name);
-	$files = str_replace('icon$postfix', "icon", $files);
+	// Selected themes.
+	if ($name == '$theme.css') {
+		foreach ($selected_themes as $theme) {
+			if ($theme == "default") continue;
 
-	$file_paths = preg_split('~",\s+"~', $files);
+			$name2 = str_replace('$theme', $theme, $name);
+			$files2 = str_replace('$theme', $theme, $files);
 
-	$linked_files[$name] = linked_filename($name, $file_paths);
-	$cases .= 'case "' . $linked_files[$name] . '": $file = "' . compile_file($name, $file_paths) . '"; break;';
+			append_linked_files_cases($name2, $files2, $name_cases, $data_cases);
+		}
+
+		continue;
+	}
+
+	// Favicon color variants.
+	if (preg_match('~icon\$postfix\.~', $name)) {
+		$name2 = str_replace('$postfix', "", $name);
+		$files2 = str_replace('$postfix', "", $files);
+
+		append_linked_files_cases($name2, $files2, $name_cases, $data_cases);
+
+		foreach ($selected_themes as $theme) {
+			if (!preg_match('~-(green|red)$~', $theme, $theme_matches)) {
+				continue;
+			}
+
+			$name2 = str_replace('$postfix', "-$theme_matches[1]", $name);
+			$files2 = str_replace('$postfix', "-$theme_matches[1]", $files);
+
+			append_linked_files_cases($name2, $files2, $name_cases, $data_cases);
+		}
+
+		continue;
+	}
+
+	append_linked_files_cases($name, $files, $name_cases, $data_cases);
 }
 
 $file = str_replace(
-	'$file = read_compiled_file($filename); // !compile: get compiled file',
-	'switch ($filename) {' . $cases . '}',
+	'$filename = generate_linked_file($name, $file_paths); // !compile: generate linked file',
+	'switch ($name) {' . $name_cases . ' default: $filename = null; break; }',
 	$file
 );
 
-$file = preg_replace_callback('~link_files\("([^"]+)", [^)]+\)~', function (array $match) use ($linked_files) {
-	$name = $match[1];
+$file = str_replace(
+	'$data = read_compiled_file($filename); // !compile: get compiled file',
+	'switch ($filename) {' . $data_cases . ' default: $data = null; break; }',
+	$file
+);
 
-	// TODO: Compile icon variants.
-	$name = str_replace('icon$postfix', "icon", $name);
-
-	return 'BASE_URL . "?file=' . urlencode($linked_files[$name]) . '"';
-}, $file);
+// Simplify links to static files, second parameter with the file list can (and should) be erased.
+$file = preg_replace('~link_files\("([^"]+)", \[([^]]+)]\)~', 'link_files("$1", [])', $file);
 
 // Remove superfluous PHP tags.
 $file = preg_replace("~<\\?php\\s*\\?>\n?|\\?>\n?<\\?php~", '', $file);
@@ -491,12 +554,13 @@ $file = preg_replace("~<\\?php\\s*\\?>\n?|\\?>\n?<\\?php~", '', $file);
 $file = php_shrink($file);
 
 // Save file to export directory.
-@mkdir("export", 0777, true);
-$filename = "export/$project"
+@mkdir(__DIR__ . "/../export", 0777, true);
+$filename = __DIR__ . "/../export/$project"
 	. (is_dev_version() ? "" : "-$VERSION")
 	. ($single_driver ? "-$single_driver" : "")
 	. ($single_language ? "-$single_language" : "")
 	. ".php";
 
 file_put_contents($filename, $file);
-echo "$filename created (" . strlen($file) . " B).\n";
+
+echo "export/" . basename($filename) . " created (" . strlen($file) . " B).\n";

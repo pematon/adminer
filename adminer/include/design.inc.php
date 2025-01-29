@@ -36,51 +36,43 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 <!DOCTYPE html>
 <html lang="<?= $LANG; ?>" dir="<?= lang('ltr'); ?>">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="robots" content="noindex, nofollow">
-<meta name="viewport" content="initial-scale=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="viewport" content="initial-scale=1"/>
 
-<title><?= $title_page; ?></title>
-<link rel="stylesheet" type="text/css" href="<?= link_files("default.css", ["../adminer/themes/default.css"]); ?>">
+	<title><?= $title_page; ?></title>
 <?php
+	echo "<link rel='stylesheet' type='text/css' href='", link_files("default.css", ["../adminer/themes/default.css"]), "'>\n";
+
 	$theme = $adminer->getConfig()->getTheme();
 	if ($theme != "default") {
-?>
-<link rel="stylesheet" type="text/css" href="<?= link_files("$theme.css", ["../adminer/themes/$theme.css"]); ?>">
-<?php
+		echo "<link rel='stylesheet' type='text/css' href='" . link_files("$theme.css", ["../adminer/themes/$theme.css"]) . "'>\n";
 	}
-
-	$variant = $adminer->getConfig()->getColorVariant();
-	if ($variant) {
-?>
-<link rel="stylesheet" type="text/css" href="<?= link_files("$theme-$variant.css", ["../adminer/themes/$theme-$variant.css"]); ?>">
-<?php
+	if ($variant = $adminer->getConfig()->getColorVariant()) {
+		echo "<link rel='stylesheet' type='text/css' href='" . link_files("$theme-$variant.css", ["../adminer/themes/$theme-$variant.css"]) . "'>\n";
 	}
 
 	echo script_src(link_files("main.js", ["../adminer/scripts/functions.js", "scripts/editing.js"]));
 
-	// https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
-	// Converting PNG to ICO: https://redketchup.io/icon-converter
 	if ($adminer->head()) {
 		$variant = $adminer->getConfig()->getColorVariant();
 		$postfix = $variant ? "-$variant" : "";
+
+		// https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
+		// Converting PNG to ICO: https://redketchup.io/icon-converter
+		echo "<link rel='icon' type='image/x-icon' href='", link_files("favicon$postfix.ico", ["../adminer/images/variants/favicon$postfix.ico"]), "' sizes='32x32'>\n";
+		echo "<link rel='icon' type='image/svg+xml' href='", link_files("favicon$postfix.svg", ["../adminer/images/variants/favicon$postfix.svg"]), "'>\n";
+		echo "<link rel='apple-touch-icon' href='", link_files("apple-touch-icon$postfix.png", ["../adminer/images/variants/apple-touch-icon$postfix.png"]), "'>\n";
+
+		foreach ($adminer->getCssUrls() as $url) {
+			echo "<link rel='stylesheet' type='text/css' href='", h($url), "'>\n";
+		}
+
+		foreach ($adminer->getJsUrls() as $url) {
+			echo script_src($url);
+		}
+	}
 ?>
-	<link rel="icon" type="image/x-icon" href="<?= link_files("favicon$postfix.ico", ["../adminer/images/variants/favicon$postfix.ico"]); ?>" sizes="32x32">
-	<link rel="icon" type="image/svg+xml" href="<?= link_files("favicon$postfix.svg", ["../adminer/images/variants/favicon$postfix.svg"]); ?>">
-	<link rel="apple-touch-icon" href="<?= link_files("apple-touch-icon$postfix.png", ["../adminer/images/variants/apple-touch-icon$postfix.png"]); ?>">
-
-	<?php
-	foreach ($adminer->getCssUrls() as $url) {
-	?>
-		<link rel="stylesheet" type="text/css" href="<?= h($url); ?>">
-	<?php
-	}
-
-	foreach ($adminer->getJsUrls() as $url) {
-		echo script_src($url);
-	}
-	?>
-<?php } ?>
 </head>
 <body class="<?php echo lang('ltr'); ?> nojs">
 <script<?php echo nonce(); ?>>
