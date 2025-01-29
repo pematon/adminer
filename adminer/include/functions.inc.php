@@ -163,6 +163,16 @@ function h($string) {
 	return $string !== null ? str_replace("\0", "&#0;", htmlspecialchars($string, ENT_QUOTES, 'utf-8')) : "";
 }
 
+function link_files(string $name, array $file_paths): ?string
+{
+	$filename = generate_linked_file($name, $file_paths); // !compile: generate linked file
+	if (!$filename) {
+		return null;
+	}
+
+	return BASE_URL . "?file=" . urldecode($filename);
+}
+
 function icon_solo(string $id): string
 {
 	return icon($id, "solo");
