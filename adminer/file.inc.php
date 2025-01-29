@@ -40,8 +40,12 @@ function load_compiled_file(string $filename)
 			break;
 	}
 
-	$file = read_compiled_file($filename); // !compile: get compiled file
+	$data = read_compiled_file($filename); // !compile: get compiled file
+	if (!$data) {
+		http_response_code(404);
+		exit;
+	}
 
-	echo lzw_decompress(base64_decode($file));
+	echo lzw_decompress(base64_decode($data));
 	exit;
 }

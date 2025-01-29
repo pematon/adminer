@@ -4,19 +4,18 @@ namespace Adminer;
 
 include __DIR__ . "/../../vendor/vrana/jsshrink/jsShrink.php";
 
-function read_compiled_file(string $filename): string
+function read_compiled_file(string $filename): ?string
 {
 	$file_path = "compiled/$filename";
 
 	if (!file_exists($file_path)) {
-		http_response_code(404);
-		exit;
+		return null;
 	}
 
 	return file_get_contents($file_path);
 }
 
-function link_files(string $name, array $file_paths): string
+function generate_linked_file(string $name, array $file_paths): ?string
 {
 	static $links = [];
 
@@ -25,6 +24,9 @@ function link_files(string $name, array $file_paths): string
 	}
 
 	$linked_filename = linked_filename($name, $file_paths);
+	if (!$linked_filename) {
+		return null;
+	}
 
 	if (!file_exists("compiled/$linked_filename")) {
 		// Delete old compiled files.
@@ -34,25 +36,36 @@ function link_files(string $name, array $file_paths): string
 		}
 
 		// Compile and save the file.
-		$file = compile_file($name, $file_paths);
-		file_put_contents("compiled/$linked_filename", $file);
+		if ($data = compile_file($name, $file_paths)) {
+			file_put_contents("compiled/$linked_filename", $data);
+		}
 	}
 
-	return $links[$name] = BASE_URL . "?file=" . urldecode($linked_filename);
+	return $linked_filename;
 }
 
-function linked_filename(string $name, array $file_paths): string
+function linked_filename(string $name, array $file_paths): ?string
 {
 	$version = "";
 	foreach ($file_paths as $file_path) {
-		$version .= $file_path . filemtime(__DIR__ . "/../$file_path");
+		$full_path = __DIR__ . "/../$file_path";
+
+		if (file_exists($full_path)) {
+			$version .= $file_path . filemtime($full_path);
+		} elseif (PHP_SAPI == "cli") {
+			echo "⚠️ File does not exists: $file_path\n";
+		}
 	}
+	if (!$version) {
+		return null;
+	}
+
 	$version = substr(md5($version), 0, 8);
 
 	return preg_replace('~\.[^.]+$~', "-$version$0", $name);
 }
 
-function compile_file(string $name, array $file_paths): string
+function compile_file(string $name, array $file_paths): ?string
 {
 	switch (pathinfo($name, PATHINFO_EXTENSION)) {
 		case "css":
@@ -68,7 +81,16 @@ function compile_file(string $name, array $file_paths): string
 
 	$file = "";
 	foreach ($file_paths as $file_path) {
-		$file .= file_get_contents(__DIR__ . "/../$file_path");
+		$full_path = __DIR__ . "/../$file_path";
+
+		if (file_exists($full_path)) {
+			$file .= file_get_contents(__DIR__ . "/../$file_path");
+		} elseif (PHP_SAPI == "cli") {
+			echo "⚠️ File does not exists: $file_path\n";
+		}
+	}
+	if (!$file) {
+		return null;
 	}
 
 	if ($shrink_function) {
