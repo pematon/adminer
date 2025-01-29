@@ -37,7 +37,7 @@ Usage
 -----
 
 Download one for the latest [release files](https://github.com/adminerneo/adminerneo/releases), upload to the HTTP server 
-with PHP and enjoy 😉 If you are not satisfied with any combination of the database driver and language, you can 
+with PHP and enjoy 😉 If you are not satisfied with any combination of the database driver, language and theme, you can 
 download the source code and compile your own AdminerNeo:
 
 - Download the source code.
@@ -46,20 +46,51 @@ download the source code and compile your own AdminerNeo:
 
 ```shell
 # AdminerNeo
-php bin/compile.php <drivers> <languages>
+php bin/compile.php <drivers> <languages> <themes>
 
 # AdminerNeo Editor
-php bin/compile.php editor <drivers> <languages>
+php bin/compile.php editor <drivers> <languages> <themes>
 ```
 
-For example:
+Where:
+- `<drivers>` is comma separated list of [database drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers).
+  The default set is: mysql, pgsql, mssql, sqlite.
+- `<languages>` is comma separated list of [languages](https://github.com/adminerneo/adminerneo/tree/main/adminer/lang).
+  If not specified, all languages will be included.
+- `<themes>` is comma separated list of [themes](https://github.com/adminerneo/adminerneo/tree/adminer/themes).
+  If not specified, only the default theme without color variants will be included. The `+` character can be used as 
+  a wildcard in the theme name.
+
+If the theme name contains a postfix with one of the supported color variants (-green, -red), the corresponding favicons
+will be included automatically.
+
+For examples:
 ```shell
-php bin/compile.php pgsql cs
+# Default set of drivers, all languages, default theme (without color variants).
+php bin/compile.php
+
+# Only pgsql driver, only EN language, default theme.
+php bin/compile.php pgsql en
+
+# Only mysql and pgsql driver, selected languages, default theme.
 php bin/compile.php mysql,pgsql en,de,cs,sk
+
+# Default set of drivers, all languages, green and red color variants of the default theme.
+# Note that it is not necessary to explicitly enter the default theme.
+php bin/compile.php default-green,default-red
+
+# Default theme together with all color variants.
+php bin/compile.php default+
 ```
 
-[Available drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers), 
-[languages](https://github.com/adminerneo/adminerneo/tree/main/adminer/lang).
+Editor examples:
+```shell
+# Default set of drivers, all languages, default theme (without color variants).
+php bin/compile.php editor
+
+# Only pgsql driver, only EN language, default theme with all color variants.
+php bin/compile.php editor pgsql en default+
+```
 
 Configuration
 -------------
@@ -82,7 +113,7 @@ function create_adminer(): Adminer
     return new Adminer($config);
 }
 
-// Include original Adminer.
+// Include AdminerNeo file.
 include "adminer.php";
 ```
 
