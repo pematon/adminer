@@ -23,8 +23,7 @@ $file_paths = array_merge(
 	glob(__DIR__ . "/../editor/*.php"),
 	glob(__DIR__ . "/../editor/core/*.php"),
 	glob(__DIR__ . "/../editor/include/*.php"),
-	glob(__DIR__ . "/../plugins/*.php"),
-	glob(__DIR__ . "/../plugins/drivers/*.php")
+	glob(__DIR__ . "/../plugins/*.php")
 );
 $all_messages = [];
 foreach ($file_paths as $file_path) {
