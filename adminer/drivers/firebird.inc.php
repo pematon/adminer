@@ -6,7 +6,7 @@ namespace Adminer;
 * @author Steve Krämer
 */
 
-add_driver('firebird', 'Firebird (alpha)');
+add_driver("firebird", "Firebird (alpha)");
 
 if (isset($_GET["firebird"])) {
 	define("DRIVER", "firebird");
