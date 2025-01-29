@@ -152,8 +152,6 @@ File structure will be:
 
 ```
 - plugins
-    - drivers
-        - elastic.php
     - Pluginer.php
     - dump-xml.php
     - tinymce.php
@@ -187,9 +185,6 @@ function create_adminer(): Pluginer
         new AdminerFileUpload("data/"),
         // ...
     ];
-    
-    // Enable extra drivers just by including them.
-    include "plugins/drivers/elastic.php";
     
     // Define configuration.
     $config = [

@@ -7,7 +7,7 @@ use Exception;
 use MongoDB\BSON;
 use MongoDB\Driver;
 
-$drivers["mongo"] = "MongoDB (alpha)";
+add_driver("mongo", "MongoDB (alpha)");
 
 if (isset($_GET["mongo"])) {
 	define("DRIVER", "mongo");
