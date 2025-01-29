@@ -107,10 +107,15 @@ include __DIR__ . "/driver.inc.php";
 
 include __DIR__ . "/../drivers/mysql.inc.php";
 include __DIR__ . "/../drivers/pgsql.inc.php";
-include __DIR__ . "/../drivers/sqlite.inc.php";
-include __DIR__ . "/../drivers/oracle.inc.php";
 include __DIR__ . "/../drivers/mssql.inc.php";
+include __DIR__ . "/../drivers/sqlite.inc.php";
+
+include __DIR__ . "/../drivers/oracle.inc.php";
 include __DIR__ . "/../drivers/mongo.inc.php";
+include __DIR__ . "/../drivers/elastic.inc.php";
+include __DIR__ . "/../drivers/clickhouse.inc.php";
+include __DIR__ . "/../drivers/firebird.inc.php";
+include __DIR__ . "/../drivers/simpledb.inc.php";
 
 if (function_exists('\create_adminer')) {
 	$adminer = \create_adminer();

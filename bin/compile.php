@@ -334,6 +334,9 @@ if ($arguments) {
 		array_shift($arguments);
 	}
 }
+if (!$selected_drivers) {
+	$selected_drivers = ["mysql", "pgsql", "mssql", "sqlite"];
+}
 $single_driver = count($selected_drivers) == 1 ? $selected_drivers[0] : null;
 
 $selected_languages = [];
@@ -436,11 +439,9 @@ $file = str_replace('include __DIR__ . "/compile.inc.php";', '', $file);
 $file = str_replace('include __DIR__ . "/coverage.inc.php";', '', $file);
 
 // Remove including unwanted drivers.
-if ($selected_drivers) {
-	$file = preg_replace_callback('~\binclude __DIR__ \. "/../drivers/([^.]+).*\n~', function ($match) use ($selected_drivers) {
-		return in_array($match[1], $selected_drivers) ? $match[0] : "";
-	}, $file);
-}
+$file = preg_replace_callback('~\binclude __DIR__ \. "/../drivers/([^.]+).*\n~', function ($match) use ($selected_drivers) {
+	return in_array($match[1], $selected_drivers) ? $match[0] : "";
+}, $file);
 
 // Compile files included into the /adminer/include/bootstrap.inc.php.
 $file = preg_replace_callback('~\binclude (__DIR__ \. )?"([^"]*)";~', function ($match) {
