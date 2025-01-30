@@ -83,17 +83,33 @@ Whether verification of the new Adminer's version is enabled.
 
 Default value: `[]`
 
-List of databases to hide from the UI or a `__system` keyword to hide all system databases.
+List of databases to hide from the UI. Value `__system` will be expanded to all system databases for the current driver.
+The `*` character can be used as a wildcard.
 
 ❗️Warning: Access to these databases is not restricted. They can be still selected by modifying URL parameters.
+
+For example:
+```php
+$config = [
+    "hiddenDatabases" => ["__system", "some_other_database"],
+];
+```
 
 ### hiddenSchemas
 
 Default value: `[]`
 
-List of schemas to hide from the UI or a `__system` keyword to hide all system schemas.
+List of schemas to hide from the UI. Value `__system` will be expanded to all system schemas for the current driver.
+The `*` character can be used as a wildcard.
 
-❗️Warning: Access to these schemas is not restricted.
+❗️Warning: Access to these schemas is not restricted. They can be still selected by modifying URL parameters.
+
+For example:
+```php
+$config = [
+    "hiddenSchemas" => ["__system", "some_other_schema"],
+];
+```
 
 ### sslKey
 
