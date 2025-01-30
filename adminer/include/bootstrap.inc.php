@@ -140,6 +140,7 @@ if (defined("DRIVER")) {
 	$edit_functions = $config['edit_functions'];
 
 	$adminer->setOperators($operators, $operator_like, $operator_regexp);
+	$adminer->setSystemObjects($config["system_databases"] ?? [], $config["system_schemas"] ?? []);
 } else {
 	define("DRIVER", null);
 }

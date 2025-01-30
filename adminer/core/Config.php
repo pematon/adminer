@@ -13,20 +13,6 @@ class Config
 
 	public function __construct(array $config)
 	{
-		if (($config["hiddenDatabases"] ?? null) == "__system") {
-			$config["hiddenDatabases"] = [
-				"mysql", "information_schema", "performance_schema", "sys", // MySQL
-				"template1", // PostgreSQL
-				"INFORMATION_SCHEMA", "system" // Clickhouse
-			];
-		}
-
-		if (($config["hiddenSchemas"] ?? null) == "__system") {
-			$config["hiddenSchemas"] = [
-				"information_schema", "pg_catalog", "pg_toast", "pg_temp_*", "pg_toast_temp_*" // PostgreSQL
-			];
-		}
-
 		$this->config = $config;
 	}
 

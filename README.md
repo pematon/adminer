@@ -119,24 +119,24 @@ include "adminer.php";
 
 Available configuration parameters:
 
-| Parameter                   | Default value | Description                                                                                                                                     |
-|-----------------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `theme`                     | default       | Theme code. Available themes are: `default`.                                                                                                    |
-| `colorVariant`              | null          | Theme color variant. Available variants are: `green`, `red`.                                                                                    |
-| `cssUrls`                   | []            | List of custom CSS files.                                                                                                                       |
-| `jsUrls`                    | []            | List of custom Javascript files.                                                                                                                |
-| `navigationMode`            | simple        | Main navigation mode that affects the left menu with the list of tables and top links: `simple`, `dual`, `reversed`.                            |
-| `preferSelection`           | false         | Whether data selection is the primary action for all table links.                                                                               |
-| `recordsPerPage`            | 50            | Number of selected records per one page.                                                                                                        |
-| `versionVerification`       | true          | Whether verification of the new Adminer's version is enabled.                                                                                   |
-| `hiddenDatabases`           | []            | List of databases to hide from the UI or a `__system` keyword to hide all system databases. Access to these databases is not restricted.        |
-| `hiddenSchemas`             | []            | List of schemas to hide from the UI or a `__system` keyword to hide all system schemas. Access to these schemas is not restricted.              |
-| `sslKey`                    | null          | MySQL: The path name to the SSL key file.                                                                                                       |
-| `sslCertificate`            | null          | MySQL: The path name to the certificate file.                                                                                                   |
-| `sslCaCertificate`          | null          | MySQL: The path name to the certificate authority file.                                                                                         |
-| `sslMode`                   | null          | PostgreSQL: Value for [sslmode connection parameter](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE).         |
-| `sslEncrypt`                | null          | MS SQL: Value for [Encrypt connection option](https://learn.microsoft.com/en-us/sql/connect/php/connection-options).                            |
-| `sslTrustServerCertificate` | null          | MS SQL: Value for [TrustServerCertificate connection option](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE). |
+| Parameter                   | Default value | Description                                                                                                                                         |
+|-----------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `theme`                     | default       | Theme code. Available themes are: `default`.                                                                                                        |
+| `colorVariant`              | null          | Theme color variant. Available variants are: `green`, `red`.                                                                                        |
+| `cssUrls`                   | []            | List of custom CSS files.                                                                                                                           |
+| `jsUrls`                    | []            | List of custom Javascript files.                                                                                                                    |
+| `navigationMode`            | simple        | Main navigation mode that affects the left menu with the list of tables and top links: `simple`, `dual`, `reversed`.                                |
+| `preferSelection`           | false         | Whether data selection is the primary action for all table links.                                                                                   |
+| `recordsPerPage`            | 50            | Number of selected records per one page.                                                                                                            |
+| `versionVerification`       | true          | Whether verification of the new Adminer's version is enabled.                                                                                       |
+| `hiddenDatabases`           | []            | List of databases to hide from the UI. Value `__system` will be expanded to all system databases. Access to these databases will be not restricted. |
+| `hiddenSchemas`             | []            | List of schemas to hide from the UI. Value `__system` will be expanded to all system schemas. Access to these schemas will be not restricted.       |
+| `sslKey`                    | null          | MySQL: The path name to the SSL key file.                                                                                                           |
+| `sslCertificate`            | null          | MySQL: The path name to the certificate file.                                                                                                       |
+| `sslCaCertificate`          | null          | MySQL: The path name to the certificate authority file.                                                                                             |
+| `sslMode`                   | null          | PostgreSQL: Value for [sslmode connection parameter](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE).             |
+| `sslEncrypt`                | null          | MS SQL: Value for [Encrypt connection option](https://learn.microsoft.com/en-us/sql/connect/php/connection-options).                                |
+| `sslTrustServerCertificate` | null          | MS SQL: Value for [TrustServerCertificate connection option](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE).     |
 
 For detailed information see [Configuration documentation](docs/configuration.md).
 

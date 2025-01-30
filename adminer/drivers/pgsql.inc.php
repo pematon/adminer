@@ -982,6 +982,8 @@ AND typelem = 0"
 				]
 			],
 			'c_style_escapes' => true,
+			"system_databases" => ["template1"],
+			"system_schemas" => ["information_schema", "pg_catalog", "pg_toast", "pg_temp_*", "pg_toast_temp_*"],
 		];
 	}
 }
