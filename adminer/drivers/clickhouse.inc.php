@@ -434,6 +434,7 @@ if (isset($_GET["clickhouse"])) {
 			'functions' => [],
 			'grouping' => ["avg", "count", "count distinct", "max", "min", "sum"],
 			'edit_functions' => [],
+			"system_databases" => ["INFORMATION_SCHEMA", "information_schema", "system"],
 		];
 	}
 }
