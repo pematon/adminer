@@ -5,7 +5,7 @@
 	--link-text-hover: #c40;
 	--note-text: #ccc;
 
-	--logo-text: #777;
+	--logo-text: #a0a0a0;
 	--panel-bg: #eee;
 	--panel-border: #ccc;
 	--header-bg: #d6dff6;
@@ -45,7 +45,7 @@
 		--link-text-hover: #e99;
 		--note-text: #666;
 
-		--logo-text: #999;
+		--logo-text: #888;
 		--panel-bg: #333;
 		--panel-border: #555;
 		--header-bg: #434b68;
@@ -456,12 +456,6 @@ select {
 	display: block;
 }
 
-.version {
-	color: var(--logo-text);
-	font-size: 62%;
-	vertical-align: top;
-}
-
 .js .hidden, .nojs .jsonly {
 	display: none;
 }
@@ -808,14 +802,38 @@ menu.dual li:hover .primary {
 	margin-top: -2px;
 }
 
+h1 {
+	color: var(--logo-text);
+}
+
 #h1 {
 	color: var(--logo-text);
 	text-decoration: none;
-	font-style: italic;
+	padding: 0;
+	vertical-align: top;
+}
+
+.logo {
+	width: 160px;
+	height: 26px;
+	vertical-align: top;
+}
+
+.version {
+	color: var(--logo-text);
+	font-size: 60%;
+	vertical-align: top;
 }
 
 #version {
+	margin-left: -5px;
+	padding: 5px;
 	color: var(--version-text);
+
+	.icon {
+		width: 1em;
+		height: 1em;
+	}
 }
 
 #schema {
