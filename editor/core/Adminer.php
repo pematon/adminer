@@ -633,7 +633,7 @@ qsl('div').onclick = whisperClick;", "")
 		<span class="version">
 			<?= h($VERSION); ?>
 			<a href="https://github.com/adminerneo/adminerneo/releases"<?= target_blank(); ?> id="version">
-				<?= ($this->config->isVersionVerificationEnabled() && $last_version && version_compare($VERSION, $last_version) < 0 ? h($last_version) : ""); ?>
+				<?= ($this->config->isVersionVerificationEnabled() && $last_version && version_compare($VERSION, $last_version) < 0 ? icon_solo("asterisk") : ""); ?>
 			</a>
 		</span>
 		<?php
