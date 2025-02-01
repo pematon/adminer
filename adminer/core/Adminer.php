@@ -651,7 +651,7 @@ class Adminer extends AdminerBase
 		$return = [];
 
 		foreach ($indexes as $i => $index) {
-			if ($index["type"] == "FULLTEXT" && $_GET["fulltext"][$i] != "") {
+			if ($index["type"] == "FULLTEXT" && isset($_GET["fulltext"]) && $_GET["fulltext"][$i] != "") {
 				$return[] = "MATCH (" . implode(", ", array_map('Adminer\idf_escape', $index["columns"])) . ") AGAINST (" . q($_GET["fulltext"][$i]) . (isset($_GET["boolean"][$i]) ? " IN BOOLEAN MODE" : "") . ")";
 			}
 		}
