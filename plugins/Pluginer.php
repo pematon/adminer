@@ -97,6 +97,11 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
+	public function collations(array $keepValues = []): array
+	{
+		return $this->applyPlugin(__FUNCTION__, func_get_args());
+	}
+
 	public function queryTimeout()
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());

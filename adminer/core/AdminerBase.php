@@ -58,7 +58,7 @@ abstract class AdminerBase
 	 */
 	public function databases($flush = true): array
 	{
-		return $this->filterListWithWildcards(get_databases($flush), $this->config->getHiddenDatabases(), $this->systemDatabases);
+		return $this->filterListWithWildcards(get_databases($flush), $this->config->getHiddenDatabases(), false, $this->systemDatabases);
 	}
 
 	/**
@@ -66,34 +66,57 @@ abstract class AdminerBase
 	 */
 	public function schemas(): array
 	{
-		return $this->filterListWithWildcards(schemas(), $this->config->getHiddenSchemas(), $this->systemSchemas);
+		return $this->filterListWithWildcards(schemas(), $this->config->getHiddenSchemas(), false, $this->systemSchemas);
+	}
+
+	public function collations(array $keepValues = []): array
+	{
+		$visibleCollations = $this->config->getVisibleCollations();
+		$filterList = $visibleCollations ? array_merge($visibleCollations, $keepValues) : [];
+
+		return $this->filterListWithWildcards(collations(), $filterList, true);
 	}
 
 	/**
 	 * @param string[] $values
-	 * @param string[] $hidingList
+	 * @param string[] $filterList
+	 * @param string[] $systemObjects
 	 */
-	private function filterListWithWildcards(array $values, array $hidingList, array $systemObjects): array
+	private function filterListWithWildcards(array $values, array $filterList, bool $keeping, array $systemObjects = []): array
 	{
-		if (!$values || !$hidingList) {
+		if (!$values || !$filterList) {
 			return $values;
 		}
 
-		$index = array_search("__system", $hidingList);
+		$index = array_search("__system", $filterList);
 		if ($index !== false) {
-			unset($hidingList[$index]);
-			$hidingList = array_merge($hidingList, $systemObjects);
+			unset($filterList[$index]);
+			$filterList = array_merge($filterList, $systemObjects);
 		}
 
-		array_walk($hidingList, function (&$value) {
+		array_walk($filterList, function (&$value) {
 			$value = str_replace('\\*', ".*", preg_quote($value, "~"));
 		});
+		$pattern = '~^(' . implode("|", $filterList) . ')$~';
 
-		$pattern = '~^(' . implode("|", $hidingList) . ')$~';
+		return $this->filterListWithPattern($values, $pattern, $keeping);
+	}
 
-		return array_filter($values, function (string $name) use ($pattern) {
-			return !preg_match($pattern, $name);
-		});
+	private function filterListWithPattern(array $values, string $pattern, bool $keeping): array
+	{
+		$result = [];
+
+		foreach ($values as $key => $value) {
+			if (is_array($value)) {
+				if ($subValues = $this->filterListWithPattern($value, $pattern, $keeping)) {
+					$result[$key] = $subValues;
+				}
+			} elseif (($keeping && preg_match($pattern, $value)) || (!$keeping && !preg_match($pattern, $value))) {
+				$result[$key] = $value;
+			}
+		}
+
+		return $result;
 	}
 
 	public abstract function queryTimeout();

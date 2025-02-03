@@ -87,6 +87,11 @@ class Config
 		return $this->config["hiddenSchemas"] ?? [];
 	}
 
+	public function getVisibleCollations(): array
+	{
+		return $this->config["visibleCollations"] ?? [];
+	}
+
 	public function getSslKey(): ?string
 	{
 		return $this->config["sslKey"] ?? null;
