@@ -143,6 +143,7 @@ Available configuration parameters:
 | `versionVerification`       | true          | Whether verification of the new Adminer's version is enabled.                                                                                       |
 | `hiddenDatabases`           | []            | List of databases to hide from the UI. Value `__system` will be expanded to all system databases. Access to these databases will be not restricted. |
 | `hiddenSchemas`             | []            | List of schemas to hide from the UI. Value `__system` will be expanded to all system schemas. Access to these schemas will be not restricted.       |
+| `visibleCollations`         | []            | List of collations to keep in select boxes while editing databases or tables.                                                                       |
 | `sslKey`                    | null          | MySQL: The path name to the SSL key file.                                                                                                           |
 | `sslCertificate`            | null          | MySQL: The path name to the certificate file.                                                                                                       |
 | `sslCaCertificate`          | null          | MySQL: The path name to the certificate authority file.                                                                                             |

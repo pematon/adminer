@@ -16,6 +16,7 @@ Migrating to 5.0
 - TODO: removed plugin `AdminerDotJs`, config option `jsUrls`
 - TODO: removed plugin `AdminerLoginSsl`, config options `ssl*`
 - TODO: removed plugin `AdminerDotJs`, adminer.js is autoloaded
+- TODO: config option `visibleCollations` as a replacement for the plugin 'AdminerCollations' (https://github.com/pematon/adminer-plugins#adminercollations)
 - TODO: removed customizable css() method, config option `cssUrls`
 - TODO: removed unused selectQueryBuild() customization method
 - TODO: set navigationMode to `reversed` for original-like menu
