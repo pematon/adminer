@@ -370,8 +370,27 @@ if ($arguments) {
 	}
 }
 
+$custom_config = [];
+if ($arguments && preg_match('~\.json$~i', $arguments[0])) {
+	$file_path = $arguments[0][0] == "/" ? $arguments[0] : getcwd() . "/$arguments[0]";
+	$custom_config = @file_get_contents($file_path);
+
+	if ($custom_config) {
+		$custom_config = json_decode($custom_config, true);
+		if (!is_array($custom_config)) {
+			echo "⚠️ Wrong format of configuration file: $file_path\n";
+			exit(1);
+		}
+	} else {
+		echo "⚠️ Error reading configuration file: $file_path\n";
+		exit(1);
+	}
+
+	array_shift($arguments);
+}
+
 if ($arguments) {
-	echo "Usage: php compile.php [editor] [driver] [language]\n";
+	echo "Usage: php compile.php [editor] [drivers] [languages] [themes] [config-file.json]\n";
 	echo "Purpose: Compile adminer[-driver][-lang].php or editor[-driver][-lang].php.\n";
 	exit(1);
 }
@@ -547,6 +566,15 @@ $file = str_replace(
 
 // Simplify links to static files, second parameter with the file list can (and should) be erased.
 $file = preg_replace('~link_files\("([^"]+)", \[([^]]+)]\)~', 'link_files("$1", [])', $file);
+
+// Custom configuration.
+if ($custom_config) {
+	$file = str_replace(
+		'$this->config = $config; // !compile: custom config',
+		'$this->config = array_merge(' . var_export($custom_config, true) . ', $config);',
+		$file
+	);
+}
 
 // Remove superfluous PHP tags.
 $file = preg_replace("~<\\?php\\s*\\?>\n?|\\?>\n?<\\?php~", '', $file);

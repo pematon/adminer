@@ -46,20 +46,22 @@ download the source code and compile your own AdminerNeo:
 
 ```shell
 # AdminerNeo
-php bin/compile.php <drivers> <languages> <themes>
+php bin/compile.php [drivers] [languages] [themes] [config-file.json]
 
 # AdminerNeo Editor
-php bin/compile.php editor <drivers> <languages> <themes>
+php bin/compile.php editor [drivers] [languages] [themes] [config-file.json]
 ```
 
 Where:
-- `<drivers>` is comma separated list of [database drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers).
+- `drivers` is a comma-separated list of [database drivers](https://github.com/adminerneo/adminerneo/tree/main/adminer/drivers).
   The default set is: mysql, pgsql, mssql, sqlite.
-- `<languages>` is comma separated list of [languages](https://github.com/adminerneo/adminerneo/tree/main/adminer/lang).
+- `languages` is a comma-separated list of [languages](https://github.com/adminerneo/adminerneo/tree/main/adminer/lang).
   If not specified, all languages will be included.
-- `<themes>` is comma separated list of [themes](https://github.com/adminerneo/adminerneo/tree/adminer/themes).
+- `themes` is a comma-separated list of [themes](https://github.com/adminerneo/adminerneo/tree/adminer/themes).
   If not specified, only the default theme without color variants will be included. The `+` character can be used as 
   a wildcard in the theme name.
+- `config-file.json` is a path to the custom JSON configuration file. It contains a class with [the same parameters](#configuration) 
+  that can be configured in Adminer constructor.
 
 If the theme name contains a postfix with one of the supported color variants (-green, -red), the corresponding favicons
 will be included automatically.
@@ -81,6 +83,9 @@ php bin/compile.php default-green,default-red
 
 # Default theme together with all color variants.
 php bin/compile.php default+
+
+# Custom configuration.
+php bin/compile.php ~/my-config.json
 ```
 
 Editor examples:
@@ -90,6 +95,13 @@ php bin/compile.php editor
 
 # Only pgsql driver, only EN language, default theme with all color variants.
 php bin/compile.php editor pgsql en default+
+```
+
+JSON configuration file example:
+```json
+{
+    "navigationMode": "reversed"
+}
 ```
 
 Configuration
