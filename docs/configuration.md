@@ -111,6 +111,22 @@ $config = [
 ];
 ```
 
+### visibleCollations
+
+Default value: `[]` (no filtering is applied)
+
+List of collations to keep in the select box when editing databases or tables. The `*` character can be used as a 
+wildcard. If an existing table or row uses a different collation, it will also be preserved in the select box.
+
+For example:
+```php
+$config = [
+    "visibleCollations" => ["ascii_general_ci", "utf8mb4*czech*ci"],
+];
+```
+
+Note: Access to other collations will be not restricted.
+
 ### sslKey
 
 Default value: `null`

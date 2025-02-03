@@ -32,8 +32,8 @@ if (!$_POST && $PROCEDURE != "") {
 	$row["name"] = $PROCEDURE;
 }
 
-$collations = get_vals("SHOW CHARACTER SET");
-sort($collations);
+$charsets = get_vals("SHOW CHARACTER SET");
+sort($charsets);
 $routine_languages = routine_languages();
 ?>
 
@@ -44,13 +44,13 @@ $routine_languages = routine_languages();
 <div class="scrollable">
 <table class="nowrap" id="edit-fields">
 <?php
-edit_fields($row["fields"], $collations, $routine);
+edit_fields($row["fields"], $charsets, $routine);
 if (isset($_GET["function"])) {
 	echo "<tbody><tr>",
 		(support("move_col") ? "<th></th>" : ""),
 		"<th>", lang('Return type'), "</th>";
 
-	edit_type("returns", $row["returns"], $collations, [], ($jush == "pgsql" ? ["void", "trigger"] : []));
+	edit_type("returns", $row["returns"], $charsets, [], ($jush == "pgsql" ? ["void", "trigger"] : []));
 
 	echo "<td></td></tr></tbody>\n";
 }
