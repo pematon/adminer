@@ -47,6 +47,7 @@ function create_adminer(): Pluginer
 		"hiddenDatabases" => ["__system"],
 		"hiddenSchemas" => ["__system"],
 		"sslTrustServerCertificate" => true,
+		"visibleCollations" => ["utf8mb4*czech*ci", "ascii_general_ci"]
 	];
 
 	return new Pluginer($plugins, $config);
