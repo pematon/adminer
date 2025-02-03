@@ -170,7 +170,18 @@ if (!$_POST) {
 	}
 }
 
-$collations = collations();
+$keep_collations = [];
+if ($row["Collation"]) {
+	$keep_collations[$row["Collation"]] = true;
+}
+foreach ($row["fields"] as $field) {
+	if ($field["collation"]) {
+		$keep_collations[$field["collation"]] = true;
+	}
+}
+
+$collations = $adminer->collations(array_keys($keep_collations));
+
 $engines = engines();
 // case of engine may differ
 foreach ($engines as $engine) {
@@ -186,8 +197,12 @@ foreach ($engines as $engine) {
 <?php if (support("columns") || $TABLE == "") { ?>
 <?php echo lang('Table name'); ?>: <input class="input" name="name" data-maxlength="64" value="<?php echo h($row["name"]); ?>" autocapitalize="off" <?php echo ($TABLE == "" && !$_POST) ? "autofocus" : ""; ?>>
 <?php echo ($engines ? "<select name='Engine'>" . optionlist(["" => "(" . lang('engine') . ")"] + $engines, $row["Engine"]) . "</select>" . help_script_command("value", true) : ""); ?>
- <?php echo ($collations && !preg_match("~sqlite|mssql~", $jush) ? html_select("Collation", ["" => "(" . lang('collation') . ")"] + $collations, $row["Collation"]) : ""); ?>
- <input type="submit" class="button" value="<?php echo lang('Save'); ?>">
+<?php
+	if ($collations && !preg_match("~sqlite|mssql~", $jush)) {
+		echo html_select("Collation", ["" => "(" . lang('collation') . ")"] + $collations, $row["Collation"]);
+	}
+?>
+<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
 <?php } ?>
 
 <?php if (support("columns")) { ?>
