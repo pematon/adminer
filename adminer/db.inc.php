@@ -71,6 +71,8 @@ if ($adminer->homepage()) {
 
 			echo '</table></div>';
 		}
+
+		echo '<p class="links"><a href="' . h(ME) . 'scheme=">' . icon("database-add") . lang('Create schema') . "</a>\n";
 	} else {
 		echo "<h3 id='tables-views'>" . lang('Tables and views') . "</h3>\n";
 		$tables_list = tables_list();
