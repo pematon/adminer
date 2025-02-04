@@ -1073,19 +1073,15 @@ class Adminer extends AdminerBase
 	function homepage() {
 		echo "<p id='top-links' class='links'>\n";
 
-		if ($_GET["ns"] == "" && support("database")) {
+		$ns = $_GET["ns"] ?? null;
+
+		if ($ns == "" && support("database")) {
 			echo '<a href="', h(ME), 'database=">', icon("edit"), lang('Alter database'), "</a>\n";
 		}
-		if (support("scheme")) {
-			echo "<a href='", h(ME), "scheme='>";
-			if ($_GET["ns"] != "") {
-				echo icon("edit"), lang('Alter schema');
-			} else {
-				echo icon("database-add"), lang('Create schema');
-			}
-			echo "</a>\n";
+		if ($ns != "" && support("scheme")) {
+			echo "<a href='", h(ME), "scheme='>", icon("edit"), lang('Alter schema'), "</a>\n";
 		}
-		if ($_GET["ns"] !== "") {
+		if ($ns !== "") {
 			echo '<a href="', h(ME), 'schema=">', icon("schema"), lang('Database schema'), "</a>\n";
 		}
 		if (support("privileges")) {
@@ -1181,7 +1177,7 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 			$this->databasesPrint($missing);
 
 			$actions = [];
-			if (DB == "" || !$missing) {
+			if (DB == null || !$missing) {
 				if (support("sql")) {
 					$actions[] = "<a href='" . h(ME) . "sql='" . bold(isset($_GET["sql"]) && !isset($_GET["import"])) . ">" . icon("command") . lang('SQL command') . "</a>";
 					$actions[] = "<a href='" . h(ME) . "import='" . bold(isset($_GET["import"])) . ">" . icon("import") . lang('Import') . "</a>";
@@ -1190,7 +1186,13 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 					$actions[] = "<a href='" . h(ME) . "dump=" . urlencode($_GET["table"] ?? $_GET["select"]) . "' id='dump'" . bold(isset($_GET["dump"])) . ">" . icon("export") . lang('Export') . "</a>";
 				}
 			}
-			if ($_GET["ns"] !== "" && !$missing && DB != "") {
+			if (DB == null) {
+				$actions[] = '<a href="' . h(ME) . 'database="' . bold($_GET["database"] === "") . ">" . icon("database-add") . lang('Create database') . "</a>\n";
+			}
+			if (DB != null && $_GET["ns"] === "" && !$missing) {
+				$actions[] = '<a href="' . h(ME) . 'scheme="' . bold($_GET["scheme"] === "") . ">" . icon("database-add") . lang('Create schema') . "</a>\n";
+			}
+			if (DB != null && $_GET["ns"] !== "" && !$missing) {
 				$actions[] = '<a href="' . h(ME) . 'create="' . bold($_GET["create"] === "") . ">" . icon("table-add") . lang('Create table') . "</a>\n";
 			}
 			if ($actions) {
