@@ -16,7 +16,6 @@ function connect_error() {
 		echo "<p id='top-links' class='links'>\n";
 
 		$links = [
-			'database' => [lang('Create database'), "database-add"],
 			'privileges' => [lang('Privileges'), "users"],
 			'processlist' => [lang('Process list'), "list"],
 			'variables' => [lang('Variables'), "variable"],
@@ -78,6 +77,8 @@ function connect_error() {
 			echo script("tableCheck();");
 		}
 	}
+
+	echo '<p class="links"><a href="' . h(ME) . 'database=">' . icon("database-add") . lang('Create database') . "</a>\n";
 
 	page_footer("db");
 }
