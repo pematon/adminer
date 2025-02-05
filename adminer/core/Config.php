@@ -92,6 +92,11 @@ class Config
 		return $this->config["visibleCollations"] ?? [];
 	}
 
+	public function getDefaultPasswordHash(): ?string
+	{
+		return $this->config["defaultPasswordHash"] ?? null;
+	}
+
 	public function getSslKey(): ?string
 	{
 		return $this->config["sslKey"] ?? null;

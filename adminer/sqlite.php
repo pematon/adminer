@@ -1,19 +1,22 @@
 <?php
 
-use Adminer\AdminerLoginPasswordLess;
-use Adminer\Pluginer;
+use Adminer\Adminer;
 
-function create_adminer(): Pluginer
+function create_adminer(): Adminer
 {
 	include "../plugins/Pluginer.php";
-	include "../plugins/login-password-less.php";
 
-	return new Pluginer([
-		// Attention! Inline the result of password_hash() so that the password is not visible in source codes.
-		new AdminerLoginPasswordLess(password_hash("YOUR_PASSWORD_HERE", PASSWORD_DEFAULT)),
-	], [
+	$config = [
 		"colorVariant" => "green",
-	]);
+
+		// Disable verifying custom default password.
+		"defaultPasswordHash" => "",
+
+		// Warning! Inline the result of password_hash() so that the password is not visible in the source code.
+//		"defaultPasswordHash" => password_hash("YOUR_PASSWORD_HERE", PASSWORD_DEFAULT),
+	];
+
+	return new Adminer($config);
 }
 
 include "index.php";

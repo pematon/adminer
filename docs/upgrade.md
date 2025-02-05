@@ -11,6 +11,7 @@ Migrating to 5.0
 - TODO: removed autoload of plugins based on class name 
 - TODO: removed all designs, new configurable theme and color variants
 - TODO: removed driver `elastic5`, all drivers can be compiled
+- TODO: removed plugin `AdminerLoginPasswordLess`, config options `defaultPasswordHash`
 - TODO: removed plugin `AdminerVersionNoverify`, config option `versionVerification`
 - TODO: removed plugin `AdminerDatabaseHide`, config options `hiddenDatabases`, `hiddenSchemas`
 - TODO: removed plugin `AdminerDotJs`, config option `jsUrls`
