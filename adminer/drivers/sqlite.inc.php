@@ -164,12 +164,17 @@ if (isset($_GET["sqlite"])) {
 	{
 		global $adminer;
 
-		list(, , $password) = $adminer->getCredentials();
+		$connection = new Min_DB();
+
+		$password = $adminer->getCredentials()[2];
 		if ($password != "") {
-			return lang('Database does not support password.');
+			$result = $adminer->verifyDefaultPassword($password);
+			if ($result !== true) {
+				return $result;
+			}
 		}
 
-		return new Min_DB();
+		return $connection;
 	}
 
 	function get_databases() {

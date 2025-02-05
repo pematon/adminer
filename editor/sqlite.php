@@ -1,14 +1,12 @@
 <?php
 
-use Adminer\AdminerLoginPasswordLess;
-use Adminer\Pluginer;
+use Adminer\Adminer;
 
-function create_adminer(): Pluginer
+function create_adminer(): Adminer
 {
 	include "../plugins/Pluginer.php";
-	include "../plugins/login-password-less.php";
 
-	class CustomAdminer extends Pluginer
+	class CustomAdminer extends Adminer
 	{
 		function loginFormField($name, $heading, $value)
 		{
@@ -21,10 +19,13 @@ function create_adminer(): Pluginer
 		}
 	}
 
-	return new CustomAdminer([
-		// TODO: inline the result of password_hash() so that the password is not visible in source codes
-		new AdminerLoginPasswordLess(password_hash("YOUR_PASSWORD_HERE", PASSWORD_DEFAULT)),
-	]);
+	$config = [
+		"colorVariant" => "green",
+		// Warning! Inline the result of password_hash() so that the password is not visible in the source code.
+		"defaultPasswordHash" => password_hash("YOUR_PASSWORD_HERE", PASSWORD_DEFAULT),
+	];
+
+	return new CustomAdminer($config);
 }
 
 include "index.php";
