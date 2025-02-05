@@ -23,7 +23,8 @@ class AdminerLoginIp {
 		$this->forwarded_for= $forwarded_for;
 	}
 
-	function login($login, $password) {
+	public function authenticate(string $username, string $password)
+	{
 		foreach ($this->ips as $ip) {
 			if (strncasecmp($_SERVER["REMOTE_ADDR"], $ip, strlen($ip)) == 0) {
 				if (!$this->forwarded_for) {
