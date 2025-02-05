@@ -2,7 +2,11 @@
 
 namespace Adminer;
 
-$connection = '';
+/** @var ?Min_DB $connection */
+$connection = null;
+
+/** @var ?Min_Driver $driver */
+$driver = null;
 
 $has_token = $_SESSION["token"];
 if (!$has_token) {
@@ -119,13 +123,39 @@ function check_invalid_login() {
 	}
 }
 
+function connect_to_db(): Min_DB
+{
+	global $adminer;
+
+	$connection = connect();
+	$authenticated = $connection instanceof Min_DB ? $adminer->authenticate($_GET["username"], get_password()) : false;
+
+	if (!($connection instanceof Min_DB) || $authenticated !== true) {
+		if (is_string($connection)) {
+			$error = h($connection);
+		} elseif (is_string($authenticated)) {
+			$error = $authenticated;
+		} else {
+			$error = lang('Invalid server or credentials.');
+		}
+
+		if (preg_match('~^ +| +$~', get_password())) {
+			$error .= "<br>" . lang('There is a space in the input password which might be the cause.');
+		}
+
+		auth_error($error);
+	}
+
+	return $connection;
+}
+
 $auth = $_POST["auth"];
 if ($auth) {
 	session_regenerate_id(); // defense against session fixation
 	$vendor = $auth["driver"];
 	$server = trim($auth["server"]);
 	$username = $auth["username"];
-	$password = (string) $auth["password"];
+	$password = $auth["password"] ?? "";
 	$db = $auth["db"];
 	set_password($vendor, $server, $username, $password);
 	$_SESSION["db"][$vendor][$server][$username][$db] = true;
@@ -232,19 +262,15 @@ if (isset($_GET["username"]) && !class_exists("Adminer\\Min_DB")) {
 
 stop_session(true);
 
-if (isset($_GET["username"]) && is_string(get_password())) {
-	validate_server_input();
-	check_invalid_login();
-
-	$connection = connect();
-	$driver = new Min_Driver($connection);
+if (!isset($_GET["username"]) || get_password() === null) {
+	auth_error("");
 }
 
-$login = null;
-if (!is_object($connection) || ($login = $adminer->login($_GET["username"], get_password())) !== true) {
-	$error = (is_string($connection) ? h($connection) : (is_string($login) ? $login : lang('Invalid server or credentials.')));
-	auth_error($error . (preg_match('~^ | $~', get_password() ?? "") ? '<br>' . lang('There is a space in the input password which might be the cause.') : ''));
-}
+validate_server_input();
+check_invalid_login();
+
+$connection = connect_to_db();
+$driver = new Min_Driver($connection);
 
 if ($_POST["logout"] && $has_token && !verify_token()) {
 	page_header(lang('Logout'), lang('Invalid CSRF token. Send the form again.'));
