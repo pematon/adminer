@@ -18,18 +18,23 @@ class AdminerMasterSlave {
 		$this->masters = $masters;
 	}
 
-	function credentials() {
+	public function credentials(): ?array
+	{
 		if ($_POST && isset($this->masters[SERVER])) {
 			return [$this->masters[SERVER], $_GET["username"], get_session("pwds")];
 		}
+
+		return null;
 	}
 
-	function login($login, $password) {
-		if (!$_POST && ($master = &$_SESSION["master"])) {
-			$connection = connection();
-			$connection->query("DO MASTER_POS_WAIT('" . q($master['File']) . "', $master[Position])");
-			$master = null;
+	public function authenticate(string $username, string $password)
+	{
+		if (!$_POST && isset($_SESSION["master"])) {
+			connection()->query("DO MASTER_POS_WAIT('" . q($_SESSION["master"]['File']) . "', " . $_SESSION["master"]["Position"] . ")");
+			$_SESSION["master"] = null;
 		}
+
+		return null;
 	}
 
 	function messageQuery($query, $time, $failed = false) {

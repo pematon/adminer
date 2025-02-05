@@ -41,7 +41,15 @@ abstract class AdminerBase
 
 	public abstract function name();
 
-	public abstract function credentials();
+	/**
+	 * Returns connection parameters.
+	 *
+	 * @return string[] array($server, $username, $password)
+	 */
+	public function credentials(): array
+	{
+		return [SERVER, $_GET["username"], get_password()];
+	}
 
 	public abstract function connectSsl();
 
@@ -165,7 +173,19 @@ abstract class AdminerBase
 
 	public abstract function loginFormField($name, $heading, $value);
 
-	public abstract function login($login, $password);
+	/**
+	 * Authorize the user.
+	 *
+	 * @return bool|string true for success, string for error message, false for unknown error
+	 */
+	public function authenticate(string $username, string $password)
+	{
+		if ($password == "") {
+			return lang('Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.', target_blank());
+		}
+
+		return true;
+	}
 
 	public abstract function tableName($tableStatus);
 
