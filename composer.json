@@ -36,24 +36,21 @@
         "vrana/jsshrink": "@dev"
     },
     "suggest": {
-        "ext-zlib": "*",
-        "ext-suhosin": "*",
-        "ext-mysqli": "*",
-        "ext-mysql": "*",
-        "ext-pgsql": "*",
-        "ext-mongo": "*",
-        "ext-mongodb": "*",
-        "ext-sqlsrv": "*",
-        "ext-mssql": "*",
-        "ext-oci8": "*",
-        "ext-interbase": "*",
-        "ext-pdo_pgsql": "*",
-        "ext-pdo_dblib": "*",
-        "ext-pdo_sqlite": "*",
-        "ext-pdo_oci": "*"
-    },
-    "require-dev": {
-        "ext-xdebug": "*"
+        "ext-zlib": "Allows to export databases in compressed gzip (.gz) files",
+        "ext-suhosin": "Enhace CSRF protection",
+        "ext-mysqli": "Allows access to MySQL database",
+        "ext-mysql": "Allows access to MySQL database (old driver)",
+        "ext-pgsql": "Allows access to PostgreSQL database",
+        "ext-mongo": "Allows access to MongoDB database (old extension)",
+        "ext-mongodb": "Allows access to MongoDB database",
+        "ext-sqlsrv": "Allows access to MS SQ database",
+        "ext-mssql": "Allows access to MS SQL database (old extension)",
+        "ext-oci8": "Allows access to Oracle database",
+        "ext-interbase": "Allows access to Firebird database",
+        "ext-pdo_pgsql": "PDO interface for PostgreSQL database",
+        "ext-pdo_dblib": "PDO interface for MS SQL database and Sybase",
+        "ext-pdo_sqlite": "PDO interface for SQLite database",
+        "ext-pdo_oci": "PDO interface for Oracle database"
     },
     "scripts": {
         "compile": "php compile.php"
