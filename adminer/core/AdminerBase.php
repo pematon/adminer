@@ -51,6 +51,43 @@ abstract class AdminerBase
 		return [SERVER, $_GET["username"], get_password()];
 	}
 
+	/**
+	 * Verifies given password if database itself does not require any password.
+	 *
+	 * @return true|string true for success, string for error message
+	 */
+	public function verifyDefaultPassword(string $password)
+	{
+		$hash = $this->getConfig()->getDefaultPasswordHash();
+		if ($hash === null || $hash === "") {
+			return lang('Database does not support password.');
+		} elseif (!password_verify($password, $hash)) {
+			return lang('Invalid server or credentials.');
+		}
+
+		return true;
+	}
+
+	/**
+	 * Authenticate the user.
+	 *
+	 * @return bool|string true for success, string for error message, false for unknown error
+	 */
+	public function authenticate(string $username, string $password)
+	{
+		if ($password == "") {
+			$hash = $this->getConfig()->getDefaultPasswordHash();
+
+			if ($hash === null) {
+				return lang('Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.', target_blank());
+			} else {
+				return $hash === "";
+			}
+		}
+
+		return true;
+	}
+
 	public abstract function connectSsl();
 
 	public abstract function permanentLogin($create = false);
@@ -172,20 +209,6 @@ abstract class AdminerBase
 	public abstract function loginForm();
 
 	public abstract function loginFormField($name, $heading, $value);
-
-	/**
-	 * Authorize the user.
-	 *
-	 * @return bool|string true for success, string for error message, false for unknown error
-	 */
-	public function authenticate(string $username, string $password)
-	{
-		if ($password == "") {
-			return lang('Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.', target_blank());
-		}
-
-		return true;
-	}
 
 	public abstract function tableName($tableStatus);
 
