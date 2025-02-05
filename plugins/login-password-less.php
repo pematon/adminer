@@ -19,7 +19,7 @@ class AdminerLoginPasswordLess {
 		$this->password_hash = $password_hash;
 	}
 
-	public function credentials(): ?array
+	public function getCredentials(): ?array
 	{
 		$password = get_password();
 

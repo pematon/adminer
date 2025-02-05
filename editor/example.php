@@ -12,7 +12,7 @@ function create_adminer(): Adminer
 			return 'CDs';
 		}
 
-		public function credentials(): array
+		public function getCredentials(): array
 		{
 			// ODBC user without password on localhost
 			return ['localhost', 'ODBC', ''];

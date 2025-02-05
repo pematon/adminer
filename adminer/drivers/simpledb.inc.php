@@ -292,17 +292,21 @@ if (isset($_GET["simpledb"])) {
 		return strpos(rtrim($hostPath, '/'), '/') === false;
 	}
 
-	function connect() {
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer;
 
-		$connection = new Min_DB;
+		$connection = new Min_DB();
 
-		list($server, , $password) = $adminer->credentials();
-		if ($connection->connect($server, $password)) {
-			return $connection;
+		list($server, , $password) = $adminer->getCredentials();
+		if (!$connection->connect($server, $password)) {
+			return $connection->error;
 		}
 
-		return $connection->error;
+		return $connection;
 	}
 
 	function support($feature) {
@@ -311,7 +315,7 @@ if (isset($_GET["simpledb"])) {
 
 	function logged_user() {
 		global $adminer;
-		$credentials = $adminer->credentials();
+		$credentials = $adminer->getCredentials();
 		return $credentials[1];
 	}
 
@@ -442,7 +446,7 @@ if (isset($_GET["simpledb"])) {
 
 	function sdb_request($action, $params = []) {
 		global $adminer, $connection;
-		list($host, $params['AWSAccessKeyId'], $secret) = $adminer->credentials();
+		list($host, $params['AWSAccessKeyId'], $secret) = $adminer->getCredentials();
 		$params['Action'] = $action;
 		$params['Timestamp'] = gmdate('Y-m-d\TH:i:s+00:00');
 		$params['Version'] = '2009-04-15';
