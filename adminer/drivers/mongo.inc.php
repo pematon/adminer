@@ -396,14 +396,19 @@ if (isset($_GET["mongo"])) {
 
 	function logged_user() {
 		global $adminer;
-		$credentials = $adminer->credentials();
+		$credentials = $adminer->getCredentials();
 		return $credentials[1];
 	}
 
-	function connect() {
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer;
-		$connection = new Min_DB;
-		list($server, $username, $password) = $adminer->credentials();
+
+		$connection = new Min_DB();
+		list($server, $username, $password) = $adminer->getCredentials();
 
 		if ($server == "") {
 			$server = "localhost:27017";
@@ -414,17 +419,21 @@ if (isset($_GET["mongo"])) {
 			$options["username"] = $username;
 			$options["password"] = $password;
 		}
+
 		$db = $adminer->database();
 		if ($db != "") {
 			$options["db"] = $db;
 		}
+
 		if (($auth_source = getenv("MONGO_AUTH_SOURCE"))) {
 			$options["authSource"] = $auth_source;
 		}
+
 		$connection->connect("mongodb://$server", $options);
 		if ($connection->error) {
 			return $connection->error;
 		}
+
 		return $connection;
 	}
 

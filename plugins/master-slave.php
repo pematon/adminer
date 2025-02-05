@@ -18,7 +18,7 @@ class AdminerMasterSlave {
 		$this->masters = $masters;
 	}
 
-	public function credentials(): ?array
+	public function getCredentials(): ?array
 	{
 		if ($_POST && isset($this->masters[SERVER])) {
 			return [$this->masters[SERVER], $_GET["username"], get_session("pwds")];

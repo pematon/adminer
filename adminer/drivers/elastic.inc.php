@@ -281,19 +281,25 @@ if (isset($_GET["elastic"])) {
 		}
 	}
 
-	function connect() {
-		$connection = new Min_DB;
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
+		global $adminer;
 
-		list($server, $username, $password) = adminer()->credentials();
+		$connection = new Min_DB();
+
+		list($server, $username, $password) = $adminer->getCredentials();
 		if ($password != "" && $connection->connect($server, $username, "")) {
 			return lang('Database does not support password.');
 		}
 
-		if ($connection->connect($server, $username, $password)) {
-			return $connection;
+		if (!$connection->connect($server, $username, $password)) {
+			return $connection->error;
 		}
 
-		return $connection->error;
+		return $connection;
 	}
 
 	function support($feature) {
@@ -301,7 +307,7 @@ if (isset($_GET["elastic"])) {
 	}
 
 	function logged_user() {
-		$credentials = adminer()->credentials();
+		$credentials = adminer()->getCredentials();
 
 		return $credentials[1];
 	}
