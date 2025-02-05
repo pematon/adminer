@@ -29,9 +29,9 @@ class AdminerLoginTable {
 		$this->database = $database;
 	}
 
-	function login($login, $password) {
-		$connection = connection();
-		return (bool) $connection->result("SELECT COUNT(*) FROM " . idf_escape($this->database) . ".login WHERE login = " . q($login) . " AND password_sha1 = " . q(sha1($password)));
+	public function authenticate(string $username, string $password)
+	{
+		return (bool) connection()->result("SELECT COUNT(*) FROM " . idf_escape($this->database) . ".login WHERE login = " . q($username) . " AND password_sha1 = " . q(sha1($password)));
 	}
 
 }

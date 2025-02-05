@@ -41,13 +41,8 @@ class AdminerLoginOtp
 			"</tr>\n";
 	}
 
-	/**
-	 * @param string $login
-	 * @param string $password
-	 *
-	 * @return string|null
-	 */
-	public function login($login, $password) {
+	public function authenticate(string $username, string $password)
+	{
 		if (!isset($_SESSION["otp"])) return null;
 
 		$timeSlot = floor(time() / 30);
