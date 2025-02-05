@@ -128,14 +128,22 @@ if (isset($_GET["firebird"])) {
 		return idf_escape($idf);
 	}
 
-	function connect() {
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer;
-		$connection = new Min_DB;
-		$credentials = $adminer->credentials();
-		if ($connection->connect($credentials[0], $credentials[1], $credentials[2])) {
-			return $connection;
+
+		$connection = new Min_DB();
+
+		$credentials = $adminer->getCredentials();
+		if (!$connection->connect($credentials[0], $credentials[1], $credentials[2])) {
+			return $connection->error;
 		}
-		return $connection->error;
+
+		return $connection;
+
 	}
 
 	function get_databases($flush) {
@@ -162,7 +170,7 @@ if (isset($_GET["firebird"])) {
 
 	function logged_user() {
 		global $adminer;
-		$credentials = $adminer->credentials();
+		$credentials = $adminer->getCredentials();
 		return $credentials[1];
 	}
 

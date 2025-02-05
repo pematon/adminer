@@ -277,25 +277,35 @@ if (isset($_GET["pgsql"])) {
 		return idf_escape($idf);
 	}
 
-	function connect() {
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer, $types, $structured_types;
-		$connection = new Min_DB;
-		$credentials = $adminer->credentials();
-		if ($connection->connect($credentials[0], $credentials[1], $credentials[2])) {
-			if (min_version(9, 0, $connection)) {
-				$connection->query("SET application_name = 'Adminer'");
-				if (min_version(9.2, 0, $connection)) {
-					$structured_types[lang('Strings')][] = "json";
-					$types["json"] = 4294967295;
-					if (min_version(9.4, 0, $connection)) {
-						$structured_types[lang('Strings')][] = "jsonb";
-						$types["jsonb"] = 4294967295;
-					}
+
+		$connection = new Min_DB();
+
+		$credentials = $adminer->getCredentials();
+		if (!$connection->connect($credentials[0], $credentials[1], $credentials[2])) {
+			return $connection->error;
+		}
+
+		if (min_version(9, 0, $connection)) {
+			$connection->query("SET application_name = 'Adminer'");
+
+			if (min_version(9.2, 0, $connection)) {
+				$structured_types[lang('Strings')][] = "json";
+				$types["json"] = 4294967295;
+
+				if (min_version(9.4, 0, $connection)) {
+					$structured_types[lang('Strings')][] = "jsonb";
+					$types["jsonb"] = 4294967295;
 				}
 			}
-			return $connection;
 		}
-		return $connection->error;
+
+		return $connection;
 	}
 
 	function get_databases() {
