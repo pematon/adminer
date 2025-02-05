@@ -19,15 +19,20 @@ class AdminerLoginPasswordLess {
 		$this->password_hash = $password_hash;
 	}
 
-	function credentials() {
+	public function credentials(): ?array
+	{
 		$password = get_password();
+
 		return [SERVER, $_GET["username"], (password_verify($password, $this->password_hash) ? "" : $password)];
 	}
 
-	function login($login, $password) {
+	public function authenticate(string $username, string $password)
+	{
 		if ($password != "") {
 			return true;
 		}
+
+		return null;
 	}
 
 }

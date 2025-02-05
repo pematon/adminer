@@ -35,12 +35,6 @@ class Adminer extends AdminerBase
 		return "<a id='h1' href='" . h(HOME_URL) . "'>" . lang('Editor') . "</a>";
 	}
 
-	//! driver, ns
-
-	function credentials() {
-		return [SERVER, $_GET["username"], get_password()];
-	}
-
 	function connectSsl() {
 	}
 
@@ -95,10 +89,6 @@ class Adminer extends AdminerBase
 
 	function loginFormField($name, $heading, $value) {
 		return $heading . $value;
-	}
-
-	function login($login, $password) {
-		return true;
 	}
 
 	function tableName($tableStatus) {

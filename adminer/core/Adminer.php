@@ -48,13 +48,6 @@ class Adminer extends AdminerBase
 		return "<a id='h1' href='" . h(HOME_URL) . "'><svg role='img' class='logo'><desc>AdminerNeo</desc><use href='" . link_files("logo.svg", ["images/logo.svg"]) . "#logo'/></svg></a>";
 	}
 
-	/** Connection parameters
-	* @return array ($server, $username, $password)
-	*/
-	function credentials() {
-		return [SERVER, $_GET["username"], get_password()];
-	}
-
 	/** Get SSL connection options
 	* @return array array("key" => filename, "cert" => filename, "ca" => filename) or null
 	*/
@@ -161,18 +154,6 @@ class Adminer extends AdminerBase
 	*/
 	function loginFormField($name, $heading, $value) {
 		return $heading . $value;
-	}
-
-	/** Authorize the user
-	* @param string
-	* @param string
-	* @return mixed true for success, string for error message, false for unknown error
-	*/
-	function login($login, $password) {
-		if ($password == "") {
-			return lang('Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.', target_blank());
-		}
-		return true;
 	}
 
 	/** Table caption used in navigation and headings
