@@ -23,7 +23,7 @@ class AdminerLoginServers {
 		}
 	}
 
-	public function credentials(): ?array
+	public function getCredentials(): ?array
 	{
 		return [$this->servers[SERVER]["server"], $_GET["username"], get_password()];
 	}
