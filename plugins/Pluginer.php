@@ -57,7 +57,7 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function credentials()
+	public function credentials(): array
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
@@ -132,7 +132,7 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
-	public function login($login, $password)
+	public function authenticate(string $username, string $password)
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}

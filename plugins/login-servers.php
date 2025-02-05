@@ -23,14 +23,18 @@ class AdminerLoginServers {
 		}
 	}
 
-	function credentials() {
+	public function credentials(): ?array
+	{
 		return [$this->servers[SERVER]["server"], $_GET["username"], get_password()];
 	}
 
-	function login($login, $password) {
+	public function authenticate(string $username, string $password)
+	{
 		if (!$this->servers[SERVER]) {
 			return false;
 		}
+
+		return null;
 	}
 
 	function loginFormField($name, $heading, $value) {
