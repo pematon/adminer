@@ -157,13 +157,19 @@ if (isset($_GET["sqlite"])) {
 		return idf_escape($idf);
 	}
 
-	function connect() {
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer;
-		list(, , $password) = $adminer->credentials();
+
+		list(, , $password) = $adminer->getCredentials();
 		if ($password != "") {
 			return lang('Database does not support password.');
 		}
-		return new Min_DB;
+
+		return new Min_DB();
 	}
 
 	function get_databases() {

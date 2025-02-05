@@ -224,19 +224,25 @@ if (isset($_GET["mssql"])) {
 		return ($_GET["ns"] != "" ? idf_escape($_GET["ns"]) . "." : "") . idf_escape($idf);
 	}
 
-	function connect() {
+	/**
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer;
-		$connection = new Min_DB;
-		$credentials = $adminer->credentials();
 
+		$connection = new Min_DB();
+
+		$credentials = $adminer->getCredentials();
 		if ($credentials[0] == "") {
 			$credentials[0] = "localhost:1433";
 		}
 
-		if ($connection->connect($credentials[0], $credentials[1], $credentials[2])) {
-			return $connection;
+		if (!$connection->connect($credentials[0], $credentials[1], $credentials[2])) {
+			return $connection->error;
 		}
-		return $connection->error;
+
+		return $connection;
 	}
 
 	function get_databases() {

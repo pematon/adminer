@@ -46,7 +46,7 @@ abstract class AdminerBase
 	 *
 	 * @return string[] array($server, $username, $password)
 	 */
-	public function credentials(): array
+	public function getCredentials(): array
 	{
 		return [SERVER, $_GET["username"], get_password()];
 	}

@@ -204,39 +204,46 @@ if (isset($_GET["mysql"])) {
 		return idf_escape($idf);
 	}
 
-	/** Connect to the database
-	* @return mixed Min_DB or string for error
-	*/
-	function connect() {
+	/**
+	 * Connects to the database with given credentials.
+	 *
+	 * @return Min_DB|string
+	 */
+	function connect()
+	{
 		global $adminer, $types, $structured_types, $edit_functions;
 
-		$connection = new Min_DB;
-		$credentials = $adminer->credentials();
-		if ($connection->connect($credentials[0], $credentials[1], $credentials[2])) {
-			$connection->set_charset(charset($connection));
-			$connection->query("SET sql_quote_show_create = 1, autocommit = 1");
+		$connection = new Min_DB();
 
-			if (min_version('5.7.8', '10.2', $connection)) {
-				$structured_types[lang('Strings')][] = "json";
-				$types["json"] = 4294967295;
+		$credentials = $adminer->getCredentials();
+		if (!$connection->connect($credentials[0], $credentials[1], $credentials[2])) {
+			$error = $connection->error;
+
+			if (function_exists('iconv') && !is_utf8($error) && strlen($s = iconv("windows-1250", "utf-8", $error)) > strlen($error)) { // windows-1250 - most common Windows encoding
+				$error = $s;
 			}
 
-			// UUID data type for Mariadb >= 10.7
-			if (min_version('', '10.7', $connection)) {
-				$structured_types[lang('Strings')][] = "uuid";
-				$types["uuid"] = 128;
-
-				// insert/update function
-				$edit_functions[0]['uuid'] = 'uuid';
-			}
-
-			return $connection;
+			return $error;
 		}
-		$return = $connection->error;
-		if (function_exists('iconv') && !is_utf8($return) && strlen($s = iconv("windows-1250", "utf-8", $return)) > strlen($return)) { // windows-1250 - most common Windows encoding
-			$return = $s;
+
+		$connection->set_charset(charset($connection));
+		$connection->query("SET sql_quote_show_create = 1, autocommit = 1");
+
+		if (min_version('5.7.8', '10.2', $connection)) {
+			$structured_types[lang('Strings')][] = "json";
+			$types["json"] = 4294967295;
 		}
-		return $return;
+
+		// UUID data type for Mariadb >= 10.7
+		if (min_version('', '10.7', $connection)) {
+			$structured_types[lang('Strings')][] = "uuid";
+			$types["uuid"] = 128;
+
+			// insert/update function
+			$edit_functions[0]['uuid'] = 'uuid';
+		}
+
+		return $connection;
 	}
 
 	/** Get cached list of databases
