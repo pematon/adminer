@@ -86,7 +86,7 @@ Default value: `[]`
 List of databases to hide from the UI. Value `__system` will be expanded to all system databases for the current driver.
 The `*` character can be used as a wildcard.
 
-❗️Warning: Access to these databases is not restricted. They can be still selected by modifying URL parameters.
+⚠️ Warning: Access to these databases is not restricted. They can be still selected by modifying URL parameters.
 
 For example:
 ```php
@@ -102,7 +102,7 @@ Default value: `[]`
 List of schemas to hide from the UI. Value `__system` will be expanded to all system schemas for the current driver.
 The `*` character can be used as a wildcard.
 
-❗️Warning: Access to these schemas is not restricted. They can be still selected by modifying URL parameters.
+⚠️ Warning: Access to these schemas is not restricted. They can be still selected by modifying URL parameters.
 
 For example:
 ```php
@@ -126,6 +126,18 @@ $config = [
 ```
 
 Note: Access to other collations will be not restricted.
+
+### defaultPasswordHash
+
+Default value: `null`
+
+By default, AdminerNeo does not allow access to a database without a password. This affects password-less databases such 
+as SQLite, SimpleDB or Elasticsearch. In this parameter, you can specify a hash of the default password to enable 
+internal authentication. The given password will be validated by AdminerNeo and not passed to the database itself.
+
+Set to an empty string to allow connection without a password.
+
+⚠️ Warning: Use disabling default password on your own risk and put other sufficient safety measures in place.
 
 ### sslKey
 

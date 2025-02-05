@@ -11,13 +11,9 @@ if (isset($_GET["simpledb"])) {
 		class Min_DB {
 			var $extension = "SimpleXML", $server_info = '2009-04-15', $error, $timeout, $next, $affected_rows, $_url, $_result;
 
-			/**
-			 * @param string $server
-			 * @param string $password
-			 * @return bool
-			 */
-			function connect($server, $password) {
-				if ($server == '' || $password == '') {
+			function connect(string $server): bool
+			{
+				if ($server == '') {
 					$this->error = lang('Invalid server or credentials.');
 					return false;
 				}
@@ -302,7 +298,14 @@ if (isset($_GET["simpledb"])) {
 		$connection = new Min_DB();
 
 		list($server, , $password) = $adminer->getCredentials();
-		if (!$connection->connect($server, $password)) {
+		if ($password != "") {
+			$result = $adminer->verifyDefaultPassword($password);
+			if ($result !== true) {
+				return $result;
+			}
+		}
+
+		if (!$connection->connect($server)) {
 			return $connection->error;
 		}
 
