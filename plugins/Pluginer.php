@@ -62,6 +62,11 @@ class Pluginer extends Adminer
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}
 
+	public function authenticate(string $username, string $password)
+	{
+		return $this->applyPlugin(__FUNCTION__, func_get_args());
+	}
+
 	public function connectSsl()
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
@@ -128,11 +133,6 @@ class Pluginer extends Adminer
 	}
 
 	public function loginFormField($name, $heading, $value)
-	{
-		return $this->applyPlugin(__FUNCTION__, func_get_args());
-	}
-
-	public function authenticate(string $username, string $password)
 	{
 		return $this->applyPlugin(__FUNCTION__, func_get_args());
 	}

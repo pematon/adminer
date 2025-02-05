@@ -18,16 +18,16 @@ function create_adminer(): Adminer
 			return ['localhost', 'ODBC', ''];
 		}
 
-		function database()
-		{
-			// will be escaped by Adminer
-			return 'adminer_test';
-		}
-
 		public function authenticate(string $username, string $password)
 		{
 			// username: 'admin', password: anything
 			return ($username == 'admin');
+		}
+
+		function database()
+		{
+			// will be escaped by Adminer
+			return 'adminer_test';
 		}
 
 		function tableName($tableStatus)
