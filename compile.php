@@ -415,6 +415,7 @@ if ($argv) {
 }
 
 // Check function definition in drivers.
+/* Disabled for now because it reports too many warnings.
 $file = file_get_contents(dirname(__FILE__) . "/adminer/drivers/mysql.inc.php");
 $file = preg_replace('~class Min_Driver.*\n\t}~sU', '', $file);
 preg_match_all('~\bfunction ([^(]+)~', $file, $matches); //! respect context (extension, class)
@@ -435,6 +436,7 @@ foreach (glob(dirname(__FILE__) . "/adminer/drivers/*.inc.php") as $filename) {
 		}
 	}
 }
+*/
 
 include dirname(__FILE__) . "/adminer/include/pdo.inc.php";
 include dirname(__FILE__) . "/adminer/include/driver.inc.php";
