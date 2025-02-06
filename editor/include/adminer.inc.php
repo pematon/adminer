@@ -613,7 +613,7 @@ qsl('div').onclick = whisperClick;", "")
 			</a>
 		</span>
 		<?php
-		if (!isset($_COOKIE["adminer_version"])) {
+		if (!isset($_COOKIE["adminer_version"]) && version_compare(PHP_VERSION, 7.1) >= 0) {
 			echo script("verifyVersion('" . js_escape(ME) . "', '" . get_token() . "');");
 		}
 		?>
