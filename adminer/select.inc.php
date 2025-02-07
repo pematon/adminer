@@ -524,7 +524,7 @@ if (!$columns && support("table")) {
 					echo "\n";
 				}
 
-			    echo "<div class='footer'><div class='field-sets'>\n";
+			    echo "<div class='table-footer'><div class='field-sets'>\n";
 
 				if ($pagination) {
 					// display first, previous 4, next 4 and last page

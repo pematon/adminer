@@ -1,0 +1,117 @@
+.navigation-panel {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	flex-flow: column;
+	width: var(--menu-width);
+	border-right: 1px solid var(--panel-border);
+	background: var(--panel-bg);
+	z-index: 2;
+
+	.header {
+		position: static;
+		padding: 0.3rem 12px 0;
+		color: var(--logo-text);
+		font-size: 1.1rem;
+		min-height: 2rem;
+	}
+
+	.header > a {
+		color: var(--logo-text) !important;
+		padding: 0;
+		vertical-align: top;
+		text-decoration: none !important;
+	}
+}
+
+.navigation-panel p {
+	margin: 0;
+	padding: 10px 10px 0;
+}
+
+.navigation-panel .message {
+	padding-bottom: 10px;
+}
+
+.navigation-panel .links {
+	padding-bottom: 7px;
+	border-bottom: 1px solid var(--panel-border);
+}
+
+.rtl .navigation-panel {
+	left: auto;
+	right: 0;
+}
+
+.logo {
+	margin-top: 0.05rem;
+	height: 1.2rem;
+	width: calc(1.2rem * 160 / 26);
+	vertical-align: top;
+}
+
+.version {
+	position: relative;
+	top: 0.1rem;
+	color: var(--logo-text);
+	font-size: 0.6rem;
+	vertical-align: top;
+}
+
+.version-badge {
+	margin-left: -5px;
+	padding: 5px;
+	color: var(--version-text);
+
+	.icon {
+		width: 1em;
+		height: 1em;
+	}
+}
+
+.db-selector {
+	padding: 10px 10px 0;
+}
+
+.tables-filter {
+	padding: 10px 10px 0;
+}
+
+.db-selector select, .tables-filter .input {
+	width: 100%;
+}
+
+.footer {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 2rem;
+	line-height: 2rem;
+	display: flex;
+	gap: 20px;
+	padding: 0 20px;
+	z-index: 10;
+}
+
+.logout .button {
+	margin-inline-start: 5px;
+}
+
+.rtl .footer {
+	right: auto;
+	left: 0;
+}
+
+@media (max-width: 1023px) {
+	.navigation-panel {
+		position: static;
+		width: auto;
+	}
+
+	.footer {
+		position: static;
+		padding: 0 10px 10px;
+	}
+}

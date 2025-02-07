@@ -143,10 +143,10 @@ function language_select()
 		}
 	}
 
-	echo "<div id='lang'><form action='' method='post'>\n";
-	echo lang('Language') . ": " . html_select("lang", $options, $LANG, "this.form.submit();");
-	echo " <input type='submit' value='" . lang('Use') . "' class='button hidden'>\n";
-	echo "<input type='hidden' name='token' value='" . get_token() . "'>\n"; // $token may be empty in auth.inc.php
+	echo "<div class='language'><form action='' method='post'>\n";
+	echo html_select("lang", $options, $LANG, "this.form.submit();");
+	echo "<input type='submit' value='" . lang('Use'), "' class='button hidden'>\n";
+	echo "<input type='hidden' name='token' value='", get_token(), "'>\n"; // $token may be empty in auth.inc.php
 	echo "</form></div>\n";
 }
 

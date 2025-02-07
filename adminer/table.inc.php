@@ -41,7 +41,7 @@ if ($fields) {
 	echo $editLink;
 
 	if (support("partitioning") && preg_match("~partitioned~", $table_status["Create_options"])) {
-		echo "<h3 id='partition-by'>" . lang('Partition by') . "</h3>\n";
+		echo "<h2 id='partition-by'>" . lang('Partition by') . "</h2>\n";
 
 		$partitions_info = get_partitions_info($TABLE);
 		$adminer->tablePartitionsPrint($partitions_info);
@@ -52,7 +52,7 @@ if ($fields) {
 
 if (!is_view($table_status)) {
 	if (support("indexes")) {
-		echo "<h3 id='indexes'>" . lang('Indexes') . "</h3>\n";
+		echo "<h2 id='indexes'>" . lang('Indexes') . "</h2>\n";
 		$indexes = indexes($TABLE);
 		if ($indexes) {
 			$adminer->tableIndexesPrint($indexes);
@@ -61,7 +61,7 @@ if (!is_view($table_status)) {
 	}
 
 	if (fk_support($table_status)) {
-		echo "<h3 id='foreign-keys'>" . lang('Foreign keys') . "</h3>\n";
+		echo "<h2 id='foreign-keys'>" . lang('Foreign keys') . "</h2>\n";
 		$foreign_keys = foreign_keys($TABLE);
 		if ($foreign_keys) {
 			echo "<table>\n";
@@ -85,7 +85,7 @@ if (!is_view($table_status)) {
 }
 
 if (support(is_view($table_status) ? "view_trigger" : "trigger")) {
-	echo "<h3 id='triggers'>" . lang('Triggers') . "</h3>\n";
+	echo "<h2 id='triggers'>" . lang('Triggers') . "</h2>\n";
 	$triggers = triggers($TABLE);
 	if ($triggers) {
 		echo "<table>\n";

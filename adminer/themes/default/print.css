@@ -1,0 +1,13 @@
+@media print {
+	#lang, .navigation-panel {
+		display: none;
+	}
+
+	#content {
+		margin-inline-start: 0;
+	}
+
+	.nowrap td, .nowrap th, td.nowrap {
+		white-space: normal;
+	}
+}
