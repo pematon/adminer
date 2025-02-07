@@ -1,0 +1,212 @@
+.navigation-panel {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	flex-flow: column;
+	width: var(--menu-width);
+	border-right: 1px solid var(--panel-border);
+	background: var(--panel-bg);
+	z-index: 2;
+
+	.header {
+		position: static;
+		padding: 0.3rem 12px 0;
+		color: var(--logo-text);
+		font-size: 1.1rem;
+		min-height: 2rem;
+	}
+
+	.header > a {
+		color: var(--logo-text) !important;
+		padding: 0;
+		vertical-align: top;
+		text-decoration: none !important;
+	}
+}
+
+.navigation-panel p {
+	margin: 0;
+	padding: 10px 10px 0;
+}
+
+.navigation-panel .message {
+	padding-bottom: 10px;
+}
+
+.navigation-panel .links {
+	padding-bottom: 7px;
+	border-bottom: 1px solid var(--panel-border);
+}
+
+.rtl .navigation-panel {
+	left: auto;
+	right: 0;
+}
+
+.logo {
+	margin-top: 0.05rem;
+	height: 1.2rem;
+	width: calc(1.2rem * 160 / 26);
+	vertical-align: top;
+}
+
+.version {
+	position: relative;
+	top: 0.1rem;
+	color: var(--logo-text);
+	font-size: 0.6rem;
+	vertical-align: top;
+}
+
+.version-badge {
+	margin-left: -5px;
+	padding: 5px;
+	color: var(--version-text);
+
+	.icon {
+		width: 1em;
+		height: 1em;
+	}
+}
+
+.db-selector {
+	padding: 10px 10px 0;
+}
+
+.tables-filter {
+	padding: 10px 10px 0;
+}
+
+.db-selector select, .tables-filter .input {
+	width: 100%;
+}
+
+#tables {
+	overflow-y: auto;
+	margin-top: 10px;
+}
+
+#logins {
+	margin-top: 10px;
+}
+
+menu {
+	padding: 0 0 20px 0;
+	margin: 0;
+}
+
+menu li {
+	list-style: none;
+	position: relative;
+}
+
+menu .primary {
+	display: block;
+	padding: 4px 10px 2px;
+	background: var(--panel-bg);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: var(--body-text) !important;
+}
+
+menu .primary:focus-visible {
+	outline-offset: -2px;
+	border-radius: 0;
+}
+
+menu .primary.active {
+	background: var(--list-active);
+	color: var(--link-text) !important;
+}
+
+menu li:hover .primary, menu li:active .primary {
+	text-decoration: none;
+	background: var(--list-hover);
+}
+
+menu li:hover .primary.active, menu li:active .primary.active {
+	background: var(--list-active-hover);
+}
+
+menu .secondary {
+	position: absolute;
+	padding: 4px 5px 2px;
+	padding-inline-end: 10px;
+	top: 0;
+}
+
+menu.reversed .primary {
+	/* icon width + icon margin */
+	padding-inline-start: calc(1.25em + 15px);
+}
+
+menu.reversed .secondary {
+	padding-inline-end: 0;
+	padding-inline-start: 10px;
+}
+
+.rtl menu.reversed .secondary {
+	left: auto;
+	right: 0;
+}
+
+menu.dual .primary {
+	/* icon width + icon padding */
+	padding-inline-end: calc(1.25em + 15px) !important;
+}
+
+menu.dual .secondary {
+	left: auto;
+	right: 0;
+}
+
+.rtl menu .secondary {
+	left: 0;
+	right: auto;
+}
+
+.footer {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 2rem;
+	line-height: 2rem;
+	display: flex;
+	gap: 20px;
+	padding: 0 20px;
+	z-index: 10;
+}
+
+.logout .button {
+	margin-inline-start: 5px;
+}
+
+.rtl .footer {
+	right: auto;
+	left: 0;
+}
+
+.rtl .logout {
+	left: 0;
+	right: auto;
+}
+
+@media (max-width: 1023px) {
+	.navigation-panel {
+		position: static;
+		width: auto;
+	}
+
+	.footer {
+		position: static;
+		padding: 0 10px 10px;
+	}
+
+	.language, .logout {
+		height: auto;
+		line-height: normal;
+	}
+}

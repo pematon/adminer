@@ -233,7 +233,8 @@ function auth_error($error) {
 	}
 	$params = session_get_cookie_params();
 	cookie("adminer_key", ($_COOKIE["adminer_key"] ?: get_random_string()), $params["lifetime"]);
-	page_header(lang('Login'), $error, null);
+
+	page_header(lang('Login'), $error, null, "auth");
 	echo "<form action='' method='post'>\n";
 	echo "<div>";
 	if (hidden_fields($_POST, ["auth"])) { // expired session
@@ -242,21 +243,21 @@ function auth_error($error) {
 	echo "</div>\n";
 	$adminer->loginForm();
 	echo "</form>\n";
-	page_footer("auth");
+	page_footer();
 	exit;
 }
 
 if (isset($_GET["username"]) && !DRIVER) {
-	page_header(lang('No driver'), lang('Database driver not found.'), false);
-	page_footer("auth");
+	page_header(lang('No driver'), lang('Database driver not found.'), false, "auth");
+	page_footer();
 	exit;
 }
 
 if (isset($_GET["username"]) && !class_exists("Adminer\\Min_DB")) {
 	unset($_SESSION["pwds"][DRIVER]);
 	unset_permanent();
-	page_header(lang('No extension'), lang('None of the supported PHP extensions (%s) are available.', implode(", ", $possible_drivers)), false);
-	page_footer("auth");
+	page_header(lang('No extension'), lang('None of the supported PHP extensions (%s) are available.', implode(", ", $possible_drivers)), false, "auth");
+	page_footer();
 	exit;
 }
 
@@ -273,8 +274,8 @@ $connection = connect_to_db();
 $driver = new Min_Driver($connection);
 
 if ($_POST["logout"] && $has_token && !verify_token()) {
-	page_header(lang('Logout'), lang('Invalid CSRF token. Send the form again.'));
-	page_footer("db");
+	page_header(lang('Logout'), lang('Invalid CSRF token. Send the form again.'), "db");
+	page_footer();
 	exit;
 }
 

@@ -1,0 +1,150 @@
+*, ::before, ::after {
+	box-sizing: border-box;
+}
+
+::selection {
+	background: var(--selection-bg);
+}
+
+:focus-visible {
+	outline: 2px solid var(--link-text);
+}
+
+html {
+	font-size: calc(20 * 100% / 16); /* 1rem = 20px */
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+body {
+	margin: 0;
+	background: var(--body-bg);
+	color: var(--body-text);
+	font: calc(var(--font-size) * 100% / 20) var(--font-family);
+	line-height: 1.4;
+}
+
+a {
+	padding: 3px 0;
+	color: var(--link-text);
+	text-decoration: none;
+}
+
+a:focus-visible {
+	outline-offset: 1px;
+	border-radius: 0.5px;
+}
+
+a[href]:hover, a[href]:active {
+	color: var(--link-text-hover);
+	/* text-decoration: underline; */
+}
+
+/* We can not use a:hover because of jush formatting. */
+a.text:hover, a.text:active {
+	text-decoration: none;
+}
+
+a.jush-help:hover {
+	color: inherit;
+}
+
+h1 {
+	font-size: calc(26 * 100% / 14);
+	font-weight: normal;
+	margin: 20px;
+	color: var(--header-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: 130%;
+	margin: 30px 20px 15px;
+}
+
+p {
+	margin: 15px 20px;
+}
+
+img {
+	vertical-align: middle;
+	border: 0;
+}
+
+ol, ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+.block {
+	display: block;
+}
+
+.js .hidden, .nojs .jsonly {
+	display: none;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+p.nowrap {
+	white-space: pre;
+}
+
+.wrap td {
+	white-space: normal;
+}
+
+.function {
+	text-align: right;
+}
+
+.number {
+	text-align: right;
+}
+
+.datetime {
+	text-align: right;
+}
+
+.type {
+	width: 15ex;
+}
+
+.size {
+	width: 7ex;
+}
+
+.help {
+	cursor: help;
+}
+
+@media (max-width: 440px) {
+	h1 {
+		font-size: calc(22 * 100% / 14);
+	}
+}
+
+@media (max-width: 1023px) {
+	h1 {
+		border-top: 1px solid var(--panel-border);
+		padding-top: 2.5rem;
+	}
+
+	h1 *:first-child {
+		clear: both;
+	}
+}

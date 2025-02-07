@@ -1,0 +1,95 @@
+:root {
+	--font-family: Helvetica, Verdana, Arial, Helvetica, sans-serif;
+	--font-family-mono: JetBrains Mono, Menlo, Consolas, Liberation Mono, monospace;
+	--font-size: 14; /* px */
+	--font-size-mono: 13; /* px */
+	--menu-width: 13rem;
+
+	--body-bg: #fff;
+	--body-text: #333;
+	--link-text: hsl(220, 60%, 45%);
+	--link-text-hover: hsl(220, 60%, 30%);
+	--note-text: #ccc;
+	--selection-bg: hsla(220, 80%, 45%, 12%);
+
+	--logo-text: #a0a0a0;
+	--panel-bg: #fcfcfc;
+	--panel-border: #e0e0e0;
+	--code-bg: hsla(220, 80%, 97%);
+	--code-border: hsla(220, 80%, 92%);
+	--header-text: #000;
+	--list-hover: hsla(220, 20%, 20%, 4%);
+	--list-active: hsla(220, 80%, 45%, 7%);
+	--list-active-hover: hsla(220, 80%, 45%, 12%);
+	--warning-text: #f60;
+	--version-text: #f60;
+
+	--input-bg: #fff;
+	--input-text: #000;
+	--input-border: #ccc;
+
+	--button-bg: #fff;
+	--button-bg-hover: hsla(220, 80%, 45%, 7%);
+	--button-border: hsl(220, 60%, 45%);
+	--button-border-hover: hsl(220, 60%, 30%);
+	--button-text: hsl(220, 60%, 45%);
+	--button-text-hover: hsl(220, 60%, 30%);
+
+	--button-default-bg: hsl(220, 60%, 45%);
+	--button-default-bg-hover: hsl(220, 60%, 30%);
+	--button-default-border: hsl(220, 60%, 45%);
+	--button-default-border-hover: hsl(220, 60%, 30%);
+	--button-default-text: #fff;
+	--button-default-text-hover: #fff;
+
+	--required-border: #c40;
+	--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIgLz48L3N2Zz4=");
+
+	--table-bg: #fff;
+	--table-header-bg: #f6f6f6;
+	--table-border: #e0e0e0;
+	--table-row-border: #ebebeb;
+
+	--message-ok-bg: #e0f9e0;
+	--message-ok-text: #060;
+	--message-error-bg: #f9e0e0;
+	--message-error-text: #900;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--body-bg: #111;
+		--body-text: #ccc;
+		--link-text: #ace;
+		--link-text-hover: #e99;
+		--note-text: #666;
+
+		--logo-text: #888;
+		--panel-bg: #333;
+		--panel-border: #555;
+		--header-text: #eee;
+		--warning-text: #d63;
+		--version-text: #d63;
+
+		--input-bg: #000;
+		--input-text: #eee;
+		--input-border: #666;
+		--button-bg: #333;
+		--button-bg-hover: #444;
+		--button-borer: #555;
+		--button-default-bg: #434b68;
+		--button-default-bg-hover: #4f5878;
+		--button-default-border: #687a98;
+		--required-border: #d63;
+		--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2VlZSI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIvPjwvc3ZnPg==");
+
+		--table-bg: #111;
+		--table-odd-bg: #292929;
+		--table-border: #555;
+
+		--message-ok-bg: #464;
+		--message-ok-text: #e0f6e0;
+		--message-error-bg: #733;
+		--message-error-text: #f6e0e0;
+	}
+}

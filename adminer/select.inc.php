@@ -524,7 +524,7 @@ if (!$columns && support("table")) {
 					echo "\n";
 				}
 
-			    echo "<div class='footer'><div class='field-sets'>\n";
+			    echo "<div class='table-footer'><div class='field-sets'>\n";
 
 				if ($pagination) {
 					// display first, previous 4, next 4 and last page
@@ -612,12 +612,12 @@ if (!$columns && support("table")) {
 					}
 				}
 				if ($format) {
-					print_fieldset("export", lang('Export') . " <span id='selected2'></span>");
+					print_fieldset_start("export", lang('Export') . " <span id='selected2'></span>", "export");
 					echo html_select("format", $format, $adminer_import["format"]);
 					$output = $adminer->dumpOutput();
 					echo ($output ? " " . html_select("output", $output, $adminer_import["output"]) : "");
 					echo " <input type='submit' class='button' name='export' value='" . lang('Export') . "'>\n";
-					echo "</div></fieldset>\n";
+					print_fieldset_end("export");
 				}
 
 				$adminer->selectEmailPrint(array_filter($email_fields, 'strlen'), $columns);

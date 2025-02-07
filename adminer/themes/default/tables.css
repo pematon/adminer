@@ -1,0 +1,142 @@
+table {
+	position: relative;
+	margin: 15px 20px;
+	border-collapse: collapse;
+	background: var(--table-bg);
+	border: 1px solid var(--table-border);
+}
+
+table code {
+	background: none;
+	border: none;
+}
+
+td, th {
+	padding: 4px 10px 2px;
+}
+
+th {
+	background: var(--panel-bg);
+	text-align: left;
+	font-weight: normal;
+	border-left: 1px solid var(--table-border);
+	border-right: 1px solid var(--table-border);
+}
+
+thead tr {
+	border-bottom: 1px solid var(--table-border);
+}
+
+thead th, thead td {
+	padding: 6px 10px 4px;
+	background: var(--table-header-bg);
+}
+
+tfoot th, tfoot td {
+	padding: 6px 10px 4px;
+	background: var(--table-header-bg);
+	border-top: 1px solid var(--table-border);
+}
+
+tbody tr {
+	border-bottom: 1px solid var(--table-row-border);
+}
+
+tbody th, tbody td {
+	vertical-align: top;
+}
+
+table.checkable thead th {
+	border: none;
+}
+
+table.checkable tbody tr:hover th, table.checkable tbody tr:hover td {
+	background: var(--list-hover);
+}
+
+table.checkable tr.checked th, table.checkable tr.checked td {
+	background: var(--list-active);
+}
+
+table.checkable tr.checked:hover th, table.checkable tr.checked:hover td {
+	background: var(--list-active-hover);
+}
+
+table.layout {
+	background: var(--panel-bg);
+}
+
+table.layout tr {
+	border: none;
+}
+
+table.layout th {
+	background: var(--table-header-bg);
+	text-align: right;
+}
+
+table.layout tr:first-child th, table.layout tr:first-child td {
+	padding-top: 10px;
+}
+
+table.layout tr:last-child th, table.layout tr:last-child td {
+	padding-bottom: 10px;
+}
+
+table.layout th, table.layout td {
+	vertical-align: middle;
+	height: 34px;
+}
+
+td table {
+	width: 100%;
+	margin: 0;
+}
+
+td img {
+	max-width: 200px;
+	max-height: 200px;
+}
+
+td pre {
+	margin: 0;
+}
+
+.column {
+	position: absolute;
+	background: var(--table-header-bg);
+	margin: -6px 5px 0;
+}
+
+.column .button {
+	padding: 6px 6px 4px;
+	line-height: 1.4;
+}
+
+.table-footer {
+	position: sticky;
+	bottom: 0;
+	margin-top: 10px;
+	border-top: 15px solid rgba(255, 255, 255, .7);
+	border-image: linear-gradient(transparent, var(--body-bg)) 100% 0;
+}
+
+.table-footer .field-sets {
+	padding-bottom: 10px;
+	padding-inline-start: 20px;
+	margin: 0;
+	background: var(--body-bg);
+}
+
+.table-footer fieldset {
+	margin-top: 0;
+}
+
+.scrollable {
+	overflow-x: auto;
+	margin: -15px 0;
+}
+
+.scrollable table {
+	margin-bottom: 20px;
+}

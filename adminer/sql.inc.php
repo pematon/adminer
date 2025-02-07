@@ -277,20 +277,26 @@ echo "<input type='hidden' name='token' value='$token'>\n";
 
 if (!isset($_GET["import"]) && $history) {
 	echo "<div class='field-sets'>\n";
-	print_fieldset("history", lang('History'), $_GET["history"] != "");
+
+	print_fieldset_start("history", lang('History'), "history", $_GET["history"] != "");
+
 	for ($val = end($history); $val; $val = prev($history)) { // not array_reverse() to save memory
 		$key = key($history);
 		list($q, $time, $elapsed) = $val;
-		echo '<a href="' . h(ME . "sql=&history=$key") . '">' . lang('Edit') . "</a>"
-			. " <span class='time' title='" . @date('Y-m-d', $time) . "'>" . @date("H:i:s", $time) . "</span>" // @ - time zone may be not set
-			. " <code class='jush-$jush'>" . shorten_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace('~^(#|-- ).*~m', '', $q)))), 80, "</code>")
-			. ($elapsed ? " <span class='time'>($elapsed)</span>" : "")
-			. "<br>\n"
-		;
+
+		echo " <pre><code class='jush-$jush'>", shorten_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace('~^(#|-- ).*~m', '', $q))))), "</code></pre>";
+		echo '<p class="links">';
+		echo "<a href='" . h(ME . "sql=&history=$key") . "'>" . icon("edit") . lang('Edit') . "</a>";
+		echo " <span class='time' title='" . @date('Y-m-d', $time) . "'>" . @date("H:i:s", $time) . // @ - time zone may be not set
+			($elapsed ? " ($elapsed)" : "") . "</span>";
+		echo "</p>";
 	}
-	echo "<input type='submit' class='button' name='clear' value='" . lang('Clear') . "'>\n";
-	echo "<a href='" . h(ME . "sql=&history=all") . "'>" . lang('Edit all') . "</a>\n";
-	echo "</div></fieldset>\n";
+
+	echo "<p><input type='submit' class='button' name='clear' value='" . lang('Clear') . "'>\n";
+	echo "<a href='", h(ME . "sql=&history=all") . "' class='button light'>", icon("edit"), lang('Edit all'), "</a></p>\n";
+
+	print_fieldset_end("history");
+
 	echo "</div>\n";
 }
 ?>

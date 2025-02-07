@@ -1,0 +1,212 @@
+.icon {
+	width: 1.25em;
+	height: 1.25em;
+	vertical-align: middle;
+	margin-top: -3px;
+	margin-inline-end: 0.5em;
+}
+
+.icon.solo {
+	margin-inline-end: 0;
+}
+
+.invisible {
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	position: absolute;
+	padding: 0;
+	border: none;
+	clip: rect(0, 0, 0, 0);
+}
+
+.warnings {
+	margin: -5px 20px 20px;
+	color: var(--warning-text);
+}
+
+.warnings table {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.warnings table th {
+	color: var(--body-text);
+}
+
+.message, .error {
+	padding: 10px 15px;
+	margin: 20px;
+}
+
+.message {
+	background: var(--message-ok-bg);
+	color: var(--message-ok-text);
+}
+
+.message table {
+	background: var(--body-bg);
+	color: var(--body-text);
+}
+
+.message pre, .error pre {
+	margin-top: 15px;
+}
+
+.message pre, .message p, .error pre, .error p {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.message pre + .links, .error pre + .links {
+	margin-bottom: 0
+}
+
+.message .warnings {
+	margin: 15px 0 0;
+}
+
+.error {
+	background: var(--message-error-bg);
+	color: var(--message-error-text);
+}
+
+.time {
+	float: right;
+	margin-top: 3px;
+	font-size: calc(11 * 100% / 14);
+	color: var(--note-text);
+}
+
+.options select {
+	width: 20ex;
+}
+
+.view {
+	font-style: italic;
+}
+
+.active {
+	font-weight: bold;
+}
+
+.links {
+	display: flex;
+	position: relative;
+	line-height: 1.7;
+	flex-wrap: wrap;
+	column-gap: 20px;
+}
+
+.links a {
+	padding: 0;
+	white-space: nowrap;
+}
+
+.links .time {
+	position: absolute;
+	right: 0;
+}
+
+.handle {
+	cursor: grab;
+	vertical-align: middle;
+	width: 18px;
+	height: 18px;
+	opacity: 0.2;
+}
+
+.no-sort .handle {
+	cursor: default;
+	opacity: 0;
+}
+
+.placeholder {
+	opacity: 0;
+}
+
+.dragging {
+	position: absolute;
+	margin: 0;
+	background: var(--body-bg);
+}
+
+.dragging * {
+	cursor: grabbing;
+}
+
+table.dragging {
+	background: var(--panel-bg);
+}
+
+.pagination {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: inline;
+}
+
+.pagination li {
+	display: inline;
+	line-height: 24px;
+	margin-inline-end: 0.5em;
+}
+
+.pagination li:last-child {
+	margin-inline-end: 0;
+}
+
+.pagination a {
+	/*padding: 3px;*/
+}
+
+#top-links {
+	margin: 20px;
+}
+
+#content {
+	position: relative;
+	margin-inline-start: var(--menu-width);
+	padding-top: 2rem;
+	padding-bottom: 20px;
+}
+
+#schema {
+	margin-left: 100px;
+	position: relative;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#schema .table {
+	border: 1px solid var(--table-border);
+	padding: 0 2px;
+	cursor: move;
+	position: absolute;
+}
+
+#schema .references {
+	position: absolute;
+}
+
+#help {
+	position: absolute;
+	border: 1px solid var(--panel-border);
+	background: var(--panel-bg);
+	padding: 5px;
+	font-family: var(--font-family-mono);
+	font-size: calc(var(--font-size-mono) * 100% / 14);
+	z-index: 1;
+}
+
+.rtl .links .time {
+	left: 0;
+	right: auto;
+}
+
+@media (max-width: 1023px) {
+	#content {
+		margin-inline-start: 0;
+	}
+}

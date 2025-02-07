@@ -45,7 +45,7 @@ class Adminer extends AdminerBase
 	* @return string HTML code
 	*/
 	function name() {
-		return "<a id='h1' href='" . h(HOME_URL) . "'><svg role='img' class='logo'><desc>AdminerNeo</desc><use href='" . link_files("logo.svg", ["images/logo.svg"]) . "#logo'/></svg></a>";
+		return "<a href='" . h(HOME_URL) . "'><svg role='img' class='logo'><desc>AdminerNeo</desc><use href='" . link_files("logo.svg", ["images/logo.svg"]) . "#logo'/></svg></a>";
 	}
 
 	/** Get SSL connection options
@@ -429,7 +429,7 @@ class Adminer extends AdminerBase
 	function selectColumnsPrint(array $select, array $columns) {
 		global $functions, $grouping;
 
-		print_fieldset("select", lang('Select'), $select, true);
+		print_fieldset_start("select", lang('Select'), "columns", (bool)$select, true);
 
 		$_GET["columns"][""] = [];
 		$i = 0;
@@ -465,7 +465,7 @@ class Adminer extends AdminerBase
 			$i++;
 		}
 
-		echo "</div>", script("initSortable('#fieldset-select');"), "</fieldset>\n";
+		print_fieldset_end("select", true);
 	}
 
 	/**
@@ -475,7 +475,7 @@ class Adminer extends AdminerBase
 	 * @param array $columns selectable columns
 	 */
 	function selectSearchPrint(array $where, array $columns, array $indexes) {
-		print_fieldset("search", lang('Search'), $where);
+		print_fieldset_start("search", lang('Search'), "search", (bool)$where);
 
 		foreach ($indexes as $i => $index) {
 			if ($index["type"] == "FULLTEXT") {
@@ -507,7 +507,7 @@ class Adminer extends AdminerBase
 			}
 		}
 
-		echo "</div></fieldset>\n";
+		print_fieldset_end("search");
 	}
 
 	/**
@@ -517,7 +517,7 @@ class Adminer extends AdminerBase
 	 * @param array $columns selectable columns
 	 */
 	function selectOrderPrint(array $order, array $columns, array $indexes) {
-		print_fieldset("sort", lang('Sort'), $order, true);
+		print_fieldset_start("sort", lang('Sort'), "sort", (bool)$order, true);
 
 		$_GET["order"][""] = "";
 		$i = 0;
@@ -536,7 +536,7 @@ class Adminer extends AdminerBase
 			$i++;
 		}
 
-		echo "</div>", script("initSortable('#fieldset-sort');"), "</fieldset>\n";
+		print_fieldset_end("sort", true);
 	}
 
 	/**
@@ -1095,13 +1095,13 @@ class Adminer extends AdminerBase
 		$last_version = $_COOKIE["adminer_version"] ?? null;
 ?>
 
-<h1>
+<div class="header">
 	<?= $this->name(); ?>
 
 	<?php if ($missing != "auth"): ?>
 		<span class="version">
 			<?= h($VERSION); ?>
-			<a id="version" href="https://github.com/adminerneo/adminerneo/releases"<?= target_blank(); ?> title="<?= h($last_version); ?>">
+			<a id="version" class="version-badge" href="https://github.com/adminerneo/adminerneo/releases"<?= target_blank(); ?> title="<?= h($last_version); ?>">
 				<?= ($this->config->isVersionVerificationEnabled() && $last_version && version_compare($VERSION, $last_version) < 0 ? icon_solo("asterisk") : ""); ?>
 			</a>
 		</span>
@@ -1111,7 +1111,7 @@ class Adminer extends AdminerBase
 		}
 		?>
     <?php endif; ?>
-</h1>
+</div>
 
 <?php
 		if ($missing == "auth") {
@@ -1218,7 +1218,7 @@ class Adminer extends AdminerBase
 			array_unshift($databases, DB);
 		}
 
-		echo "<form action=''><p id='dbs'>";
+		echo "<div class='db-selector'><form action=''>";
 		hidden_fields_get();
 
 		if ($databases) {
@@ -1245,7 +1245,7 @@ class Adminer extends AdminerBase
 			}
 		}
 
-		echo "</p></form>\n";
+		echo "</form></div>\n";
 
 		return null;
 	}
