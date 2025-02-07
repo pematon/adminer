@@ -354,7 +354,8 @@ $selected_themes = [];
 if ($arguments) {
 	$params = explode(",", $arguments[0]);
 
-	if (file_exists(__DIR__ . "/../adminer/themes/" . str_replace("+", "", $params[0]) . ".css")) {
+	$base_name = str_replace("+", "", $params[0]);
+	if ($base_name == "default" || file_exists(__DIR__ . "/../adminer/themes/$base_name.css")) {
 		foreach ($params as $theme) {
 			// Expand names with wildcards.
 			if (strpos($theme, "+") !== false) {

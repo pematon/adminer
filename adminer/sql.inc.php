@@ -155,7 +155,7 @@ if (!$error && $_POST) {
 
 								} else {
 									$time = " <span class='time'>(" . format_time($start) . ")</span>"
-										. (strlen($q) < 1000 ? " <a href='" . h(ME) . "sql=" . urlencode(trim($q)) . "'>" . lang('Edit') . "</a>" : "") // 1000 - maximum length of encoded URL in IE is 2083 characters
+										. (strlen($q) < 1000 ? " <a href='" . h(ME) . "sql=" . urlencode(trim($q)) . "'>" . icon("edit") . lang('Edit') . "</a>" : "") // 1000 - maximum length of encoded URL in IE is 2083 characters
 									;
 									$affected = $connection->affected_rows; // getting warnings overwrites this
 									$warnings = ($_POST["only_errors"] ? "" : $driver->warnings());
@@ -194,10 +194,15 @@ if (!$error && $_POST) {
 										}
 										if (!$_POST["only_errors"]) {
 											$title = isset($connection->info) ? "title='" . h($connection->info) . "'" : "";
-											echo "<p class='message' $title>" . lang('Query executed OK, %d row(s) affected.', $affected) . "$time\n";
+											echo "<p class='message' $title>", lang('Query executed OK, %d row(s) affected.', $affected), "$time</p>\n";
 										}
 									}
-									echo ($warnings ? "<div id='$warnings_id' class='hidden'>\n$warnings</div>\n" : "");
+
+									if ($warnings) {
+										echo script("initToggles(qsl('p'));");
+										echo "<div id='$warnings_id' class='hidden'>\n$warnings</div>\n";
+									}
+
 									if ($explain) {
 										echo "<div id='$explain_id' class='hidden'>\n";
 										select($explain, $connection2, $orgtables);
@@ -253,7 +258,7 @@ if (!isset($_GET["import"])) {
 
 } else {
 	echo "<div class='field-sets'>\n";
-	echo "<fieldset><legend>" . lang('File upload') . "</legend><div>";
+	echo "<fieldset><legend>" . lang('File upload') . "</legend><div class='fieldset-content'>";
 	$gz = (extension_loaded("zlib") ? "[.gz]" : "");
 	echo (ini_bool("file_uploads")
 		? "SQL$gz (&lt; " . ini_get("upload_max_filesize") . "B): <input type='file' name='sql_file[]' multiple>\n$execute" // ignore post_max_size because it is for all form fields together and bytes computing would be necessary
@@ -262,7 +267,7 @@ if (!isset($_GET["import"])) {
 	echo "</div></fieldset>\n";
 	$import_file_path = $adminer->importServerPath();
 	if ($import_file_path) {
-		echo "<fieldset><legend>" . lang('From server') . "</legend><div>";
+		echo "<fieldset><legend>" . lang('From server') . "</legend><div class='fieldset-content'>";
 		echo lang('Webserver file %s', "<code>" . h($import_file_path) . "$gz</code>");
 		echo ' <input type="submit" class="button" name="webfile" value="' . lang('Run file') . '">';
 		echo "</div></fieldset>\n";
@@ -277,20 +282,26 @@ echo "<input type='hidden' name='token' value='$token'>\n";
 
 if (!isset($_GET["import"]) && $history) {
 	echo "<div class='field-sets'>\n";
-	print_fieldset("history", lang('History'), $_GET["history"] != "");
+
+	print_fieldset_start("history", lang('History'), "history", $_GET["history"] != "");
+
 	for ($val = end($history); $val; $val = prev($history)) { // not array_reverse() to save memory
 		$key = key($history);
 		list($q, $time, $elapsed) = $val;
-		echo '<a href="' . h(ME . "sql=&history=$key") . '">' . lang('Edit') . "</a>"
-			. " <span class='time' title='" . @date('Y-m-d', $time) . "'>" . @date("H:i:s", $time) . "</span>" // @ - time zone may be not set
-			. " <code class='jush-$jush'>" . shorten_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace('~^(#|-- ).*~m', '', $q)))), 80, "</code>")
-			. ($elapsed ? " <span class='time'>($elapsed)</span>" : "")
-			. "<br>\n"
-		;
+
+		echo " <pre><code class='jush-$jush'>", shorten_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace('~^(#|-- ).*~m', '', $q))))), "</code></pre>";
+		echo '<p class="links">';
+		echo "<a href='" . h(ME . "sql=&history=$key") . "'>" . icon("edit") . lang('Edit') . "</a>";
+		echo " <span class='time' title='" . @date('Y-m-d', $time) . "'>" . @date("H:i:s", $time) . // @ - time zone may be not set
+			($elapsed ? " ($elapsed)" : "") . "</span>";
+		echo "</p>";
 	}
-	echo "<input type='submit' class='button' name='clear' value='" . lang('Clear') . "'>\n";
-	echo "<a href='" . h(ME . "sql=&history=all") . "'>" . lang('Edit all') . "</a>\n";
-	echo "</div></fieldset>\n";
+
+	echo "<p><input type='submit' class='button' name='clear' value='" . lang('Clear') . "'>\n";
+	echo "<a href='", h(ME . "sql=&history=all") . "' class='button light'>", icon("edit"), lang('Edit all'), "</a></p>\n";
+
+	print_fieldset_end("history");
+
 	echo "</div>\n";
 }
 ?>

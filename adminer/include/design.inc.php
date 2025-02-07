@@ -3,15 +3,17 @@
 namespace Adminer;
 
 /**
- * Prints HTML header.
+ * Prints page header.
  *
  * @param string $title Used in title and h2, should be HTML escaped.
  * @param string $error
  * @param mixed $breadcrumb array("key" => "link", "key2" => array("link", "desc"), 0 => "desc"), null for nothing, false for driver only, true for driver and server
-*/
-function page_header(string $title, string $error = "", $breadcrumb = []): void
+ * @param ?string $missing "auth", "db", "ns"
+ */
+function page_header(string $title, string $error = "", $breadcrumb = [], ?string $missing = null): void
 {
-	global $LANG, $adminer, $drivers, $jush;
+	global $LANG, $adminer, $jush, $token;
+
 	page_headers();
 	if (is_ajax() && $error) {
 		page_messages($error);
@@ -43,7 +45,20 @@ function page_header(string $title, string $error = "", $breadcrumb = []): void
 
 	<title><?= $title_page; ?></title>
 <?php
-	echo "<link rel='stylesheet' type='text/css' href='", link_files("default.css", ["../adminer/themes/default.css"]), "'>\n";
+	echo "<link rel='stylesheet' type='text/css' href='", link_files("default.css", [
+		"../adminer/themes/default/variables.css",
+		"../adminer/themes/default/common.css",
+		"../adminer/themes/default/forms.css",
+		"../adminer/themes/default/code.css",
+		"../adminer/themes/default/messages.css",
+		"../adminer/themes/default/links.css",
+		"../adminer/themes/default/fieldSets.css",
+		"../adminer/themes/default/tables.css",
+		"../adminer/themes/default/dragging.css",
+		"../adminer/themes/default/header.css",
+		"../adminer/themes/default/navigationPanel.css",
+		"../adminer/themes/default/print.css",
+	]), "'>\n";
 
 	$theme = $adminer->getConfig()->getTheme();
 	if ($theme != "default") {
@@ -88,58 +103,88 @@ function page_header(string $title, string $error = "", $breadcrumb = []): void
 	var thousandsSeparator = '<?php echo js_escape(lang(',')); ?>';
 </script>
 
-<div id="help" class="jush-<?php echo $jush; ?> jsonly hidden"></div>
-<?php echo script("initHelpPopup();"); ?>
 
-<div id="content">
 <?php
-	if ($breadcrumb !== null) {
-		echo '<nav id="breadcrumb">';
+	echo "<div id='help' class='jush-$jush jsonly hidden'></div>";
+    echo script("initHelpPopup();");
 
-		echo '<a href="' . h(HOME_URL) . '" title="', lang('Home'), '">', icon_solo("home"), '</a> » ';
+	echo "<button id='navigation-button' class='button light navigation-button'>", icon_solo("menu"), icon_solo("close"), "</button>";
+    echo "<div id='navigation-panel' class='navigation-panel'>\n";
+	$adminer->navigation($missing);
+
+	echo "<div class='footer'>\n";
+	language_select();
+
+	if ($missing != "auth") {
+		?>
+
+        <div class="logout">
+            <form action="" method="post">
+				<?php echo h($_GET["username"]); ?>
+                <input type="submit" class="button" name="logout" value="<?php echo lang('Logout'); ?>" id="logout">
+                <input type="hidden" name="token" value="<?php echo $token; ?>">
+            </form>
+        </div>
+
+		<?php
+	}
+	echo "</div>\n"; // footer
+	echo "</div>\n"; // navigation-panel
+	echo script("initNavigation();");
+
+    echo "<div id='content'>\n";
+	echo "<div class='header'>\n";
+
+	if ($breadcrumb !== null) {
+		echo '<nav class="breadcrumbs"><ul>';
+
+		echo '<li><a href="' . h(HOME_URL) . '" title="', lang('Home'), '">', icon_solo("home"), '</a></li>';
 
 		$server_name = $adminer->serverName(SERVER);
 
 		if ($breadcrumb === false) {
-			echo h($server_name), " » ";
+			echo "<li>", h($server_name), "</li>";
 		} else {
 			$link = substr(preg_replace('~\b(db|ns)=[^&]*&~', '', ME), 0, -1);
-			echo "<a href='" . h($link) . "' accesskey='1' title='Alt+Shift+1'>$server_name</a> » ";
+			echo "<li><a href='" . h($link) . "' accesskey='1' title='Alt+Shift+1'>$server_name</a></li>";
 
 			if ($_GET["ns"] != "" || (DB != "" && is_array($breadcrumb))) {
-				echo '<a href="' . h($link . "&db=" . urlencode(DB) . (support("scheme") ? "&ns=" : "")) . '">' . h(DB) . '</a> » ';
+				echo '<li><a href="' . h($link . "&db=" . urlencode(DB) . (support("scheme") ? "&ns=" : "")) . '">' . h(DB) . '</a></li>';
 			}
 
 			if ($breadcrumb === true) {
 				if ($_GET["ns"] != "") {
-					echo h($_GET["ns"]) . ' » ';
+					echo '<li>' . h($_GET["ns"]) . '</li>';
 				} else {
-					echo h(DB), " » ";
+					echo "<li>", h(DB), "</li>";
 				}
 			} else {
 				if ($_GET["ns"] != "") {
-					echo '<a href="' . h(substr(ME, 0, -1)) . '">' . h($_GET["ns"]) . '</a> » ';
+					echo '<li><a href="' . h(substr(ME, 0, -1)) . '">' . h($_GET["ns"]) . '</a></li>';
 				}
 
 				foreach ($breadcrumb as $key => $val) {
 					if (is_string($key)) {
 						$desc = (is_array($val) ? $val[1] : h($val));
 						if ($desc != "") {
-							echo "<a href='" . h(ME . "$key=") . urlencode(is_array($val) ? $val[0] : $val) . "'>$desc</a> » ";
+							echo "<li><a href='" . h(ME . "$key=") . urlencode(is_array($val) ? $val[0] : $val) . "'>$desc</a></li>";
 						}
 					} else {
-						echo "$val";
+						echo "<li>$val</li>\n";
 					}
 
 				}
 			}
 		}
 
-		echo "</nav>";
+		echo "</ul></nav>";
 	}
 
-	echo "<h2>$title</h2>\n";
+	echo "</div>\n"; // header
+
+	echo "<h1>$title</h1>\n";
 	echo "<div id='ajaxstatus' class='jsonly hidden'></div>\n";
+
 	restart_session();
 	page_messages($error);
 	$databases = &get_session("dbs");
@@ -225,37 +270,11 @@ function page_messages($error) {
 }
 
 /**
- * Prints HTML footer.
- *
- * @param ?string $missing "auth", "db", "ns"
+ * Prints page footer.
  */
-function page_footer($missing = null)
+function page_footer()
 {
-	global $adminer, $token;
-
-	echo "</div>"; // #content
-
-	echo "<div id='footer'>\n";
-	language_select();
-
-	if ($missing != "auth") {
-?>
-
-	<div class="logout">
-		<form action="" method="post">
-			<?php echo h($_GET["username"]); ?>
-			<input type="submit" class="button" name="logout" value="<?php echo lang('Logout'); ?>" id="logout">
-			<input type="hidden" name="token" value="<?php echo $token; ?>">
-		</form>
-	</div>
-
-<?php
-	}
-	echo "</div>\n";
-
-	echo "<div id='menu'>\n";
-	$adminer->navigation($missing);
-	echo "</div>\n";
+	echo "</div>"; // content
 
 	echo script("setupSubmitHighlight(document);");
 }

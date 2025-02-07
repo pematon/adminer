@@ -66,7 +66,7 @@ if (!$error && $_POST) {
 echo "<form action='' method='post'>\n";
 
 if ($in) {
-	echo "<table class='layout'>\n";
+	echo "<table class='box'>\n";
 	foreach ($in as $key) {
 		$field = $routine["fields"][$key];
 		$name = $field["field"];

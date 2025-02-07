@@ -6,7 +6,7 @@ function connect_error() {
 	global $adminer, $connection, $token, $error, $drivers;
 	if (DB != "") {
 		header("HTTP/1.1 404 Not Found");
-		page_header(lang('Database') . ": " . h(DB), lang('Invalid database.'), true);
+		page_header(lang('Database') . ": " . h(DB), lang('Invalid database.'), true, "db");
 	} else {
 		if ($_POST["db"] && !$error) {
 			queries_redirect(substr(ME, 0, -1), lang('Databases have been dropped.'), drop_databases($_POST["db"]));
@@ -16,7 +16,7 @@ function connect_error() {
 		$server_name = $adminer->serverName(SERVER);
 		$title .= $server_name != "" ? h($server_name) : lang('Server');
 
-		page_header($title, $error, false);
+		page_header($title, $error, false, "db");
 		echo "<p id='top-links' class='links'>\n";
 
 		$links = [
@@ -36,7 +36,7 @@ function connect_error() {
 		if ($databases) {
 			$scheme = support("scheme");
 			$all_collations = collations();
-			echo "<form action='' method='post'>\n";
+			echo "<form class='table-footer-parent' action='' method='post'>\n";
 			echo "<div class='scrollable'>\n";
 			echo "<table class='checkable'>\n";
 			echo script("mixin(qsl('table'), {onclick: tableClick, ondblclick: partialArg(tableClick, true)});");
@@ -55,7 +55,7 @@ function connect_error() {
 			foreach ($databases as $db => $tables) {
 				$root = h(ME) . "db=" . urlencode($db);
 				$id = h("Db-" . $db);
-				echo "<tr>" . (support("database") ? "<td>" . checkbox("db[]", $db, in_array($db, (array) $_POST["db"]), "", "", "", $id) : "");
+				echo "<tr>" . (support("database") ? "<td class='actions'>" . checkbox("db[]", $db, in_array($db, (array) $_POST["db"]), "", "", "", $id) : "");
 				echo "<th><a href='$root' id='$id'>" . h($db) . "</a>";
 				$collation = h(db_collation($db, $all_collations));
 				echo "<td>" . (support("database") ? "<a href='$root" . ($scheme ? "&amp;ns=" : "") . "&amp;database=' title='" . lang('Alter database') . "'>$collation</a>" : $collation);
@@ -68,8 +68,8 @@ function connect_error() {
 			echo "</div>\n";
 
 			echo (support("database")
-				? "<div class='footer'><div class='field-sets'>\n"
-					. "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div>\n"
+				? "<div class='table-footer'><div class='field-sets'>\n"
+					. "<fieldset><legend>" . lang('Selected') . " <span id='selected'></span></legend><div class='fieldset-content'>\n"
 					. "<input type='hidden' name='all' value=''>" . script("qsl('input').onclick = function () { selectCount('selected', formChecked(this, /^db/)); };") // used by trCheck()
 					. "<input type='submit' class='button' name='drop' value='" . lang('Drop') . "'>" . confirm() . "\n"
 					. "</div></fieldset>\n"
@@ -84,7 +84,7 @@ function connect_error() {
 
 	echo '<p class="links"><a href="' . h(ME) . 'database=">' . icon("database-add") . lang('Create database') . "</a>\n";
 
-	page_footer("db");
+	page_footer();
 }
 
 if (isset($_GET["status"])) {
@@ -110,8 +110,8 @@ if (support("scheme")) {
 		}
 		if (!set_schema($_GET["ns"])) {
 			header("HTTP/1.1 404 Not Found");
-			page_header(lang('Schema') . ": " . h($_GET["ns"]), lang('Invalid schema.'), true);
-			page_footer("ns");
+			page_header(lang('Schema') . ": " . h($_GET["ns"]), lang('Invalid schema.'), true, "ns");
+			page_footer();
 			exit;
 		}
 	}

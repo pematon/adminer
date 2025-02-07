@@ -140,7 +140,7 @@ page_header(lang('Export') . ": " . h(DB), $error, ($_GET["export"] != "" ? ["ta
 ?>
 
 <form action="" method="post">
-<table class="layout">
+<table class="box">
 <?php
 $db_style = ['', 'USE', 'DROP+CREATE', 'CREATE'];
 $table_style = ['', 'DROP+CREATE', 'CREATE'];
@@ -178,15 +178,15 @@ echo "<tr><th>" . lang('Output') . "<td>" . html_select("output", $adminer->dump
 <p><input type="submit" class="button" value="<?php echo lang('Export'); ?>">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 
-<table cellspacing="0">
+<table class="checkable">
 <?php
 echo script("qsl('table').onclick = dumpClick;");
 $prefixes = [];
 if (DB != "") {
 	$checked = ($TABLE != "" ? "" : " checked");
 	echo "<thead><tr>";
-	echo "<th style='text-align: left;'><label class='block'><input type='checkbox' id='check-tables'$checked>" . lang('Tables') . "</label>" . script("gid('check-tables').onclick = partial(formCheck, /^tables\\[/);", "");
-	echo "<th style='text-align: right;'><label class='block'>" . lang('Data') . "<input type='checkbox' id='check-data'$checked></label>" . script("gid('check-data').onclick = partial(formCheck, /^data\\[/);", "");
+	echo "<th><label class='block'><input type='checkbox' id='check-tables'$checked>" . lang('Tables') . "</label>" . script("gid('check-tables').onclick = partial(formCheck, /^tables\\[/);", "");
+	echo "<th class='right'><label class='block'>" . lang('Data') . "<input type='checkbox' id='check-data'$checked></label>" . script("gid('check-data').onclick = partial(formCheck, /^data\\[/);", "");
 	echo "</thead>\n";
 
 	$views = "";
@@ -198,7 +198,7 @@ if (DB != "") {
 		if ($type !== null && !preg_match('~table~i', $type)) {
 			$views .= "$print\n";
 		} else {
-			echo "$print<td align='right'><label class='block'><span id='Rows-" . h($name) . "'></span>" . checkbox("data[]", $name, $checked) . "</label>\n";
+			echo "$print<td class='right'><label class='block'><span id='Rows-" . h($name) . "'></span>" . checkbox("data[]", $name, $checked) . "</label>\n";
 		}
 		$prefixes[$prefix]++;
 	}
@@ -209,7 +209,7 @@ if (DB != "") {
 	}
 
 } else {
-	echo "<thead><tr><th style='text-align: left;'>";
+	echo "<thead><tr><th>";
 	echo "<label class='block'><input type='checkbox' id='check-databases'" . ($TABLE == "" ? " checked" : "") . ">" . lang('Database') . "</label>";
 	echo script("gid('check-databases').onclick = partial(formCheck, /^databases\\[/);", "");
 	echo "</thead>\n";

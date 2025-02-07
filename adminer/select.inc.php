@@ -305,7 +305,7 @@ if (!$columns && support("table")) {
 			$result->seek($limit * $page);
 		}
 		$email_fields = [];
-		echo "<form action='' method='post' enctype='multipart/form-data'>\n";
+		echo "<form class='table-footer-parent' action='' method='post' enctype='multipart/form-data'>\n";
 		$rows = [];
 		while ($row = $result->fetch_assoc()) {
 			if ($page && $jush == "oracle") {
@@ -331,7 +331,7 @@ if (!$columns && support("table")) {
 			echo "<thead><tr>";
 
 			if ($group || !$select) {
-				echo "<td><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
+				echo "<th class='actions'><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
 					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon_solo("edit-all"), "</a>";
 			}
 
@@ -410,7 +410,7 @@ if (!$columns && support("table")) {
 				}
 				echo "<tr>";
 				if ($group || !$select) {
-					echo "<td>",
+					echo "<td class='actions'>",
 						checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array)$_POST["check"]));
 
 					if (!$is_group && !information_schema(DB)) {
@@ -524,7 +524,7 @@ if (!$columns && support("table")) {
 					echo "\n";
 				}
 
-			    echo "<div class='footer'><div class='field-sets'>\n";
+			    echo "<div class='table-footer'><div class='field-sets'>\n";
 
 				if ($pagination) {
 					// display first, previous 4, next 4 and last page
@@ -539,7 +539,7 @@ if (!$columns && support("table")) {
 					if ($jush != "simpledb") {
 						echo "<legend><a href='" . h(remove_from_uri("page")) . "'>" . lang('Page') . "</a></legend>";
 						echo script("qsl('a').onclick = function () { pageClick(this.href, +prompt('" . lang('Page') . "', '" . ($page + 1) . "')); return false; };");
-						echo "<div id='fieldset-pagination'><ul class='pagination'>";
+						echo "<div id='fieldset-pagination' class='fieldset-content'><ul class='pagination'>";
 
 						echo pagination(0, $page);
 						if ($page > 5) {
@@ -586,17 +586,17 @@ if (!$columns && support("table")) {
 				}
 
 				echo "<fieldset>";
-				echo "<legend>" . lang('Whole result') . "</legend><div>";
+				echo "<legend>" . lang('Whole result') . "</legend><div class='fieldset-content'>";
 				$display_rows = ($exact_count ? "" : "~ ") . $found_rows;
 				echo checkbox("all", 1, 0, ($found_rows !== false ? ($exact_count ? "" : "~ ") . lang('%d row(s)', $found_rows) : ""), "var checked = formChecked(this, /check/); selectCount('selected', this.checked ? '$display_rows' : checked); selectCount('selected2', this.checked || !checked ? '$display_rows' : checked);") . "\n";
 				echo "</div></fieldset>\n";
 
 				if ($adminer->selectCommandPrint()) {
 					?>
-<fieldset<?php echo ($_GET["modify"] ? '' : ' class="jsonly"'); ?>><legend><?php echo lang('Modify'); ?></legend><div>
+<fieldset<?php echo ($_GET["modify"] ? '' : ' class="jsonly"'); ?>><legend><?php echo lang('Modify'); ?></legend><div class='fieldset-content'>
 <input type="submit" class="button" value="<?php echo lang('Save'); ?>"<?php echo ($_GET["modify"] ? '' : ' title="' . lang('Ctrl+click on a value to modify it.') . '"'); ?>>
 </div></fieldset>
-<fieldset><legend><?php echo lang('Selected'); ?> <span id="selected"></span></legend><div>
+<fieldset><legend><?php echo lang('Selected'); ?> <span id="selected"></span></legend><div class='fieldset-content'>
 <input type="submit" class="button" name="edit" value="<?php echo lang('Edit'); ?>">
 <input type="submit" class="button" name="clone" value="<?php echo lang('Clone'); ?>">
 <input type="submit" class="button" name="delete" value="<?php echo lang('Delete'); ?>"><?php echo confirm(); ?>
@@ -612,12 +612,12 @@ if (!$columns && support("table")) {
 					}
 				}
 				if ($format) {
-					print_fieldset("export", lang('Export') . " <span id='selected2'></span>");
+					print_fieldset_start("export", lang('Export') . " <span id='selected2'></span>", "export");
 					echo html_select("format", $format, $adminer_import["format"]);
 					$output = $adminer->dumpOutput();
 					echo ($output ? " " . html_select("output", $output, $adminer_import["output"]) : "");
 					echo " <input type='submit' class='button' name='export' value='" . lang('Export') . "'>\n";
-					echo "</div></fieldset>\n";
+					print_fieldset_end("export");
 				}
 
 				$adminer->selectEmailPrint(array_filter($email_fields, 'strlen'), $columns);

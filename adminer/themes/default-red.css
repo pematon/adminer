@@ -1,23 +1,41 @@
 :root {
-	--link-text: #b20;
-	--link-text-hover: #04c;
+	--link-text: hsl(11, 100%, 37%);
+	--link-text-hover: hsl(11, 100%, 25%);
+	--selection-bg: hsla(11, 100%, 45%, 12%);
 
-	--header-bg: #f6d2ce;
+	--list-active: hsla(11, 100%, 37%, 7%);
+	--list-active-hover: hsla(11, 100%, 37%, 12%);
 
-	--button-default-bg: #f6d2ce;
-	--button-default-bg-hover: #f0c6c2;
-	--button-default-border: #c59690;
+	--button-bg-hover: hsla(11, 100%, 37%, 7%);
+	--button-border: hsl(11, 100%, 37%);
+	--button-border-hover: hsl(11, 100%, 30%);
+	--button-text: hsl(11, 100%, 37%);
+	--button-text-hover: hsl(11, 100%, 30%);
+
+	--button-default-bg: hsl(11, 100%, 37%);
+	--button-default-bg-hover: hsl(11, 100%, 30%);
+	--button-default-border: hsl(11, 100%, 37%);
+	--button-default-border-hover: hsl(11, 100%, 30%);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--link-text: #eea299;
-		--link-text-hover: #ace;
+		--link-text: hsl(11, 70%, 70%);
+		--link-text-hover: hsl(11, 50%, 60%);
+		--selection-bg: hsla(11, 70%, 50%, 60%);
 
-		--header-bg: #663633;
+		--list-active: hsla(11, 100%, 60%, 15%);
+		--list-active-hover: hsla(11, 100%, 60%, 20%);
 
-		--button-default-bg: #663633;
-		--button-default-bg-hover: #79403c;
-		--button-default-border: #9f5956;
+		--button-bg-hover: hsla(11, 100%, 60%, 15%);
+		--button-border: hsl(11, 70%, 70%);
+		--button-border-hover:  hsl(11, 70%, 70%);
+		--button-text: hsl(11, 70%, 70%);
+		--button-text-hover:  hsl(11, 70%, 70%);
+
+		--button-default-bg: hsl(11, 70%, 70%);
+		--button-default-bg-hover: hsl(11, 50%, 65%);
+		--button-default-border: hsl(11, 70%, 70%);
+		--button-default-border-hover: hsl(11, 50%, 65%);
 	}
 }

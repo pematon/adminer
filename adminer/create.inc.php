@@ -197,17 +197,25 @@ foreach ($engines as $engine) {
 ?>
 
 <form action="" method="post" id="form">
-<p>
-<?php if (support("columns") || $TABLE == "") { ?>
-<?php echo lang('Table name'); ?>: <input class="input" name="name" data-maxlength="64" value="<?php echo h($row["name"]); ?>" autocapitalize="off" <?php echo ($TABLE == "" && !$_POST) ? "autofocus" : ""; ?>>
-<?php echo ($engines ? "<select name='Engine'>" . optionlist(["" => "(" . lang('engine') . ")"] + $engines, $row["Engine"]) . "</select>" . help_script_command("value", true) : ""); ?>
 <?php
-	if ($collations && !preg_match("~sqlite|mssql~", $jush)) {
-		echo html_select("Collation", ["" => "(" . lang('collation') . ")"] + $collations, $row["Collation"]);
+	if (support("columns") || $TABLE == "") {
+		echo "<p>";
+		echo lang('Table name'), ": ";
+
+		echo "<input class='input' name='name' data-maxlength='64' value='", h($row["name"]), "' autocapitalize='off'", (($TABLE == "" && !$_POST) ? " autofocus" : ""), ">";
+
+		if ($engines) {
+			echo " <select name='Engine'>", optionlist(["" => "(" . lang('engine') . ")"] + $engines, $row["Engine"]), "</select>", help_script_command("value", true);
+		}
+
+		if ($collations && !preg_match("~sqlite|mssql~", $jush)) {
+			echo " ", html_select("Collation", ["" => "(" . lang('collation') . ")"] + $collations, $row["Collation"]);
+		}
+
+		echo " <input type='submit' class='button' value='", lang('Save'), "'>";
+		echo "</p>";
 	}
 ?>
-<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
-<?php } ?>
 
 <?php if (support("columns")) { ?>
 <div class="scrollable">
@@ -240,7 +248,7 @@ echo (support("comment")
 if (support("partitioning")) {
 	echo "<div class='field-sets'>\n";
 	$partition_table = preg_match('~RANGE|LIST~', $row["partition_by"]);
-	print_fieldset("partition", lang('Partition by'), $row["partition_by"]);
+	print_fieldset_start("partition", lang('Partition by'), "split", (bool)$row["partition_by"]);
 	?>
 <p>
 <?php echo "<select name='partition_by'>" . optionlist(["" => ""] + $partition_by, $row["partition_by"]) . "</select>" . help_script_command("value.replace(/./, 'PARTITION BY \$&')", true) . script("qsl('select').onchange = partitionByChange;"); ?>
@@ -258,7 +266,7 @@ foreach ($row["partition_names"] as $key => $val) {
 ?>
 </table>
 <?php
-	echo "</div></fieldset>\n";
+	print_fieldset_end("partition");
 	echo "</div>\n";
 }
 ?>

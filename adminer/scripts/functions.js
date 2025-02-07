@@ -103,20 +103,22 @@ function cookie(assign, days) {
  * @param token string
  */
 function verifyVersion(baseUrl, token) {
-	// Dummy value to prevent repeated verifications after AJAX failure.
-	cookie('adminer_version=0', 1);
+	document.addEventListener("DOMContentLoaded", () => {
+		// Dummy value to prevent repeated verifications after AJAX failure.
+		cookie('adminer_version=0', 1);
 
-	ajax('https://api.github.com/repos/adminerneo/adminerneo/releases/latest', (request) => {
-		const response = JSON.parse(request.responseText);
+		ajax('https://api.github.com/repos/adminerneo/adminerneo/releases/latest', (request) => {
+			const response = JSON.parse(request.responseText);
 
-		const version = response.tag_name.replace(/^\D*/, '');
-		if (!version) return;
+			const version = response.tag_name.replace(/^\D*/, '');
+			if (!version) return;
 
-		cookie('adminer_version=' + version, 1);
+			cookie('adminer_version=' + version, 1);
 
-		const data = 'version=' + version + '&token=' + token;
-		ajax(baseUrl + 'script=version', null, data);
-	}, null, null, true);
+			const data = 'version=' + version + '&token=' + token;
+			ajax(baseUrl + 'script=version', null, data);
+		}, null, null, true);
+	});
 }
 
 /** Get value of select
@@ -352,6 +354,16 @@ function pageClick(href, page) {
 	}
 }
 
+function initNavigation() {
+	const button = gid("navigation-button");
+	const panel = gid("navigation-panel");
+
+	button.addEventListener("click", () => {
+		button.classList.toggle("opened");
+		panel.classList.toggle("opened");
+	});
+}
+
 let tablesFilterTimeout = null;
 let tablesFilterValue = '';
 
@@ -423,6 +435,27 @@ function filterTables() {
 			tables[i].classList.add('hidden');
 		}
 	}
+}
+
+/**
+ * Initialize collapsable fieldset.
+ *
+ * @param {string} id
+ */
+function initFieldset(id) {
+	const fieldset = gid(`fieldset-${id}`);
+
+	fieldset.addEventListener("click", () => {
+		if (fieldset.classList.contains("closed")) {
+			fieldset.classList.remove("closed");
+		}
+	});
+
+	qs("legend a", fieldset).addEventListener("click", (event) => {
+		fieldset.classList.toggle("closed");
+		event.preventDefault();
+		event.stopPropagation();
+	});
 }
 
 /**
@@ -990,6 +1023,7 @@ function selectClick(event, text, warning) {
 	var original = td.innerHTML;
 	text = text || /\n/.test(original);
 	var input = document.createElement(text ? 'textarea' : 'input');
+	input.classList.add("input");
 	input.onkeydown = function (event) {
 		if (!event) {
 			event = window.event;

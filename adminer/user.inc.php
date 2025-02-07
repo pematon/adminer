@@ -143,7 +143,7 @@ if ($_POST) {
 
 ?>
 <form action="" method="post">
-<table class="layout">
+<table class="box">
 <tr><th><?php echo lang('Server'); ?><td><input class="input" name="host" data-maxlength="60" value="<?php echo h($row["host"]); ?>" autocapitalize="off">
 <tr><th><?php echo lang('Username'); ?><td><input class="input" name="user" data-maxlength="80" value="<?php echo h($row["user"]); ?>" autocapitalize="off">
 <tr><th><?php echo lang('Password'); ?><td><input class="input" name="pass" id="pass" value="<?php echo h($row["pass"]); ?>" autocomplete="new-password">

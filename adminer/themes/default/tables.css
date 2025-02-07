@@ -1,0 +1,191 @@
+table {
+	position: relative;
+	margin: 15px 20px;
+	border-spacing: 0;
+	background: var(--table-bg);
+	border: 1px solid var(--table-border);
+}
+
+table code {
+	background: none;
+	border: none;
+}
+
+td, th {
+	padding: 4px 10px 2px;
+}
+
+th {
+	background: var(--panel-bg);
+	text-align: left;
+	font-weight: normal;
+}
+
+tbody th + td, tbody td + th {
+	border-left: 1px solid var(--table-row-border);
+}
+
+thead {
+	position: sticky;
+	top: 2rem;
+	z-index: 1;
+}
+
+thead th, thead td {
+	padding: 6px 10px 4px;
+	background: var(--table-header-bg);
+	border-bottom: 1px solid var(--table-border);
+}
+
+tfoot th, tfoot td {
+	padding: 6px 10px 4px;
+	background: var(--table-header-bg);
+	border-top: 1px solid var(--table-border);
+}
+
+tbody th, tbody td {
+	border-bottom: 1px solid var(--table-row-border);
+}
+
+tbody tr:last-child th, tbody tr:last-child td {
+	border-bottom: none;
+}
+
+tbody th, tbody td {
+	vertical-align: top;
+}
+
+table.checkable tbody tr:hover th, table.checkable tbody tr:hover td {
+	background: var(--list-hover);
+}
+
+table.checkable tbody tr.checked th, table.checkable tbody tr.checked td {
+	background: var(--list-active);
+}
+
+table.checkable tbody tr.checked:hover th, table.checkable tbody tr.checked:hover td {
+	background: var(--list-active-hover);
+}
+
+table.box {
+	background: var(--panel-bg);
+	border-radius: var(--box-border-radius);
+}
+
+table.box th {
+	background: var(--table-header-bg);
+	text-align: right;
+}
+
+table.box tr:first-child th, table.box tr:first-child td {
+	padding-top: 10px;
+}
+
+table.box tr:last-child th, table.box tr:last-child td {
+	padding-bottom: 10px;
+}
+
+table.box th, table.box td {
+	vertical-align: middle;
+	height: 34px;
+	border-bottom: none;
+}
+
+td table {
+	width: 100%;
+	margin: 0;
+}
+
+td img {
+	max-width: 200px;
+	max-height: 200px;
+}
+
+td pre {
+	margin: 0;
+}
+
+td.actions input:last-of-type {
+	margin-inline-end: 0;
+}
+
+td.actions .icon {
+	margin-inline-start: 5px;
+}
+
+td.options select {
+	width: 20ex;
+}
+
+.column {
+	position: absolute;
+	background: var(--table-header-bg);
+	margin: -6px 5px 0;
+}
+
+.column .button {
+	padding: 6px 6px 4px;
+	line-height: 1.4;
+}
+
+/* Required to achieve full with of sticky table footer. */
+.table-footer-parent {
+	width: fit-content;
+}
+
+.table-footer {
+	position: sticky;
+	bottom: 0;
+	margin-top: 15px;
+	border-top: 15px solid rgba(255, 255, 255, .7);
+	border-image: linear-gradient(transparent, var(--body-bg)) 100% 0;
+}
+
+.table-footer .field-sets {
+	padding-bottom: 10px;
+	padding-inline-start: 20px;
+	margin: 0;
+	background: var(--body-bg);
+}
+
+.table-footer fieldset {
+	margin-top: 0;
+}
+
+.pagination {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	gap: 5px;
+}
+
+.pagination li {
+	line-height: 24px;
+}
+
+.pagination a, .pagination strong {
+	padding: 3px;
+}
+
+/* Required to include the right table margin to scrollable area. */
+.scrollable {
+	width: fit-content;
+}
+
+@media (hover: none) {
+	/* Turn off sticky header on touch screens. It does not work on mobile Safari at all. */
+	thead {
+		position: static;
+	}
+
+	.table-footer-parent {
+		width: auto;
+	}
+
+	.scrollable {
+		width: auto;
+		overflow-x: auto;
+		margin: -15px 0;
+	}
+}

@@ -1,0 +1,55 @@
+.warnings {
+	margin: -5px 20px 20px;
+	color: var(--warning-text);
+}
+
+.warnings table {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.warnings table th {
+	color: var(--body-text);
+}
+
+.message, .error {
+	padding: 12px 15px 8px;
+	margin: 20px;
+}
+
+.message {
+	background: var(--message-ok-bg);
+	border: 1px solid var(--message-ok-border);
+	border-left: 7px solid var(--message-ok-border);
+	border-radius: var(--box-border-radius);
+	color: var(--message-ok-text);
+}
+
+.message table {
+	background: var(--body-bg);
+	color: var(--body-text);
+}
+
+.message pre, .error pre {
+	margin-top: 15px;
+}
+
+.message pre, .message p, .error pre, .error p {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.message pre + .links, .error pre + .links {
+	margin-bottom: 0
+}
+
+.message .warnings {
+	margin: 15px 0 0;
+}
+
+.error {
+	background: var(--message-error-bg);
+	border: 1px solid var(--message-error-border);
+	border-left: 7px solid var(--message-error-border);
+	color: var(--message-error-text);
+}

@@ -1,0 +1,106 @@
+.field-sets {
+	margin: 15px 20px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.field-sets + .scrollable {
+	margin-top: -5px;
+}
+
+.fieldset-icon {
+	display: none;
+	margin: 0 auto;
+	width: 1.2rem;
+	height: 1.2rem;
+	opacity: 0.2;
+}
+
+fieldset {
+	margin: 0;
+	padding: 5px 10px 10px;
+	border: 1px solid var(--panel-border);
+	background: var(--panel-bg);
+	border-radius: var(--fieldset-border-radius);
+	/* 2x fieldset padding + 2x input padding + texts height */
+	min-height: calc(15px + 10px + 1.9rem);
+	min-width: calc(15px + 10px + 1.9rem);
+}
+
+.nojs fieldset legend a {
+	color: var(--body-text);
+	pointer-events: none;
+}
+
+.js fieldset.closed:hover legend a {
+	color: var(--link-text-hover);
+}
+
+.js fieldset.closed {
+	cursor: pointer;
+}
+
+.js fieldset.closed .fieldset-icon {
+	display: block;
+}
+
+.js fieldset.closed .fieldset-content {
+	display: none;
+}
+
+fieldset p, fieldset table {
+	margin: 10px 0 0;
+}
+
+fieldset pre {
+	margin: 10px 0 20px;
+}
+
+fieldset p:first-child, fieldset table:first-child, fieldset pre:first-child {
+	margin-top: 0;
+}
+
+.fieldset-content > div {
+	margin-bottom: 5px;
+}
+
+.fieldset-content > div:last-child {
+	margin-bottom: 0;
+}
+
+fieldset select + select, fieldset select + script + select {
+	margin-inline-start: 5px;
+}
+
+fieldset select + input, fieldset select + script + input {
+	margin-inline-start: 5px;
+}
+
+/* Checkbox in fieldset. E.g. "Whole result" */
+fieldset td input, fieldset td select {
+	margin: 0;
+}
+
+p + fieldset {
+	margin-top: 5px;
+}
+
+#fieldset-select div:last-child > .remove, #fieldset-search div:last-child > .remove, #fieldset-sort div:last-child > .remove {
+	display: none;
+}
+
+#fieldset-history > code {
+	display: block;
+	margin: 5px 0 10px;
+	padding: 10px 15px;
+}
+
+#fieldset-history > code + .time {
+	margin-top: -2px;
+}
+
+#fieldset-history > code + br {
+	display: none;
+}

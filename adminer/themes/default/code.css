@@ -1,0 +1,50 @@
+code {
+	background: var(--code-bg);
+	border: 1px solid var(--code-border);
+	padding: 2px 3px;
+	border-radius: var(--input-border-radius);
+}
+
+code, textarea {
+	font-family: var(--font-family-mono);
+	font-size: calc(var(--font-size-mono) * 100% / 14);
+}
+
+pre {
+	margin: 20px;
+	overflow-x: auto;
+}
+
+pre > code {
+	display: block;
+	padding: 10px 15px;
+	overflow-x: auto;
+	border-left: 7px solid var(--code-border);
+	border-radius: var(--box-border-radius);
+}
+
+pre + .links {
+	margin-top: -15px;
+	margin-bottom: 20px;
+}
+
+pre + .message {
+	margin-top: -20px;
+	border-top: none;
+}
+
+pre.comment {
+	white-space: pre-wrap;
+}
+
+p pre {
+	margin: 0;
+}
+
+.rtl pre, .rtl code {
+	direction: ltr;
+}
+
+.rtl pre.comment {
+	width: fit-content;
+}

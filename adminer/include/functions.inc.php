@@ -278,16 +278,27 @@ function confirm($message = "", $selector = "qsl('input')") {
 }
 
 /**
- * Prints header for hidden fieldset (close by </div></fieldset>)
- * @param $id string
- * @param $legend string
+ * Prints header for hidden fieldset (close by </div></fieldset>).
  */
-function print_fieldset($id, $legend, $visible = false, $sortable = false) {
-	echo "<fieldset><legend>";
-	echo "<a href='#fieldset-$id'>$legend</a>";
-	echo script("qsl('a').onclick = partial(toggle, 'fieldset-$id');", "");
-	echo "</legend>";
-	echo "<div id='fieldset-$id' class='" . ($visible ? "" : "hidden") . ($sortable ? " sortable" : "") . "'>\n";
+function print_fieldset_start(string $id, string $legend, string $icon, bool $visible = false, bool $sortable = false): void
+{
+	echo "<fieldset id='fieldset-$id' class='closable " . (!$visible ? " closed" : "") . "'>";
+	echo "<legend><a href='#'>$legend</a></legend>";
+
+	echo icon($icon, "fieldset-icon jsonly");
+	echo "<div class='fieldset-content" . ($sortable ? " sortable" : "") . "'>";
+}
+
+function print_fieldset_end(string $id, bool $sortable = false): void
+{
+	echo "</div>"; // fieldset-content
+	echo script("initFieldset('$id');", "");
+
+	if ($sortable) {
+		echo script("initSortable('#fieldset-$id .fieldset-content');", "");
+	}
+
+	echo "</fieldset>\n";
 }
 
 /** Return class='active' if $bold is true
@@ -1555,7 +1566,7 @@ function edit_form($table, $fields, $row, $update) {
 	if (!$fields) {
 		echo "<p class='error'>" . lang('You have no privileges to update this table.') . "\n";
 	} else {
-		echo "<table class='layout'>" . script("qsl('table').onkeydown = editingKeydown;");
+		echo "<table class='box'>" . script("qsl('table').onkeydown = editingKeydown;");
 
 		foreach ($fields as $name => $field) {
 			echo "<tr><th>" . $adminer->fieldName($field);
