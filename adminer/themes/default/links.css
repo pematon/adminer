@@ -1,0 +1,26 @@
+.links {
+	display: flex;
+	position: relative;
+	line-height: 1.7;
+	flex-wrap: wrap;
+	column-gap: 20px;
+}
+
+.links a {
+	padding: 0;
+	white-space: nowrap;
+}
+
+.links .time {
+	position: absolute;
+	right: 0;
+}
+
+.rtl .links .time {
+	left: 0;
+	right: auto;
+}
+
+#top-links {
+	margin: 20px;
+}

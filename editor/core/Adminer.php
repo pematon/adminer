@@ -32,7 +32,7 @@ class Adminer extends AdminerBase
 	}
 
 	function name() {
-		return "<a id='h1' href='" . h(HOME_URL) . "'>" . lang('Editor') . "</a>";
+		return "<a href='" . h(HOME_URL) . "'>" . lang('Editor') . "</a>";
 	}
 
 	function connectSsl() {
@@ -347,20 +347,24 @@ ORDER BY ORDINAL_POSITION", null, "") as $row) { //! requires MySQL 5
 	}
 
 	function selectEmailPrint($emailFields, $columns) {
-		if ($emailFields) {
-			print_fieldset("email", lang('E-mail'), $_POST["email_append"]);
-			echo "<div>";
-			echo script("qsl('div').onkeydown = partialArg(bodyKeydown, 'email');");
-			echo "<p>" . lang('From') . ": <input class='input' name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
-			echo lang('Subject') . ": <input class='input' name='email_subject' value='" . h($_POST["email_subject"]) . "'>\n";
-			echo "<p><textarea name='email_message' rows='15' cols='75'>" . h($_POST["email_message"] . ($_POST["email_append"] ? '{$' . "$_POST[email_addition]}" : "")) . "</textarea>\n";
-			echo "<p>" . script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');", "") . html_select("email_addition", $columns, $_POST["email_addition"]) . "<input type='submit' class='button' name='email_append' value='" . lang('Insert') . "'>\n"; //! JavaScript
-			echo "<p>" . lang('Attachments') . ": <input type='file' name='email_files[]'>" . script("qsl('input').onchange = emailFileChange;");
-			echo "<p>" . (count($emailFields) == 1 ? '<input type="hidden" name="email_field" value="' . h(key($emailFields)) . '">' : html_select("email_field", $emailFields));
-			echo "<input type='submit' class='button' name='email' value='" . lang('Send') . "'>" . confirm();
-			echo "</div>\n";
-			echo "</div></fieldset>\n";
+		if (!$emailFields) {
+			return;
 		}
+
+		print_fieldset_start("email", lang('E-mail'), "email", (bool)$_POST["email_append"]);
+
+		echo "<div>";
+		echo script("qsl('div').onkeydown = partialArg(bodyKeydown, 'email');");
+		echo "<p>" . lang('From') . ": <input class='input' name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
+		echo lang('Subject') . ": <input class='input' name='email_subject' value='" . h($_POST["email_subject"]) . "'>\n";
+		echo "<p><textarea name='email_message' rows='15' cols='75'>" . h($_POST["email_message"] . ($_POST["email_append"] ? '{$' . "$_POST[email_addition]}" : "")) . "</textarea>\n";
+		echo "<p>" . script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');", "") . html_select("email_addition", $columns, $_POST["email_addition"]) . "<input type='submit' class='button' name='email_append' value='" . lang('Insert') . "'>\n"; //! JavaScript
+		echo "<p>" . lang('Attachments') . ": <input type='file' name='email_files[]'>" . script("qsl('input').onchange = emailFileChange;");
+		echo "<p>" . (count($emailFields) == 1 ? '<input type="hidden" name="email_field" value="' . h(key($emailFields)) . '">' : html_select("email_field", $emailFields));
+		echo "<input type='submit' class='button' name='email' value='" . lang('Send') . "'>" . confirm();
+		echo "</div>\n";
+
+		print_fieldset_end("email");
 	}
 
 	function selectColumnsProcess($columns, $indexes) {
@@ -616,13 +620,13 @@ qsl('div').onclick = whisperClick;", "")
 		$last_version = $_COOKIE["adminer_version"] ?? null;
 ?>
 
-<h1>
+<div class="header">
 	<?= $this->name(); ?>
 
 	<?php if ($missing != "auth"): ?>
 		<span class="version">
 			<?= h($VERSION); ?>
-			<a href="https://github.com/adminerneo/adminerneo/releases"<?= target_blank(); ?> id="version">
+			<a id="version" class="version-badge" href="https://github.com/adminerneo/adminerneo/releases"<?= target_blank(); ?> title="<?= h($last_version); ?>">
 				<?= ($this->config->isVersionVerificationEnabled() && $last_version && version_compare($VERSION, $last_version) < 0 ? icon_solo("asterisk") : ""); ?>
 			</a>
 		</span>
@@ -632,7 +636,7 @@ qsl('div').onclick = whisperClick;", "")
 		}
 		?>
 	<?php endif; ?>
-</h1>
+</div>
 
 <?php
 		if ($missing == "auth") {

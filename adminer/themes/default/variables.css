@@ -1,0 +1,119 @@
+:root {
+	--font-family: Helvetica, Verdana, Arial, Helvetica, sans-serif;
+	--font-family-mono: JetBrains Mono, Menlo, Consolas, Liberation Mono, monospace;
+	--font-size: 14; /* px */
+	--font-size-mono: 13; /* px */
+	--menu-width: 13rem;
+
+	--body-bg: #fff;
+	--body-text: #333;
+	--link-text: hsl(220, 60%, 45%);
+	--link-text-hover: hsl(220, 60%, 30%);
+	--note-text: #ccc;
+	--selection-bg: hsla(220, 80%, 50%, 12%);
+
+	--logo-text: #a0a0a0;
+	--panel-bg: #fcfcfc;
+	--panel-border: #e0e0e0;
+	--header-text: #000;
+	--list-hover: hsla(220, 0%, 20%, 4%);
+	--list-active: hsla(220, 80%, 45%, 7%);
+	--list-active-hover: hsla(220, 80%, 45%, 12%);
+
+	--input-bg: #fff;
+	--input-text: #000;
+	--input-border: #ccc;
+	--required-border: #c40;
+	--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIgLz48L3N2Zz4=");
+
+	--button-bg: #fff;
+	--button-bg-hover: hsla(220, 80%, 45%, 7%);
+	--button-border: hsl(220, 60%, 45%);
+	--button-border-hover: hsl(220, 60%, 30%);
+	--button-text: hsl(220, 60%, 45%);
+	--button-text-hover: hsl(220, 60%, 30%);
+
+	--button-default-bg: hsl(220, 60%, 45%);
+	--button-default-bg-hover: hsl(220, 60%, 30%);
+	--button-default-border: hsl(220, 60%, 45%);
+	--button-default-border-hover: hsl(220, 60%, 30%);
+	--button-default-text: #fff;
+	--button-default-text-hover: #fff;
+
+	--table-bg: #fff;
+	--table-header-bg: #f6f6f6;
+	--table-border: #e0e0e0;
+	--table-row-border: #ebebeb;
+
+	--code-bg: hsla(220, 80%, 97%);
+	--code-border: hsla(220, 80%, 92%);
+
+	--message-ok-bg: hsl(120, 70%, 95%);
+	--message-ok-border: hsla(120, 40%, 87%);
+	--message-ok-text: hsl(120, 100%, 20%);
+
+	--message-error-bg: hsl(0, 65%, 95%);
+	--message-error-border: hsla(0, 65%, 90%);
+	--message-error-text: hsl(0, 100%, 30%);
+
+	--warning-text: hsl(24, 100%, 50%);
+	--version-text: hsl(24, 100%, 50%);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--body-bg: #111;
+		--body-text: #ccc;
+		--link-text: hsl(215, 60%, 75%);
+		--link-text-hover: hsl(215, 50%, 65%);
+		--note-text: #666;
+		--selection-bg: hsla(215, 80%, 50%, 60%);
+
+		--logo-text: #888;
+		--panel-bg: #222;
+		--panel-border: #444;
+		--header-text: #eee;
+		--list-hover: hsla(215, 0%, 100%, 8%);
+		--list-active: hsla(215, 100%, 60%, 18%);
+		--list-active-hover: hsla(215, 100%, 60%, 25%);
+
+		--input-bg: #111;
+		--input-text: #eee;
+		--input-border: #666;
+		--required-border: #d63;
+		--select-arrow: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2VlZSI+PHBhdGggZD0iTTcuNDEsOC41OEwxMiwxMy4xN0wxNi41OSw4LjU4TDE4LDEwTDEyLDE2TDYsMTBMNy40MSw4LjU4WiIvPjwvc3ZnPg==");
+
+		--button-bg: #111;
+		--button-bg-hover: hsla(215, 100%, 60%, 18%);
+		--button-border: hsl(215, 60%, 75%);
+		--button-border-hover:  hsl(215, 60%, 75%);
+		--button-text: hsl(215, 60%, 75%);
+		--button-text-hover:  hsl(215, 60%, 75%);
+
+		--button-default-bg: hsl(215, 60%, 75%);
+		--button-default-bg-hover: hsl(215, 50%, 65%);
+		--button-default-border: hsl(215, 60%, 75%);
+		--button-default-border-hover: hsl(215, 50%, 65%);
+		--button-default-text: #111;
+		--button-default-text-hover: #111;
+
+		--table-bg: #111;
+		--table-header-bg: #2a2a2a;
+		--table-border: #444;
+		--table-row-border: #333;
+
+		--code-bg: hsla(215, 40%, 20%);
+		--code-border: hsla(215, 40%, 35%);
+
+		--message-ok-bg: hsl(120, 20%, 20%);
+		--message-ok-border: hsla(120, 20%, 32%);
+		--message-ok-text: hsl(120, 55%, 95%);
+
+		--message-error-bg: hsl(0, 30%, 22%);
+		--message-error-border: hsla(0, 30%, 34%);
+		--message-error-text: hsl(0, 55%, 95%);
+
+		--warning-text: hsl(24, 70%, 60%);
+		--version-text: hsl(24, 70%, 60%);
+	}
+}

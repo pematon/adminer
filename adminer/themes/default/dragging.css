@@ -1,0 +1,33 @@
+.handle {
+	cursor: grab;
+	vertical-align: middle;
+	width: 18px;
+	height: 18px;
+}
+
+.handle .icon, .icon.handle {
+	opacity: 0.2;
+}
+
+.no-sort .handle {
+	cursor: default;
+	opacity: 0;
+}
+
+.placeholder {
+	opacity: 0;
+}
+
+.dragging {
+	position: absolute;
+	margin: 0;
+	background: var(--body-bg);
+}
+
+.dragging * {
+	cursor: grabbing;
+}
+
+table.dragging {
+	background: var(--panel-bg);
+}

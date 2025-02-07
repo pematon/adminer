@@ -1,0 +1,219 @@
+*, ::before, ::after {
+	box-sizing: border-box;
+}
+
+::selection {
+	background: var(--selection-bg);
+}
+
+:focus-visible {
+	outline: 2px solid var(--link-text);
+}
+
+html {
+	font-size: calc(20 * 100% / 16); /* 1rem = 20px */
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	text-size-adjust: none;
+	overflow-y: scroll;
+}
+
+body {
+	margin: 0;
+	background: var(--body-bg);
+	color: var(--body-text);
+	font: calc(var(--font-size) * 100% / 20) var(--font-family);
+	line-height: 1.4;
+}
+
+a {
+	padding: 3px 0;
+	color: var(--link-text);
+	text-decoration: none;
+}
+
+a:focus-visible {
+	outline-offset: 1px;
+	border-radius: 0.5px;
+}
+
+a[href]:hover, a[href]:active {
+	color: var(--link-text-hover);
+	/* text-decoration: underline; */
+}
+
+/* We can not use a:hover because of jush formatting. */
+a.text:hover, a.text:active {
+	text-decoration: none;
+}
+
+a.jush-help:hover {
+	color: inherit;
+}
+
+h1 {
+	font-size: calc(26 * 100% / 14);
+	font-weight: normal;
+	margin: 20px;
+	color: var(--header-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: calc(20 * 100% / 14);
+	margin: 30px 20px 15px;
+}
+
+p {
+	margin: 15px 20px;
+}
+
+img {
+	vertical-align: middle;
+	border: 0;
+}
+
+ol, ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+.block {
+	display: block;
+}
+
+.js .hidden, .nojs .jsonly {
+	display: none;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+p.nowrap {
+	white-space: pre;
+}
+
+.wrap td {
+	white-space: normal;
+}
+
+.function {
+	text-align: right;
+}
+
+.number {
+	text-align: right;
+}
+
+.datetime {
+	text-align: right;
+}
+
+.type {
+	width: 15ex;
+}
+
+.size {
+	width: 7ex;
+}
+
+.help {
+	cursor: help;
+}
+
+.view {
+	font-style: italic;
+}
+
+.active {
+	font-weight: bold;
+}
+
+.time {
+	float: right;
+	margin-top: 3px;
+	font-size: calc(11 * 100% / 14);
+	color: var(--note-text);
+}
+
+.invisible {
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	position: absolute;
+	padding: 0;
+	border: none;
+	clip: rect(0, 0, 0, 0);
+}
+
+.icon {
+	width: 1.25em;
+	height: 1.25em;
+	vertical-align: middle;
+	margin-top: -3px;
+	margin-inline-end: 0.5em;
+}
+
+.icon.solo {
+	margin-inline-end: 0;
+}
+
+#content {
+	position: relative;
+	margin-inline-start: var(--menu-width);
+	padding-top: 2rem;
+	padding-bottom: 20px;
+}
+
+#schema {
+	margin-left: 100px;
+	position: relative;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#schema .table {
+	border: 1px solid var(--table-border);
+	padding: 0 2px;
+	cursor: move;
+	position: absolute;
+}
+
+#schema .references {
+	position: absolute;
+}
+
+#help {
+	position: absolute;
+	border: 1px solid var(--panel-border);
+	background: var(--panel-bg);
+	padding: 5px;
+	font-family: var(--font-family-mono);
+	font-size: calc(var(--font-size-mono) * 100% / 14);
+	z-index: 5;
+}
+
+@media screen and (max-width: 1023px) {
+	#content {
+		margin-inline-start: 0;
+	}
+}
+
+@media screen and (max-width: 440px) {
+	h1 {
+		font-size: calc(22 * 100% / 14);
+	}
+}

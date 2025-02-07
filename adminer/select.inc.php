@@ -305,7 +305,7 @@ if (!$columns && support("table")) {
 			$result->seek($limit * $page);
 		}
 		$email_fields = [];
-		echo "<form action='' method='post' enctype='multipart/form-data'>\n";
+		echo "<form class='table-footer-parent' action='' method='post' enctype='multipart/form-data'>\n";
 		$rows = [];
 		while ($row = $result->fetch_assoc()) {
 			if ($page && $jush == "oracle") {
@@ -331,7 +331,7 @@ if (!$columns && support("table")) {
 			echo "<thead><tr>";
 
 			if ($group || !$select) {
-				echo "<td><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
+				echo "<th class='actions'><input type='checkbox' id='all-page' class='jsonly'>" . script("gid('all-page').onclick = partial(formCheck, /check/);", ""),
 					" <a href='", h($_GET["modify"] ? remove_from_uri("modify") : $_SERVER["REQUEST_URI"] . "&modify=1") . "' title='", lang('Modify'), "'>", icon_solo("edit-all"), "</a>";
 			}
 
@@ -410,7 +410,7 @@ if (!$columns && support("table")) {
 				}
 				echo "<tr>";
 				if ($group || !$select) {
-					echo "<td>",
+					echo "<td class='actions'>",
 						checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array)$_POST["check"]));
 
 					if (!$is_group && !information_schema(DB)) {
@@ -524,7 +524,7 @@ if (!$columns && support("table")) {
 					echo "\n";
 				}
 
-			    echo "<div class='footer'><div class='field-sets'>\n";
+			    echo "<div class='table-footer'><div class='field-sets'>\n";
 
 				if ($pagination) {
 					// display first, previous 4, next 4 and last page
@@ -612,12 +612,12 @@ if (!$columns && support("table")) {
 					}
 				}
 				if ($format) {
-					print_fieldset("export", lang('Export') . " <span id='selected2'></span>");
+					print_fieldset_start("export", lang('Export') . " <span id='selected2'></span>", "export");
 					echo html_select("format", $format, $adminer_import["format"]);
 					$output = $adminer->dumpOutput();
 					echo ($output ? " " . html_select("output", $output, $adminer_import["output"]) : "");
 					echo " <input type='submit' class='button' name='export' value='" . lang('Export') . "'>\n";
-					echo "</div></fieldset>\n";
+					print_fieldset_end("export");
 				}
 
 				$adminer->selectEmailPrint(array_filter($email_fields, 'strlen'), $columns);

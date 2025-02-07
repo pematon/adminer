@@ -80,7 +80,7 @@ if ($jush == "pgsql") {
 ?>
 <input type="hidden" name="change-js" value="">
 <noscript><p><input type="submit" class="button" name="change" value="<?php echo lang('Change'); ?>"></noscript>
-<table cellspacing="0">
+<table>
 <thead><tr><th id="label-source"><?php echo lang('Source'); ?><th id="label-target"><?php echo lang('Target'); ?></thead>
 <?php
 $j = 0;

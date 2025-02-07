@@ -29,7 +29,7 @@ class AdminerEmailTable {
 
 	function selectEmailPrint($emailFields, $columns) {
 		if ($emailFields) {
-			print_fieldset("email", ('E-mail'));
+			print_fieldset_start("email", ('E-mail'), "email");
 			echo "<div>\n";
 			echo script("qsl('div').onkeydown = partial(bodyKeydown, 'email');");
 			echo "<p>" . ('From') . ": <input class='input' name='email_from' value='" . h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
@@ -44,7 +44,7 @@ class AdminerEmailTable {
 			echo "<p>" . (count($emailFields) == 1 ? '<input type="hidden" name="email_field" value="' . h(key($emailFields)) . '">' : html_select("email_field", $emailFields));
 			echo "<input type='submit' class='button' name='email' value='" . ('Send') . "'>" . confirm();
 			echo "</div>\n";
-			echo "</div></fieldset>\n";
+			print_fieldset_end("email");
 			return true;
 		}
 	}

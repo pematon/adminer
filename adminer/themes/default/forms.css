@@ -1,0 +1,184 @@
+form {
+	margin: 0;
+}
+
+form + pre.comment {
+	margin-top: 30px;
+}
+
+form > p {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+	cursor: pointer;
+	margin: 2px 0;
+	margin-inline-end: 5px;
+	position: relative;
+}
+
+.right input[type="checkbox"], .right input[type="radio"] {
+	margin-inline-start: 5px;
+	margin-inline-end: 0;
+}
+
+input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible {
+	outline-offset: 1px;
+	border-radius: 0.5px;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+input[type="file"] {
+	cursor: pointer;
+}
+
+input[type="file"]:focus-visible {
+	border-radius: 1px;
+}
+
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input.required {
+	border-color: var(--required-border);
+}
+
+input.maxlength {
+	border-color: var(--required-border);
+}
+
+input::placeholder {
+	color: var(--input-text);
+	opacity: 0.4;
+}
+
+.input, select {
+	padding: 4px 6px;
+	border: 1px solid var(--input-border);
+	border-radius: 2px;
+	background: var(--input-bg);
+	color: var(--input-text);
+	font-size: 100%;
+	max-width: 100%;
+}
+
+select {
+	-webkit-appearance: none;
+	appearance: none;
+	padding-inline-end: 18px;
+	background: var(--input-bg) var(--select-arrow) right center no-repeat;
+	background-size: 16px;
+	cursor: pointer;
+}
+
+.rtl select {
+	background-position: left center;
+}
+
+label {
+	display: inline-block;
+	padding: 5px 0 3px;
+	margin-left: 10px;
+	cursor: pointer;
+	/* Firefox tuning to make labels height the same as buttons/inputs. */
+	line-height: 1.357;
+}
+
+label:first-child {
+	margin-left: 0;
+}
+
+label input[type="checkbox"], label input[type="radio"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.sqlarea {
+	width: 100%;
+	padding: 3px !important;
+	border: 1px solid var(--input-border) !important;
+	border-radius: 2px;
+	background: var(--input-bg);
+	font-family: var(--font-family-mono);
+	font-size: calc(var(--font-size-mono) * 100% / 14);
+}
+
+.button:focus-visible, .input:focus-visible, select:focus-visible, .sqlarea:focus-visible {
+	outline-width: 1px;
+	border-color: var(--link-text) !important;
+}
+
+.button, input[type="file"]::file-selector-button {
+	padding: 4px 10px;
+	border: 1px solid var(--button-border);
+	border-radius: 2px;
+	background: var(--button-bg);
+	color: var(--button-text);
+	font-size: 100%;
+	cursor: pointer;
+}
+
+.button:hover, input[type="file"]::file-selector-button:hover,
+.button:active, input[type="file"]::file-selector-button:active {
+	background-color: var(--button-bg-hover);
+	border-color: var(--button-border-hover);
+	color: var(--button-text-hover);
+}
+
+.button .icon {
+	margin-inline-end: 0.25em;
+	opacity: 0.7;
+}
+
+.button .icon:first-child {
+	margin-inline-start: -2px;
+}
+
+.button .icon.solo {
+	margin-inline-end: -2px;
+}
+
+a.button {
+	display: inline-block;
+	line-height: normal;
+}
+
+.button.light {
+	border: none;
+	padding: 4px 5px;
+	background: transparent;
+	color: var(--link-text);
+}
+
+.button.light:hover, .button.light:active {
+	color: var(--link-text-hover);
+}
+
+.button.light:focus-visible {
+	outline-width: 2px;
+}
+
+.button.default {
+	background-color: var(--button-default-bg);
+	border-color: var(--button-default-border);
+	color: var(--button-default-text);
+}
+
+.button.default:hover, .button.default:active {
+	background-color: var(--button-default-bg-hover);
+	border-color: var(--button-default-border-hover);
+	color: var(--button-default-text-hover);
+}
+
+.button.default:focus-visible {
+	outline-width: 2px;
+	outline-offset: 1px;
+	border-radius: 0.5px;
+}
