@@ -14,7 +14,7 @@ if (support("kill")) {
 	}
 }
 
-page_header(lang('Process list'), $error);
+page_header(lang('Process list'), $error, [lang('Process list')]);
 ?>
 
 <form action="" method="post">

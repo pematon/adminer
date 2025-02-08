@@ -19,7 +19,11 @@ if ($_POST && !$error) {
 	}
 }
 
-page_header($SEQUENCE != "" ? lang('Alter sequence') . ": " . h($SEQUENCE) : lang('Create sequence'), $error);
+if ($SEQUENCE != "") {
+	page_header(lang('Alter sequence') . ": " . h($SEQUENCE), $error, [h($SEQUENCE)]);
+} else {
+	page_header(lang('Create sequence'), $error, [lang('Create type')]);
+}
 
 if (!$row) {
 	$row["name"] = $SEQUENCE;

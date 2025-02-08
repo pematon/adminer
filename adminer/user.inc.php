@@ -118,7 +118,9 @@ if ($_POST && !$error) {
 	}
 }
 
-page_header((isset($_GET["host"]) ? lang('Username') . ": " . h("$USER@$_GET[host]") : lang('Create user')), $error, ["privileges" => ['', lang('Privileges')]]);
+$title = isset($_GET["host"]) ? lang('Username') . ": " . h("$USER@$_GET[host]") : lang('Create user');
+$title2 = isset($_GET["host"]) ? h($USER) : lang('Create user');
+page_header($title, $error, ["privileges" => ['', lang('Privileges')], $title2]);
 
 if ($_POST) {
 	$row = $_POST;
@@ -151,7 +153,7 @@ if ($_POST) {
 
 <?php
 //! MAX_* limits, REQUIRE
-echo "<table>\n";
+echo "<div class='scrollable'><table class='checkable'>\n";
 
 echo "<thead><tr><th colspan='2'>" . lang('Privileges') . doc_link(['sql' => "grant.html#priv_level"]) . "</th>";
 $i = 0;
@@ -228,7 +230,7 @@ foreach ([
 	}
 }
 
-echo "</table>\n";
+echo "</table></div>\n";
 ?>
 <p>
 <input type="submit" class="button" value="<?php echo lang('Save'); ?>">

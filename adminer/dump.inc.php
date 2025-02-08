@@ -136,7 +136,7 @@ SET foreign_key_checks = 0;
 	exit;
 }
 
-page_header(lang('Export'), $error, ($_GET["export"] != "" ? ["table" => $_GET["export"]] : []), h(DB));
+page_header(lang('Export') . ": " . h(DB), $error, ($_GET["export"] != "" ? ["table" => $_GET["export"]] : [lang('Export')]));
 ?>
 
 <form action="" method="post">

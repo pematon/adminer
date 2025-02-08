@@ -230,7 +230,7 @@ if (is_ajax()) {
 	page_headers();
 	ob_start();
 } else {
-	page_header(lang('Select') . ": $table_name", $error);
+	page_header(lang('Select') . ": $table_name", $error, [$table_name]);
 }
 
 $set = null;
