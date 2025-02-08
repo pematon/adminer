@@ -1553,12 +1553,9 @@ function help_script_command($command, $side = false)
 function edit_form($table, $fields, $row, $update) {
 	global $adminer, $jush, $token, $error;
 	$table_name = $adminer->tableName(table_status1($table, true));
-	page_header(
-		($update ? lang('Edit') : lang('Insert')),
-		$error,
-		["select" => [$table, $table_name]],
-		$table_name
-	);
+	$title = $update ? lang('Edit') : lang('Insert');
+
+	page_header("$title: $table_name", $error, ["select" => [$table, $table_name], $title]);
 	$adminer->editRowPrint($table, $fields, $row, $update);
 	if ($row === false) {
 		echo "<p class='error'>" . lang('No rows.') . "\n";

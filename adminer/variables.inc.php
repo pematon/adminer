@@ -3,7 +3,9 @@
 namespace Adminer;
 
 $status = isset($_GET["status"]);
-page_header($status ? lang('Status') : lang('Variables'));
+$title = $status ? lang('Status') : lang('Variables');
+
+page_header($title, "", [$title]);
 
 $variables = ($status ? show_status() : show_variables());
 if (!$variables) {

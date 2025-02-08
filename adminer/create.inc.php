@@ -141,7 +141,11 @@ if ($_POST && !process_fields($row["fields"]) && !$error) {
 	}
 }
 
-page_header(($TABLE != "" ? lang('Alter table') : lang('Create table')), $error, ["table" => $TABLE], h($TABLE));
+if ($TABLE != "") {
+	page_header(lang('Alter table') . ": " . h($TABLE), $error, ["table" => $TABLE, lang('Alter table')]);
+} else {
+	page_header(lang('Create table'), $error, [lang('Create table')]);
+}
 
 if (!$_POST) {
 	$row = [

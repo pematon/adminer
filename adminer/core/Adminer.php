@@ -78,7 +78,7 @@ class Adminer extends AdminerBase
 	* @return string HTML code or null
 	*/
 	function serverName($server) {
-		return h($server);
+		return $server != "" ? h($server) : lang('Server');
 	}
 
 	/** Identifier of selected database

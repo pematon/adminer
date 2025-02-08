@@ -14,6 +14,12 @@ if ($_POST && !$error) {
 	}
 }
 
+if ($TYPE != "") {
+	page_header(lang('Alter type') . ": " . h($TYPE), $error, [h($TYPE)]);
+} else {
+	page_header(lang('Create type'), $error, [lang('Create type')]);
+}
+
 page_header($TYPE != "" ? lang('Alter type') . ": " . h($TYPE) : lang('Create type'), $error);
 
 if (!$row) {

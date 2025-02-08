@@ -25,7 +25,13 @@ if ($_POST && !process_fields($row["fields"]) && !$error) {
 	);
 }
 
-page_header(($PROCEDURE != "" ? (isset($_GET["function"]) ? lang('Alter function') : lang('Alter procedure')) . ": " . h($PROCEDURE) : (isset($_GET["function"]) ? lang('Create function') : lang('Create procedure'))), $error);
+if ($PROCEDURE != "") {
+	$title = isset($_GET["function"]) ? lang('Alter function') : lang('Alter procedure');
+	page_header($title . ": " . h($PROCEDURE), $error, [$title]);
+} else {
+	$title = isset($_GET["function"]) ? lang('Create function') : lang('Create procedure');
+	page_header($title, $error, [$title]);
+}
 
 if (!$_POST && $PROCEDURE != "") {
 	$row = routine($_GET["procedure"], $routine);
