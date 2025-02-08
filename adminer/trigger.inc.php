@@ -32,7 +32,11 @@ if ($_POST) {
 	$row = $_POST;
 }
 
-page_header(($name != "" ? lang('Alter trigger') . ": " . h($name) : lang('Create trigger')), $error, ["table" => $TABLE]);
+if ($name != "") {
+	page_header(lang('Alter trigger') . ": " . h($name), $error, ["table" => $TABLE, h($name)]);
+} else {
+	page_header(lang('Create trigger'), $error, ["table" => $TABLE, lang('Create trigger')]);
+}
 ?>
 
 <form action="" method="post" id="form">

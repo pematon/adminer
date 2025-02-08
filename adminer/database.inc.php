@@ -39,7 +39,11 @@ if ($_POST && !$error && !isset($_POST["add_x"])) { // add is an image and PHP c
 	}
 }
 
-page_header(DB != "" ? lang('Alter database') : lang('Create database'), $error, [], h(DB));
+if (DB != "") {
+	page_header(lang('Alter database') . ": " . h(DB), $error, [lang('Alter database')]);
+} else {
+	page_header(lang('Create database'), $error, [lang('Create database')]);
+}
 
 $name = DB;
 if ($_POST) {

@@ -3,7 +3,7 @@
 namespace Adminer;
 
 $PROCEDURE = $_GET["name"] ?: $_GET["call"];
-page_header(lang('Call') . ": " . h($PROCEDURE), $error);
+page_header(lang('Call') . ": " . h($PROCEDURE), $error, [lang('Call')]);
 
 $routine = routine($_GET["call"], (isset($_GET["callf"]) ? "FUNCTION" : "PROCEDURE"));
 $in = [];
