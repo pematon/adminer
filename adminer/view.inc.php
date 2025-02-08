@@ -47,7 +47,11 @@ if (!$_POST && $TABLE != "") {
 	}
 }
 
-page_header(($TABLE != "" ? lang('Alter view') : lang('Create view')), $error, ["table" => $TABLE], h($TABLE));
+if ($TABLE != "") {
+	page_header(lang('Alter view') . ": " . h($TABLE), $error, ["table" => $TABLE, lang('Alter view')]);
+} else {
+	page_header(lang('Create view'), $error, [lang('Create view')]);
+}
 ?>
 
 <form action="" method="post">

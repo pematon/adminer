@@ -72,7 +72,7 @@ if ($_POST && !$error && !$_POST["add"] && !$_POST["drop_col"]) {
 	queries_redirect(ME . "table=" . urlencode($TABLE), lang('Indexes have been altered.'), alter_indexes($TABLE, $alter));
 }
 
-page_header(lang('Indexes'), $error, ["table" => $TABLE], h($TABLE));
+page_header(lang('Indexes'), $error, ["table" => $TABLE, lang('Indexes')], h($TABLE));
 
 $fields = array_keys(fields($TABLE));
 if ($_POST["add"]) {

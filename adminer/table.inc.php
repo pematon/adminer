@@ -15,7 +15,9 @@ foreach ($fields as $key => $field) {
 	$rights += $field["privileges"];
 }
 
-page_header(($fields && is_view($table_status) ? $table_status['Engine'] == 'materialized view' ? lang('Materialized view') : lang('View') : lang('Table')) . ": " . ($name != "" ? $name : h($TABLE)), $error);
+$title = $fields && is_view($table_status) ? $table_status['Engine'] == 'materialized view' ? lang('Materialized view') : lang('View') : lang('Table');
+$table_name = $name != "" ? $name : h($TABLE);
+page_header("$title: $table_name", $error, [$table_name]);
 
 $set = null;
 if (isset($rights["insert"]) || !support("table")) {

@@ -2,7 +2,8 @@
 
 namespace Adminer;
 
-page_header(lang('Privileges'));
+$title2 = DB != "" ? h(": " . DB) : "";
+page_header(lang('Privileges') . $title2, "", [lang('Privileges')]);
 echo '<p id="top-links" class="links"><a href="', h(ME), 'user=">', icon("user-add"), lang('Create user'), "</a>";
 
 $result = $connection->query("SELECT User, Host FROM mysql." . (DB == "" ? "user" : "db WHERE " . q(DB) . " LIKE Db") . " ORDER BY Host, User");

@@ -2,14 +2,15 @@
 
 namespace Adminer;
 
-/** Print HTML header
-* @param string used in title, breadcrumb and heading, should be HTML escaped
-* @param string
-* @param mixed array("key" => "link", "key2" => array("link", "desc")), null for nothing, false for driver only, true for driver and server
-* @param string used after colon in title and heading, should be HTML escaped
-* @return null
+/**
+ * Prints HTML header.
+ *
+ * @param string $title Used in title and h2, should be HTML escaped.
+ * @param string $error
+ * @param mixed $breadcrumb array("key" => "link", "key2" => array("link", "desc"), 0 => "desc"), null for nothing, false for driver only, true for driver and server
 */
-function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
+function page_header(string $title, string $error = "", $breadcrumb = []): void
+{
 	global $LANG, $adminer, $drivers, $jush;
 	page_headers();
 	if (is_ajax() && $error) {
@@ -18,9 +19,9 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 	}
 
 	$service_title = strip_tags($adminer->name());
-	$title_all = strip_tags($title . ($title2 != "" ? ": $title2" : ""));
+	$title = strip_tags($title);
 
-	$title_page = $title_all . (SERVER != "" ? h(" - " . SERVER) : "") . " - " . ($service_title != "" ? $service_title : "AdminerNeo");
+	$title_page = $title . (SERVER != "" ? h(" - " . SERVER) : "") . " - " . ($service_title != "" ? $service_title : "AdminerNeo");
 
 	// Load Adminer version from file if cookie is missing.
 	if ($adminer->getConfig()->isVersionVerificationEnabled()) {
@@ -97,44 +98,47 @@ function page_header($title, $error = "", $breadcrumb = [], $title2 = "") {
 
 		echo '<a href="' . h(HOME_URL) . '" title="', lang('Home'), '">', icon_solo("home"), '</a> » ';
 
-		$server = "";
-		if ($breadcrumb === false) {
-			$server .= h($drivers[DRIVER]) . ": ";
-		}
-
 		$server_name = $adminer->serverName(SERVER);
-		$server .= $server_name != "" ? h($server_name) : lang('Server');
 
 		if ($breadcrumb === false) {
-			echo h($server), "\n";
+			echo h($server_name), " » ";
 		} else {
 			$link = substr(preg_replace('~\b(db|ns)=[^&]*&~', '', ME), 0, -1);
-			echo "<a href='" . h($link) . "' accesskey='1' title='Alt+Shift+1'>$server</a> » ";
+			echo "<a href='" . h($link) . "' accesskey='1' title='Alt+Shift+1'>$server_name</a> » ";
 
 			if ($_GET["ns"] != "" || (DB != "" && is_array($breadcrumb))) {
 				echo '<a href="' . h($link . "&db=" . urlencode(DB) . (support("scheme") ? "&ns=" : "")) . '">' . h(DB) . '</a> » ';
 			}
 
-			if (is_array($breadcrumb)) {
+			if ($breadcrumb === true) {
+				if ($_GET["ns"] != "") {
+					echo h($_GET["ns"]) . ' » ';
+				} else {
+					echo h(DB), " » ";
+				}
+			} else {
 				if ($_GET["ns"] != "") {
 					echo '<a href="' . h(substr(ME, 0, -1)) . '">' . h($_GET["ns"]) . '</a> » ';
 				}
 
 				foreach ($breadcrumb as $key => $val) {
-					$desc = (is_array($val) ? $val[1] : h($val));
-					if ($desc != "") {
-						echo "<a href='" . h(ME . "$key=") . urlencode(is_array($val) ? $val[0] : $val) . "'>$desc</a> » ";
+					if (is_string($key)) {
+						$desc = (is_array($val) ? $val[1] : h($val));
+						if ($desc != "") {
+							echo "<a href='" . h(ME . "$key=") . urlencode(is_array($val) ? $val[0] : $val) . "'>$desc</a> » ";
+						}
+					} else {
+						echo "$val";
 					}
+
 				}
 			}
-
-			echo "$title\n";
 		}
 
 		echo "</nav>";
 	}
 
-	echo "<h2>$title_all</h2>\n";
+	echo "<h2>$title</h2>\n";
 	echo "<div id='ajaxstatus' class='jsonly hidden'></div>\n";
 	restart_session();
 	page_messages($error);

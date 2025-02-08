@@ -29,7 +29,11 @@ if ($_POST && !$error) {
 	}
 }
 
-page_header(($EVENT != "" ? lang('Alter event') . ": " . h($EVENT) : lang('Create event')), $error);
+if ($EVENT != "") {
+	page_header(lang('Alter event') . ": " . h($EVENT), $error, [lang('Alter event')]);
+} else {
+	page_header(lang('Create event'), $error, [lang('Create event')]);
+}
 
 if (!$row && $EVENT != "") {
 	$rows = get_rows("SELECT * FROM information_schema.EVENTS WHERE EVENT_SCHEMA = " . q(DB) . " AND EVENT_NAME = " . q($EVENT));
