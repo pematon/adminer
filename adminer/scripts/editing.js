@@ -1,20 +1,27 @@
 // Adminer specific functions
 
-/** Load syntax highlighting
-* @param string first three characters of database system version
-* @param [boolean]
-*/
-function bodyLoad(version, maria) {
-	if (window.jush) {
+/**
+ * Loads syntax highlighting.
+ *
+ * @param {string} version First three characters of database system version.
+ * @param {boolean} maria
+ */
+function initSyntaxHighlighting(version, maria) {
+	if (!window.jush) {
+		return;
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
 		jush.create_links = ' target="_blank" rel="noreferrer noopener"';
+
 		if (version) {
-			for (var key in jush.urls) {
-				var obj = jush.urls;
+			for (let key in jush.urls) {
+				let obj = jush.urls;
 				if (typeof obj[key] != 'string') {
 					obj = obj[key];
 					key = 0;
 					if (maria) {
-						for (var i = 1; i < obj.length; i++) {
+						for (let i = 1; i < obj.length; i++) {
 							obj[i] = obj[i]
 								.replace('.html', '/')
 								.replace('-type-syntax', '-data-types')
@@ -35,20 +42,23 @@ function bodyLoad(version, maria) {
 				;
 			}
 		}
+
 		if (window.jushLinks) {
 			jush.custom_links = jushLinks;
 		}
+
 		jush.highlight_tag('code', 0);
-		var tags = qsa('textarea');
-		for (var i = 0; i < tags.length; i++) {
+
+		const tags = qsa('textarea');
+		for (let i = 0; i < tags.length; i++) {
 			if (/(^|\s)jush-/.test(tags[i].className)) {
-				var pre = jush.textarea(tags[i]);
+				const pre = jush.textarea(tags[i]);
 				if (pre) {
 					setupSubmitHighlightInput(pre);
 				}
 			}
 		}
-	}
+	});
 }
 
 /** Get value of dynamically created form field
