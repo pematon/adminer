@@ -1128,33 +1128,6 @@ class Adminer extends AdminerBase
 				echo "<nav id='logins'><menu>\n$output</menu></nav>\n";
 			}
 		} else {
-			$tables = [];
-			if ($_GET["ns"] !== "" && !$missing && DB != "") {
-				$connection->select_db(DB);
-				$tables = table_status('', true);
-			}
-
-			if (support("sql")) {
-				?>
-<script<?php echo nonce(); ?>>
-<?php
-				if ($tables) {
-					$links = [];
-					foreach ($tables as $table => $type) {
-						$links[] = preg_quote($table, '/');
-					}
-					echo "var jushLinks = { $jush: [ '" . js_escape(ME) . (support("table") ? "table=" : "select=") . "\$&', /\\b(" . implode("|", $links) . ")\\b/g ] };\n";
-					foreach (["bac", "bra", "sqlite_quo", "mssql_bra"] as $val) {
-						echo "jushLinks.$val = jushLinks.$jush;\n";
-					}
-				}
-				$server_info = $connection->server_info;
-				?>
-bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '\1', $server_info) : ""); ?>'<?php echo (preg_match('~MariaDB~', $server_info) ? ", true" : ""); ?>);
-</script>
-<?php
-			}
-
 			$this->databasesPrint($missing);
 
 			$actions = [];
@@ -1180,6 +1153,13 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 				echo "<p class='links'>" . implode("\n", $actions) . "</p>";
 			}
 
+			// Tables.
+			$tables = [];
+			if ($_GET["ns"] !== "" && !$missing && DB != "") {
+				$connection->select_db(DB);
+				$tables = table_status('', true);
+			}
+
 			if ($_GET["ns"] !== "" && !$missing && DB != "") {
 				if ($tables) {
 					$this->printTablesFilter();
@@ -1187,6 +1167,28 @@ bodyLoad('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '
 				} else {
 					echo "<p class='message'>" . lang('No tables.') . "</p>\n";
 				}
+			}
+
+			// Syntax highlighting.
+			if (support("sql")) {
+				?>
+				<script<?php echo nonce(); ?>>
+					<?php
+					if ($tables) {
+						$links = [];
+						foreach ($tables as $table => $type) {
+							$links[] = preg_quote($table, '/');
+						}
+						echo "var jushLinks = { $jush: [ '" . js_escape(ME) . (support("table") ? "table=" : "select=") . "\$&', /\\b(" . implode("|", $links) . ")\\b/g ] };\n";
+						foreach (["bac", "bra", "sqlite_quo", "mssql_bra"] as $val) {
+							echo "jushLinks.$val = jushLinks.$jush;\n";
+						}
+					}
+					$server_info = $connection->server_info;
+					?>
+					initSyntaxHighlighting('<?php echo (is_object($connection) ? preg_replace('~^(\d\.?\d).*~s', '\1', $server_info) : ""); ?>'<?php echo (preg_match('~MariaDB~', $server_info) ? ", true" : ""); ?>);
+				</script>
+				<?php
 			}
 		}
 	}
