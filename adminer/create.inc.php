@@ -181,8 +181,7 @@ foreach ($engines as $engine) {
 <form action="" method="post" id="form">
 <p>
 <?php if (support("columns") || $TABLE == "") { ?>
-<?php echo lang('Table name'); ?>: <input name="name" data-maxlength="64" value="<?php echo h($row["name"]); ?>" autocapitalize="off">
-<?php if ($TABLE == "" && !$_POST) { echo script("focus(gid('form')['name']);"); } ?>
+<?php echo lang('Table name'); ?>: <input name="name" data-maxlength="64" value="<?php echo h($row["name"]); ?>" autocapitalize="off" <?php echo ($TABLE == "" && !$_POST) ? "autofocus" : ""; ?>>
 <?php echo ($engines ? "<select name='Engine'>" . optionlist(array("" => "(" . lang('engine') . ")") + $engines, $row["Engine"]) . "</select>" . help_script_command("value", true) : ""); ?>
  <?php echo ($collations && !preg_match("~sqlite|mssql~", $jush) ? html_select("Collation", array("" => "(" . lang('collation') . ")") + $collations, $row["Collation"]) : ""); ?>
  <input type="submit" value="<?php echo lang('Save'); ?>">

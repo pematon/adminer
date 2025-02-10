@@ -1608,7 +1608,7 @@ function edit_form($table, $fields, $row, $update) {
 		}
 	}
 	echo ($update ? "<input type='submit' name='delete' value='" . lang('Delete') . "'>" . confirm() . "\n"
-		: ($_POST || !$fields ? "" : script("focus(qsa('td', gid('form'))[1].firstChild);"))
+		: ($_POST || !$fields ? "" : script("qsa('td', gid('form'))[1].firstChild.focus();"))
 	);
 	if (isset($_GET["select"])) {
 		hidden_fields(array("check" => (array) $_POST["check"], "clone" => $_POST["clone"], "all" => $_POST["all"]));
