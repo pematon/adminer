@@ -21,11 +21,11 @@ echo "<div class='scrollable'><table class='checkable'>\n";
 echo "<thead><tr><th>" . lang('Username') . "<th>" . lang('Server') . "<th></thead>\n";
 
 while ($row = $result->fetch_assoc()) {
-	echo '<tr' . odd() . '><td>' . h($row["User"]) . "<td>" . h($row["Host"]) . '<td><a href="' . h(ME . 'user=' . urlencode($row["User"]) . '&host=' . urlencode($row["Host"])) . '">' . lang('Edit') . "</a>\n";
+	echo '<tr><td>' . h($row["User"]) . "<td>" . h($row["Host"]) . '<td><a href="' . h(ME . 'user=' . urlencode($row["User"]) . '&host=' . urlencode($row["Host"])) . '">' . lang('Edit') . "</a>\n";
 }
 
 if (!$grant || DB != "") {
-	echo "<tr" . odd() . "><td><input class='input' name='user' autocapitalize='off'><td><input class='input' name='host' value='localhost' autocapitalize='off'><td><input type='submit' class='button' value='" . lang('Edit') . "'>\n";
+	echo "<tr><td><input class='input' name='user' autocapitalize='off'><td><input class='input' name='host' value='localhost' autocapitalize='off'><td><input type='submit' class='button' value='" . lang('Edit') . "'>\n";
 }
 
 echo "</table></div>\n";

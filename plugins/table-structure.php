@@ -19,7 +19,7 @@ class AdminerTableStructure {
 		echo "<table class='nowrap'>\n";
 		echo "<thead><tr><th>" . lang('Column') . "<th>" . lang('Type') . "<th>" . lang('Nullable') . "<th>" . lang('Default') . (support("comment") ? "<th>" . lang('Comment') : "") . "</thead>\n";
 		foreach ($fields as $field) {
-			echo "<tr" . odd() . "><th>" . h($field["field"]) . ($field["primary"] ? " (PRIMARY)" : "");
+			echo "<tr><th>" . h($field["field"]) . ($field["primary"] ? " (PRIMARY)" : "");
 			echo "<td><span>" . h($field["full_type"]) . "</span>";
 			echo ($field["auto_increment"] ? " <i>" . lang('Auto Increment') . "</i>" : "");
 			echo ($field["collation"] ? " <i>" . h($field["collation"]) . "</i>" : "");

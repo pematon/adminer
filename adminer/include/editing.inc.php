@@ -11,13 +11,14 @@ namespace Adminer;
 */
 function select($result, $connection2 = null, $orgtables = [], $limit = 0) {
 	global $jush;
+
 	$links = []; // colno => orgtable - create links from these columns
 	$indexes = []; // orgtable => array(column => colno) - primary keys
 	$columns = []; // orgtable => array(column => ) - not selected columns in primary key
 	$blobs = []; // colno => bool - display bytes for blobs
 	$types = []; // colno => type - display char in <code>
 	$return = []; // table => orgtable - mapping to use in EXPLAIN
-	odd(''); // reset odd for each result
+
 	for ($i=0; (!$limit || $i < $limit) && ($row = $result->fetch_row()); $i++) {
 		if (!$i) {
 			echo "<div class='scrollable'>\n";
@@ -62,7 +63,7 @@ function select($result, $connection2 = null, $orgtables = [], $limit = 0) {
 			}
 			echo "</thead>\n";
 		}
-		echo "<tr" . odd() . ">";
+		echo "<tr>";
 		foreach ($row as $key => $val) {
 			$link = "";
 			if (isset($links[$key]) && !$columns[$links[$key]]) {
