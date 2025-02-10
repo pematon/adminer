@@ -12,7 +12,7 @@ namespace Adminer;
  */
 function page_header(string $title, string $error = "", $breadcrumb = [], ?string $missing = null): void
 {
-	global $LANG, $adminer, $drivers, $jush;
+	global $LANG, $adminer, $drivers, $jush, $token;
 	page_headers();
 	if (is_ajax() && $error) {
 		page_messages($error);
