@@ -351,7 +351,7 @@ class Adminer extends AdminerBase
 		echo "<table class='nowrap'>\n";
 		echo "<thead><tr><th>" . lang('Column') . "<td>" . lang('Type') . (support("comment") ? "<td>" . lang('Comment') : "") . "</thead>\n";
 		foreach ($fields as $field) {
-			echo "<tr" . odd() . "><th>" . h($field["field"]);
+			echo "<tr><th>" . h($field["field"]);
 			echo "<td><span title='" . h($field["collation"]) . "'>" . h($field["full_type"]) . "</span>";
 			echo ($field["null"] ? " <i>NULL</i>" : "");
 			echo ($field["auto_increment"] ? " <i>" . lang('Auto Increment') . "</i>" : "");

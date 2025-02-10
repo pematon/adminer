@@ -179,7 +179,7 @@ foreach ([
 	"Procedures" => lang('Routine'),
  ] as $context => $desc) {
 	foreach ((array) $privileges[$context] as $privilege => $comment) {
-		echo "<tr" . odd() . ">";
+		echo "<tr>";
 		if ($desc) {
 			echo "<td>$desc</td>";
 		}

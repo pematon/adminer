@@ -386,9 +386,6 @@ if (!$columns && support("table")) {
 			echo ($backward_keys ? "<th>" . lang('Relations') : "") . "</thead>\n";
 
 			if (is_ajax()) {
-				if ($limit % 2 == 1 && $page % 2 == 1) {
-					odd();
-				}
 				ob_end_clean();
 			}
 
@@ -411,7 +408,7 @@ if (!$columns && support("table")) {
 					}
 					$unique_idf .= "&" . ($val !== null ? urlencode("where[" . bracket_escape($key) . "]") . "=" . urlencode($val === false ? "f" : $val) : "null%5B%5D=" . urlencode($key));
 				}
-				echo "<tr", odd(), ">";
+				echo "<tr>";
 				if ($group || !$select) {
 					echo "<td>",
 						checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array)$_POST["check"]));
