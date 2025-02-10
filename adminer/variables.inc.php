@@ -11,11 +11,11 @@ $variables = ($status ? show_status() : show_variables());
 if (!$variables) {
 	echo "<p class='message'>" . lang('No rows.') . "\n";
 } else {
-	echo "<table>\n";
+	echo "<div class='scrollable'><table>\n";
 	foreach ($variables as $key => $val) {
 		echo "<tr>";
 		echo "<th><code class='jush-" . $jush . ($status ? "status" : "set") . "'>" . h($key) . "</code>";
 		echo "<td>" . h($val);
 	}
-	echo "</table>\n";
+	echo "</table></div>\n";
 }
