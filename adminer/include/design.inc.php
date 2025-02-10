@@ -114,7 +114,7 @@ function page_header(string $title, string $error = "", $breadcrumb = [], ?strin
             <form action="" method="post">
 				<?php echo h($_GET["username"]); ?>
                 <input type="submit" class="button" name="logout" value="<?php echo lang('Logout'); ?>" id="logout">
-                <input type="hidden" name="token" value="<?php echo $token; ?>">
+                <input type="hidden" name="token" value="<?php echo get_token(); ?>">
             </form>
         </div>
 
