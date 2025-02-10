@@ -1,6 +1,8 @@
 <?php
 
-/** Select foreign key in edit form
+/**
+ * Select foreign key in edit form.
+ *
  * @link https://www.adminer.org/plugins/#use
  * @author Jakub Vrana, https://www.vrana.cz/
  * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
@@ -24,9 +26,9 @@ class AdminerEditForeign
 	 * @param string $table
 	 * @param array $field
 	 * @param string $attrs
-	 * @param string|null $value
+	 * @param ?string $value
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	function editInput($table, array $field, $attrs, $value)
 	{
@@ -36,7 +38,7 @@ class AdminerEditForeign
 		$foreignKeys = $this->foreignTables[$table];
 
 		if (empty($foreignKeys[$field["field"]])) {
-			return "";
+			return null;
 		}
 
 		foreach ($foreignKeys[$field["field"]] as $foreignKey) {
@@ -62,14 +64,13 @@ class AdminerEditForeign
 					$this->foreignOptions[$target][$id] = ["" => ""] + $values;
 				}
 			}
-
 			if ($options = $this->foreignOptions[$target][$id]) {
 				return "<select$attrs>" . optionlist($options, $value) . "</select>";
 			} else {
-				return "";
+				return null;
 			}
 		}
 
-		return "";
+		return null;
 	}
 }
