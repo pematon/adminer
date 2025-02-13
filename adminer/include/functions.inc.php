@@ -1402,12 +1402,12 @@ function is_web_url($value) {
 	return (bool)filter_var($url, FILTER_VALIDATE_URL);
 }
 
-/** Check if field should be shortened
-* @param array
-* @return bool
-*/
-function is_shortable($field) {
-	return preg_match('~char|text|json|lob|geometry|point|linestring|polygon|string|bytea~', $field["type"]);
+/**
+ * Checks whether field should be shortened.
+ */
+function is_shortable(?array $field): bool
+{
+	return $field ? preg_match('~char|text|json|lob|geometry|point|linestring|polygon|string|bytea~', $field["type"]) : false;
 }
 
 /** Get query to compute number of found rows
