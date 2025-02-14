@@ -32,11 +32,11 @@ if ($_POST && !$error && !$_POST["add"] && !$_POST["drop_col"]) {
 			ksort($index["columns"]);
 			foreach ($index["columns"] as $key => $column) {
 				if ($column != "") {
-					$length = $index["lengths"][$key];
-					$desc = $index["descs"][$key];
+					$length = $index["lengths"][$key] ?? null;
+					$desc = $index["descs"][$key] ?? null;
 					$set[] = idf_escape($column) . ($length ? "(" . (+$length) . ")" : "") . ($desc ? " DESC" : "");
 					$columns[] = $column;
-					$lengths[] = ($length ? $length : null);
+					$lengths[] = ($length ?: null);
 					$descs[] = $desc;
 				}
 			}
