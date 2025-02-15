@@ -18,7 +18,7 @@ class AdminerPrettyJsonColumn {
 <textarea $attrs cols="50" rows="20">$jsonText</textarea>
 HTML;
 		}
-		return '';
+		return null;
 	}
 
 	function processInput($field, $value, $function = '') {
