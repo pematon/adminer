@@ -15,7 +15,7 @@ class AdminerDumpZip {
 	/** @access protected */
 	var $filename, $data;
 
-	function dumpOutput() {
+	function dumpFormat() {
 		if (!class_exists('ZipArchive')) {
 			return [];
 		}

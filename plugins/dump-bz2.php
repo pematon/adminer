@@ -13,7 +13,7 @@ class AdminerDumpBz2 {
 	/** @access protected */
 	var $filename, $fp;
 
-	function dumpOutput() {
+	function dumpFormat() {
 		if (!function_exists('bzopen')) {
 			return [];
 		}
