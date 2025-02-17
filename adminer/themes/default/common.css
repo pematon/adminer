@@ -167,8 +167,16 @@ p.nowrap {
 	margin-inline-end: 0.5em;
 }
 
-.icon.solo {
+.icon.solo, .icon.chevron {
 	margin-inline-end: 0;
+}
+
+.toggle .icon {
+	transition: transform .2s ease-in;
+}
+
+.toggle.opened .icon {
+	transform: rotate(-180deg);
 }
 
 #content {

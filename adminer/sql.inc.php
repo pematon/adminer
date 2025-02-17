@@ -161,7 +161,7 @@ if (!$error && $_POST) {
 									$warnings = ($_POST["only_errors"] ? "" : $driver->warnings());
 									$warnings_id = "warnings-$commands";
 									if ($warnings) {
-										$time .= ", <a href='#$warnings_id'>" . lang('Warnings') . "</a>" . script("qsl('a').onclick = partial(toggle, '$warnings_id');", "");
+										$time .= ", <a href='#$warnings_id' class='toggle'>" . lang('Warnings') . icon("chevron-down", "chevron") . "</a>";
 									}
 									$explain = null;
 									$explain_id = "explain-$commands";

@@ -40,6 +40,9 @@
         <symbol id="handle" viewBox="0 0 24 24" fill="currentColor">
             <path d="M21 11H3V9H21V11M21 13H3V15H21V13Z"/>
         </symbol>
+        <symbol id="chevron-down" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+        </symbol>
         <symbol id="arrow-up" viewBox="0 0 24 24" fill="currentColor">
             <path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z"/>
         </symbol>

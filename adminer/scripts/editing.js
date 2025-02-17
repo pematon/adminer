@@ -86,17 +86,25 @@ function typePassword(el, disable) {
 	}
 }
 
-/** Install toggle handler
-* @param [HTMLElement]
-*/
-function messagesPrint(el) {
-	var els = qsa('.toggle', el);
-	for (var i = 0; i < els.length; i++) {
-		els[i].onclick = partial(toggle, els[i].getAttribute('href').substr(1));
+/**
+ * Installs toggle handler.
+ *
+ * @param {HTMLElement} parent
+ */
+function initToggles(parent) {
+	const links = qsa('.toggle', parent);
+
+	for (let i = 0; i < links.length; i++) {
+		links[i].addEventListener("click", (event) => {
+			const id = links[i].getAttribute('href').substring(1);
+
+			gid(id).classList.toggle("hidden");
+			links[i].classList.toggle("opened");
+
+			event.preventDefault();
+		});
 	}
 }
-
-
 
 /**
  * Hides or shows some login rows for selected driver.
