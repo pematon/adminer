@@ -1,6 +1,6 @@
 // Editor specific functions
 
-function messagesPrint() {
+function initToggles(parent) {
 }
 
 function selectFieldChange() {
