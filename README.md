@@ -10,12 +10,14 @@ Supported database drivers:
 
 AdminerNeo is based on the [Adminer](https://www.adminer.org/) project by Jakub Vrána.
 
-<img src="docs/images/screenshot.webp" width="830px" alt="Screenshot"/>
+| <img src="docs/images/screenshot-select.webp" alt="Screenshot - Select data"/> | <img src="docs/images/screenshot-structure.webp" alt="Screenshot - Table structure"/> |
+|--------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| <img src="docs/images/screenshot-alter.webp" alt="Screenshot - Alter table"/>  | <img src="docs/images/screenshot-database.webp" alt="Screenshot - Database"/>         |
 
 Requirements
 ------------
 
-- PHP 7.1+ with enabled sessions.
+- PHP 7.1+ with enabled sessions, modern web browser.
 
 Security
 --------
