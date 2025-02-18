@@ -119,7 +119,11 @@
 
 		--warning-text: hsl(24, 70%, 60%);
 		--version-text: hsl(24, 70%, 60%);
+	}
+}
 
+@media screen and (max-resolution: 1dppx) and (prefers-color-scheme: dark) {
+	:root {
 		--input-border-radius: 2px;
 	}
 }
