@@ -240,7 +240,6 @@ if (!$error && $_POST) {
 
 <form action="" method="post" enctype="multipart/form-data" id="form">
 <?php
-$execute = "<input type='submit' class='button' value='" . lang('Execute') . "' title='Ctrl+Enter'>";
 if (!isset($_GET["import"])) {
 	$q = $_GET["sql"]; // overwrite $q from if ($_POST) to save memory
 	if ($_POST) {
@@ -253,32 +252,39 @@ if (!isset($_GET["import"])) {
 	echo "<p>";
 	textarea("query", $q, 20);
 	echo script(($_POST ? "" : "qs('textarea').focus();\n") . "gid('form').onsubmit = partial(sqlSubmit, gid('form'), '" . js_escape(remove_from_uri("sql|limit|error_stops|only_errors|history")) . "');");
-	echo "<p>$execute\n";
+	echo "</p>";
+	echo "<p><input type='submit' class='button default' value='" . lang('Execute') . "' title='Ctrl+Enter'>";
 	echo lang('Limit rows') . ": <input type='number' name='limit' class='input size' value='" . h($_POST ? $_POST["limit"] : $_GET["limit"]) . "'>\n";
 
 } else {
 	echo "<div class='field-sets'>\n";
 	echo "<fieldset><legend>" . lang('File upload') . "</legend><div class='fieldset-content'>";
 	$gz = (extension_loaded("zlib") ? "[.gz]" : "");
-	echo (ini_bool("file_uploads")
-		? "SQL$gz (&lt; " . ini_get("upload_max_filesize") . "B): <input type='file' name='sql_file[]' multiple>\n$execute" // ignore post_max_size because it is for all form fields together and bytes computing would be necessary
-		: lang('File uploads are disabled.')
-	);
+
+	if (ini_bool("file_uploads")) {
+		// Ignore post_max_size because it is for all form fields together and bytes computing would be necessary.
+		echo "SQL$gz (&lt; " . ini_get("upload_max_filesize") . "B): <input type='file' name='sql_file[]' multiple>";
+		echo "<input type='submit' class='button default' value='" . lang('Execute') . "'>";
+	} else {
+		echo lang('File uploads are disabled.');
+	}
 	echo "</div></fieldset>\n";
+
 	$import_file_path = $adminer->importServerPath();
 	if ($import_file_path) {
 		echo "<fieldset><legend>" . lang('From server') . "</legend><div class='fieldset-content'>";
 		echo lang('Webserver file %s', "<code>" . h($import_file_path) . "$gz</code>");
-		echo ' <input type="submit" class="button" name="webfile" value="' . lang('Run file') . '">';
+		echo ' <input type="submit" class="button default" name="webfile" value="' . lang('Run file') . '">';
 		echo "</div></fieldset>\n";
 	}
 	echo "</div>\n";
 	echo "<p>";
 }
 
-echo checkbox("error_stops", 1, ($_POST ? $_POST["error_stops"] : isset($_GET["import"]) || $_GET["error_stops"]), lang('Stop on error')) . "\n";
-echo checkbox("only_errors", 1, ($_POST ? $_POST["only_errors"] : isset($_GET["import"]) || $_GET["only_errors"]), lang('Show only errors')) . "\n";
-echo "<input type='hidden' name='token' value='$token'>\n";
+echo checkbox("error_stops", 1, ($_POST ? $_POST["error_stops"] : isset($_GET["import"]) || $_GET["error_stops"]), lang('Stop on error'));
+echo checkbox("only_errors", 1, ($_POST ? $_POST["only_errors"] : isset($_GET["import"]) || $_GET["only_errors"]), lang('Show only errors'));
+echo "<input type='hidden' name='token' value='$token'>";
+echo "</p>\n";
 
 if (!isset($_GET["import"]) && $history) {
 	echo "<div class='field-sets'>\n";

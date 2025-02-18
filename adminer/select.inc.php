@@ -633,7 +633,7 @@ if (!$columns && support("table")) {
 				echo "<p id='import' class='hidden'>";
 				echo "<input type='file' name='csv_file'> ";
 				echo html_select("separator", ["csv" => "CSV,", "csv;" => "CSV;", "tsv" => "TSV"], $adminer_import["format"]);
-				echo " <input type='submit' class='button' name='import' value='" . lang('Import') . "'>";
+				echo " <input type='submit' class='button default' name='import' value='" . lang('Import') . "'>";
 				echo "</p>";
 			}
 

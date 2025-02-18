@@ -50,7 +50,7 @@ if ($name != "") {
 <?php echo script("gid('form')['Timing'].onchange();"); ?>
 <p><?php textarea("Statement", $row["Statement"]); ?>
 <p>
-<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
+<input type="submit" class="button default" value="<?php echo lang('Save'); ?>">
 <?php if ($name != "") { ?><input type="submit" class="button" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $name)); ?><?php } ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>

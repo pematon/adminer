@@ -35,7 +35,7 @@ if ($TYPE != "") {
 } else {
 	echo "<input class='input' name='name' value='" . h($row['name']) . "' autocapitalize='off'>\n";
 	textarea("as", $row["as"]);
-	echo "<p><input type='submit' class='button' value='" . lang('Save') . "'>\n";
+	echo "<p><input type='submit' class='button default' value='" . lang('Save') . "'>\n";
 }
 ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">

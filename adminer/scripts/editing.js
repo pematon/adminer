@@ -51,11 +51,8 @@ function initSyntaxHighlighting(version, maria) {
 
 		const tags = qsa('textarea');
 		for (let i = 0; i < tags.length; i++) {
-			if (/(^|\s)jush-/.test(tags[i].className)) {
-				const pre = jush.textarea(tags[i]);
-				if (pre) {
-					setupSubmitHighlightInput(pre);
-				}
+			if (tags[i].className.match(/(^|\s)jush-/)) {
+				jush.textarea(tags[i]);
 			}
 		}
 	});

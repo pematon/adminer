@@ -59,7 +59,7 @@ if ($TABLE != "") {
 <?php echo (support("materializedview") ? " " . checkbox("materialized", 1, $row["materialized"], lang('Materialized view')) : ""); ?>
 <p><?php textarea("select", $row["select"]); ?>
 <p>
-<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
+<input type="submit" class="button default" value="<?php echo lang('Save'); ?>">
 <?php if ($TABLE != "") { ?><input type="submit" class="button" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $TABLE)); ?><?php } ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>
