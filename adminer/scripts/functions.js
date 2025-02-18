@@ -1028,7 +1028,6 @@ function selectClick(event, text, warning) {
 			event = window.event;
 		}
 		if (event.keyCode === 27 && !event.shiftKey && !event.altKey && !isCtrl(event)) { // 27 - Esc
-			inputBlur.apply(input);
 			td.innerHTML = original;
 		}
 	};
@@ -1059,7 +1058,6 @@ function selectClick(event, text, warning) {
 	}
 	td.innerHTML = '';
 	td.appendChild(input);
-	setupSubmitHighlight(td);
 	input.focus();
 	if (text === 2) { // long text
 		return ajax(location.href + '&' + encodeURIComponent(td.id) + '=', function (request) {
@@ -1125,89 +1123,6 @@ function eventStop(event) {
 	}
 }
 
-
-
-/** Setup highlighting of default submit button on form field focus
-* @param HTMLElement
-*/
-function setupSubmitHighlight(parent) {
-	for (var key in { input: 1, select: 1, textarea: 1 }) {
-		var inputs = qsa(key, parent);
-		for (var i = 0; i < inputs.length; i++) {
-			setupSubmitHighlightInput(inputs[i])
-		}
-	}
-}
-
-/** Setup submit highlighting for single element
-* @param HTMLElement
-*/
-function setupSubmitHighlightInput(input) {
-	if (!input.type.match(/submit|image|file/)) {
-		addEvent(input, 'focus', inputFocus);
-		addEvent(input, 'blur', inputBlur);
-	}
-
-	if (input.type === "submit") {
-		const submit = findDefaultSubmit(input);
-		if (submit === input) {
-			addEvent(input, 'focus', inputFocus);
-			addEvent(input, 'blur', inputBlur);
-		}
-	}
-}
-
-/** Highlight default submit button
-* @this HTMLInputElement
-*/
-function inputFocus() {
-	const submit = findDefaultSubmit(this);
-	if (submit) {
-		submit.classList.toggle('default', true);
-	}
-}
-
-/** Unhighlight default submit button
-* @this HTMLInputElement
-*/
-function inputBlur() {
-	const submit = findDefaultSubmit(this);
-	if (submit) {
-		submit.classList.toggle('default', false);
-	}
-}
-
-/**
- * Finds submit button used by Enter.
- *
- * @param {HTMLElement} el
- * @return {HTMLInputElement}
- */
-function findDefaultSubmit(el) {
-	if (el.jushTextarea) {
-		el = el.jushTextarea;
-	}
-	if (!el.form) {
-		return null;
-	}
-
-	const inputs = qsa('input[type="submit"]', el.form);
-	let submit = null;
-
-	for (const input of inputs) {
-		if (!input.classList.contains("invisible") && !input.style.zIndex) {
-			// Find the last submit button with the same name as the first one.
-			if (!submit || input.name === submit.name) {
-				submit = input;
-			}
-		}
-	}
-
-	return submit;
-}
-
-
-
 /** Add event listener
 * @param HTMLElement
 * @param string without 'on'
@@ -1239,7 +1154,7 @@ function cloneNode(el) {
 			}
 		}
 	}
-	setupSubmitHighlight(el2);
+
 	return el2;
 }
 

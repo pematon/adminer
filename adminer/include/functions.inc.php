@@ -1624,7 +1624,7 @@ function edit_form($table, $fields, $row, $update) {
 	}
 	echo "<p>\n";
 	if ($fields) {
-		echo "<input type='submit' class='button' value='" . lang('Save') . "'>\n";
+		echo "<input type='submit' class='button default' value='" . lang('Save') . "'>\n";
 		if (!isset($_GET["select"])) {
 			echo "<input type='submit' class='button' name='insert' value='" . ($update
 				? lang('Save and continue edit')

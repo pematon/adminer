@@ -103,7 +103,7 @@ foreach ($row["source"] as $key => $val) {
 	'oracle' => "https://docs.oracle.com/cd/B19306_01/server.102/b14200/clauses002.htm#sthref2903",
 ]); ?>
 <p>
-<input type="submit" class="button" value="<?php echo lang('Save'); ?>">
+<input type="submit" class="button default" value="<?php echo lang('Save'); ?>">
 <noscript><p><input type="submit" class="button" name="add" value="<?php echo lang('Add column'); ?>"></noscript>
 <?php if ($name != "") { ?><input type="submit" class="button" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $name)); ?><?php } ?>
 <input type="hidden" name="token" value="<?php echo $token; ?>">
