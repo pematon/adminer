@@ -59,7 +59,7 @@ Where:
   The default set is: mysql, pgsql, mssql, sqlite.
 - `languages` is a comma-separated list of [languages](https://github.com/adminerneo/adminerneo/tree/main/adminer/lang).
   If not specified, all languages will be included.
-- `themes` is a comma-separated list of [themes](https://github.com/adminerneo/adminerneo/tree/adminer/themes).
+- `themes` is a comma-separated list of [themes](https://github.com/adminerneo/adminerneo/tree/version-5/adminer/themes).
   If not specified, only the default theme without color variants will be included. The `+` character can be used as 
   a wildcard in the theme name.
 - `config-file.json` is a path to the custom JSON configuration file. It contains a class with [the same parameters](#configuration) 
