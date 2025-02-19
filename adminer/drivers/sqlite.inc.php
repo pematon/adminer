@@ -533,7 +533,7 @@ if (isset($_GET["sqlite"]) || isset($_GET["sqlite2"])) {
 		return true;
 	}
 
-	function recreate_table($table, $name, $fields, $originals, $foreign, $auto_increment, $indexes = []) {
+	function recreate_table($table, $name, $fields, $originals, $foreign, $auto_increment = 0, $indexes = []) {
 		global $connection;
 
 		if ($table != "") {
