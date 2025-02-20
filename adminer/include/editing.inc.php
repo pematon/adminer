@@ -327,7 +327,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", $foreign
 		echo "<tr $style>\n";
 
 		if (support("move_col")) {
-			echo "<th class='handle jsonly'></th>";
+			echo "<td class='handle jsonly'></td>";
 		}
 		if ($type == "PROCEDURE") {
 			echo "<td>", html_select("fields[$i][inout]", explode("|", $inout), $field["inout"]), "</td>\n";

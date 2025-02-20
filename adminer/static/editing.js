@@ -513,7 +513,7 @@ function partitionNameChange() {
 */
 function editingCommentsClick(el, focus) {
 	var comment = el.form['Comment'];
-	columnShow(el.checked, 6);
+	columnShow(el.checked, 7);
 	comment.classList.toggle('hidden', !el.checked);
 	if (focus && el.checked) {
 		comment.focus();
