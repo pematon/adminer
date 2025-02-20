@@ -502,7 +502,7 @@ if ($single_driver) {
 
 if ($project == "editor") {
 	$file = preg_replace('~;\.\./vendor/vrana/jush/jush\.css~', '', $file);
-	$file = preg_replace('~compile_file\(\'\.\./(vendor/vrana/jush/modules/jush\.js|adminer/static/[^.]+\.gif)[^)]+\)~', "''", $file);
+	$file = preg_replace('~compile_file\(\'\.\./(vendor/vrana/jush/modules/jush\.js|adminer/static/(?!cross)[^.]+\.gif)[^)]+\)~', "''", $file);
 }
 
 $file = preg_replace_callback("~lang\\('((?:[^\\\\']+|\\\\.)*)'([,)])~s", 'replace_lang', $file);
