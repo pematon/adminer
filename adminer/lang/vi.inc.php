@@ -188,7 +188,7 @@ $translations = array(
 	'Alter indexes' => 'Sửa chỉ mục',
 	'Add next' => 'Thêm tiếp',
 	'Index Type' => 'Loại chỉ mục',
-	'Column (length)' => 'Cột (độ dài)',
+	'length' => 'độ dài',
 
 	'Foreign keys' => 'Các khoá ngoại',
 	'Foreign key' => 'Khoá ngoại',

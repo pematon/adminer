@@ -183,7 +183,7 @@ $translations = array(
 	'Alter indexes' => 'Ubah indeks',
 	'Add next' => 'Tambah setelahnya',
 	'Index Type' => 'Jenis Indeks',
-	'Column (length)' => 'Kolom (panjang)',
+	'length' => 'panjang',
 
 	'Foreign keys' => 'Kunci asing',
 	'Foreign key' => 'Kunci asing',

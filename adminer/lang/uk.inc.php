@@ -183,7 +183,7 @@ $translations = array(
 	'Alter indexes' => 'Змінити індексування',
 	'Add next' => 'Додати ще',
 	'Index Type' => 'Тип індексу',
-	'Column (length)' => 'Стовпець (довжина)',
+	'length' => 'довжина',
 
 	'Foreign keys' => 'Зовнішні ключі',
 	'Foreign key' => 'Зовнішній ключ',
