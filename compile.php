@@ -441,7 +441,7 @@ foreach (glob(dirname(__FILE__) . "/adminer/drivers/*.inc.php") as $filename) {
 include dirname(__FILE__) . "/adminer/include/pdo.inc.php";
 include dirname(__FILE__) . "/adminer/include/driver.inc.php";
 
-$features = ["call" => "routine", "dump", "event", "privileges", "procedure" => "routine", "processlist", "routine", "scheme", "sequence", "status", "trigger", "type", "user" => "privileges", "variables", "view"];
+$features = ["check", "call" => "routine", "dump", "event", "privileges", "procedure" => "routine", "processlist", "routine", "scheme", "sequence", "status", "trigger", "type", "user" => "privileges", "variables", "view"];
 $lang_ids = []; // global variable simplifies usage in a callback functions
 
 // Start with index.php.
