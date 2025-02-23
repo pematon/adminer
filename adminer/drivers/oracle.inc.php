@@ -195,7 +195,12 @@ if (isset($_GET["oracle"])) {
 	}
 
 	function get_databases() {
-		return get_vals("SELECT tablespace_name FROM user_tablespaces ORDER BY 1");
+		return get_vals("SELECT DISTINCT tablespace_name FROM (
+SELECT tablespace_name FROM user_tablespaces
+UNION SELECT tablespace_name FROM all_tables WHERE tablespace_name IS NOT NULL
+)
+ORDER BY 1"
+		);
 	}
 
 	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
@@ -540,7 +545,7 @@ ORDER BY PROCESS
 			'types' => $types,
 			'structured_types' => $structured_types,
 			'unsigned' => array(),
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT REGEXP", "NOT IN", "IS NOT NULL", "SQL"),
+			'operators' => array("=", "<", ">", "<=", ">=", "!=", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL"),
 			'operator_like' => "LIKE %%",
 			'functions' => array("length", "lower", "round", "upper"),
 			'grouping' => array("avg", "count", "count distinct", "max", "min", "sum"),

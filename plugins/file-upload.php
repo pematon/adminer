@@ -65,15 +65,7 @@ class AdminerFileUpload {
 
 	private function generateName()
 	{
-		$rand = function_exists("random_int") ? "random_int" : "rand";
-
-		$result = '';
-		for ($i = 0; $i < 16; $i++) {
-			$code = $rand(97, 132); // random ASCII code for a-z and shifted 0-9
-			$result .= chr($code > 122 ? $code - 122 + 47 : $code);
-		}
-
-		return $result;
+		return function_exists('random_bytes') ? bin2hex(random_bytes(8)) : uniqid("", true);
 	}
 
 	function selectVal($val, &$link, $field, $original) {

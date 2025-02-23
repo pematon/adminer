@@ -63,6 +63,7 @@ p.nowrap { white-space: pre; }
 .view { font-style: italic; }
 .active { font-weight: bold; }
 .sqlarea { width: 98%; }
+.explain td { white-space: pre; }
 .icon { width: 18px; height: 18px; background-color: navy; }
 .icon:hover { background-color: red; }
 .size { width: 6ex; }

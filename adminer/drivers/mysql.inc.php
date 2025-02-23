@@ -1166,7 +1166,7 @@ if (isset($_GET["mysql"])) {
 			$return = "UNHEX($return)";
 		}
 		if ($field["type"] == "bit") {
-			$return = "CONV($return, 2, 10) + 0";
+			$return = "CONVERT(b$return, UNSIGNED)";
 		}
 		if (preg_match("~geometry|point|linestring|polygon~", $field["type"])) {
 			$prefix = (min_version(8) ? "ST_" : "");
