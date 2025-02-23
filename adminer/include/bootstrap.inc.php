@@ -151,7 +151,12 @@ define("HOME_URL", substr(preg_replace('~\b(username|db|ns)=[^&]*&~', '', ME), 0
 
 include "../adminer/include/version.inc.php";
 include "../adminer/include/design.inc.php";
-include "../adminer/include/xxtea.inc.php";
+
+if (extension_loaded('openssl')) {
+    include "../adminer/include/aes-cbc.inc.php";
+} else {
+    include "../adminer/include/xxtea.inc.php";
+}
 include "../adminer/include/auth.inc.php";
 include "./include/editing.inc.php";
 include "./include/connect.inc.php";
