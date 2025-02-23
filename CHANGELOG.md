@@ -1,7 +1,7 @@
 Changelog
 =========
 
-AdminerNeo 4.14 (2025-02-02)
+AdminNeo 4.14 (2025-02-02)
 ----------------------------
 
 ### Changes
@@ -23,7 +23,7 @@ AdminerNeo 4.14 (2025-02-02)
 
 Thanks for help with invalid links: @adrianbj.
 
-AdminerNeo 4.13 (2025-01-23)
+AdminNeo 4.13 (2025-01-23)
 ----------------------------
 
 ### Changes
@@ -38,7 +38,7 @@ AdminerNeo 4.13 (2025-01-23)
 - SQLite: Fix exporting and recreating tables with UNIQUE column constraint
 - Fix main visual glitches in designs
 
-AdminerNeo 4.12 (2024-11-21)
+AdminNeo 4.12 (2024-11-21)
 ----------------------------
 
 ### New features
@@ -68,7 +68,7 @@ AdminerNeo 4.12 (2024-11-21)
 - Compiler: Fix translations in plugins
 - Compiler: Fix compiled SQLite single-driver Adminer
 
-AdminerNeo 4.11 (2024-10-30)
+AdminNeo 4.11 (2024-10-30)
 ----------------------------
 
 ### New features
@@ -91,7 +91,7 @@ AdminerNeo 4.11 (2024-10-30)
 - MS SQL: Prefix Unicode strings with 'N' so they are treated correctly
 - Fix printing error message while validating server URL
 
-AdminerNeo 4.10 (2024-10-22)
+AdminNeo 4.10 (2024-10-22)
 ----------------------------
 
 ### New features
@@ -124,7 +124,7 @@ AdminerNeo 4.10 (2024-10-22)
 
 - Fix missing SQL statement if warnings are printed (regression from 4.9)
 
-AdminerNeo 4.9.4 (2024-10-09)
+AdminNeo 4.9.4 (2024-10-09)
 -----------------------------
 
 - Fix the width of inline edit field
@@ -137,7 +137,7 @@ AdminerNeo 4.9.4 (2024-10-09)
 - Editor: Fix building links with array parameters
 - Clean up the code for PHP < 5.6
 
-AdminerNeo 4.9.3 (2024-10-02)
+AdminNeo 4.9.3 (2024-10-02)
 -----------------------------
 
 - MySQL, PostgreSQL: Fix queries splitting and string constants
@@ -153,7 +153,7 @@ AdminerNeo 4.9.3 (2024-10-02)
 - CSS: Fix background color of `<pre>` used as edit field
 - CSS: Bigger font size for code blocks
 
-AdminerNeo 4.9.2 (2024-09-18)
+AdminNeo 4.9.2 (2024-09-18)
 -----------------------------
 
 - Fix textarea height for single-line inputs (used typically for SQLite text field)
@@ -167,7 +167,7 @@ AdminerNeo 4.9.2 (2024-09-18)
 - Editor: Fix searching in tables
 - Add function to retrieve driver name that can be used in plugins (by @Roy-Orbison)
 
-AdminerNeo 4.9.1 (2024-09-09)
+AdminNeo 4.9.1 (2024-09-09)
 -----------------------------
 
 - Compatibility with PHP 8.3 (by @Sneda8)
@@ -185,7 +185,7 @@ AdminerNeo 4.9.1 (2024-09-09)
 - AdminerEditForeign: Refactor and fix the plugin
 - AdminerLoginOtp: Autocomplete hints for OTP input field, code refactoring
 
-AdminerNeo 4.9 (2024-08-19)
+AdminNeo 4.9 (2024-08-19)
 ---------------------------
 
 - Validate server input in login form
@@ -203,7 +203,7 @@ AdminerNeo 4.9 (2024-08-19)
 - Update composer.json
 - Add script for exporting compiled adminer variants
 
-AdminerNeo 4.8.2 (2024-03-16)
+AdminNeo 4.8.2 (2024-03-16)
 -----------------------------
 
 - Support multi-line table comments

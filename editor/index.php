@@ -1,11 +1,14 @@
 <?php
 /**
- * AdminerNeo Editor - Compact database editor for end-users
+ * AdminNeo Editor - Compact database editor for end-users
  *
- * @link https://github.com/adminerneo/adminerneo
- * @author Jakub Vrana (https://www.vrana.cz/)
+ * @link https://github.com/adminneo-org/adminneo
+ *
  * @author Peter Knut
- * @copyright 2009-2021 Jakub Vrana, 2024 Peter Knut
+ * @author Jakub Vrana (https://www.vrana.cz/)
+ *
+ * @copyright 2007-2025 Jakub Vrana, 2024-2025 Peter Knut
+ *
  * @license Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
  * @license GNU General Public License, version 2 (https://www.gnu.org/licenses/gpl-2.0.html)
  */

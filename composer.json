@@ -1,14 +1,14 @@
 {
-    "name": "adminerneo/adminerneo",
+    "name": "adminneo/adminneo",
     "description": "Database management in a single PHP file.",
-    "homepage": "https://github.com/adminerneo/adminerneo",
+    "homepage": "https://github.com/adminneo-org/adminneo",
     "keywords": [
         "database"
     ],
     "support": {
-        "issues": "https://github.com/adminerneo/adminerneo/issues",
-        "forum": "https://github.com/adminerneo/adminerneo/discussions",
-        "source": "https://github.com/adminerneo/adminerneo"
+        "issues": "https://github.com/adminneo-org/adminneo/issues",
+        "forum": "https://github.com/adminneo-org/adminneo/discussions",
+        "source": "https://github.com/adminneo-org/adminneo"
     },
     "authors": [
         {

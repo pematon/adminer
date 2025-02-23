@@ -13,7 +13,7 @@ class Adminer {
 	* @return string HTML code
 	*/
 	function name() {
-		return "<a id='h1' href='" . h(HOME_URL) . "'>AdminerNeo</a>";
+		return "<a id='h1' href='" . h(HOME_URL) . "'>AdminNeo</a>";
 	}
 
 	/** Connection parameters
@@ -1046,7 +1046,7 @@ class Adminer {
 	<?php if ($missing != "auth"): ?>
 		<span class="version">
 			<?php echo $VERSION; ?>
-			<a href="https://github.com/adminerneo/adminerneo/releases"<?php echo target_blank(); ?> id="version">
+			<a href="https://github.com/adminneo-org/adminneo/releases"<?php echo target_blank(); ?> id="version">
 				<?php echo (version_compare($VERSION, $_COOKIE["adminer_version"]) < 0 ? h($_COOKIE["adminer_version"]) : ""); ?>
 			</a>
 		</span>
