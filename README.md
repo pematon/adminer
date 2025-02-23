@@ -2,7 +2,7 @@ AdminNeo
 ==========
 
 **AdminNeo** is a full-featured database management tool written in PHP. It consists of a single file ready to deploy 
-to the target server. As a companion, **AdminNeo Editor** offers data manipulation for end-users. 
+to the target server. As a companion, **EditorNeo** offers data manipulation for end-users. 
 
 Supported database drivers:
 - MySQL, MariaDB, PostgreSQL, SQLite, MS SQL, Oracle, MongoDB
@@ -42,7 +42,7 @@ download the source code and compile your own AdminNeo:
 # AdminNeo
 php compile.php <drivers> <languages>
 
-# AdminNeo Editor
+# EditorNeo
 php compile.php editor <drivers> <languages>
 ```
 
@@ -114,7 +114,7 @@ function adminer_object() {
     return new AdminerPlugin($plugins);
 }
 
-// Include original Adminer or Adminer Editor.
+// Include original AdminerNeo or EditorNeo.
 include "./adminer.php";
 ```
 
@@ -124,12 +124,12 @@ Main project files
 ------------------
 
 - adminer/index.php - Run development version of AdminNeo.
-- editor/index.php - Run development version of AdminNeo Editor.
+- editor/index.php - Run development version of EditorNeo.
 - editor/example.php - Example customization.
-- plugins/readme.txt - Plugins for AdminNeo and AdminNeo Editor.
+- plugins/readme.txt - Plugins for AdminNeo and EditorNeo.
 - adminer/plugin.php - Plugin demo.
 - adminer/sqlite.php - Development version of AdminNeo with SQLite allowed.
-- editor/sqlite.php - Development version of Editor with SQLite allowed.
+- editor/sqlite.php - Development version of EditorNeo with SQLite allowed.
 - adminer/designs.php - Development version of AdminNeo with adminer.css switcher.
 - compile.php - Create a single file version.
 - lang.php - Update translations.

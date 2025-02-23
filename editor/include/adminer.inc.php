@@ -6,7 +6,7 @@ class Adminer {
 	var $_values = array();
 
 	function name() {
-		return "<a id='h1' href='" . h(HOME_URL) . "'>" . lang('Editor') . "</a>";
+		return "<a id='h1' href='" . h(HOME_URL) . "'>EditorNeo</a>";
 	}
 
 	//! driver, ns

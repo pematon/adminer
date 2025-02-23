@@ -308,7 +308,7 @@ $translations = array(
 	'Geometry' => '幾何',
 	'Relations' => '關聯',
 
-	'Editor' => '編輯器',
+	// 'Editor' => '編輯器',
 	// date format in Editor: $1 yyyy, $2 yy, $3 mm, $4 m, $5 dd, $6 d
 	'$1-$3-$5' => '$1.$3.$5',
 	// hint for date format - use language equivalents for day, month and year shortcuts

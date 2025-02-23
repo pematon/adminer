@@ -279,7 +279,7 @@ $translations = array(
 	'Geometry' => 'Геометрија',
 	'Relations' => 'Односи',
 
-	'Editor' => 'Уређивач',
+	// 'Editor' => 'Уређивач',
 	// date format in Editor: $1 yyyy, $2 yy, $3 mm, $4 m, $5 dd, $6 d
 	'$1-$3-$5' => '$5.$3.$1.',
 	// hint for date format - use language equivalents for day, month and year shortcuts
